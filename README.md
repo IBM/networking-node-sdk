@@ -68,7 +68,7 @@ please ask a question at
 
 ## Issues
 If you encounter an issue with the SDK, you are welcome to submit
-a [bug report](https://github.com/IBM/networking-node-sdk/issues).
+a [bug report](https://github.com/IBM/networking-node-sdk/issues). 
 Before that, please search for similar issues. It's possible someone has
 already encountered this issue.
 
