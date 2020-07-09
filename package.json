@@ -4,7 +4,7 @@
   "description": "IBM Cloud Networking Node.js SDK",
   "repository": {
     "type": "git",
-    "url": "https://github.ibm.com/ibmcloud/networking-node-sdk"
+    "url": "https://github.com/IBM/networking-node-sdk"
   },
   "keywords": [
     "ibm"
