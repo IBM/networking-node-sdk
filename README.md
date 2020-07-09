@@ -41,8 +41,8 @@ IBM Cloud services:
 
 Service Name | Import Path
 --- | ---
-[Direct Link](https://cloud.ibm.com/apidocs/direct_link) | ibm-cloud-networking/direct-link/v1
-[Transit Gateway](https://cloud.ibm.com/apidocs/transit-gateway) | ibm-cloud-networking/transit-gateway/v1
+[Direct Link](https://cloud.ibm.com/apidocs/direct_link?code=node) | ibm-cloud-networking/direct-link/v1
+[Transit Gateway](https://cloud.ibm.com/apidocs/transit-gateway?code=node) | ibm-cloud-networking/transit-gateway/v1
 
 ## Prerequisites
 * You need an [IBM Cloud][ibm-cloud-onboarding] account.
