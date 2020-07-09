@@ -1,6 +1,6 @@
 {
   "name": "ibm-cloud-networking",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "IBM Cloud Networking Node.js SDK",
   "repository": {
     "type": "git",
