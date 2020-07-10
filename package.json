@@ -1,5 +1,5 @@
 {
-  "name": "ibm-cloud-networking",
+  "name": "ibm-networking-services",
   "version": "1.0.0",
   "description": "IBM Cloud Networking Node.js SDK",
   "repository": {
