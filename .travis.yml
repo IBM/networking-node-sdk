@@ -2,9 +2,6 @@ language: node_js
 
 sudo: false
 
-# node_js:
-# - 12
-
 before_install:
 - '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_cb7060b3a42b_key -iv $encrypted_cb7060b3a42b_iv -in transit-gateway.env.enc -out transit-gateway.env -d || true'
 - '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_6de0fb2f002f_key -iv $encrypted_6de0fb2f002f_iv -in directlink.env.enc -out directlink.env -d || true'
@@ -21,7 +18,7 @@ script:
 - npm run test-travis || travis_terminate 1
 - npm run lint
 - npm run check-packages
-# - sh scripts/typedoc/generate_typedoc.sh currently in progress
+# - sh scripts/typedoc/generate_typedoc.sh
 
 after_success:
 - npm run report-coverage
