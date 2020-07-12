@@ -20,13 +20,13 @@ How to run this test:
 
 npm run test-integration
     or
-jest test/integration/direct-link-apis.v1.test.js
+jest test/integration/direct-link.v1.test.js
 
 */
 
 'use strict';
 
-const DirectLinkApisV1 = require('../../dist/direct-link-apis/v1');
+const DirectLinkApisV1 = require('../../dist/direct-link/v1');
 const { IamAuthenticator } = require('ibm-cloud-sdk-core');
 const authHelper = require('../resources/auth-helper.js');
 

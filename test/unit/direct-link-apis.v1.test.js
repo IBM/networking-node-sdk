@@ -20,7 +20,7 @@ const extend = require('extend');
 const core = require('ibm-cloud-sdk-core');
 const { NoAuthAuthenticator, unitTestUtils } = core;
 
-const DirectLinkApisV1 = require('../../dist/direct-link-apis/v1');
+const DirectLinkApisV1 = require('../../dist/direct-link/v1');
 
 const {
   getOptions,
