@@ -84,7 +84,3 @@ secrets.tar
 
 # SDK generator
 .openapi-generator*
-
-# package locks
-yarn.lock
-package-lock.json
