@@ -25,10 +25,10 @@ after_success:
 # - scripts/jsdoc/publish.sh - currently in progress
 
 # To enable semantic-release, uncomment this section.
-# deploy:
-# - provider: script
-#   skip_cleanup: true
-#   script: npx semantic-release
-#   on:
-#     node: 12
-#     branch: master
+deploy:
+- provider: script
+  skip_cleanup: true
+  script: npx semantic-release
+  on:
+    node: 12
+    branch: master
