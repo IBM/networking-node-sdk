@@ -41,8 +41,9 @@ IBM Cloud services:
 
 Service Name | Import Path
 --- | ---
-[Direct Link](https://cloud.ibm.com/apidocs/direct_link?code=node) | ibm-networking-services/direct-link/v1
-[Transit Gateway](https://cloud.ibm.com/apidocs/transit-gateway?code=node) | ibm-networking-services/transit-gateway/v1
+[Direct Link](https://cloud.ibm.com/apidocs/direct_link) | ibm-networking-services/direct-link/v1
+[Direct Link Provider](https://cloud.ibm.com/apidocs/direct_link_provider_api) | ibm-networking-services/direct-link-provider/v2
+[Transit Gateway](https://cloud.ibm.com/apidocs/transit-gateway) | ibm-networking-services/transit-gateway-apis/v1
 
 ## Prerequisites
 * You need an [IBM Cloud][ibm-cloud-onboarding] account.
@@ -68,7 +69,7 @@ please ask a question at
 
 ## Issues
 If you encounter an issue with the SDK, you are welcome to submit
-a [bug report](https://github.com/IBM/networking-node-sdk/issues). 
+a [bug report](https://github.com/IBM/networking-node-sdk/issues).
 Before that, please search for similar issues. It's possible someone has
 already encountered this issue.
 

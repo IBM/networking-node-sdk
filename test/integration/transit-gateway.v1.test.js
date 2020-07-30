@@ -15,7 +15,7 @@
  */
 'use strict';
 
-const TransitGatewayApisV1 = require('../../dist/transit-gateway/v1');
+const TransitGatewayApisV1 = require('../../dist/transit-gateway-apis/v1');
 const { IamAuthenticator } = require('ibm-cloud-sdk-core');
 const authHelper = require('../resources/auth-helper.js');
 
@@ -71,7 +71,7 @@ const poll = async (fn, fnCondition, sec) => {
   return result;
 };
 
-const wait = (ms = 5000) => {
+const wait = (ms = 10000) => {
   return new Promise(resolve => {
     setTimeout(resolve, ms);
   });
@@ -100,7 +100,8 @@ describe('TransitGatewayApisV1', () => {
   });
 
   describe('Create Transit Gateway', () => {
-    const gatewayName = config.GATEWAY_NAME;
+    const time = Date.now();
+    const gatewayName = config.GATEWAY_NAME + time;
     const gatewayLocation = config.LOCATION;
 
     const params = {
@@ -130,7 +131,7 @@ describe('TransitGatewayApisV1', () => {
     test('should successfully wait for gateway to be created', async done => {
       try {
         const result = await poll(
-          () => transitGateway.detailTransitGateway({ id: GATEWAY_INSTANCE_ID }),
+          () => transitGateway.getTransitGateway({ id: GATEWAY_INSTANCE_ID }),
           result => result.status === 'available',
           50
         );
@@ -172,7 +173,8 @@ describe('TransitGatewayApisV1', () => {
   });
 
   describe('Update Gateway', () => {
-    const updateGatewayName = config.UPDATE_GATEWAY_NAME;
+    const time = Date.now();
+    const updateGatewayName = config.UPDATE_GATEWAY_NAME + time;
 
     test('should successfully update the name of the gateway', async done => {
       try {
@@ -215,7 +217,7 @@ describe('TransitGatewayApisV1', () => {
   describe('Get Gateway By Id', () => {
     test('should successfully fetches the gateway by instance id', async done => {
       try {
-        const response = await transitGateway.detailTransitGateway({ id: GATEWAY_INSTANCE_ID });
+        const response = await transitGateway.getTransitGateway({ id: GATEWAY_INSTANCE_ID });
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
 
@@ -231,7 +233,7 @@ describe('TransitGatewayApisV1', () => {
 
     test('should fail to get gateway by instance id', async done => {
       try {
-        await transitGateway.detailTransitGateway({ id: '111' });
+        await transitGateway.getTransitGateway({ id: '111' });
       } catch (err) {
         expect(err.status).toEqual(404);
         expect(err.message).toEqual('The gateway was not found.');
@@ -273,7 +275,7 @@ describe('TransitGatewayApisV1', () => {
       try {
         const result = await poll(
           () =>
-            transitGateway.detailTransitGatewayConnection({
+            transitGateway.getTransitGatewayConnection({
               transitGatewayId: GATEWAY_INSTANCE_ID,
               id: CONN_INSTANCE_ID,
             }),
@@ -363,7 +365,7 @@ describe('TransitGatewayApisV1', () => {
   describe('List Transit Gateway Connection', () => {
     test('sucessfully get gateway connection by id', async done => {
       try {
-        const response = await transitGateway.detailTransitGatewayConnection({
+        const response = await transitGateway.getTransitGatewayConnection({
           transitGatewayId: GATEWAY_INSTANCE_ID,
           id: CONN_INSTANCE_ID,
         });
@@ -380,7 +382,7 @@ describe('TransitGatewayApisV1', () => {
 
     test('fail to get gateway connection by instanceID', async done => {
       try {
-        await transitGateway.detailTransitGatewayConnection({
+        await transitGateway.getTransitGatewayConnection({
           transitGatewayId: '111',
           id: '111',
         });
@@ -413,7 +415,7 @@ describe('TransitGatewayApisV1', () => {
       try {
         const result = await poll(
           () =>
-            transitGateway.detailTransitGatewayConnection({
+            transitGateway.getTransitGatewayConnection({
               transitGatewayId: GATEWAY_INSTANCE_ID,
               id: CONN_INSTANCE_ID,
             }),
@@ -462,7 +464,7 @@ describe('TransitGatewayApisV1', () => {
       try {
         const result = await poll(
           () =>
-            transitGateway.detailTransitGateway({
+            transitGateway.getTransitGateway({
               id: GATEWAY_INSTANCE_ID,
             }),
           result => result.status === 404,
@@ -511,7 +513,7 @@ describe('TransitGatewayApisV1', () => {
   describe('Get Location', () => {
     test('successfully get location by ID', async done => {
       try {
-        const response = await transitGateway.detailGatewayLocation({
+        const response = await transitGateway.getGatewayLocation({
           name: config.LOCATION_NAME,
         });
 
@@ -527,7 +529,7 @@ describe('TransitGatewayApisV1', () => {
 
     test('fail to get location by instance id', async done => {
       try {
-        await transitGateway.detailGatewayLocation({
+        await transitGateway.getGatewayLocation({
           name: '111',
         });
       } catch (err) {

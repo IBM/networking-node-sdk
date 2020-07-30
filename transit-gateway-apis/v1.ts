@@ -142,7 +142,8 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.location - Location of Transit Gateway Services.
    * @param {string} params.name - Name Transit Gateway Services.
-   * @param {boolean} [params.global] - Allow global routing for a Transit Gateway.
+   * @param {boolean} [params.global] - Allow global routing for a Transit Gateway. If unspecified, the default value is
+   * false.
    * @param {ResourceGroupIdentity} [params.resourceGroup] - The resource group to use. If unspecified, the account's
    * [default resource group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
@@ -248,7 +249,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>>}
    */
-  public detailTransitGateway(params: TransitGatewayApisV1.DetailTransitGatewayParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
+  public getTransitGateway(params: TransitGatewayApisV1.GetTransitGatewayParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
     const _params = extend({}, params);
     const requiredParams = ['id'];
 
@@ -266,7 +267,7 @@ class TransitGatewayApisV1 extends BaseService {
         'id': _params.id
       };
 
-      const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'detailTransitGateway');
+      const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGateway');
 
       const parameters = {
         options: {
@@ -409,6 +410,8 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} [params.networkId] - The ID of the network being connected via this connection. This field is
    * required for some types, such as 'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected. This
    * field is required to be unspecified for network type 'classic'.
+   * @param {string} [params.networkAccountId] - The ID of the account which owns the network that is being connected.
+   * Generally only used if the network is in a different account than the gateway.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
    */
@@ -425,7 +428,8 @@ class TransitGatewayApisV1 extends BaseService {
       const body = {
         'network_type': _params.networkType,
         'name': _params.name,
-        'network_id': _params.networkId
+        'network_id': _params.networkId,
+        'network_account_id': _params.networkAccountId
       };
 
       const query = {
@@ -519,7 +523,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
    */
-  public detailTransitGatewayConnection(params: TransitGatewayApisV1.DetailTransitGatewayConnectionParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
+  public getTransitGatewayConnection(params: TransitGatewayApisV1.GetTransitGatewayConnectionParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
     const _params = extend({}, params);
     const requiredParams = ['transitGatewayId', 'id'];
 
@@ -538,7 +542,7 @@ class TransitGatewayApisV1 extends BaseService {
         'id': _params.id
       };
 
-      const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'detailTransitGatewayConnection');
+      const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGatewayConnection');
 
       const parameters = {
         options: {
@@ -566,8 +570,9 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.id - The connection identifier.
-   * @param {string} [params.name] - The user-defined name for this transit gateway. If unspecified, the name will be a
-   * hyphenated list of randomly-selected words.
+   * @param {string} [params.name] - The user-defined name for this transit gateway. If specified as empty string or
+   * nil,  the name will be the network name (the name of the VPC in the case of network type 'vpc',  and the word
+   * Classic, in the case of network type 'classic').
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
    */
@@ -607,6 +612,62 @@ class TransitGatewayApisV1 extends BaseService {
         defaultOptions: extend(true, {}, this.baseOptions, {
           headers: extend(true, sdkHeaders, {
             'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }, _params.headers),
+        }),
+      };
+
+      return resolve(this.createRequest(parameters));
+    });
+  };
+
+  /**
+   * Perform actions on a connection for a Transit Gateway.
+   *
+   * Allow a network owner to approve or reject a cross-account connection request.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.transitGatewayId - The Transit Gateway identifier.
+   * @param {string} params.id - The connection identifier.
+   * @param {string} params.action - The action that is to be performed against the connection request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>>}
+   */
+  public createTransitGatewayConnectionActions(params: TransitGatewayApisV1.CreateTransitGatewayConnectionActionsParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>> {
+    const _params = extend({}, params);
+    const requiredParams = ['transitGatewayId', 'id', 'action'];
+
+    return new Promise((resolve, reject) => {
+      const missingParams = getMissingParams(_params, requiredParams);
+      if (missingParams) {
+        return reject(missingParams);
+      }
+
+      const body = {
+        'action': _params.action
+      };
+
+      const query = {
+        'version': this.version
+      };
+
+      const path = {
+        'transit_gateway_id': _params.transitGatewayId,
+        'id': _params.id
+      };
+
+      const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGatewayConnectionActions');
+
+      const parameters = {
+        options: {
+          url: '/transit_gateways/{transit_gateway_id}/connections/{id}/actions',
+          method: 'POST',
+          body,
+          qs: query,
+          path,
+        },
+        defaultOptions: extend(true, {}, this.baseOptions, {
+          headers: extend(true, sdkHeaders, {
             'Content-Type': 'application/json',
           }, _params.headers),
         }),
@@ -666,7 +727,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSLocation>>}
    */
-  public detailGatewayLocation(params: TransitGatewayApisV1.DetailGatewayLocationParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSLocation>> {
+  public getGatewayLocation(params: TransitGatewayApisV1.GetGatewayLocationParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSLocation>> {
     const _params = extend({}, params);
     const requiredParams = ['name'];
 
@@ -684,7 +745,7 @@ class TransitGatewayApisV1 extends BaseService {
         'name': _params.name
       };
 
-      const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'detailGatewayLocation');
+      const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayLocation');
 
       const parameters = {
         options: {
@@ -755,7 +816,7 @@ namespace TransitGatewayApisV1 {
     location: string;
     /** Name Transit Gateway Services. */
     name: string;
-    /** Allow global routing for a Transit Gateway. */
+    /** Allow global routing for a Transit Gateway. If unspecified, the default value is false. */
     global?: boolean;
     /** The resource group to use. If unspecified, the account's [default resource
      *  group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
@@ -771,8 +832,8 @@ namespace TransitGatewayApisV1 {
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Parameters for the `detailTransitGateway` operation. */
-  export interface DetailTransitGatewayParams {
+  /** Parameters for the `getTransitGateway` operation. */
+  export interface GetTransitGatewayParams {
     /** The Transit Gateway identifier. */
     id: string;
     headers?: OutgoingHttpHeaders;
@@ -811,6 +872,10 @@ namespace TransitGatewayApisV1 {
      *  unspecified for network type 'classic'.
      */
     networkId?: string;
+    /** The ID of the account which owns the network that is being connected. Generally only used if the network is
+     *  in a different account than the gateway.
+     */
+    networkAccountId?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -832,8 +897,8 @@ namespace TransitGatewayApisV1 {
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Parameters for the `detailTransitGatewayConnection` operation. */
-  export interface DetailTransitGatewayConnectionParams {
+  /** Parameters for the `getTransitGatewayConnection` operation. */
+  export interface GetTransitGatewayConnectionParams {
     /** The Transit Gateway identifier. */
     transitGatewayId: string;
     /** The connection identifier. */
@@ -847,11 +912,32 @@ namespace TransitGatewayApisV1 {
     transitGatewayId: string;
     /** The connection identifier. */
     id: string;
-    /** The user-defined name for this transit gateway. If unspecified, the name will be a hyphenated list of
-     *  randomly-selected words.
+    /** The user-defined name for this transit gateway. If specified as empty string or nil,  the name will be the
+     *  network name (the name of the VPC in the case of network type 'vpc',  and the word Classic, in the case of
+     *  network type 'classic').
      */
     name?: string;
     headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createTransitGatewayConnectionActions` operation. */
+  export interface CreateTransitGatewayConnectionActionsParams {
+    /** The Transit Gateway identifier. */
+    transitGatewayId: string;
+    /** The connection identifier. */
+    id: string;
+    /** The action that is to be performed against the connection request. */
+    action: CreateTransitGatewayConnectionActionsConstants.Action | string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `createTransitGatewayConnectionActions` operation. */
+  export namespace CreateTransitGatewayConnectionActionsConstants {
+    /** The action that is to be performed against the connection request. */
+    export enum Action {
+      APPROVE = 'approve',
+      REJECT = 'reject',
+    }
   }
 
   /** Parameters for the `listGatewayLocations` operation. */
@@ -859,8 +945,8 @@ namespace TransitGatewayApisV1 {
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Parameters for the `detailGatewayLocation` operation. */
-  export interface DetailGatewayLocationParams {
+  /** Parameters for the `getGatewayLocation` operation. */
+  export interface GetGatewayLocationParams {
     /** The Transit Gateway location Name. */
     name: string;
     headers?: OutgoingHttpHeaders;
@@ -936,12 +1022,12 @@ namespace TransitGatewayApisV1 {
     crn: string;
     /** A human readable name for the transit gateway. */
     name: string;
-    /** Allow global routing for a Transit Gateway. */
-    global: boolean;
     /** Location of Transit Gateway Services. */
     location: string;
     /** The date and time that this gateway was created. */
     created_at: string;
+    /** Allow global routing for a Transit Gateway. */
+    global: boolean;
     /** The resource group to use. If unspecified, the account's [default resource
      *  group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
      */
@@ -970,14 +1056,25 @@ namespace TransitGatewayApisV1 {
      *  of the VPC in the case of network type 'vpc', and the word Classic, in the case of network type 'classic').
      */
     name?: string;
-    /** The unique identifier of the network being connected. For VPC this is the CRN of that VPC. */
+    /** The ID of the network being connected via this connection. This field is required for some types, such as
+     *  'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected. This field is required to be
+     *  unspecified for network type 'classic'.
+     */
     network_id?: string;
     /** Defines what type of network is connected via this connection. */
     network_type: string;
+    /** The ID of the account which owns the network that is being connected. Generally only used if the network is
+     *  in a different account than the gateway.
+     */
+    network_account_id?: string;
     /** The unique identifier for this Transit Gateway Connection to Network (vpc/classic). */
     id: string;
     /** The date and time that this connection was created. */
     created_at: string;
+    /** Only visible for cross account connections, this field represents the status of the request to connect the
+     *  given network between accounts.
+     */
+    request_status?: string;
     /** What is the current configuration state of this connection. */
     status?: string;
     /** The date and time that this connection was last updated. */
