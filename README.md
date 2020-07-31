@@ -1,4 +1,9 @@
-[![Build Status](https://travis.ibm.com/ibmcloud/networking-node-sdk.svg?token=eW5FVD71iyte6tTby8gr&branch=master)](https://travis.ibm.com/ibmcloud/networking-node-sdk)
+[![Build Status](https://travis-ci.com/IBM/networking-node-sdk.svg?branch=master)](https://travis-ci.com/IBM/networking-node-sdk)
+[![Release](https://img.shields.io/github/v/release/IBM/networking-node-sdk)](https://github.com/IBM/networking-node-sdk/releases/latest)
+[![npm](https://img.shields.io/npm/v/ibm-networking-services)](https://www.npmjs.com/package/ibm-networking-services)
+![npm](https://img.shields.io/npm/dm/ibm-networking-services)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![codecov](https://codecov.io/gh/IBM/networking-node-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/IBM/networking-node-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 # IBM Cloud Networking Node.js SDK
