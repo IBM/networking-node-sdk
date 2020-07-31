@@ -26,7 +26,7 @@ jest test/integration/direct-link.v1.test.js
 
 'use strict';
 
-const DirectLinkApisV1 = require('../../dist/direct-link/v1');
+const DirectLinkV1 = require('../../dist/direct-link/v1');
 const { IamAuthenticator } = require('ibm-cloud-sdk-core');
 const authHelper = require('../resources/auth-helper.js');
 
@@ -94,9 +94,9 @@ const options = {
 };
 
 // Initialize the service client.
-const dlService = new DirectLinkApisV1(options);
+const dlService = new DirectLinkV1(options);
 
-describe('DirectLinkApisV1', () => {
+describe('DirectLinkV1', () => {
   describe('Create/verify a dedicated gateway', () => {
     jest.setTimeout(timeout);
 

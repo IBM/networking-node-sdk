@@ -20,7 +20,7 @@ const extend = require('extend');
 const core = require('ibm-cloud-sdk-core');
 const { NoAuthAuthenticator, unitTestUtils } = core;
 
-const DirectLinkApisV1 = require('../../dist/direct-link/v1');
+const DirectLinkV1 = require('../../dist/direct-link/v1');
 
 const {
   getOptions,
@@ -33,13 +33,13 @@ const {
 const service = {
   authenticator: new NoAuthAuthenticator(),
   url: 'https://directlink.cloud.ibm.com/v1',
-  version: '2019-01-01',
+  version: 'testString',
 };
 
-const directLinkApis = new DirectLinkApisV1(service);
+const directLink = new DirectLinkV1(service);
 
 // dont actually create a request
-const createRequestMock = jest.spyOn(directLinkApis, 'createRequest');
+const createRequestMock = jest.spyOn(directLink, 'createRequest');
 createRequestMock.mockImplementation(() => Promise.resolve());
 
 // dont actually construct an authenticator
@@ -56,20 +56,20 @@ let requiredGlobals;
 beforeEach(() => {
   // these are changed when passed into the factory/constructor, so re-init
   requiredGlobals = {
-    version: '2019-01-01',
+    version: 'testString',
   };
 });
 
-describe('DirectLinkApisV1', () => {
+describe('DirectLinkV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
-      const testInstance = DirectLinkApisV1.newInstance(requiredGlobals);
+      const testInstance = DirectLinkV1.newInstance(requiredGlobals);
 
       expect(getAuthenticatorMock).toHaveBeenCalled();
       expect(testInstance.baseOptions.authenticator).toBeInstanceOf(NoAuthAuthenticator);
-      expect(testInstance.baseOptions.serviceName).toBe(DirectLinkApisV1.DEFAULT_SERVICE_NAME);
-      expect(testInstance.baseOptions.serviceUrl).toBe(DirectLinkApisV1.DEFAULT_SERVICE_URL);
-      expect(testInstance).toBeInstanceOf(DirectLinkApisV1);
+      expect(testInstance.baseOptions.serviceName).toBe(DirectLinkV1.DEFAULT_SERVICE_NAME);
+      expect(testInstance.baseOptions.serviceUrl).toBe(DirectLinkV1.DEFAULT_SERVICE_URL);
+      expect(testInstance).toBeInstanceOf(DirectLinkV1);
     });
 
     test('should set serviceName, serviceUrl, and authenticator when provided', () => {
@@ -81,13 +81,13 @@ describe('DirectLinkApisV1', () => {
 
       options = extend(options, requiredGlobals);
 
-      const testInstance = DirectLinkApisV1.newInstance(options);
+      const testInstance = DirectLinkV1.newInstance(options);
 
       expect(getAuthenticatorMock).not.toHaveBeenCalled();
       expect(testInstance.baseOptions.authenticator).toBeInstanceOf(NoAuthAuthenticator);
       expect(testInstance.baseOptions.serviceUrl).toBe('custom.com');
       expect(testInstance.baseOptions.serviceName).toBe('my-service');
-      expect(testInstance).toBeInstanceOf(DirectLinkApisV1);
+      expect(testInstance).toBeInstanceOf(DirectLinkV1);
     });
   });
   describe('the constructor', () => {
@@ -99,7 +99,7 @@ describe('DirectLinkApisV1', () => {
 
       options = extend(options, requiredGlobals);
 
-      const testInstance = new DirectLinkApisV1(options);
+      const testInstance = new DirectLinkV1(options);
 
       expect(testInstance.baseOptions.serviceUrl).toBe('custom.com');
     });
@@ -111,15 +111,15 @@ describe('DirectLinkApisV1', () => {
 
       options = extend(options, requiredGlobals);
 
-      const testInstance = new DirectLinkApisV1(options);
+      const testInstance = new DirectLinkV1(options);
 
-      expect(testInstance.baseOptions.serviceUrl).toBe(DirectLinkApisV1.DEFAULT_SERVICE_URL);
+      expect(testInstance.baseOptions.serviceUrl).toBe(DirectLinkV1.DEFAULT_SERVICE_URL);
     });
   });
   describe('service-level tests', () => {
     describe('positive tests', () => {
       test('construct service with global params', () => {
-        const serviceObj = new DirectLinkApisV1(service);
+        const serviceObj = new DirectLinkV1(service);
         expect(serviceObj).not.toBeNull();
         expect(serviceObj.version).toEqual(service.version);
       });
@@ -131,7 +131,7 @@ describe('DirectLinkApisV1', () => {
         // Construct the params object for operation listGateways
         const params = {};
 
-        const listGatewaysResult = directLinkApis.listGateways(params);
+        const listGatewaysResult = directLink.listGateways(params);
 
         // all methods should return a Promise
         expectToBePromise(listGatewaysResult);
@@ -159,13 +159,13 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.listGateways(params);
+        directLink.listGateways(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
 
       test('should not have any problems when no parameters are passed in', () => {
         // invoke the method with no parameters
-        directLinkApis.listGateways({});
+        directLink.listGateways({});
         checkForSuccessfulExecution(createRequestMock);
       });
     });
@@ -194,7 +194,6 @@ describe('DirectLinkApisV1', () => {
         carrier_name: 'myCarrierName',
         cross_connect_router: 'xcr01.dal03',
         customer_name: 'newCustomerName',
-        dedicated_hosting_id: 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4',
         location_name: 'dal03',
       };
 
@@ -205,7 +204,7 @@ describe('DirectLinkApisV1', () => {
           gatewayTemplate: gatewayTemplate,
         };
 
-        const createGatewayResult = directLinkApis.createGateway(params);
+        const createGatewayResult = directLink.createGateway(params);
 
         // all methods should return a Promise
         expectToBePromise(createGatewayResult);
@@ -236,7 +235,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.createGateway(params);
+        directLink.createGateway(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -245,7 +244,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.createGateway({});
+          await directLink.createGateway({});
         } catch (e) {
           err = e;
         }
@@ -255,7 +254,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const createGatewayPromise = directLinkApis.createGateway();
+        const createGatewayPromise = directLink.createGateway();
         expectToBePromise(createGatewayPromise);
 
         createGatewayPromise.catch(err => {
@@ -274,7 +273,7 @@ describe('DirectLinkApisV1', () => {
           id: id,
         };
 
-        const deleteGatewayResult = directLinkApis.deleteGateway(params);
+        const deleteGatewayResult = directLink.deleteGateway(params);
 
         // all methods should return a Promise
         expectToBePromise(deleteGatewayResult);
@@ -305,7 +304,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.deleteGateway(params);
+        directLink.deleteGateway(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -314,7 +313,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.deleteGateway({});
+          await directLink.deleteGateway({});
         } catch (e) {
           err = e;
         }
@@ -324,7 +323,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const deleteGatewayPromise = directLinkApis.deleteGateway();
+        const deleteGatewayPromise = directLink.deleteGateway();
         expectToBePromise(deleteGatewayPromise);
 
         deleteGatewayPromise.catch(err => {
@@ -343,7 +342,7 @@ describe('DirectLinkApisV1', () => {
           id: id,
         };
 
-        const getGatewayResult = directLinkApis.getGateway(params);
+        const getGatewayResult = directLink.getGateway(params);
 
         // all methods should return a Promise
         expectToBePromise(getGatewayResult);
@@ -374,7 +373,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.getGateway(params);
+        directLink.getGateway(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -383,7 +382,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.getGateway({});
+          await directLink.getGateway({});
         } catch (e) {
           err = e;
         }
@@ -393,7 +392,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const getGatewayPromise = directLinkApis.getGateway();
+        const getGatewayPromise = directLink.getGateway();
         expectToBePromise(getGatewayPromise);
 
         getGatewayPromise.catch(err => {
@@ -424,7 +423,7 @@ describe('DirectLinkApisV1', () => {
           speedMbps: speedMbps,
         };
 
-        const updateGatewayResult = directLinkApis.updateGateway(params);
+        const updateGatewayResult = directLink.updateGateway(params);
 
         // all methods should return a Promise
         expectToBePromise(updateGatewayResult);
@@ -461,7 +460,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.updateGateway(params);
+        directLink.updateGateway(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -470,7 +469,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.updateGateway({});
+          await directLink.updateGateway({});
         } catch (e) {
           err = e;
         }
@@ -480,7 +479,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const updateGatewayPromise = directLinkApis.updateGateway();
+        const updateGatewayPromise = directLink.updateGateway();
         expectToBePromise(updateGatewayPromise);
 
         updateGatewayPromise.catch(err => {
@@ -516,7 +515,7 @@ describe('DirectLinkApisV1', () => {
           updates: updates,
         };
 
-        const createGatewayActionResult = directLinkApis.createGatewayAction(params);
+        const createGatewayActionResult = directLink.createGatewayAction(params);
 
         // all methods should return a Promise
         expectToBePromise(createGatewayActionResult);
@@ -554,7 +553,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.createGatewayAction(params);
+        directLink.createGatewayAction(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -563,7 +562,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.createGatewayAction({});
+          await directLink.createGatewayAction({});
         } catch (e) {
           err = e;
         }
@@ -573,7 +572,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const createGatewayActionPromise = directLinkApis.createGatewayAction();
+        const createGatewayActionPromise = directLink.createGatewayAction();
         expectToBePromise(createGatewayActionPromise);
 
         createGatewayActionPromise.catch(err => {
@@ -592,9 +591,7 @@ describe('DirectLinkApisV1', () => {
           id: id,
         };
 
-        const listGatewayCompletionNoticeResult = directLinkApis.listGatewayCompletionNotice(
-          params
-        );
+        const listGatewayCompletionNoticeResult = directLink.listGatewayCompletionNotice(params);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayCompletionNoticeResult);
@@ -626,7 +623,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.listGatewayCompletionNotice(params);
+        directLink.listGatewayCompletionNotice(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -635,7 +632,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.listGatewayCompletionNotice({});
+          await directLink.listGatewayCompletionNotice({});
         } catch (e) {
           err = e;
         }
@@ -645,7 +642,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const listGatewayCompletionNoticePromise = directLinkApis.listGatewayCompletionNotice();
+        const listGatewayCompletionNoticePromise = directLink.listGatewayCompletionNotice();
         expectToBePromise(listGatewayCompletionNoticePromise);
 
         listGatewayCompletionNoticePromise.catch(err => {
@@ -668,7 +665,7 @@ describe('DirectLinkApisV1', () => {
           uploadContentType: uploadContentType,
         };
 
-        const createGatewayCompletionNoticeResult = directLinkApis.createGatewayCompletionNotice(
+        const createGatewayCompletionNoticeResult = directLink.createGatewayCompletionNotice(
           params
         );
 
@@ -703,7 +700,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.createGatewayCompletionNotice(params);
+        directLink.createGatewayCompletionNotice(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -712,7 +709,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.createGatewayCompletionNotice({});
+          await directLink.createGatewayCompletionNotice({});
         } catch (e) {
           err = e;
         }
@@ -722,7 +719,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const createGatewayCompletionNoticePromise = directLinkApis.createGatewayCompletionNotice();
+        const createGatewayCompletionNoticePromise = directLink.createGatewayCompletionNotice();
         expectToBePromise(createGatewayCompletionNoticePromise);
 
         createGatewayCompletionNoticePromise.catch(err => {
@@ -741,7 +738,7 @@ describe('DirectLinkApisV1', () => {
           id: id,
         };
 
-        const listGatewayLetterOfAuthorizationResult = directLinkApis.listGatewayLetterOfAuthorization(
+        const listGatewayLetterOfAuthorizationResult = directLink.listGatewayLetterOfAuthorization(
           params
         );
 
@@ -775,7 +772,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.listGatewayLetterOfAuthorization(params);
+        directLink.listGatewayLetterOfAuthorization(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -784,7 +781,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.listGatewayLetterOfAuthorization({});
+          await directLink.listGatewayLetterOfAuthorization({});
         } catch (e) {
           err = e;
         }
@@ -794,7 +791,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const listGatewayLetterOfAuthorizationPromise = directLinkApis.listGatewayLetterOfAuthorization();
+        const listGatewayLetterOfAuthorizationPromise = directLink.listGatewayLetterOfAuthorization();
         expectToBePromise(listGatewayLetterOfAuthorizationPromise);
 
         listGatewayLetterOfAuthorizationPromise.catch(err => {
@@ -813,7 +810,7 @@ describe('DirectLinkApisV1', () => {
           offeringType: offeringType,
         };
 
-        const listOfferingTypeLocationsResult = directLinkApis.listOfferingTypeLocations(params);
+        const listOfferingTypeLocationsResult = directLink.listOfferingTypeLocations(params);
 
         // all methods should return a Promise
         expectToBePromise(listOfferingTypeLocationsResult);
@@ -844,7 +841,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.listOfferingTypeLocations(params);
+        directLink.listOfferingTypeLocations(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -853,7 +850,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.listOfferingTypeLocations({});
+          await directLink.listOfferingTypeLocations({});
         } catch (e) {
           err = e;
         }
@@ -863,7 +860,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const listOfferingTypeLocationsPromise = directLinkApis.listOfferingTypeLocations();
+        const listOfferingTypeLocationsPromise = directLink.listOfferingTypeLocations();
         expectToBePromise(listOfferingTypeLocationsPromise);
 
         listOfferingTypeLocationsPromise.catch(err => {
@@ -884,7 +881,7 @@ describe('DirectLinkApisV1', () => {
           locationName: locationName,
         };
 
-        const listOfferingTypeLocationCrossConnectRoutersResult = directLinkApis.listOfferingTypeLocationCrossConnectRouters(
+        const listOfferingTypeLocationCrossConnectRoutersResult = directLink.listOfferingTypeLocationCrossConnectRouters(
           params
         );
 
@@ -924,7 +921,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.listOfferingTypeLocationCrossConnectRouters(params);
+        directLink.listOfferingTypeLocationCrossConnectRouters(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -933,7 +930,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.listOfferingTypeLocationCrossConnectRouters({});
+          await directLink.listOfferingTypeLocationCrossConnectRouters({});
         } catch (e) {
           err = e;
         }
@@ -943,7 +940,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const listOfferingTypeLocationCrossConnectRoutersPromise = directLinkApis.listOfferingTypeLocationCrossConnectRouters();
+        const listOfferingTypeLocationCrossConnectRoutersPromise = directLink.listOfferingTypeLocationCrossConnectRouters();
         expectToBePromise(listOfferingTypeLocationCrossConnectRoutersPromise);
 
         listOfferingTypeLocationCrossConnectRoutersPromise.catch(err => {
@@ -962,7 +959,7 @@ describe('DirectLinkApisV1', () => {
           offeringType: offeringType,
         };
 
-        const listOfferingTypeSpeedsResult = directLinkApis.listOfferingTypeSpeeds(params);
+        const listOfferingTypeSpeedsResult = directLink.listOfferingTypeSpeeds(params);
 
         // all methods should return a Promise
         expectToBePromise(listOfferingTypeSpeedsResult);
@@ -993,7 +990,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.listOfferingTypeSpeeds(params);
+        directLink.listOfferingTypeSpeeds(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1002,7 +999,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.listOfferingTypeSpeeds({});
+          await directLink.listOfferingTypeSpeeds({});
         } catch (e) {
           err = e;
         }
@@ -1012,7 +1009,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const listOfferingTypeSpeedsPromise = directLinkApis.listOfferingTypeSpeeds();
+        const listOfferingTypeSpeedsPromise = directLink.listOfferingTypeSpeeds();
         expectToBePromise(listOfferingTypeSpeedsPromise);
 
         listOfferingTypeSpeedsPromise.catch(err => {
@@ -1027,7 +1024,7 @@ describe('DirectLinkApisV1', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation listPorts
         const start = 'testString';
-        const limit = 1;
+        const limit = 38;
         const locationName = 'testString';
         const params = {
           start: start,
@@ -1035,7 +1032,7 @@ describe('DirectLinkApisV1', () => {
           locationName: locationName,
         };
 
-        const listPortsResult = directLinkApis.listPorts(params);
+        const listPortsResult = directLink.listPorts(params);
 
         // all methods should return a Promise
         expectToBePromise(listPortsResult);
@@ -1066,13 +1063,13 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.listPorts(params);
+        directLink.listPorts(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
 
       test('should not have any problems when no parameters are passed in', () => {
         // invoke the method with no parameters
-        directLinkApis.listPorts({});
+        directLink.listPorts({});
         checkForSuccessfulExecution(createRequestMock);
       });
     });
@@ -1086,7 +1083,7 @@ describe('DirectLinkApisV1', () => {
           id: id,
         };
 
-        const getPortResult = directLinkApis.getPort(params);
+        const getPortResult = directLink.getPort(params);
 
         // all methods should return a Promise
         expectToBePromise(getPortResult);
@@ -1117,7 +1114,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.getPort(params);
+        directLink.getPort(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1126,7 +1123,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.getPort({});
+          await directLink.getPort({});
         } catch (e) {
           err = e;
         }
@@ -1136,7 +1133,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const getPortPromise = directLinkApis.getPort();
+        const getPortPromise = directLink.getPort();
         expectToBePromise(getPortPromise);
 
         getPortPromise.catch(err => {
@@ -1155,7 +1152,7 @@ describe('DirectLinkApisV1', () => {
           gatewayId: gatewayId,
         };
 
-        const listGatewayVirtualConnectionsResult = directLinkApis.listGatewayVirtualConnections(
+        const listGatewayVirtualConnectionsResult = directLink.listGatewayVirtualConnections(
           params
         );
 
@@ -1188,7 +1185,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.listGatewayVirtualConnections(params);
+        directLink.listGatewayVirtualConnections(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1197,7 +1194,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.listGatewayVirtualConnections({});
+          await directLink.listGatewayVirtualConnections({});
         } catch (e) {
           err = e;
         }
@@ -1207,7 +1204,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const listGatewayVirtualConnectionsPromise = directLinkApis.listGatewayVirtualConnections();
+        const listGatewayVirtualConnectionsPromise = directLink.listGatewayVirtualConnections();
         expectToBePromise(listGatewayVirtualConnectionsPromise);
 
         listGatewayVirtualConnectionsPromise.catch(err => {
@@ -1233,7 +1230,7 @@ describe('DirectLinkApisV1', () => {
           networkId: networkId,
         };
 
-        const createGatewayVirtualConnectionResult = directLinkApis.createGatewayVirtualConnection(
+        const createGatewayVirtualConnectionResult = directLink.createGatewayVirtualConnection(
           params
         );
 
@@ -1273,7 +1270,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.createGatewayVirtualConnection(params);
+        directLink.createGatewayVirtualConnection(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1282,7 +1279,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.createGatewayVirtualConnection({});
+          await directLink.createGatewayVirtualConnection({});
         } catch (e) {
           err = e;
         }
@@ -1292,7 +1289,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const createGatewayVirtualConnectionPromise = directLinkApis.createGatewayVirtualConnection();
+        const createGatewayVirtualConnectionPromise = directLink.createGatewayVirtualConnection();
         expectToBePromise(createGatewayVirtualConnectionPromise);
 
         createGatewayVirtualConnectionPromise.catch(err => {
@@ -1313,7 +1310,7 @@ describe('DirectLinkApisV1', () => {
           id: id,
         };
 
-        const deleteGatewayVirtualConnectionResult = directLinkApis.deleteGatewayVirtualConnection(
+        const deleteGatewayVirtualConnectionResult = directLink.deleteGatewayVirtualConnection(
           params
         );
 
@@ -1349,7 +1346,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.deleteGatewayVirtualConnection(params);
+        directLink.deleteGatewayVirtualConnection(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1358,7 +1355,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.deleteGatewayVirtualConnection({});
+          await directLink.deleteGatewayVirtualConnection({});
         } catch (e) {
           err = e;
         }
@@ -1368,7 +1365,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const deleteGatewayVirtualConnectionPromise = directLinkApis.deleteGatewayVirtualConnection();
+        const deleteGatewayVirtualConnectionPromise = directLink.deleteGatewayVirtualConnection();
         expectToBePromise(deleteGatewayVirtualConnectionPromise);
 
         deleteGatewayVirtualConnectionPromise.catch(err => {
@@ -1389,9 +1386,7 @@ describe('DirectLinkApisV1', () => {
           id: id,
         };
 
-        const getGatewayVirtualConnectionResult = directLinkApis.getGatewayVirtualConnection(
-          params
-        );
+        const getGatewayVirtualConnectionResult = directLink.getGatewayVirtualConnection(params);
 
         // all methods should return a Promise
         expectToBePromise(getGatewayVirtualConnectionResult);
@@ -1425,7 +1420,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.getGatewayVirtualConnection(params);
+        directLink.getGatewayVirtualConnection(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1434,7 +1429,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.getGatewayVirtualConnection({});
+          await directLink.getGatewayVirtualConnection({});
         } catch (e) {
           err = e;
         }
@@ -1444,7 +1439,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const getGatewayVirtualConnectionPromise = directLinkApis.getGatewayVirtualConnection();
+        const getGatewayVirtualConnectionPromise = directLink.getGatewayVirtualConnection();
         expectToBePromise(getGatewayVirtualConnectionPromise);
 
         getGatewayVirtualConnectionPromise.catch(err => {
@@ -1469,7 +1464,7 @@ describe('DirectLinkApisV1', () => {
           status: status,
         };
 
-        const updateGatewayVirtualConnectionResult = directLinkApis.updateGatewayVirtualConnection(
+        const updateGatewayVirtualConnectionResult = directLink.updateGatewayVirtualConnection(
           params
         );
 
@@ -1507,7 +1502,7 @@ describe('DirectLinkApisV1', () => {
           },
         };
 
-        directLinkApis.updateGatewayVirtualConnection(params);
+        directLink.updateGatewayVirtualConnection(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1516,7 +1511,7 @@ describe('DirectLinkApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await directLinkApis.updateGatewayVirtualConnection({});
+          await directLink.updateGatewayVirtualConnection({});
         } catch (e) {
           err = e;
         }
@@ -1526,7 +1521,7 @@ describe('DirectLinkApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const updateGatewayVirtualConnectionPromise = directLinkApis.updateGatewayVirtualConnection();
+        const updateGatewayVirtualConnectionPromise = directLink.updateGatewayVirtualConnection();
         expectToBePromise(updateGatewayVirtualConnectionPromise);
 
         updateGatewayVirtualConnectionPromise.catch(err => {
