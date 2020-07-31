@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/IBM/networking-node-sdk/compare/v0.1.0...v0.2.0) (2020-07-31)
+
+
+### Features
+
+* **direct-link:** Rename DirectLinkApisV1 to DirectLinkV1 ([56e55f8](https://github.com/IBM/networking-node-sdk/commit/56e55f80bb215d8c628395516d07c6d51f5795b1))
+
 # [0.1.0](https://github.com/IBM/networking-node-sdk/compare/v0.0.2...v0.1.0) (2020-07-13)
 
 
