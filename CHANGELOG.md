@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/IBM/networking-node-sdk/compare/v0.2.0...v0.3.0) (2020-09-18)
+
+
+### Features
+
+* added the provider api sdk for direct link ([a3a3bb7](https://github.com/IBM/networking-node-sdk/commit/a3a3bb7cae7c5081154fed758253abe36537e8e4))
+
 # [0.2.0](https://github.com/IBM/networking-node-sdk/compare/v0.1.0...v0.2.0) (2020-07-31)
 
 
