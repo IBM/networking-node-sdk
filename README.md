@@ -47,6 +47,7 @@ IBM Cloud services:
 Service Name | Import Path
 --- | ---
 [Direct Link](https://cloud.ibm.com/apidocs/direct_link?code=node) | ibm-networking-services/direct-link/v1
+[Direct Link Provider](https://cloud.ibm.com/apidocs/direct_link_provider_api?code=node) | ibm-networking-services/direct-link-provider/v2
 [Transit Gateway](https://cloud.ibm.com/apidocs/transit-gateway?code=node) | ibm-networking-services/transit-gateway-apis/v1
 
 ## Prerequisites
