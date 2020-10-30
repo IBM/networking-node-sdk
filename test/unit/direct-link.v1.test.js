@@ -174,18 +174,23 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // GatewayMacsecCak
-      const gatewayMacsecCakModel = {
+      // GatewayMacsecConfigTemplateFallbackCak
+      const gatewayMacsecConfigTemplateFallbackCakModel = {
         crn:
-          'crn:v1:bluemix:public:hs-crypto:us-south:a/57a7d05f36894e3cb9b46a43556d903e:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+      };
+
+      // GatewayMacsecConfigTemplatePrimaryCak
+      const gatewayMacsecConfigTemplatePrimaryCakModel = {
+        crn:
+          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecConfigTemplate
       const gatewayMacsecConfigTemplateModel = {
         active: true,
-        fallback_cak: gatewayMacsecCakModel,
-        primary_cak: gatewayMacsecCakModel,
-        sak_expiry_time: 3600,
+        fallback_cak: gatewayMacsecConfigTemplateFallbackCakModel,
+        primary_cak: gatewayMacsecConfigTemplatePrimaryCakModel,
         window_size: 148809600,
       };
 
@@ -422,18 +427,23 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // GatewayMacsecCak
-      const gatewayMacsecCakModel = {
+      // GatewayMacsecConfigPatchTemplateFallbackCak
+      const gatewayMacsecConfigPatchTemplateFallbackCakModel = {
         crn:
-          'crn:v1:bluemix:public:hs-crypto:us-south:a/57a7d05f36894e3cb9b46a43556d903e:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+      };
+
+      // GatewayMacsecConfigPatchTemplatePrimaryCak
+      const gatewayMacsecConfigPatchTemplatePrimaryCakModel = {
+        crn:
+          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecConfigPatchTemplate
       const gatewayMacsecConfigPatchTemplateModel = {
         active: true,
-        fallback_cak: gatewayMacsecCakModel,
-        primary_cak: gatewayMacsecCakModel,
-        sak_expiry_time: 3600,
+        fallback_cak: gatewayMacsecConfigPatchTemplateFallbackCakModel,
+        primary_cak: gatewayMacsecConfigPatchTemplatePrimaryCakModel,
         window_size: 512,
       };
 
