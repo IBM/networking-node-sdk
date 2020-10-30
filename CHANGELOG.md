@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/IBM/networking-node-sdk/compare/v0.4.0...v0.4.1) (2020-10-30)
+
+
+### Bug Fixes
+
+* updated the macsec fields as per latest api spec ([0a5a848](https://github.com/IBM/networking-node-sdk/commit/0a5a84859049514270dff3bca2452e2a25d857c0))
+
 # [0.4.0](https://github.com/IBM/networking-node-sdk/compare/v0.3.0...v0.4.0) (2020-10-30)
 
 
