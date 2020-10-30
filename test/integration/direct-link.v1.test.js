@@ -247,6 +247,116 @@ describe('DirectLinkV1', () => {
     });
   });
 
+  // describe('Create/verify a macsec enabled dedicated gateway', () => {
+  //   jest.setTimeout(timeout);
+
+  //   // GatewayTemplate for dedicated gateway
+  //   const gatewayTemplate = {
+  //     name: 'NODE-INT-SDK-MACSEC-' + timestamp,
+  //     type: 'dedicated',
+  //     speed_mbps: 50,
+  //     global: true,
+  //     bgp_asn: 64999,
+  //     bgp_base_cidr: '169.254.0.0/16',
+  //     metered: false,
+  //     carrier_name: 'myCarrierName',
+  //     customer_name: 'newCustomerName',
+  //     cross_connect_router: 'xcr04.wdc02',
+  //     location_name: 'wdc02',
+  //     macsec_config: {
+  //       active: true,
+  //       primary_cak: {
+  //         crn: config.MACSEC_PRIMARY_CAK,
+  //       },
+  //     },
+  //   };
+
+  //   // Save the gateway ID for deletion
+  //   let gatewayId = '';
+
+  //   // create a macsec enabled dedicated gateway and verify the results
+  //   it('Successfully create a macsec enabled dedicated gateway', done => {
+  //     const params = {
+  //       gatewayTemplate: gatewayTemplate,
+  //     };
+  //     try {
+  //       dlService.createGateway(params).then(response => {
+  //         expect(response.hasOwnProperty('status')).toBe(true);
+  //         expect(response.status).toBe(201);
+  //         if (null != response && null != response.result && null != response.result.id) {
+  //           gatewayId = response.result.id;
+  //         }
+
+  //         expect(response.result.id).toBeDefined();
+  //         expect(response.result.name).toBe(gatewayTemplate.name);
+  //         expect(response.result.type).toBe(gatewayTemplate.type);
+  //         expect(response.result.speed_mbps).toBe(gatewayTemplate.speed_mbps);
+  //         expect(response.result.global).toBe(gatewayTemplate.global);
+  //         expect(response.result.bgp_asn).toBe(gatewayTemplate.bgp_asn);
+  //         expect(response.result.bgp_cer_cidr).toBeDefined();
+  //         expect(response.result.bgp_ibm_cidr).toBeDefined();
+  //         expect(response.result.metered).toBe(gatewayTemplate.metered);
+  //         expect(response.result.cross_connect_router).toBe(gatewayTemplate.cross_connect_router);
+  //         expect(response.result.location_name).toBe(gatewayTemplate.location_name);
+  //         expect(response.result.location_display_name).toBe('Washington 2');
+  //         expect(response.result.created_at).toBeDefined();
+  //         expect(response.result.link_status).toBe('down');
+  //         expect(response.result.operational_status).toBe('awaiting_loa');
+  //         expect(response.result.resource_group).toBeDefined();
+  //         expect(response.result.macsec_config).toBeDefined();
+  //         expect(response.result.macsec_config.active).toBeTruthy();
+  //         expect(response.result.macsec_config.primary_cak.crn).toBe(config.MACSEC_PRIMARY_CAK);
+  //         done();
+  //       });
+  //     } catch (err) {
+  //       done(err);
+  //     }
+  //   });
+
+  //   // update a dedicated gateway and verify the results
+  //   it('Successfully update a macsec enabled gateway', done => {
+  //     // Gateway prams for patching dedicated gateway
+  //     const params = {
+  //       id: gatewayId,
+  //       macsecConfig: {
+  //         fallback_cak: {
+  //           crn: config.MACSEC_FALLBACK_CAK,
+  //         },
+  //       },
+  //     };
+
+  //     try {
+  //       dlService.updateGateway(params).then(response => {
+  //         expect(response.status).toBe(200);
+  //         expect(response.result.id).toBe(gatewayId);
+  //         expect(response.result.macsec_config).toBeDefined();
+  //         expect(response.result.macsec_config.active).toBeTruthy();
+  //         expect(response.result.macsec_config.primary_cak.crn).toBe(config.MACSEC_PRIMARY_CAK);
+  //         expect(response.result.macsec_config.fallback_cak.crn).toBe(config.MACSEC_FALLBACK_CAK);
+  //         done();
+  //       });
+  //     } catch (err) {
+  //       done(err);
+  //     }
+  //   });
+
+  //   // delete the dedicated gateway
+  //   it('Successfully delete the gateway', done => {
+  //     const params = {
+  //       id: gatewayId,
+  //     };
+
+  //     try {
+  //       dlService.deleteGateway(params).then(response => {
+  //         expect(response.status).toBe(204);
+  //         done();
+  //       });
+  //     } catch (err) {
+  //       done(err);
+  //     }
+  //   });
+  // });
+
   describe('Create/verify a connect gateway', () => {
     jest.setTimeout(timeout);
 
@@ -767,7 +877,7 @@ describe('DirectLinkV1', () => {
             expect(firstDedicatedOT.building_colocation_owner).toBeDefined();
             expect(firstDedicatedOT.display_name).toBeDefined();
             expect(firstDedicatedOT.location_type).toBeDefined();
-            expect(firstDedicatedOT.market).toBeDefined();
+            // expect(firstDedicatedOT.market).toBeDefined();
             expect(firstDedicatedOT.market_geography).toBeDefined();
             expect(firstDedicatedOT.mzr).toBeDefined();
             expect(firstDedicatedOT.name).toBeDefined();
@@ -795,7 +905,7 @@ describe('DirectLinkV1', () => {
             expect(firstConnectOT.billing_location).toBeDefined();
             expect(firstConnectOT.name).toBeDefined();
             expect(firstConnectOT.display_name).toBeDefined();
-            expect(firstConnectOT.market).toBeDefined();
+            // expect(firstConnectOT.market).toBeDefined();
             expect(firstConnectOT.market_geography).toBeDefined();
             expect(firstConnectOT.mzr).toBeDefined();
             expect(firstConnectOT.offering_type).toBe('connect');
