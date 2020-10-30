@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/IBM/networking-node-sdk/compare/v0.3.0...v0.4.0) (2020-10-30)
+
+
+### Features
+
+* added the support for macsec enabled gateway ([2e6be90](https://github.com/IBM/networking-node-sdk/commit/2e6be9004aacb04824e4df3ff72b1c3f11784ab9))
+
 # [0.3.0](https://github.com/IBM/networking-node-sdk/compare/v0.2.0...v0.3.0) (2020-09-18)
 
 
