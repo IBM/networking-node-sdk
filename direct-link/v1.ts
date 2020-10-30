@@ -289,6 +289,11 @@ class DirectLinkV1 extends BaseService {
    * rejection.
    *
    * Only allowed for type=dedicated gateways.
+   * @param {GatewayMacsecConfigPatchTemplate} [params.macsecConfig] - MACsec configuration information.  When patching
+   * any macsec_config fields, no other fields may be specified in the patch request.  Contact IBM support for access to
+   * MACsec.
+   *
+   * Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F].
    * @param {boolean} [params.metered] - Metered billing option.  When `true` gateway usage is billed per gigabyte.
    * When `false` there is no per gigabyte usage charge, instead a flat rate is charged for the gateway.
    * @param {string} [params.name] - The unique user-defined name for this gateway.
@@ -315,6 +320,7 @@ class DirectLinkV1 extends BaseService {
       const body = {
         'global': _params.global,
         'loa_reject_reason': _params.loaRejectReason,
+        'macsec_config': _params.macsecConfig,
         'metered': _params.metered,
         'name': _params.name,
         'operational_status': _params.operationalStatus,
@@ -572,6 +578,56 @@ class DirectLinkV1 extends BaseService {
         defaultOptions: extend(true, {}, this.baseOptions, {
           headers: extend(true, sdkHeaders, {
             'Accept': 'application/pdf',
+          }, _params.headers),
+        }),
+      };
+
+      return resolve(this.createRequest(parameters));
+    });
+  };
+
+  /**
+   * Gateway statistics.
+   *
+   * Retrieve gateway statistics.  Specify statistic to retrieve using required `type` query parameter.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - Direct Link Dedicated gateway identifier.
+   * @param {string} params.type - specify statistic to retrieve.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.GatewayStatisticCollection>>}
+   */
+  public getGatewayStatistics(params: DirectLinkV1.GetGatewayStatisticsParams): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayStatisticCollection>> {
+    const _params = extend({}, params);
+    const requiredParams = ['id', 'type'];
+
+    return new Promise((resolve, reject) => {
+      const missingParams = getMissingParams(_params, requiredParams);
+      if (missingParams) {
+        return reject(missingParams);
+      }
+
+      const query = {
+        'type': _params.type,
+        'version': this.version
+      };
+
+      const path = {
+        'id': _params.id
+      };
+
+      const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayStatistics');
+
+      const parameters = {
+        options: {
+          url: '/gateways/{id}/statistics',
+          method: 'GET',
+          qs: query,
+          path,
+        },
+        defaultOptions: extend(true, {}, this.baseOptions, {
+          headers: extend(true, sdkHeaders, {
+            'Accept': 'application/json',
           }, _params.headers),
         }),
       };
@@ -1182,6 +1238,12 @@ namespace DirectLinkV1 {
      *  Only allowed for type=dedicated gateways.
      */
     loaRejectReason?: string;
+    /** MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified
+     *  in the patch request.  Contact IBM support for access to MACsec.
+     *
+     *  Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F].
+     */
+    macsecConfig?: GatewayMacsecConfigPatchTemplate;
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
      *  gigabyte usage charge, instead a flat rate is charged for the gateway.
      */
@@ -1273,6 +1335,24 @@ namespace DirectLinkV1 {
     /** Direct Link Dedicated gateway identifier. */
     id: string;
     headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getGatewayStatistics` operation. */
+  export interface GetGatewayStatisticsParams {
+    /** Direct Link Dedicated gateway identifier. */
+    id: string;
+    /** specify statistic to retrieve. */
+    type: GetGatewayStatisticsConstants.Type | string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `getGatewayStatistics` operation. */
+  export namespace GetGatewayStatisticsConstants {
+    /** specify statistic to retrieve. */
+    export enum Type {
+      MACSEC_MKA = 'macsec_mka',
+      MACSEC_SECURITY = 'macsec_security',
+    }
   }
 
   /** Parameters for the `listOfferingTypeLocations` operation. */
@@ -1476,6 +1556,10 @@ namespace DirectLinkV1 {
     location_display_name: string;
     /** Gateway location. */
     location_name: string;
+    /** MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration
+     *  information.  Contact IBM support for access to MACsec.
+     */
+    macsec_config?: GatewayMacsecConfig;
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
      *  gigabyte usage charge, instead a flat rate is charged for the gateway.
      */
@@ -1516,6 +1600,84 @@ namespace DirectLinkV1 {
     gateways: Gateway[];
   }
 
+  /** MACsec connectivity association key. */
+  export interface GatewayMacsecCak {
+    /** connectivity association key. */
+    crn: string;
+  }
+
+  /** MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.  Contact IBM support for access to MACsec. */
+  export interface GatewayMacsecConfig {
+    /** Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled
+     *  gateway.
+     */
+    active: boolean;
+    /** Active connectivity association key.  Normally will be the same as the primary_cak.  During CAK changes this
+     *  field can be used to indicate which key is currently active.
+     */
+    active_cak?: GatewayMacsecCak;
+    /** SAK cipher suite. */
+    cipher_suite?: string;
+    /** confidentiality offset. */
+    confidentiality_offset: number;
+    /** cryptographic algorithm. */
+    cryptographic_algorithm?: string;
+    /** fallback connectivity association key. */
+    fallback_cak?: GatewayMacsecCak;
+    /** key server priority. */
+    key_server_priority?: number;
+    /** desired primary connectivity association key. */
+    primary_cak: GatewayMacsecCak;
+    /** Secure Association Key (SAK) expiry time in seconds. */
+    sak_expiry_time?: number;
+    /** The current status of MACsec on the device for this gateway.  Status 'unknown' is returned during gateway
+     *  creation and deletion.
+     */
+    status: string;
+    /** replay protection window size. */
+    window_size?: number;
+  }
+
+  /** MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified in the patch request.  Contact IBM support for access to MACsec. Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F]. */
+  export interface GatewayMacsecConfigPatchTemplate {
+    /** Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled
+     *  gateway.
+     */
+    active?: boolean;
+    /** Fallback connectivity association key.  Keys used for MACsec configuration must have names with an even
+     *  number of characters from [0-9a-fA-F].
+     */
+    fallback_cak?: GatewayMacsecCak;
+    /** Desired primary connectivity association key.  Keys for a MACsec configuration must have names with an even
+     *  number of characters from [0-9a-fA-F].
+     */
+    primary_cak?: GatewayMacsecCak;
+    /** Secure Association Key (SAK) expiry time in seconds. */
+    sak_expiry_time?: number;
+    /** replay protection window size. */
+    window_size?: number;
+  }
+
+  /** MACsec configuration information.  Contact IBM support for access to MACsec. Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F]. */
+  export interface GatewayMacsecConfigTemplate {
+    /** Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled
+     *  gateway.
+     */
+    active: boolean;
+    /** Fallback connectivity association key.  Keys used for MACsec configuration must have names with an even
+     *  number of characters from [0-9a-fA-F].
+     */
+    fallback_cak?: GatewayMacsecCak;
+    /** Desired primary connectivity association key.  Keys used for MACsec configuration must have names with an
+     *  even number of characters from [0-9a-fA-F].
+     */
+    primary_cak: GatewayMacsecCak;
+    /** Secure Association Key (SAK) expiry time in seconds. */
+    sak_expiry_time?: number;
+    /** replay protection window size. */
+    window_size?: number;
+  }
+
   /** gateway port for type=connect gateways. */
   export interface GatewayPort {
     /** Port Identifier. */
@@ -1526,6 +1688,22 @@ namespace DirectLinkV1 {
   export interface GatewayPortIdentity {
     /** port id. */
     id: string;
+  }
+
+  /** MACsec statistics. */
+  export interface GatewayStatistic {
+    /** Date and time data was collected. */
+    created_at: string;
+    /** statistics output. */
+    data: string;
+    /** statistic type. */
+    type: string;
+  }
+
+  /** gateway statistics. */
+  export interface GatewayStatisticCollection {
+    /** Collection of gateway statistics. */
+    statistics: GatewayStatistic[];
   }
 
   /** Create gateway template. */
@@ -1622,6 +1800,10 @@ namespace DirectLinkV1 {
     display_name: string;
     /** Location type. */
     location_type: string;
+    /** Indicate whether location supports MACsec.  Only returned for gateway type=dedicated locations.  Contact IBM
+     *  support for access to MACsec.
+     */
+    macsec_enabled?: boolean;
     /** Location market. */
     market: string;
     /** Location geography.  Only present for locations where provisioning is enabled. */
@@ -1642,6 +1824,10 @@ namespace DirectLinkV1 {
   export interface OfferingSpeed {
     /** Link speed in megabits per second. */
     link_speed: number;
+    /** Indicate whether speed supports MACsec.  Only returned for gateway type=dedicated speeds.  Contact IBM
+     *  support for access to MACsec.
+     */
+    macsec_enabled?: boolean;
   }
 
   /** OfferingSpeedCollection. */
@@ -1744,6 +1930,11 @@ namespace DirectLinkV1 {
     customer_name: string;
     /** Gateway location. */
     location_name: string;
+    /** MACsec configuration information.  Contact IBM support for access to MACsec.
+     *
+     *  Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F].
+     */
+    macsec_config?: GatewayMacsecConfigTemplate;
   }
 
 }

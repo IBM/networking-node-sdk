@@ -174,6 +174,21 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // GatewayMacsecCak
+      const gatewayMacsecCakModel = {
+        crn:
+          'crn:v1:bluemix:public:hs-crypto:us-south:a/57a7d05f36894e3cb9b46a43556d903e:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+      };
+
+      // GatewayMacsecConfigTemplate
+      const gatewayMacsecConfigTemplateModel = {
+        active: true,
+        fallback_cak: gatewayMacsecCakModel,
+        primary_cak: gatewayMacsecCakModel,
+        sak_expiry_time: 3600,
+        window_size: 148809600,
+      };
+
       // ResourceGroupIdentity
       const resourceGroupIdentityModel = {
         id: '56969d6043e9465c883cb9f7363e78e8',
@@ -195,6 +210,7 @@ describe('DirectLinkV1', () => {
         cross_connect_router: 'xcr01.dal03',
         customer_name: 'newCustomerName',
         location_name: 'dal03',
+        macsec_config: gatewayMacsecConfigTemplateModel,
       };
 
       test('should pass the right params to createRequest', () => {
@@ -404,11 +420,29 @@ describe('DirectLinkV1', () => {
   });
   describe('updateGateway', () => {
     describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // GatewayMacsecCak
+      const gatewayMacsecCakModel = {
+        crn:
+          'crn:v1:bluemix:public:hs-crypto:us-south:a/57a7d05f36894e3cb9b46a43556d903e:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+      };
+
+      // GatewayMacsecConfigPatchTemplate
+      const gatewayMacsecConfigPatchTemplateModel = {
+        active: true,
+        fallback_cak: gatewayMacsecCakModel,
+        primary_cak: gatewayMacsecCakModel,
+        sak_expiry_time: 3600,
+        window_size: 512,
+      };
+
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateGateway
         const id = 'testString';
         const global = true;
         const loaRejectReason = 'The port mentioned was incorrect';
+        const macsecConfig = gatewayMacsecConfigPatchTemplateModel;
         const metered = false;
         const name = 'testGateway';
         const operationalStatus = 'loa_accepted';
@@ -417,6 +451,7 @@ describe('DirectLinkV1', () => {
           id: id,
           global: global,
           loaRejectReason: loaRejectReason,
+          macsecConfig: macsecConfig,
           metered: metered,
           name: name,
           operationalStatus: operationalStatus,
@@ -439,6 +474,7 @@ describe('DirectLinkV1', () => {
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(options.body['global']).toEqual(global);
         expect(options.body['loa_reject_reason']).toEqual(loaRejectReason);
+        expect(options.body['macsec_config']).toEqual(macsecConfig);
         expect(options.body['metered']).toEqual(metered);
         expect(options.body['name']).toEqual(name);
         expect(options.body['operational_status']).toEqual(operationalStatus);
@@ -795,6 +831,80 @@ describe('DirectLinkV1', () => {
         expectToBePromise(listGatewayLetterOfAuthorizationPromise);
 
         listGatewayLetterOfAuthorizationPromise.catch(err => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
+      });
+    });
+  });
+  describe('getGatewayStatistics', () => {
+    describe('positive tests', () => {
+      test('should pass the right params to createRequest', () => {
+        // Construct the params object for operation getGatewayStatistics
+        const id = 'testString';
+        const type = 'macsec_mka';
+        const params = {
+          id: id,
+          type: type,
+        };
+
+        const getGatewayStatisticsResult = directLink.getGatewayStatistics(params);
+
+        // all methods should return a Promise
+        expectToBePromise(getGatewayStatisticsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const options = getOptions(createRequestMock);
+
+        checkUrlAndMethod(options, '/gateways/{id}/statistics', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(options.qs['type']).toEqual(type);
+        expect(options.qs['version']).toEqual(service.version);
+        expect(options.path['id']).toEqual(id);
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const id = 'testString';
+        const type = 'macsec_mka';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          id,
+          type,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLink.getGatewayStatistics(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async done => {
+        let err;
+        try {
+          await directLink.getGatewayStatistics({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+        done();
+      });
+
+      test('should reject promise when required params are not given', done => {
+        const getGatewayStatisticsPromise = directLink.getGatewayStatistics();
+        expectToBePromise(getGatewayStatisticsPromise);
+
+        getGatewayStatisticsPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
