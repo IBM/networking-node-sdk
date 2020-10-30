@@ -293,7 +293,7 @@ class DirectLinkV1 extends BaseService {
    * any macsec_config fields, no other fields may be specified in the patch request.  Contact IBM support for access to
    * MACsec.
    *
-   * Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F].
+   * A MACsec config cannot be added to a gateway created without MACsec.
    * @param {boolean} [params.metered] - Metered billing option.  When `true` gateway usage is billed per gigabyte.
    * When `false` there is no per gigabyte usage charge, instead a flat rate is charged for the gateway.
    * @param {string} [params.name] - The unique user-defined name for this gateway.
@@ -589,7 +589,8 @@ class DirectLinkV1 extends BaseService {
   /**
    * Gateway statistics.
    *
-   * Retrieve gateway statistics.  Specify statistic to retrieve using required `type` query parameter.
+   * Retrieve gateway statistics.  Specify statistic to retrieve using required `type` query parameter.  Currently data
+   * retrieval is only supported for MACsec configurations.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link Dedicated gateway identifier.
@@ -1241,7 +1242,7 @@ namespace DirectLinkV1 {
     /** MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified
      *  in the patch request.  Contact IBM support for access to MACsec.
      *
-     *  Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F].
+     *  A MACsec config cannot be added to a gateway created without MACsec.
      */
     macsecConfig?: GatewayMacsecConfigPatchTemplate;
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
@@ -1600,82 +1601,148 @@ namespace DirectLinkV1 {
     gateways: Gateway[];
   }
 
-  /** MACsec connectivity association key. */
-  export interface GatewayMacsecCak {
-    /** connectivity association key. */
-    crn: string;
-  }
-
   /** MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.  Contact IBM support for access to MACsec. */
   export interface GatewayMacsecConfig {
-    /** Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled
-     *  gateway.
+    /** Indicate whether MACsec should currently be active (true) or inactive (false) for a MACsec enabled gateway.
+     *   To be MACsec enabled a `macsec_config` must be specified at gateway create time.
      */
     active: boolean;
-    /** Active connectivity association key.  Normally will be the same as the primary_cak.  During CAK changes this
-     *  field can be used to indicate which key is currently active.
+    /** Active connectivity association key.
+     *
+     *  During normal operation `active_cak` will match the desired `primary_cak`.  During CAK changes this field can be
+     *  used to indicate which key is currently active on the gateway.
      */
-    active_cak?: GatewayMacsecCak;
+    active_cak?: GatewayMacsecConfigActiveCak;
     /** SAK cipher suite. */
     cipher_suite?: string;
     /** confidentiality offset. */
-    confidentiality_offset: number;
+    confidentiality_offset?: number;
     /** cryptographic algorithm. */
     cryptographic_algorithm?: string;
     /** fallback connectivity association key. */
-    fallback_cak?: GatewayMacsecCak;
+    fallback_cak?: GatewayMacsecConfigFallbackCak;
     /** key server priority. */
     key_server_priority?: number;
     /** desired primary connectivity association key. */
-    primary_cak: GatewayMacsecCak;
+    primary_cak: GatewayMacsecConfigPrimaryCak;
     /** Secure Association Key (SAK) expiry time in seconds. */
     sak_expiry_time?: number;
-    /** The current status of MACsec on the device for this gateway.  Status 'unknown' is returned during gateway
-     *  creation and deletion.
+    /** Packets without MACsec headers are not dropped when security_policy is `should_secure`. */
+    security_policy?: string;
+    /** Current status of MACsec on the device for this gateway.  Status 'unknown' is returned during gateway
+     *  creation and deletion. Status `key_error` indicates Direct Link was unable to retrieve key materials for one of
+     *  the specified. This usually due to inadequate service to service authorization.   Verify the key exists and
+     *  verify a service to service policy exists authorization the Direct Link service to access its key material.
+     *  Correct any problems and respecify the desired key.  If the problem persists contact IBM support.
      */
     status: string;
     /** replay protection window size. */
     window_size?: number;
   }
 
-  /** MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified in the patch request.  Contact IBM support for access to MACsec. Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F]. */
+  /** Active connectivity association key. During normal operation `active_cak` will match the desired `primary_cak`.  During CAK changes this field can be used to indicate which key is currently active on the gateway. */
+  export interface GatewayMacsecConfigActiveCak {
+    /** connectivity association key crn. */
+    crn: string;
+    /** connectivity association key status. */
+    status: string;
+  }
+
+  /** fallback connectivity association key. */
+  export interface GatewayMacsecConfigFallbackCak {
+    /** connectivity association key crn. */
+    crn: string;
+    /** connectivity association key status. */
+    status: string;
+  }
+
+  /** MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified in the patch request.  Contact IBM support for access to MACsec. A MACsec config cannot be added to a gateway created without MACsec. */
   export interface GatewayMacsecConfigPatchTemplate {
     /** Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled
      *  gateway.
      */
     active?: boolean;
-    /** Fallback connectivity association key.  Keys used for MACsec configuration must have names with an even
-     *  number of characters from [0-9a-fA-F].
+    /** Fallback connectivity association key.
+     *
+     *  The `fallback_cak` crn cannot match the `primary_cak` crn.
+     *
+     *  MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+     *  [a-fA-F0-9].
+     *  The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+     *
+     *  To clear the optional `fallback_cak` field patch its crn to `""`.
+     *
+     *  A gateway's `fallback_cak` crn cannot match its `primary_cak` crn.
      */
-    fallback_cak?: GatewayMacsecCak;
-    /** Desired primary connectivity association key.  Keys for a MACsec configuration must have names with an even
-     *  number of characters from [0-9a-fA-F].
+    fallback_cak?: GatewayMacsecConfigPatchTemplateFallbackCak;
+    /** Desired primary connectivity association key.
+     *
+     *  MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+     *  [a-fA-F0-9].
+     *  The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+     *
+     *  A gateway's `primary_cak` crn cannot match its `fallback_cak` crn.
      */
-    primary_cak?: GatewayMacsecCak;
-    /** Secure Association Key (SAK) expiry time in seconds. */
-    sak_expiry_time?: number;
+    primary_cak?: GatewayMacsecConfigPatchTemplatePrimaryCak;
     /** replay protection window size. */
     window_size?: number;
   }
 
-  /** MACsec configuration information.  Contact IBM support for access to MACsec. Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F]. */
+  /** Fallback connectivity association key. The `fallback_cak` crn cannot match the `primary_cak` crn. MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9]. To clear the optional `fallback_cak` field patch its crn to `""`. A gateway's `fallback_cak` crn cannot match its `primary_cak` crn. */
+  export interface GatewayMacsecConfigPatchTemplateFallbackCak {
+    /** connectivity association key crn. */
+    crn: string;
+  }
+
+  /** Desired primary connectivity association key. MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9]. A gateway's `primary_cak` crn cannot match its `fallback_cak` crn. */
+  export interface GatewayMacsecConfigPatchTemplatePrimaryCak {
+    /** connectivity association key crn. */
+    crn: string;
+  }
+
+  /** desired primary connectivity association key. */
+  export interface GatewayMacsecConfigPrimaryCak {
+    /** connectivity association key crn. */
+    crn: string;
+    /** connectivity association key status. */
+    status: string;
+  }
+
+  /** MACsec configuration information.  Contact IBM support for access to MACsec. */
   export interface GatewayMacsecConfigTemplate {
     /** Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled
      *  gateway.
      */
     active: boolean;
-    /** Fallback connectivity association key.  Keys used for MACsec configuration must have names with an even
-     *  number of characters from [0-9a-fA-F].
+    /** Fallback connectivity association key.
+     *
+     *  The `fallback_cak` crn cannot match the `primary_cak` crn.
+     *  MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+     *  [a-fA-F0-9].
+     *  The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
      */
-    fallback_cak?: GatewayMacsecCak;
-    /** Desired primary connectivity association key.  Keys used for MACsec configuration must have names with an
-     *  even number of characters from [0-9a-fA-F].
+    fallback_cak?: GatewayMacsecConfigTemplateFallbackCak;
+    /** Desired primary connectivity association key.
+     *
+     *  MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
+     *  [a-fA-F0-9].
+     *  The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
      */
-    primary_cak: GatewayMacsecCak;
-    /** Secure Association Key (SAK) expiry time in seconds. */
-    sak_expiry_time?: number;
+    primary_cak: GatewayMacsecConfigTemplatePrimaryCak;
     /** replay protection window size. */
     window_size?: number;
+  }
+
+  /** Fallback connectivity association key. The `fallback_cak` crn cannot match the `primary_cak` crn. MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9]. */
+  export interface GatewayMacsecConfigTemplateFallbackCak {
+    /** connectivity association key crn. */
+    crn: string;
+  }
+
+  /** Desired primary connectivity association key. MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9]. */
+  export interface GatewayMacsecConfigTemplatePrimaryCak {
+    /** connectivity association key crn. */
+    crn: string;
   }
 
   /** gateway port for type=connect gateways. */
@@ -1690,7 +1757,7 @@ namespace DirectLinkV1 {
     id: string;
   }
 
-  /** MACsec statistics. */
+  /** Gateway statistics.  Currently data retrieval is only supported for MACsec configurations. */
   export interface GatewayStatistic {
     /** Date and time data was collected. */
     created_at: string;
@@ -1930,10 +1997,7 @@ namespace DirectLinkV1 {
     customer_name: string;
     /** Gateway location. */
     location_name: string;
-    /** MACsec configuration information.  Contact IBM support for access to MACsec.
-     *
-     *  Keys used for MACsec configuration must have names with an even number of characters from [0-9a-fA-F].
-     */
+    /** MACsec configuration information.  Contact IBM support for access to MACsec. */
     macsec_config?: GatewayMacsecConfigTemplate;
   }
 
