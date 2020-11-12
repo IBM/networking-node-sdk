@@ -1,3 +1,10 @@
+## [0.4.2](https://github.com/IBM/networking-node-sdk/compare/v0.4.1...v0.4.2) (2020-11-12)
+
+
+### Bug Fixes
+
+* deprecated the bgp_base_cidr in direct link ([d5280b5](https://github.com/IBM/networking-node-sdk/commit/d5280b5b84942aba1e291dd4961515c94a596bfd))
+
 ## [0.4.1](https://github.com/IBM/networking-node-sdk/compare/v0.4.0...v0.4.1) (2020-10-30)
 
 
