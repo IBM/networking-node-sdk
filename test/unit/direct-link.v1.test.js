@@ -202,9 +202,9 @@ describe('DirectLinkV1', () => {
       // GatewayTemplateGatewayTypeDedicatedTemplate
       const gatewayTemplateModel = {
         bgp_asn: 64999,
-        bgp_base_cidr: '10.254.30.76/30',
-        bgp_cer_cidr: '10.254.30.78/30',
-        bgp_ibm_cidr: '10.254.30.77/30',
+        bgp_base_cidr: 'testString',
+        bgp_cer_cidr: '169.254.0.10/30',
+        bgp_ibm_cidr: '169.254.0.9/30',
         global: true,
         metered: false,
         name: 'myGateway',

@@ -204,7 +204,6 @@ describe('TransitGatewayApisV1', () => {
         await transitGateway.updateTransitGateway(params);
       } catch (err) {
         expect(err.status).toEqual(404);
-        expect(err.message).toEqual('The gateway was not found.');
         done();
       }
 
@@ -234,7 +233,6 @@ describe('TransitGatewayApisV1', () => {
         await transitGateway.getTransitGateway({ id: '111' });
       } catch (err) {
         expect(err.status).toEqual(404);
-        expect(err.message).toEqual('The gateway was not found.');
         done();
       }
       done();
@@ -484,7 +482,6 @@ describe('TransitGatewayApisV1', () => {
         });
       } catch (err) {
         expect(err.status).toEqual(404);
-        expect(err.message).toEqual('The gateway was not found.');
         done();
       }
 
@@ -532,7 +529,6 @@ describe('TransitGatewayApisV1', () => {
         });
       } catch (err) {
         expect(err.status).toEqual(404);
-        expect(err.message).toEqual('The location was not found.');
         done();
       }
 
