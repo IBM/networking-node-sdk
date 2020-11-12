@@ -1517,7 +1517,12 @@ namespace DirectLinkV1 {
   export interface Gateway {
     /** Customer BGP ASN. */
     bgp_asn: number;
-    /** BGP base CIDR. */
+    /** (DEPRECATED) BGP base CIDR is deprecated and no longer recognized the Direct Link APIs.
+     *
+     *  See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
+     *
+     *  Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
+     */
     bgp_base_cidr?: string;
     /** BGP customer edge router CIDR. */
     bgp_cer_cidr?: string;
@@ -1525,12 +1530,12 @@ namespace DirectLinkV1 {
     bgp_ibm_asn?: number;
     /** BGP IBM CIDR. */
     bgp_ibm_cidr?: string;
-    /** Gateway BGP status.
-     *
-     *  The list of enumerated values for this property may expand in the future. Code and processes using this field
-     *  must tolerate unexpected values.
+    /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and
+     *  processes using this field  must tolerate unexpected values.
      */
     bgp_status?: string;
+    /** Carrier name.  Only set for type=dedicated gateways. */
+    carrier_name?: string;
     /** Changes pending approval for provider managed Direct Link Connect gateways. */
     change_request?: GatewayChangeRequest;
     /** Reason for completion notice rejection.  Only included on type=dedicated gateways with a rejected completion
@@ -1543,14 +1548,14 @@ namespace DirectLinkV1 {
     crn: string;
     /** Cross connect router.  Only included on type=dedicated gateways. */
     cross_connect_router?: string;
+    /** Customer name.  Only set for type=dedicated gateways. */
+    customer_name?: string;
     /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
     global: boolean;
     /** The unique identifier of this gateway. */
     id: string;
-    /** Gateway link status.  Only included on type=dedicated gateways.
-     *
-     *  The list of enumerated values for this property may expand in the future. Code and processes using this field
-     *  must tolerate unexpected values.
+    /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this
+     *  property may expand in the future. Code and processes using this field  must tolerate unexpected values.
      */
     link_status?: string;
     /** Gateway location long name. */
@@ -1567,10 +1572,8 @@ namespace DirectLinkV1 {
     metered: boolean;
     /** The unique user-defined name for this gateway. */
     name: string;
-    /** Gateway operational status.
-     *
-     *  The list of enumerated values for this property may expand in the future. Code and processes using this field
-     *  must tolerate unexpected values.
+    /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code
+     *  and processes using this field  must tolerate unexpected values.
      */
     operational_status: string;
     /** gateway port for type=connect gateways. */
@@ -1581,10 +1584,8 @@ namespace DirectLinkV1 {
     resource_group?: ResourceGroupReference;
     /** Gateway speed in megabits per second. */
     speed_mbps: number;
-    /** Gateway type.
-     *
-     *  The list of enumerated values for this property may expand in the future. Code and processes using this field
-     *  must tolerate unexpected values.
+    /** Gateway type. The list of enumerated values for this property may expand in the future. Code and processes
+     *  using this field  must tolerate unexpected values.
      */
     type: string;
     /** VLAN allocated for this gateway.  Only set for type=connect gateways. */
@@ -1629,11 +1630,9 @@ namespace DirectLinkV1 {
     sak_expiry_time?: number;
     /** Packets without MACsec headers are not dropped when security_policy is `should_secure`. */
     security_policy?: string;
-    /** Current status of MACsec on the device for this gateway.  Status 'unknown' is returned during gateway
-     *  creation and deletion. Status `key_error` indicates Direct Link was unable to retrieve key materials for one of
-     *  the specified. This usually due to inadequate service to service authorization.   Verify the key exists and
-     *  verify a service to service policy exists authorization the Direct Link service to access its key material.
-     *  Correct any problems and respecify the desired key.  If the problem persists contact IBM support.
+    /** Current status of MACsec on this gateway.
+     *
+     *  Status 'unknown' is returned during gateway creation and deletion.
      */
     status: string;
     /** replay protection window size. */
@@ -1664,8 +1663,6 @@ namespace DirectLinkV1 {
     active?: boolean;
     /** Fallback connectivity association key.
      *
-     *  The `fallback_cak` crn cannot match the `primary_cak` crn.
-     *
      *  MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
      *  [a-fA-F0-9].
      *  The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
@@ -1688,7 +1685,7 @@ namespace DirectLinkV1 {
     window_size?: number;
   }
 
-  /** Fallback connectivity association key. The `fallback_cak` crn cannot match the `primary_cak` crn. MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9]. To clear the optional `fallback_cak` field patch its crn to `""`. A gateway's `fallback_cak` crn cannot match its `primary_cak` crn. */
+  /** Fallback connectivity association key. MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9]. To clear the optional `fallback_cak` field patch its crn to `""`. A gateway's `fallback_cak` crn cannot match its `primary_cak` crn. */
   export interface GatewayMacsecConfigPatchTemplateFallbackCak {
     /** connectivity association key crn. */
     crn: string;
@@ -1777,14 +1774,32 @@ namespace DirectLinkV1 {
   export interface GatewayTemplate {
     /** BGP ASN. */
     bgp_asn: number;
-    /** BGP base CIDR. */
-    bgp_base_cidr: string;
-    /** BGP customer edge router CIDR.  Specify a value within `bgp_base_cidr`.  If `bgp_base_cidr` is
-     *  169.254.0.0/16 this field can  be ommitted and a CIDR will be selected automatically.
+    /** (DEPRECATED) BGP base CIDR.
+     *
+     *  Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to create a gateway using either
+     *  automatic or explicit IP assignment.  Any bgp_base_cidr value set will be ignored.
+     *
+     *  Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
+     */
+    bgp_base_cidr?: string;
+    /** BGP customer edge router CIDR.
+     *
+     *  For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will automatically select values for
+     *  bgp_cer_cidr and bgp_ibm_cidr.
+     *
+     *  For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of
+     *  "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and
+     *  bgp_ibm_cidr must have matching network and subnet mask values.
      */
     bgp_cer_cidr?: string;
-    /** BGP IBM CIDR.  Specify a value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can
-     *  be ommitted and a CIDR will be selected automatically.
+    /** BGP IBM CIDR.
+     *
+     *  For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will automatically select values for
+     *  bgp_cer_cidr and bgp_ibm_cidr.
+     *
+     *  For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of
+     *  "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and
+     *  bgp_ibm_cidr must have matching network and subnet mask values.
      */
     bgp_ibm_cidr?: string;
     /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
