@@ -42,7 +42,7 @@
   "devDependencies": {
     "@semantic-release/changelog": "^3.0.4",
     "@semantic-release/git": "^7.0.12",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "codecov": "^3.5.0",
     "dotenv": "^8.2.0",
     "eslint": "^5.16.0",
