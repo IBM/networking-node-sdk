@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/IBM/networking-node-sdk/compare/v0.4.2...v0.5.0) (2021-03-04)
+
+
+### Features
+
+* added api sdk for cloud internet services ([0b8f4ba](https://github.com/IBM/networking-node-sdk/commit/0b8f4ba8fb8f582f1275b53afd14179d361405c3))
+
 ## [0.4.2](https://github.com/IBM/networking-node-sdk/compare/v0.4.1...v0.4.2) (2020-11-12)
 
 
