@@ -341,7 +341,7 @@ describe('SSL Certificate', () => {
     test('successfully order a certificate', async done => {
       try {
         const params = {
-          hosts: [`test-cert.${config.DOMAIN_NAME}`],
+          hosts: [config.DOMAIN_NAME, `dev.${config.DOMAIN_NAME}`],
           type: 'dedicated_custom',
         };
         const response = await sslCertInstance.orderCertificate(params);
@@ -365,14 +365,14 @@ describe('SSL Certificate', () => {
     test('should fail to order certificate for invalid domain configuration', async done => {
       try {
         const params = {
-          hosts: [`cert${config.DOMAIN_NAME}`],
+          hosts: [`dev-${config.DOMAIN_NAME}`],
           type: 'dedicated_custom',
         };
         await sslCertInstance.orderCertificate(params);
       } catch (err) {
         expect(err.status).toEqual(400);
         expect(err.message).toEqual(
-          'You must complete domain control validation (DCV) for all hostnames on the Dedicated Certificate before placing an order.'
+          'Hosts contains an invalid host for your zone. Please check your input and try again.'
         );
         done();
       }
@@ -387,7 +387,7 @@ describe('SSL Certificate', () => {
 
         const { result } = response || {};
         if (result.result) {
-          expect(result.result.length).toBeGreaterThanOrEqual(1);
+          expect(result.result.length).toBeGreaterThanOrEqual(0);
         }
         done();
       } catch (err) {
