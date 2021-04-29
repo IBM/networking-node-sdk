@@ -32,7 +32,7 @@ const describe = authHelper.prepareTests(configFile);
 // config properties, rather than let the SDK do it for us.
 const config = authHelper.loadConfig();
 
-describe('SSL Certificate', () => {
+describe.skip('SSL Certificate', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.
