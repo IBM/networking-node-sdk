@@ -1,5 +1,5 @@
 /**
- * Copyright 2020 IBM All Rights Reserved.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -988,6 +988,7 @@ describe('DirectLinkV1', () => {
           expect(response.status).toBe(200);
           expect(Object.keys(response.result.speeds).length > 0).toBe(true);
           expect(response.result.speeds[0].link_speed).toBeDefined();
+          expect(response.result.speeds[0].capabilities).toBeDefined();
           done();
         });
       } catch (err) {
