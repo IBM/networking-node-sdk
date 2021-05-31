@@ -1,3 +1,10 @@
+# [0.6.0](https://github.com/IBM/networking-node-sdk/compare/v0.5.0...v0.6.0) (2021-04-30)
+
+
+### Features
+
+* implement 100g changes for DL SDK ([57904e0](https://github.com/IBM/networking-node-sdk/commit/57904e075539c428ae99ace953ea33a1443fd22d))
+
 # [0.5.0](https://github.com/IBM/networking-node-sdk/compare/v0.4.2...v0.5.0) (2021-03-04)
 
 

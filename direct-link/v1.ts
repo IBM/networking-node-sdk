@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1507,6 +1507,8 @@ namespace DirectLinkV1 {
 
   /** Cross Connect Router details. */
   export interface CrossConnectRouter {
+    /** Array of capabilities for this router. */
+    capabilities?: string[];
     /** The name of the Router. */
     router_name?: string;
     /** Count of existing Direct Link Dedicated gateways on this router for this account. */
@@ -1517,7 +1519,7 @@ namespace DirectLinkV1 {
   export interface Gateway {
     /** Customer BGP ASN. */
     bgp_asn: number;
-    /** (DEPRECATED) BGP base CIDR is deprecated and no longer recognized the Direct Link APIs.
+    /** (DEPRECATED) BGP base CIDR is deprecated and no longer recognized by the Direct Link APIs.
      *
      *  See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
      *
@@ -1628,11 +1630,11 @@ namespace DirectLinkV1 {
     primary_cak: GatewayMacsecConfigPrimaryCak;
     /** Secure Association Key (SAK) expiry time in seconds. */
     sak_expiry_time?: number;
-    /** Packets without MACsec headers are not dropped when security_policy is `should_secure`. */
+    /** Packets without MACsec headers are dropped when security_policy is `must_secure`. */
     security_policy?: string;
     /** Current status of MACsec on this gateway.
      *
-     *  Status 'unknown' is returned during gateway creation and deletion.
+     *  Status 'offline' is returned during gateway creation and deletion.
      */
     status: string;
     /** replay protection window size. */
@@ -1904,6 +1906,8 @@ namespace DirectLinkV1 {
 
   /** Speed. */
   export interface OfferingSpeed {
+    /** Array of capabilities for billing option. */
+    capabilities: string[];
     /** Link speed in megabits per second. */
     link_speed: number;
     /** Indicate whether speed supports MACsec.  Only returned for gateway type=dedicated speeds.  Contact IBM
