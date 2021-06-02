@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/IBM/networking-node-sdk/compare/v0.6.0...v0.7.0) (2021-06-02)
+
+
+### Features
+
+* added api sdk for dns services  ([#37](https://github.com/IBM/networking-node-sdk/issues/37)) ([affe4d6](https://github.com/IBM/networking-node-sdk/commit/affe4d6106f677e950d34efc453b2a076de7e93a))
+
 # [0.6.0](https://github.com/IBM/networking-node-sdk/compare/v0.5.0...v0.6.0) (2021-04-30)
 
 
