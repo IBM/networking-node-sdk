@@ -368,6 +368,14 @@ class DirectLinkV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link Connect gateway identifier.
    * @param {string} params.action - Action request.
+   * @param {GatewayActionTemplateAuthenticationKey} [params.authenticationKey] - BGP MD5 authentication key.
+   *
+   * BGP MD5 keys must be type=standard.
+   *
+   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
+   * in length.
+   *
+   * To clear the optional `authentication_key` field patch its crn to `""`.
    * @param {boolean} [params.global] - Required for create_gateway_approve requests to select the gateway's routing
    * option.  Gateways with global routing (`true`) can connect to networks outside of their associated region.
    * @param {boolean} [params.metered] - Required for create_gateway_approve requests to select the gateway's metered
@@ -394,6 +402,7 @@ class DirectLinkV1 extends BaseService {
 
       const body = {
         'action': _params.action,
+        'authentication_key': _params.authenticationKey,
         'global': _params.global,
         'metered': _params.metered,
         'resource_group': _params.resourceGroup,
@@ -1279,6 +1288,16 @@ namespace DirectLinkV1 {
     id: string;
     /** Action request. */
     action: CreateGatewayActionConstants.Action | string;
+    /** BGP MD5 authentication key.
+     *
+     *  BGP MD5 keys must be type=standard.
+     *
+     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
+     *  characters in length.
+     *
+     *  To clear the optional `authentication_key` field patch its crn to `""`.
+     */
+    authenticationKey?: GatewayActionTemplateAuthenticationKey;
     /** Required for create_gateway_approve requests to select the gateway's routing option.  Gateways with global
      *  routing (`true`) can connect to networks outside of their associated region.
      */
@@ -1517,6 +1536,16 @@ namespace DirectLinkV1 {
 
   /** gateway. */
   export interface Gateway {
+    /** BGP MD5 authentication key.
+     *
+     *  BGP MD5 keys must be type=standard.
+     *
+     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
+     *  characters in length.
+     *
+     *  To clear the optional `authentication_key` field patch its crn to `""`.
+     */
+    authentication_key?: GatewayAuthenticationKey;
     /** Customer BGP ASN. */
     bgp_asn: number;
     /** (DEPRECATED) BGP base CIDR is deprecated and no longer recognized by the Direct Link APIs.
@@ -1586,12 +1615,24 @@ namespace DirectLinkV1 {
     resource_group?: ResourceGroupReference;
     /** Gateway speed in megabits per second. */
     speed_mbps: number;
-    /** Gateway type. The list of enumerated values for this property may expand in the future. Code and processes
+    /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes
      *  using this field  must tolerate unexpected values.
      */
     type: string;
     /** VLAN allocated for this gateway.  Only set for type=connect gateways. */
     vlan?: number;
+  }
+
+  /** BGP MD5 authentication key. BGP MD5 keys must be type=standard. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
+  export interface GatewayActionTemplateAuthenticationKey {
+    /** connectivity association key crn. */
+    crn: string;
+  }
+
+  /** BGP MD5 authentication key. BGP MD5 keys must be type=standard. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
+  export interface GatewayAuthenticationKey {
+    /** connectivity association key crn. */
+    crn: string;
   }
 
   /** GatewayChangeRequest. */
@@ -1818,7 +1859,7 @@ namespace DirectLinkV1 {
     resource_group?: ResourceGroupIdentity;
     /** Gateway speed in megabits per second. */
     speed_mbps: number;
-    /** Gateway type. */
+    /** Offering type. */
     type: string;
   }
 
