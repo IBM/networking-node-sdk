@@ -539,6 +539,12 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // GatewayActionTemplateAuthenticationKey
+      const gatewayActionTemplateAuthenticationKeyModel = {
+        crn:
+          'crn:v1:staging:public:kms:us-south:a/3b1bd7fa2bc3406ea70ba4ade8aa3f1b:6f2b3d69-9e70-46e6-bcaa-f96ecc232cbc:key:4f9d186a-5cc1-4305-94fc-af183ddf65bc',
+      };
+
       // ResourceGroupIdentity
       const resourceGroupIdentityModel = {
         id: '56969d6043e9465c883cb9f7363e78e8',
@@ -548,6 +554,7 @@ describe('DirectLinkV1', () => {
         // Construct the params object for operation createGatewayAction
         const id = 'testString';
         const action = 'create_gateway_approve';
+        const authenticationKey = gatewayActionTemplateAuthenticationKeyModel;
         const global = true;
         const metered = false;
         const resourceGroup = resourceGroupIdentityModel;
@@ -555,6 +562,7 @@ describe('DirectLinkV1', () => {
         const params = {
           id: id,
           action: action,
+          authenticationKey: authenticationKey,
           global: global,
           metered: metered,
           resourceGroup: resourceGroup,
@@ -576,6 +584,7 @@ describe('DirectLinkV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(options.body['action']).toEqual(action);
+        expect(options.body['authentication_key']).toEqual(authenticationKey);
         expect(options.body['global']).toEqual(global);
         expect(options.body['metered']).toEqual(metered);
         expect(options.body['resource_group']).toEqual(resourceGroup);
