@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-import * as extend from 'extend';
+/**
+ * IBM OpenAPI SDK Code Generator Version: 3.10.3-18e3fe12-20200803-172650
+ */
+ 
+
 import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import { Authenticator, BaseService, getAuthenticatorFromEnvironment, getMissingParams, UserOptions } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
@@ -95,24 +99,74 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /*************************
+   * transitConnections
+   ************************/
+
+  /**
+   * Retrieves all connections.
+   *
+   * List all transit gateway connections associated with this account.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {number} [params.limit] - The maximum number of resources to return per page.
+   * @param {string} [params.start] - A server supplied token determining which resource to start the page on.
+   * @param {string} [params.networkId] - Search for connections with the given network_id value.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitConnectionCollection>>}
+   */
+  public listConnections(params?: TransitGatewayApisV1.ListConnectionsParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitConnectionCollection>> {
+    const _params = Object.assign({}, params);
+
+    return new Promise((resolve, reject) => {
+      const query = {
+        'version': this.version,
+        'limit': _params.limit,
+        'start': _params.start,
+        'network_id': _params.networkId
+      };
+
+      const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listConnections');
+
+      const parameters = {
+        options: {
+          url: '/connections',
+          method: 'GET',
+          qs: query,
+        },
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
+            'Accept': 'application/json',
+          }, _params.headers),
+        }),
+      };
+
+      return resolve(this.createRequest(parameters));
+    });
+  };
+
+  /*************************
    * transitGateways
    ************************/
 
   /**
    * Retrieves all Transit Gateways.
    *
-   * List all the Transit Gateways in the account. User will get a list of Transit Gateways they have access to 'view'.
+   * List all Transit Gateways in account the caller is authorized to view.
    *
    * @param {Object} [params] - The parameters to send to the service.
+   * @param {number} [params.limit] - The maximum number of resources to return per page.
+   * @param {string} [params.start] - A server supplied token determining which resource to start the page on.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayCollection>>}
    */
   public listTransitGateways(params?: TransitGatewayApisV1.ListTransitGatewaysParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayCollection>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
 
     return new Promise((resolve, reject) => {
       const query = {
-        'version': this.version
+        'version': this.version,
+        'limit': _params.limit,
+        'start': _params.start
       };
 
       const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listTransitGateways');
@@ -123,8 +177,8 @@ class TransitGatewayApisV1 extends BaseService {
           method: 'GET',
           qs: query,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
             'Accept': 'application/json',
           }, _params.headers),
         }),
@@ -150,7 +204,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>>}
    */
   public createTransitGateway(params: TransitGatewayApisV1.CreateTransitGatewayParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
     const requiredParams = ['location', 'name'];
 
     return new Promise((resolve, reject) => {
@@ -179,8 +233,8 @@ class TransitGatewayApisV1 extends BaseService {
           body,
           qs: query,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           }, _params.headers),
@@ -203,7 +257,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>>}
    */
   public deleteTransitGateway(params: TransitGatewayApisV1.DeleteTransitGatewayParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
     const requiredParams = ['id'];
 
     return new Promise((resolve, reject) => {
@@ -229,8 +283,8 @@ class TransitGatewayApisV1 extends BaseService {
           qs: query,
           path,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
           }, _params.headers),
         }),
       };
@@ -250,7 +304,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>>}
    */
   public getTransitGateway(params: TransitGatewayApisV1.GetTransitGatewayParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
     const requiredParams = ['id'];
 
     return new Promise((resolve, reject) => {
@@ -276,8 +330,8 @@ class TransitGatewayApisV1 extends BaseService {
           qs: query,
           path,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
             'Accept': 'application/json',
           }, _params.headers),
         }),
@@ -300,7 +354,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>>}
    */
   public updateTransitGateway(params: TransitGatewayApisV1.UpdateTransitGatewayParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
     const requiredParams = ['id'];
 
     return new Promise((resolve, reject) => {
@@ -332,8 +386,8 @@ class TransitGatewayApisV1 extends BaseService {
           qs: query,
           path,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           }, _params.headers),
@@ -359,7 +413,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCollection>>}
    */
   public listTransitGatewayConnections(params: TransitGatewayApisV1.ListTransitGatewayConnectionsParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCollection>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
     const requiredParams = ['transitGatewayId'];
 
     return new Promise((resolve, reject) => {
@@ -385,8 +439,8 @@ class TransitGatewayApisV1 extends BaseService {
           qs: query,
           path,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
             'Accept': 'application/json',
           }, _params.headers),
         }),
@@ -403,20 +457,44 @@ class TransitGatewayApisV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
-   * @param {string} params.networkType - Defines what type of network is connected via this connection.
-   * @param {string} [params.name] - The user-defined name for this transit gateway. If unspecified, the name will be
-   * the network name (the name of the VPC in the case of network type 'vpc', and the word Classic, in the case of
-   * network type 'classic').
+   * @param {string} params.networkType - Defines what type of network is connected via this connection. For access to
+   * gre_tunnel connections contact IBM support.
+   * @param {string} [params.baseConnectionId] - network_type 'gre_tunnel' connections must be created over an existing
+   * network_type 'classic' connection. This field is required for 'gre_tunnel' connections and must specify the ID of
+   * an active transit gateway network_type 'classic' connection in the same transit gateway. Omit 'base_connection_id'
+   * for any connection type other than 'gre_tunnel'.
+   * @param {string} [params.localGatewayIp] - Local gateway IP address.  This field is required for and only applicable
+   * to type gre_tunnel connections.
+   * @param {string} [params.localTunnelIp] - Local tunnel IP address.  This field is required for and only applicable
+   * to type gre_tunnel connections.  The  local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
+   * network.  Neither can be the network nor broadcast addresses.
+   * @param {string} [params.name] - The user-defined name for this transit gateway connection. Network type 'vpc'
+   * connections are defaulted to the name of the VPC.  Network type 'classic' connections are named 'Classic'.   Name
+   * specification is required for network type 'gre_tunnel' connections.
+   * @param {string} [params.networkAccountId] - The ID of the account which owns the network that is being connected.
+   * Generally only used if the network is in a different account than the gateway. This field is required to be
+   * unspecified for network type 'gre_tunnel'.
    * @param {string} [params.networkId] - The ID of the network being connected via this connection. This field is
    * required for some types, such as 'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected. This
-   * field is required to be unspecified for network type 'classic'.
-   * @param {string} [params.networkAccountId] - The ID of the account which owns the network that is being connected.
-   * Generally only used if the network is in a different account than the gateway.
+   * field is required to be unspecified for network type 'classic' and 'gre_tunnel' connections.
+   * @param {string} [params.remoteBgpAsn] - Remote network BGP ASN.  This field is only applicable to 'gre_tunnel' type
+   * connections. The following ASN values are reserved and unavailable 64512-64513, 65100, 65201-65234, 65402-65433,
+   * 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel connection create requests IBM will
+   * assign an ASN.
+   * @param {string} [params.remoteGatewayIp] - Remote gateway IP address.  This field is required for and only
+   * applicable to type gre_tunnel connections.
+   * @param {string} [params.remoteTunnelIp] - Remote tunnel IP address.  This field is required for and only applicable
+   * to type gre_tunnel connections.  The  local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
+   * network.  Neither can be the network nor broadcast addresses.
+   * @param {ZoneIdentity} [params.zone] - For network_type 'gre_tunnel' connections specify the connection's location.
+   * The specified availability zone must reside in the gateway's region.
+   * Use the IBM Cloud global catalog to list zones within the desired region.
+   * This field is required for and only applicable to network type 'gre_tunnel' connections.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
    */
   public createTransitGatewayConnection(params: TransitGatewayApisV1.CreateTransitGatewayConnectionParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
     const requiredParams = ['transitGatewayId', 'networkType'];
 
     return new Promise((resolve, reject) => {
@@ -427,9 +505,16 @@ class TransitGatewayApisV1 extends BaseService {
 
       const body = {
         'network_type': _params.networkType,
+        'base_connection_id': _params.baseConnectionId,
+        'local_gateway_ip': _params.localGatewayIp,
+        'local_tunnel_ip': _params.localTunnelIp,
         'name': _params.name,
+        'network_account_id': _params.networkAccountId,
         'network_id': _params.networkId,
-        'network_account_id': _params.networkAccountId
+        'remote_bgp_asn': _params.remoteBgpAsn,
+        'remote_gateway_ip': _params.remoteGatewayIp,
+        'remote_tunnel_ip': _params.remoteTunnelIp,
+        'zone': _params.zone
       };
 
       const query = {
@@ -450,8 +535,8 @@ class TransitGatewayApisV1 extends BaseService {
           qs: query,
           path,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           }, _params.headers),
@@ -475,7 +560,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>>}
    */
   public deleteTransitGatewayConnection(params: TransitGatewayApisV1.DeleteTransitGatewayConnectionParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
     const requiredParams = ['transitGatewayId', 'id'];
 
     return new Promise((resolve, reject) => {
@@ -502,8 +587,8 @@ class TransitGatewayApisV1 extends BaseService {
           qs: query,
           path,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
           }, _params.headers),
         }),
       };
@@ -524,7 +609,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
    */
   public getTransitGatewayConnection(params: TransitGatewayApisV1.GetTransitGatewayConnectionParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
     const requiredParams = ['transitGatewayId', 'id'];
 
     return new Promise((resolve, reject) => {
@@ -551,8 +636,8 @@ class TransitGatewayApisV1 extends BaseService {
           qs: query,
           path,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
             'Accept': 'application/json',
           }, _params.headers),
         }),
@@ -577,7 +662,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
    */
   public updateTransitGatewayConnection(params: TransitGatewayApisV1.UpdateTransitGatewayConnectionParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
     const requiredParams = ['transitGatewayId', 'id'];
 
     return new Promise((resolve, reject) => {
@@ -609,8 +694,8 @@ class TransitGatewayApisV1 extends BaseService {
           qs: query,
           path,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           }, _params.headers),
@@ -634,7 +719,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>>}
    */
   public createTransitGatewayConnectionActions(params: TransitGatewayApisV1.CreateTransitGatewayConnectionActionsParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
     const requiredParams = ['transitGatewayId', 'id', 'action'];
 
     return new Promise((resolve, reject) => {
@@ -666,8 +751,8 @@ class TransitGatewayApisV1 extends BaseService {
           qs: query,
           path,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
             'Content-Type': 'application/json',
           }, _params.headers),
         }),
@@ -691,7 +776,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSCollection>>}
    */
   public listGatewayLocations(params?: TransitGatewayApisV1.ListGatewayLocationsParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSCollection>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
 
     return new Promise((resolve, reject) => {
       const query = {
@@ -706,8 +791,8 @@ class TransitGatewayApisV1 extends BaseService {
           method: 'GET',
           qs: query,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
             'Accept': 'application/json',
           }, _params.headers),
         }),
@@ -728,7 +813,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSLocation>>}
    */
   public getGatewayLocation(params: TransitGatewayApisV1.GetGatewayLocationParams): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSLocation>> {
-    const _params = extend({}, params);
+    const _params = Object.assign({}, params);
     const requiredParams = ['name'];
 
     return new Promise((resolve, reject) => {
@@ -754,8 +839,8 @@ class TransitGatewayApisV1 extends BaseService {
           qs: query,
           path,
         },
-        defaultOptions: extend(true, {}, this.baseOptions, {
-          headers: extend(true, sdkHeaders, {
+        defaultOptions: Object.assign({}, this.baseOptions, {
+          headers: Object.assign(sdkHeaders, {
             'Accept': 'application/json',
           }, _params.headers),
         }),
@@ -805,8 +890,23 @@ namespace TransitGatewayApisV1 {
    * request interfaces
    ************************/
 
+  /** Parameters for the `listConnections` operation. */
+  export interface ListConnectionsParams {
+    /** The maximum number of resources to return per page. */
+    limit?: number;
+    /** A server supplied token determining which resource to start the page on. */
+    start?: string;
+    /** Search for connections with the given network_id value. */
+    networkId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `listTransitGateways` operation. */
   export interface ListTransitGatewaysParams {
+    /** The maximum number of resources to return per page. */
+    limit?: number;
+    /** A server supplied token determining which resource to start the page on. */
+    start?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -861,30 +961,66 @@ namespace TransitGatewayApisV1 {
   export interface CreateTransitGatewayConnectionParams {
     /** The Transit Gateway identifier. */
     transitGatewayId: string;
-    /** Defines what type of network is connected via this connection. */
+    /** Defines what type of network is connected via this connection. For access to gre_tunnel connections contact
+     *  IBM support.
+     */
     networkType: CreateTransitGatewayConnectionConstants.NetworkType | string;
-    /** The user-defined name for this transit gateway. If unspecified, the name will be the network name (the name
-     *  of the VPC in the case of network type 'vpc', and the word Classic, in the case of network type 'classic').
+    /** network_type 'gre_tunnel' connections must be created over an existing network_type 'classic' connection.
+     *  This field is required for 'gre_tunnel' connections and must specify the ID of an active transit gateway
+     *  network_type 'classic' connection in the same transit gateway. Omit 'base_connection_id' for any connection type
+     *  other than 'gre_tunnel'.
+     */
+    baseConnectionId?: string;
+    /** Local gateway IP address.  This field is required for and only applicable to type gre_tunnel connections. */
+    localGatewayIp?: string;
+    /** Local tunnel IP address.  This field is required for and only applicable to type gre_tunnel connections.
+     *  The  local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.  Neither can be the network
+     *  nor broadcast addresses.
+     */
+    localTunnelIp?: string;
+    /** The user-defined name for this transit gateway connection. Network type 'vpc'  connections are defaulted to
+     *  the name of the VPC.  Network type 'classic' connections are named 'Classic'.   Name specification is required
+     *  for network type 'gre_tunnel' connections.
      */
     name?: string;
-    /** The ID of the network being connected via this connection. This field is required for some types, such as
-     *  'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected. This field is required to be
-     *  unspecified for network type 'classic'.
-     */
-    networkId?: string;
     /** The ID of the account which owns the network that is being connected. Generally only used if the network is
-     *  in a different account than the gateway.
+     *  in a different account than the gateway. This field is required to be unspecified for network type 'gre_tunnel'.
      */
     networkAccountId?: string;
+    /** The ID of the network being connected via this connection. This field is required for some types, such as
+     *  'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected. This field is required to be
+     *  unspecified for network type 'classic' and 'gre_tunnel' connections.
+     */
+    networkId?: string;
+    /** Remote network BGP ASN.  This field is only applicable to 'gre_tunnel' type connections. The following ASN
+     *  values are reserved and unavailable 64512-64513, 65100, 65201-65234, 65402-65433, 65500 and
+     *  4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel connection create requests IBM will assign
+     *  an ASN.
+     */
+    remoteBgpAsn?: string;
+    /** Remote gateway IP address.  This field is required for and only applicable to type gre_tunnel connections. */
+    remoteGatewayIp?: string;
+    /** Remote tunnel IP address.  This field is required for and only applicable to type gre_tunnel connections.
+     *  The  local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.  Neither can be the network
+     *  nor broadcast addresses.
+     */
+    remoteTunnelIp?: string;
+    /** For network_type 'gre_tunnel' connections specify the connection's location.  The specified availability
+     *  zone must reside in the gateway's region.
+     *  Use the IBM Cloud global catalog to list zones within the desired region.
+     *  This field is required for and only applicable to network type 'gre_tunnel' connections.
+     */
+    zone?: ZoneIdentity;
     headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `createTransitGatewayConnection` operation. */
   export namespace CreateTransitGatewayConnectionConstants {
-    /** Defines what type of network is connected via this connection. */
+    /** Defines what type of network is connected via this connection. For access to gre_tunnel connections contact IBM support. */
     export enum NetworkType {
       VPC = 'vpc',
       CLASSIC = 'classic',
+      GRE_TUNNEL = 'gre_tunnel',
     }
   }
 
@@ -979,13 +1115,14 @@ namespace TransitGatewayApisV1 {
   /** Details of a local connection location. */
   export interface TSLocalLocation {
     /** A descriptive display name for the location. */
-    display_name: string;
+    display_name?: string;
     /** The name of the location. */
-    name: string;
+    name?: string;
     /** The type of the location, determining is this a multi-zone region, a single data center, or a point of
-     *  presence.
+     *  presence. The list of enumerated values for this property may expand in the future. Code and processes using
+     *  this field must tolerate unexpected values.
      */
-    type: string;
+    type?: string;
   }
 
   /** Details of a Transit Gateway location. */
@@ -1014,6 +1151,89 @@ namespace TransitGatewayApisV1 {
     type: string;
   }
 
+  /** Transit gateway connection. */
+  export interface TransitConnection {
+    /** network_type 'gre_tunnel' connections use 'base_connection_id' to specify the id of a network_type 'classic'
+     *  connection the tunnel is configured over. The specified connection must reside in the same transit gateway and
+     *  be in an active state. The 'classic' connection cannot be deleted until any 'gre_tunnel' connections using it
+     *  are deleted. This field only applies to and is required for network type 'gre_tunnel' connections.
+     */
+    base_connection_id?: string;
+    /** The date and time that this connection was created. */
+    created_at: string;
+    /** The unique identifier for this connection. */
+    id: string;
+    /** Local network BGP ASN.  This field only applies to network type 'gre_tunnel' connections. */
+    local_bgp_asn?: number;
+    /** Local gateway IP address.  This field only applies to network type 'gre_tunnel' connections. */
+    local_gateway_ip?: string;
+    /** Local tunnel IP address.  This field only applies to network type 'gre_tunnel' connections. */
+    local_tunnel_ip?: string;
+    /** GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' connections. */
+    mtu?: number;
+    /** The user-defined name for this transit gateway connection. */
+    name: string;
+    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
+     *  IBM Cloud account than the gateway.
+     */
+    network_account_id?: string;
+    /** The ID of the network being connected via this connection. This field is required for some types, such as
+     *  'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected.
+     */
+    network_id?: string;
+    /** Defines what type of network is connected via this connection. The list of enumerated values for this
+     *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
+     */
+    network_type: string;
+    /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' connections. */
+    remote_bgp_asn?: number;
+    /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' connections. */
+    remote_gateway_ip?: string;
+    /** Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' connections. */
+    remote_tunnel_ip?: string;
+    /** Only visible for cross account connections, this field represents the status of a connection request between
+     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
+     *  using this field must tolerate unexpected values.
+     */
+    request_status?: string;
+    /** Connection state. The list of enumerated values for this property may expand in the future. Code and
+     *  processes using this field must tolerate unexpected values.
+     */
+    status: string;
+    /** Reference to the transit gateway that contains this connection. */
+    transit_gateway: TransitGatewayReference;
+    /** The date and time that this connection was last updated. */
+    updated_at?: string;
+    /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
+    zone?: ZoneReference;
+  }
+
+  /** Transit gateway connections. */
+  export interface TransitConnectionCollection {
+    /** Array of transit gateway connections. */
+    connections: TransitConnection[];
+    /** A reference to the first page of resources. */
+    first: TransitConnectionCollectionFirst;
+    /** The maximum number of connections returned on one request. */
+    limit: number;
+    /** A reference to the next page of resources; this reference is included for all pages except the last page. */
+    next?: TransitConnectionCollectionNext;
+  }
+
+  /** A reference to the first page of resources. */
+  export interface TransitConnectionCollectionFirst {
+    /** url. */
+    href: string;
+  }
+
+  /** A reference to the next page of resources; this reference is included for all pages except the last page. */
+  export interface TransitConnectionCollectionNext {
+    /** url. */
+    href?: string;
+    /** server generated start token for next page of resources. */
+    start?: string;
+  }
+
   /** Details of a Transit Gateway. */
   export interface TransitGateway {
     /** The unique identifier for this Transit Gateway. */
@@ -1032,7 +1252,9 @@ namespace TransitGatewayApisV1 {
      *  group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
      */
     resource_group?: ResourceGroupReference;
-    /** The status of the Transit Gateway. */
+    /** The status of the Transit Gateway. The list of enumerated values for this property may expand in the future.
+     *  Code and processes using this field must tolerate unexpected values.
+     */
     status: string;
     /** The date and time that this gateway was last updated. */
     updated_at?: string;
@@ -1040,8 +1262,28 @@ namespace TransitGatewayApisV1 {
 
   /** A list of Transit Gateways. */
   export interface TransitGatewayCollection {
+    /** A reference to the first page of resources. */
+    first: TransitGatewayCollectionFirst;
+    /** The maximum number of gateways returned on one request. */
+    limit: number;
+    /** A reference to the next page of resources; this reference is included for all pages except the last page. */
+    next?: TransitGatewayCollectionNext;
     /** Collection of Transit Services gateways. */
     transit_gateways: TransitGateway[];
+  }
+
+  /** A reference to the first page of resources. */
+  export interface TransitGatewayCollectionFirst {
+    /** url. */
+    href: string;
+  }
+
+  /** A reference to the next page of resources; this reference is included for all pages except the last page. */
+  export interface TransitGatewayCollectionNext {
+    /** url. */
+    href: string;
+    /** server generated start token for next page of resources. */
+    start: string;
   }
 
   /** A set of Transit Gateway network connections. */
@@ -1052,33 +1294,89 @@ namespace TransitGatewayApisV1 {
 
   /** Connection included in transit gateway. */
   export interface TransitGatewayConnectionCust {
-    /** The user-defined name for this transit gateway. If unspecified, the name will be the network name (the name
-     *  of the VPC in the case of network type 'vpc', and the word Classic, in the case of network type 'classic').
-     */
-    name?: string;
+    /** The user-defined name for this transit gateway connection. */
+    name: string;
     /** The ID of the network being connected via this connection. This field is required for some types, such as
-     *  'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected. This field is required to be
-     *  unspecified for network type 'classic'.
+     *  'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected.
      */
     network_id?: string;
-    /** Defines what type of network is connected via this connection. */
-    network_type: string;
-    /** The ID of the account which owns the network that is being connected. Generally only used if the network is
-     *  in a different account than the gateway.
+    /** Defines what type of network is connected via this connection. The list of enumerated values for this
+     *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
      */
-    network_account_id?: string;
-    /** The unique identifier for this Transit Gateway Connection to Network (vpc/classic). */
+    network_type: string;
+    /** The unique identifier for this Transit Gateway Connection. */
     id: string;
+    /** network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a network_type 'classic'
+     *  connection the tunnel is configured over. The specified connection must reside in the same transit gateway and
+     *  be in an active state. The 'classic' connection cannot be deleted until any 'gre_tunnel' connections using it
+     *  are deleted. This field only applies to and is required for network type 'gre_tunnel' connections.
+     */
+    base_connection_id?: string;
     /** The date and time that this connection was created. */
     created_at: string;
-    /** Only visible for cross account connections, this field represents the status of the request to connect the
-     *  given network between accounts.
+    /** Local network BGP ASN.  This field only applies to network type 'gre_tunnel' connections. */
+    local_bgp_asn?: number;
+    /** Local gateway IP address.  This field only applies to network type 'gre_tunnel' connections. */
+    local_gateway_ip?: string;
+    /** Local tunnel IP address.  This field only applies to network type 'gre_tunnel' connections. */
+    local_tunnel_ip?: string;
+    /** GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' connections. */
+    mtu?: number;
+    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
+     *  IBM Cloud account than the gateway.
+     */
+    network_account_id?: string;
+    /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' connections. */
+    remote_bgp_asn?: number;
+    /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' connections. */
+    remote_gateway_ip?: string;
+    /** Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' connections. */
+    remote_tunnel_ip?: string;
+    /** Only visible for cross account connections, this field represents the status of a connection request between
+     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
+     *  using this field must tolerate unexpected values.
      */
     request_status?: string;
-    /** What is the current configuration state of this connection. */
+    /** Connection's current configuration state. The list of enumerated values for this property may expand in the
+     *  future. Code and processes using this field must tolerate unexpected values.
+     */
     status?: string;
     /** The date and time that this connection was last updated. */
     updated_at?: string;
+    /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
+    zone?: TransitGatewayConnectionCustZone;
+  }
+
+  /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
+  export interface TransitGatewayConnectionCustZone {
+    /** Availability zone name. */
+    name: string;
+  }
+
+  /** Transit gateway reference. */
+  export interface TransitGatewayReference {
+    /** gateway CRN. */
+    crn: string;
+    /** gateway ID. */
+    id: string;
+    /** transit gateway name. */
+    name: string;
+  }
+
+  /** ZoneIdentity. */
+  export interface ZoneIdentity {
+  }
+
+  /** Availability zone reference. */
+  export interface ZoneReference {
+    /** Availability zone name. */
+    name: string;
+  }
+
+  /** Availability zone. */
+  export interface ZoneIdentityByName extends ZoneIdentity {
+    /** Availability zone name. */
+    name?: string;
   }
 
 }
