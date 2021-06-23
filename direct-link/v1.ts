@@ -283,6 +283,11 @@ class DirectLinkV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link gateway identifier.
+   * @param {GatewayPatchTemplateAuthenticationKey} [params.authenticationKey] - The identity of the standard key to use
+   * for BGP MD5 authentication key.
+   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
+   * in length.
+   * To clear the optional `authentication_key` field patch its crn to `""`.
    * @param {boolean} [params.global] - Gateways with global routing (`true`) can connect to networks outside of their
    * associated region.
    * @param {string} [params.loaRejectReason] - Use this field during LOA rejection to provide the reason for the
@@ -318,6 +323,7 @@ class DirectLinkV1 extends BaseService {
       }
 
       const body = {
+        'authentication_key': _params.authenticationKey,
         'global': _params.global,
         'loa_reject_reason': _params.loaRejectReason,
         'macsec_config': _params.macsecConfig,
@@ -368,13 +374,10 @@ class DirectLinkV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link Connect gateway identifier.
    * @param {string} params.action - Action request.
-   * @param {GatewayActionTemplateAuthenticationKey} [params.authenticationKey] - BGP MD5 authentication key.
-   *
-   * BGP MD5 keys must be type=standard.
-   *
+   * @param {GatewayActionTemplateAuthenticationKey} [params.authenticationKey] - The identity of the standard key to
+   * use for BGP MD5 authentication key.
    * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
    * in length.
-   *
    * To clear the optional `authentication_key` field patch its crn to `""`.
    * @param {boolean} [params.global] - Required for create_gateway_approve requests to select the gateway's routing
    * option.  Gateways with global routing (`true`) can connect to networks outside of their associated region.
@@ -1241,6 +1244,12 @@ namespace DirectLinkV1 {
   export interface UpdateGatewayParams {
     /** Direct Link gateway identifier. */
     id: string;
+    /** The identity of the standard key to use for BGP MD5 authentication key.
+     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
+     *  characters in length.
+     *  To clear the optional `authentication_key` field patch its crn to `""`.
+     */
+    authenticationKey?: GatewayPatchTemplateAuthenticationKey;
     /** Gateways with global routing (`true`) can connect to networks outside of their associated region. */
     global?: boolean;
     /** Use this field during LOA rejection to provide the reason for the rejection.
@@ -1288,13 +1297,9 @@ namespace DirectLinkV1 {
     id: string;
     /** Action request. */
     action: CreateGatewayActionConstants.Action | string;
-    /** BGP MD5 authentication key.
-     *
-     *  BGP MD5 keys must be type=standard.
-     *
+    /** The identity of the standard key to use for BGP MD5 authentication key.
      *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
      *  characters in length.
-     *
      *  To clear the optional `authentication_key` field patch its crn to `""`.
      */
     authenticationKey?: GatewayActionTemplateAuthenticationKey;
@@ -1536,13 +1541,9 @@ namespace DirectLinkV1 {
 
   /** gateway. */
   export interface Gateway {
-    /** BGP MD5 authentication key.
-     *
-     *  BGP MD5 keys must be type=standard.
-     *
+    /** The identity of the standard key to use for BGP MD5 authentication key.
      *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
      *  characters in length.
-     *
      *  To clear the optional `authentication_key` field patch its crn to `""`.
      */
     authentication_key?: GatewayAuthenticationKey;
@@ -1551,7 +1552,7 @@ namespace DirectLinkV1 {
     /** (DEPRECATED) BGP base CIDR is deprecated and no longer recognized by the Direct Link APIs.
      *
      *  See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
-     *
+     * 
      *  Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
      */
     bgp_base_cidr?: string;
@@ -1623,15 +1624,21 @@ namespace DirectLinkV1 {
     vlan?: number;
   }
 
-  /** BGP MD5 authentication key. BGP MD5 keys must be type=standard. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
+  /** The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
   export interface GatewayActionTemplateAuthenticationKey {
-    /** connectivity association key crn. */
+    /** The CRN of the [Key Protect Standard
+     *  Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+     *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+     */
     crn: string;
   }
 
-  /** BGP MD5 authentication key. BGP MD5 keys must be type=standard. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
+  /** The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
   export interface GatewayAuthenticationKey {
-    /** connectivity association key crn. */
+    /** The CRN of the [Key Protect Standard
+     *  Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+     *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+     */
     crn: string;
   }
 
@@ -1785,6 +1792,15 @@ namespace DirectLinkV1 {
     crn: string;
   }
 
+  /** The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
+  export interface GatewayPatchTemplateAuthenticationKey {
+    /** The CRN of the [Key Protect Standard
+     *  Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+     *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+     */
+    crn: string;
+  }
+
   /** gateway port for type=connect gateways. */
   export interface GatewayPort {
     /** Port Identifier. */
@@ -1815,6 +1831,12 @@ namespace DirectLinkV1 {
 
   /** Create gateway template. */
   export interface GatewayTemplate {
+    /** The identity of the standard key to use for BGP MD5 authentication key.
+     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
+     *  characters in length.
+     *  To clear the optional `authentication_key` field patch its crn to `""`.
+     */
+    authentication_key?: GatewayTemplateAuthenticationKey;
     /** BGP ASN. */
     bgp_asn: number;
     /** (DEPRECATED) BGP base CIDR.
@@ -1861,6 +1883,33 @@ namespace DirectLinkV1 {
     speed_mbps: number;
     /** Offering type. */
     type: string;
+  }
+
+  /** The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
+  export interface GatewayTemplateAuthenticationKey {
+    /** The CRN of the [Key Protect Standard
+     *  Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+     *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+     */
+    crn: string;
+  }
+
+  /** The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
+  export interface GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey {
+    /** The CRN of the [Key Protect Standard
+     *  Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+     *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+     */
+    crn: string;
+  }
+
+  /** The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
+  export interface GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey {
+    /** The CRN of the [Key Protect Standard
+     *  Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+     *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+     */
+    crn: string;
   }
 
   /** Virtual connection. */
@@ -2043,12 +2092,24 @@ namespace DirectLinkV1 {
 
   /** Gateway fields specific to type=connect gateway create. */
   export interface GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
+    /** The identity of the standard key to use for BGP MD5 authentication key.
+     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
+     *  characters in length.
+     *  To clear the optional `authentication_key` field patch its crn to `""`.
+     */
+    authentication_key?: GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey;
     /** Select Port Label for new type=connect gateway. */
     port: GatewayPortIdentity;
   }
 
   /** Gateway fields specific to type=dedicated gateway create. */
   export interface GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate {
+    /** The identity of the standard key to use for BGP MD5 authentication key.
+     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
+     *  characters in length.
+     *  To clear the optional `authentication_key` field patch its crn to `""`.
+     */
+    authentication_key?: GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey;
     /** Carrier name. */
     carrier_name: string;
     /** Cross connect router. */
