@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 'use strict';
 
-const extend = require('extend');
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const core = require('ibm-cloud-sdk-core');
 const { NoAuthAuthenticator, unitTestUtils } = core;
@@ -36,10 +35,10 @@ const service = {
   version: 'testString',
 };
 
-const transitGatewayApis = new TransitGatewayApisV1(service);
+const transitGatewayApisService = new TransitGatewayApisV1(service);
 
 // dont actually create a request
-const createRequestMock = jest.spyOn(transitGatewayApis, 'createRequest');
+const createRequestMock = jest.spyOn(transitGatewayApisService, 'createRequest');
 createRequestMock.mockImplementation(() => Promise.resolve());
 
 // dont actually construct an authenticator
@@ -79,7 +78,7 @@ describe('TransitGatewayApisV1', () => {
         serviceName: 'my-service',
       };
 
-      options = extend(options, requiredGlobals);
+      options = Object.assign(options, requiredGlobals);
 
       const testInstance = TransitGatewayApisV1.newInstance(options);
 
@@ -97,7 +96,7 @@ describe('TransitGatewayApisV1', () => {
         serviceUrl: 'custom.com',
       };
 
-      options = extend(options, requiredGlobals);
+      options = Object.assign(options, requiredGlobals);
 
       const testInstance = new TransitGatewayApisV1(options);
 
@@ -109,7 +108,7 @@ describe('TransitGatewayApisV1', () => {
         authenticator: new NoAuthAuthenticator(),
       };
 
-      options = extend(options, requiredGlobals);
+      options = Object.assign(options, requiredGlobals);
 
       const testInstance = new TransitGatewayApisV1(options);
 
@@ -125,13 +124,73 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+  describe('listConnections', () => {
+    describe('positive tests', () => {
+      test('should pass the right params to createRequest', () => {
+        // Construct the params object for operation listConnections
+        const limit = 1;
+        const start = 'testString';
+        const networkId = 'testString';
+        const params = {
+          limit: limit,
+          start: start,
+          networkId: networkId,
+        };
+
+        const listConnectionsResult = transitGatewayApisService.listConnections(params);
+
+        // all methods should return a Promise
+        expectToBePromise(listConnectionsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const options = getOptions(createRequestMock);
+
+        checkUrlAndMethod(options, '/connections', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(options.qs['version']).toEqual(service.version);
+        expect(options.qs['limit']).toEqual(limit);
+        expect(options.qs['start']).toEqual(start);
+        expect(options.qs['network_id']).toEqual(networkId);
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        transitGatewayApisService.listConnections(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        transitGatewayApisService.listConnections({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
   describe('listTransitGateways', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation listTransitGateways
-        const params = {};
+        const limit = 1;
+        const start = 'testString';
+        const params = {
+          limit: limit,
+          start: start,
+        };
 
-        const listTransitGatewaysResult = transitGatewayApis.listTransitGateways(params);
+        const listTransitGatewaysResult = transitGatewayApisService.listTransitGateways(params);
 
         // all methods should return a Promise
         expectToBePromise(listTransitGatewaysResult);
@@ -146,6 +205,8 @@ describe('TransitGatewayApisV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(options.qs['version']).toEqual(service.version);
+        expect(options.qs['limit']).toEqual(limit);
+        expect(options.qs['start']).toEqual(start);
       });
 
       test('should prioritize user-given headers', () => {
@@ -159,13 +220,13 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.listTransitGateways(params);
+        transitGatewayApisService.listTransitGateways(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
 
       test('should not have any problems when no parameters are passed in', () => {
         // invoke the method with no parameters
-        transitGatewayApis.listTransitGateways({});
+        transitGatewayApisService.listTransitGateways({});
         checkForSuccessfulExecution(createRequestMock);
       });
     });
@@ -192,7 +253,7 @@ describe('TransitGatewayApisV1', () => {
           resourceGroup: resourceGroup,
         };
 
-        const createTransitGatewayResult = transitGatewayApis.createTransitGateway(params);
+        const createTransitGatewayResult = transitGatewayApisService.createTransitGateway(params);
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayResult);
@@ -228,7 +289,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.createTransitGateway(params);
+        transitGatewayApisService.createTransitGateway(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -237,7 +298,7 @@ describe('TransitGatewayApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await transitGatewayApis.createTransitGateway({});
+          await transitGatewayApisService.createTransitGateway({});
         } catch (e) {
           err = e;
         }
@@ -247,7 +308,7 @@ describe('TransitGatewayApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const createTransitGatewayPromise = transitGatewayApis.createTransitGateway();
+        const createTransitGatewayPromise = transitGatewayApisService.createTransitGateway();
         expectToBePromise(createTransitGatewayPromise);
 
         createTransitGatewayPromise.catch(err => {
@@ -266,7 +327,7 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const deleteTransitGatewayResult = transitGatewayApis.deleteTransitGateway(params);
+        const deleteTransitGatewayResult = transitGatewayApisService.deleteTransitGateway(params);
 
         // all methods should return a Promise
         expectToBePromise(deleteTransitGatewayResult);
@@ -297,7 +358,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.deleteTransitGateway(params);
+        transitGatewayApisService.deleteTransitGateway(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -306,7 +367,7 @@ describe('TransitGatewayApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await transitGatewayApis.deleteTransitGateway({});
+          await transitGatewayApisService.deleteTransitGateway({});
         } catch (e) {
           err = e;
         }
@@ -316,7 +377,7 @@ describe('TransitGatewayApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const deleteTransitGatewayPromise = transitGatewayApis.deleteTransitGateway();
+        const deleteTransitGatewayPromise = transitGatewayApisService.deleteTransitGateway();
         expectToBePromise(deleteTransitGatewayPromise);
 
         deleteTransitGatewayPromise.catch(err => {
@@ -335,7 +396,7 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const getTransitGatewayResult = transitGatewayApis.getTransitGateway(params);
+        const getTransitGatewayResult = transitGatewayApisService.getTransitGateway(params);
 
         // all methods should return a Promise
         expectToBePromise(getTransitGatewayResult);
@@ -366,7 +427,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.getTransitGateway(params);
+        transitGatewayApisService.getTransitGateway(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -375,7 +436,7 @@ describe('TransitGatewayApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await transitGatewayApis.getTransitGateway({});
+          await transitGatewayApisService.getTransitGateway({});
         } catch (e) {
           err = e;
         }
@@ -385,7 +446,7 @@ describe('TransitGatewayApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const getTransitGatewayPromise = transitGatewayApis.getTransitGateway();
+        const getTransitGatewayPromise = transitGatewayApisService.getTransitGateway();
         expectToBePromise(getTransitGatewayPromise);
 
         getTransitGatewayPromise.catch(err => {
@@ -408,7 +469,7 @@ describe('TransitGatewayApisV1', () => {
           name: name,
         };
 
-        const updateTransitGatewayResult = transitGatewayApis.updateTransitGateway(params);
+        const updateTransitGatewayResult = transitGatewayApisService.updateTransitGateway(params);
 
         // all methods should return a Promise
         expectToBePromise(updateTransitGatewayResult);
@@ -441,7 +502,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.updateTransitGateway(params);
+        transitGatewayApisService.updateTransitGateway(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -450,7 +511,7 @@ describe('TransitGatewayApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await transitGatewayApis.updateTransitGateway({});
+          await transitGatewayApisService.updateTransitGateway({});
         } catch (e) {
           err = e;
         }
@@ -460,7 +521,7 @@ describe('TransitGatewayApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const updateTransitGatewayPromise = transitGatewayApis.updateTransitGateway();
+        const updateTransitGatewayPromise = transitGatewayApisService.updateTransitGateway();
         expectToBePromise(updateTransitGatewayPromise);
 
         updateTransitGatewayPromise.catch(err => {
@@ -479,7 +540,7 @@ describe('TransitGatewayApisV1', () => {
           transitGatewayId: transitGatewayId,
         };
 
-        const listTransitGatewayConnectionsResult = transitGatewayApis.listTransitGatewayConnections(
+        const listTransitGatewayConnectionsResult = transitGatewayApisService.listTransitGatewayConnections(
           params
         );
 
@@ -512,7 +573,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.listTransitGatewayConnections(params);
+        transitGatewayApisService.listTransitGatewayConnections(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -521,7 +582,7 @@ describe('TransitGatewayApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await transitGatewayApis.listTransitGatewayConnections({});
+          await transitGatewayApisService.listTransitGatewayConnections({});
         } catch (e) {
           err = e;
         }
@@ -531,7 +592,7 @@ describe('TransitGatewayApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const listTransitGatewayConnectionsPromise = transitGatewayApis.listTransitGatewayConnections();
+        const listTransitGatewayConnectionsPromise = transitGatewayApisService.listTransitGatewayConnections();
         expectToBePromise(listTransitGatewayConnectionsPromise);
 
         listTransitGatewayConnectionsPromise.catch(err => {
@@ -543,23 +604,44 @@ describe('TransitGatewayApisV1', () => {
   });
   describe('createTransitGatewayConnection', () => {
     describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // ZoneIdentityByName
+      const zoneIdentityModel = {
+        name: 'us-south-1',
+      };
+
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation createTransitGatewayConnection
         const transitGatewayId = 'testString';
         const networkType = 'vpc';
+        const baseConnectionId = '975f58c1-afe7-469a-9727-7f3d720f2d32';
+        const localGatewayIp = '192.168.100.1';
+        const localTunnelIp = '192.168.129.2';
         const name = 'Transit_Service_BWTN_SJ_DL';
+        const networkAccountId = '28e4d90ac7504be694471ee66e70d0d5';
         const networkId =
           'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b';
-        const networkAccountId = '28e4d90ac7504be694471ee66e70d0d5';
+        const remoteBgpAsn = '65010';
+        const remoteGatewayIp = '10.242.63.12';
+        const remoteTunnelIp = '192.168.129.1';
+        const zone = zoneIdentityModel;
         const params = {
           transitGatewayId: transitGatewayId,
           networkType: networkType,
+          baseConnectionId: baseConnectionId,
+          localGatewayIp: localGatewayIp,
+          localTunnelIp: localTunnelIp,
           name: name,
-          networkId: networkId,
           networkAccountId: networkAccountId,
+          networkId: networkId,
+          remoteBgpAsn: remoteBgpAsn,
+          remoteGatewayIp: remoteGatewayIp,
+          remoteTunnelIp: remoteTunnelIp,
+          zone: zone,
         };
 
-        const createTransitGatewayConnectionResult = transitGatewayApis.createTransitGatewayConnection(
+        const createTransitGatewayConnectionResult = transitGatewayApisService.createTransitGatewayConnection(
           params
         );
 
@@ -576,9 +658,16 @@ describe('TransitGatewayApisV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(options.body['network_type']).toEqual(networkType);
+        expect(options.body['base_connection_id']).toEqual(baseConnectionId);
+        expect(options.body['local_gateway_ip']).toEqual(localGatewayIp);
+        expect(options.body['local_tunnel_ip']).toEqual(localTunnelIp);
         expect(options.body['name']).toEqual(name);
-        expect(options.body['network_id']).toEqual(networkId);
         expect(options.body['network_account_id']).toEqual(networkAccountId);
+        expect(options.body['network_id']).toEqual(networkId);
+        expect(options.body['remote_bgp_asn']).toEqual(remoteBgpAsn);
+        expect(options.body['remote_gateway_ip']).toEqual(remoteGatewayIp);
+        expect(options.body['remote_tunnel_ip']).toEqual(remoteTunnelIp);
+        expect(options.body['zone']).toEqual(zone);
         expect(options.qs['version']).toEqual(service.version);
         expect(options.path['transit_gateway_id']).toEqual(transitGatewayId);
       });
@@ -598,7 +687,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.createTransitGatewayConnection(params);
+        transitGatewayApisService.createTransitGatewayConnection(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -607,7 +696,7 @@ describe('TransitGatewayApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await transitGatewayApis.createTransitGatewayConnection({});
+          await transitGatewayApisService.createTransitGatewayConnection({});
         } catch (e) {
           err = e;
         }
@@ -617,7 +706,7 @@ describe('TransitGatewayApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const createTransitGatewayConnectionPromise = transitGatewayApis.createTransitGatewayConnection();
+        const createTransitGatewayConnectionPromise = transitGatewayApisService.createTransitGatewayConnection();
         expectToBePromise(createTransitGatewayConnectionPromise);
 
         createTransitGatewayConnectionPromise.catch(err => {
@@ -638,7 +727,7 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const deleteTransitGatewayConnectionResult = transitGatewayApis.deleteTransitGatewayConnection(
+        const deleteTransitGatewayConnectionResult = transitGatewayApisService.deleteTransitGatewayConnection(
           params
         );
 
@@ -678,7 +767,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.deleteTransitGatewayConnection(params);
+        transitGatewayApisService.deleteTransitGatewayConnection(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -687,7 +776,7 @@ describe('TransitGatewayApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await transitGatewayApis.deleteTransitGatewayConnection({});
+          await transitGatewayApisService.deleteTransitGatewayConnection({});
         } catch (e) {
           err = e;
         }
@@ -697,7 +786,7 @@ describe('TransitGatewayApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const deleteTransitGatewayConnectionPromise = transitGatewayApis.deleteTransitGatewayConnection();
+        const deleteTransitGatewayConnectionPromise = transitGatewayApisService.deleteTransitGatewayConnection();
         expectToBePromise(deleteTransitGatewayConnectionPromise);
 
         deleteTransitGatewayConnectionPromise.catch(err => {
@@ -718,7 +807,7 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const getTransitGatewayConnectionResult = transitGatewayApis.getTransitGatewayConnection(
+        const getTransitGatewayConnectionResult = transitGatewayApisService.getTransitGatewayConnection(
           params
         );
 
@@ -758,7 +847,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.getTransitGatewayConnection(params);
+        transitGatewayApisService.getTransitGatewayConnection(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -767,7 +856,7 @@ describe('TransitGatewayApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await transitGatewayApis.getTransitGatewayConnection({});
+          await transitGatewayApisService.getTransitGatewayConnection({});
         } catch (e) {
           err = e;
         }
@@ -777,7 +866,7 @@ describe('TransitGatewayApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const getTransitGatewayConnectionPromise = transitGatewayApis.getTransitGatewayConnection();
+        const getTransitGatewayConnectionPromise = transitGatewayApisService.getTransitGatewayConnection();
         expectToBePromise(getTransitGatewayConnectionPromise);
 
         getTransitGatewayConnectionPromise.catch(err => {
@@ -800,7 +889,7 @@ describe('TransitGatewayApisV1', () => {
           name: name,
         };
 
-        const updateTransitGatewayConnectionResult = transitGatewayApis.updateTransitGatewayConnection(
+        const updateTransitGatewayConnectionResult = transitGatewayApisService.updateTransitGatewayConnection(
           params
         );
 
@@ -841,7 +930,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.updateTransitGatewayConnection(params);
+        transitGatewayApisService.updateTransitGatewayConnection(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -850,7 +939,7 @@ describe('TransitGatewayApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await transitGatewayApis.updateTransitGatewayConnection({});
+          await transitGatewayApisService.updateTransitGatewayConnection({});
         } catch (e) {
           err = e;
         }
@@ -860,7 +949,7 @@ describe('TransitGatewayApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const updateTransitGatewayConnectionPromise = transitGatewayApis.updateTransitGatewayConnection();
+        const updateTransitGatewayConnectionPromise = transitGatewayApisService.updateTransitGatewayConnection();
         expectToBePromise(updateTransitGatewayConnectionPromise);
 
         updateTransitGatewayConnectionPromise.catch(err => {
@@ -883,7 +972,7 @@ describe('TransitGatewayApisV1', () => {
           action: action,
         };
 
-        const createTransitGatewayConnectionActionsResult = transitGatewayApis.createTransitGatewayConnectionActions(
+        const createTransitGatewayConnectionActionsResult = transitGatewayApisService.createTransitGatewayConnectionActions(
           params
         );
 
@@ -926,7 +1015,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.createTransitGatewayConnectionActions(params);
+        transitGatewayApisService.createTransitGatewayConnectionActions(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -935,7 +1024,7 @@ describe('TransitGatewayApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await transitGatewayApis.createTransitGatewayConnectionActions({});
+          await transitGatewayApisService.createTransitGatewayConnectionActions({});
         } catch (e) {
           err = e;
         }
@@ -945,7 +1034,7 @@ describe('TransitGatewayApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const createTransitGatewayConnectionActionsPromise = transitGatewayApis.createTransitGatewayConnectionActions();
+        const createTransitGatewayConnectionActionsPromise = transitGatewayApisService.createTransitGatewayConnectionActions();
         expectToBePromise(createTransitGatewayConnectionActionsPromise);
 
         createTransitGatewayConnectionActionsPromise.catch(err => {
@@ -961,7 +1050,7 @@ describe('TransitGatewayApisV1', () => {
         // Construct the params object for operation listGatewayLocations
         const params = {};
 
-        const listGatewayLocationsResult = transitGatewayApis.listGatewayLocations(params);
+        const listGatewayLocationsResult = transitGatewayApisService.listGatewayLocations(params);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayLocationsResult);
@@ -989,13 +1078,13 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.listGatewayLocations(params);
+        transitGatewayApisService.listGatewayLocations(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
 
       test('should not have any problems when no parameters are passed in', () => {
         // invoke the method with no parameters
-        transitGatewayApis.listGatewayLocations({});
+        transitGatewayApisService.listGatewayLocations({});
         checkForSuccessfulExecution(createRequestMock);
       });
     });
@@ -1009,7 +1098,7 @@ describe('TransitGatewayApisV1', () => {
           name: name,
         };
 
-        const getGatewayLocationResult = transitGatewayApis.getGatewayLocation(params);
+        const getGatewayLocationResult = transitGatewayApisService.getGatewayLocation(params);
 
         // all methods should return a Promise
         expectToBePromise(getGatewayLocationResult);
@@ -1040,7 +1129,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApis.getGatewayLocation(params);
+        transitGatewayApisService.getGatewayLocation(params);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1049,7 +1138,7 @@ describe('TransitGatewayApisV1', () => {
       test('should enforce required parameters', async done => {
         let err;
         try {
-          await transitGatewayApis.getGatewayLocation({});
+          await transitGatewayApisService.getGatewayLocation({});
         } catch (e) {
           err = e;
         }
@@ -1059,7 +1148,7 @@ describe('TransitGatewayApisV1', () => {
       });
 
       test('should reject promise when required params are not given', done => {
-        const getGatewayLocationPromise = transitGatewayApis.getGatewayLocation();
+        const getGatewayLocationPromise = transitGatewayApisService.getGatewayLocation();
         expectToBePromise(getGatewayLocationPromise);
 
         getGatewayLocationPromise.catch(err => {

@@ -1,3 +1,17 @@
+# [0.9.0](https://github.com/IBM/networking-node-sdk/compare/v0.8.0...v0.9.0) (2021-06-18)
+
+
+### Features
+
+* GRE tunnel support for Transit Gateway ([#39](https://github.com/IBM/networking-node-sdk/issues/39)) ([87b8bce](https://github.com/IBM/networking-node-sdk/commit/87b8bce5d6d4501506748d896e76c0ac07aa7f6d))
+
+# [0.8.0](https://github.com/IBM/networking-node-sdk/compare/v0.7.0...v0.8.0) (2021-06-04)
+
+
+### Features
+
+* **DirectLink:** add the authentication_key for BGP MD5 authentication in directlink service ([e8c71b0](https://github.com/IBM/networking-node-sdk/commit/e8c71b0463282a2f04983b8675b7e87d95781a18))
+
 # [0.7.0](https://github.com/IBM/networking-node-sdk/compare/v0.6.0...v0.7.0) (2021-06-02)
 
 
