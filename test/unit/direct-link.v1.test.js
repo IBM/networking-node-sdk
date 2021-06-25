@@ -194,6 +194,12 @@ describe('DirectLinkV1', () => {
         window_size: 148809600,
       };
 
+      // GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey
+      const gatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKeyModel = {
+        crn:
+          'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
+      };
+
       // ResourceGroupIdentity
       const resourceGroupIdentityModel = {
         id: '56969d6043e9465c883cb9f7363e78e8',
@@ -201,6 +207,7 @@ describe('DirectLinkV1', () => {
 
       // GatewayTemplateGatewayTypeDedicatedTemplate
       const gatewayTemplateModel = {
+        authentication_key: gatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKeyModel,
         bgp_asn: 64999,
         bgp_base_cidr: 'testString',
         bgp_cer_cidr: '169.254.0.10/30',
@@ -427,6 +434,12 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // GatewayPatchTemplateAuthenticationKey
+      const gatewayPatchTemplateAuthenticationKeyModel = {
+        crn:
+          'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
+      };
+
       // GatewayMacsecConfigPatchTemplateFallbackCak
       const gatewayMacsecConfigPatchTemplateFallbackCakModel = {
         crn:
@@ -450,6 +463,7 @@ describe('DirectLinkV1', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateGateway
         const id = 'testString';
+        const authenticationKey = gatewayPatchTemplateAuthenticationKeyModel;
         const global = true;
         const loaRejectReason = 'The port mentioned was incorrect';
         const macsecConfig = gatewayMacsecConfigPatchTemplateModel;
@@ -459,6 +473,7 @@ describe('DirectLinkV1', () => {
         const speedMbps = 1000;
         const params = {
           id: id,
+          authenticationKey: authenticationKey,
           global: global,
           loaRejectReason: loaRejectReason,
           macsecConfig: macsecConfig,
@@ -482,6 +497,7 @@ describe('DirectLinkV1', () => {
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(options.body['authentication_key']).toEqual(authenticationKey);
         expect(options.body['global']).toEqual(global);
         expect(options.body['loa_reject_reason']).toEqual(loaRejectReason);
         expect(options.body['macsec_config']).toEqual(macsecConfig);
@@ -542,7 +558,7 @@ describe('DirectLinkV1', () => {
       // GatewayActionTemplateAuthenticationKey
       const gatewayActionTemplateAuthenticationKeyModel = {
         crn:
-          'crn:v1:staging:public:kms:us-south:a/3b1bd7fa2bc3406ea70ba4ade8aa3f1b:6f2b3d69-9e70-46e6-bcaa-f96ecc232cbc:key:4f9d186a-5cc1-4305-94fc-af183ddf65bc',
+          'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
       };
 
       // ResourceGroupIdentity

@@ -1057,4 +1057,104 @@ describe('DirectLinkV1', () => {
       }
     });
   });
+
+  describe('Create MD5 enabled gateway', () => {
+    // Save the gateway ID for update/delete
+    let gatewayId = '';
+    const time = currentDate.getTime().toString();
+
+    // GatewayTemplate for dedicated gateway
+    const gatewayTemplate = {
+      name: 'NODE-INT-SDK-DEDICATED-MD5' + time,
+      type: 'dedicated',
+      speed_mbps: 1000,
+      global: true,
+      bgp_asn: 64999,
+      metered: false,
+      carrier_name: 'myCarrierName',
+      customer_name: 'newCustomerName',
+      cross_connect_router: 'LAB-xcr01.dal09',
+      location_name: config.LOCATION_NAME,
+      authentication_key: {
+        crn: config.AUTHENTICATION_KEY,
+      },
+    };
+
+    it('should successfully create a gateway with authentication key', async done => {
+      jest.setTimeout(timeout);
+
+      const params = {
+        gatewayTemplate: gatewayTemplate,
+      };
+
+      try {
+        dlService.createGateway(params).then(response => {
+          expect(response.hasOwnProperty('status')).toBe(true);
+          expect(response.status).toBe(201);
+          if (null != response && null != response.result && null != response.result.id) {
+            gatewayId = response.result.id;
+          }
+
+          expect(response.result.id).toBeDefined();
+          expect(response.result.name).toBe(gatewayTemplate.name);
+          expect(response.result.type).toBe(gatewayTemplate.type);
+          expect(response.result.speed_mbps).toBe(gatewayTemplate.speed_mbps);
+          expect(response.result.global).toBe(gatewayTemplate.global);
+          expect(response.result.bgp_asn).toBe(gatewayTemplate.bgp_asn);
+          expect(response.result.bgp_cer_cidr).toBeDefined();
+          expect(response.result.bgp_ibm_cidr).toBeDefined();
+          expect(response.result.metered).toBe(gatewayTemplate.metered);
+          expect(response.result.cross_connect_router).toBe(gatewayTemplate.cross_connect_router);
+          expect(response.result.location_name).toBe(gatewayTemplate.location_name);
+          expect(response.result.location_display_name).toBe(config.LOCATION_DISPLAY_NAME);
+          expect(response.result.created_at).toBeDefined();
+          expect(response.result.link_status).toBe('down');
+          expect(response.result.operational_status).toBe('awaiting_loa');
+          expect(response.result.resource_group).toBeDefined();
+          expect(response.result.authentication_key.crn).toBe(config.AUTHENTICATION_KEY);
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully clear/update the authentication key', async done => {
+      const params = {
+        id: gatewayId,
+        authenticationKey: {
+          crn: '',
+        },
+      };
+
+      try {
+        dlService.updateGateway(params).then(response => {
+          expect(response.status).toBe(200);
+          expect(response.result.id).toBe(gatewayId);
+          expect(response.result.name).toBe(gatewayTemplate.name);
+          expect(response.result.type).toBe(gatewayTemplate.type);
+          expect(response.result.authentication_key).toBeUndefined();
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    // delete the dedicated gateway
+    it('Successfully delete the gateway', done => {
+      const params = {
+        id: gatewayId,
+      };
+
+      try {
+        dlService.deleteGateway(params).then(response => {
+          expect(response.status).toBe(204);
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
 });

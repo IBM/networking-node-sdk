@@ -601,11 +601,11 @@ describe('DirectLinkProviderV2', () => {
     });
   });
 
-  // Skipping the below test until integration CRN is available for authentication_key
-  describe.skip('Direct Link Provider Gateways with Client API with authenticationKey', () => {
+  describe('Direct Link Provider Gateways with Client API with authenticationKey', () => {
     jest.setTimeout(timeout);
 
-    const gwName = 'NODE-INT-SDK-PROVIDER-' + timestamp;
+    const time = currentDate.getTime().toString();
+    const gwName = 'NODE-INT-SDK-PROVIDER-' + time;
     const speedMbps = 1000;
 
     let portId = '';
