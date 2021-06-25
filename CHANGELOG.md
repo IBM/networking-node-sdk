@@ -1,3 +1,10 @@
+# [0.10.0](https://github.com/IBM/networking-node-sdk/compare/v0.9.0...v0.10.0) (2021-06-25)
+
+
+### Features
+
+* **DirectLink:** implement BGP MD5 changes ([bd20885](https://github.com/IBM/networking-node-sdk/commit/bd2088567b8c565a3b342f12c01e6515a2929f68))
+
 # [0.9.0](https://github.com/IBM/networking-node-sdk/compare/v0.8.0...v0.9.0) (2021-06-18)
 
 
