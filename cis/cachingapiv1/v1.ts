@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.19.0-be3b4618-20201113-200858
+ * IBM OpenAPI SDK Code Generator Version: 3.26.0-4b317b0c-20210127-171701
  */
- 
+
 
 import * as extend from 'extend';
 import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
@@ -77,7 +77,7 @@ class CachingApiV1 extends BaseService {
    * @param {Object} options - Options for the service.
    * @param {string} options.crn - cloud resource name.
    * @param {string} options.zoneId - zone id.
-   * @param {string} [options.serviceUrl] - The base url to use when contacting the service (e.g. 'https://gateway.watsonplatform.net'). The base url may differ between IBM Cloud regions.
+   * @param {string} [options.serviceUrl] - The base url to use when contacting the service. The base url may differ between IBM Cloud regions.
    * @param {OutgoingHttpHeaders} [options.headers] - Default headers that shall be included with every request to the service.
    * @param {Authenticator} options.authenticator - The Authenticator object used to authenticate requests to the service
    * @constructor
@@ -331,6 +331,83 @@ class CachingApiV1 extends BaseService {
     const parameters = {
       options: {
         url: '/v1/{crn}/zones/{zone_id}/settings/browser_cache_ttl',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Get Serve Stale Content setting.
+   *
+   * When enabled, Serve Stale Content will serve pages from CDN edge servers' cache if your server is offline.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<CachingApiV1.Response<CachingApiV1.ServeStaleContentResponse>>}
+   */
+  public getServeStaleContent(params?: CachingApiV1.GetServeStaleContentParams): Promise<CachingApiV1.Response<CachingApiV1.ServeStaleContentResponse>> {
+    const _params = Object.assign({}, params);
+
+    const path = {
+      'crn': this.crn,
+      'zone_id': this.zoneId
+    };
+
+    const sdkHeaders = getSdkHeaders(CachingApiV1.DEFAULT_SERVICE_NAME, 'v1', 'getServeStaleContent');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_id}/settings/always_online',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Change Serve Stale Content setting.
+   *
+   * When enabled, Serve Stale Content will serve pages from CDN edge servers' cache if your server is offline.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.value] - on/off value.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<CachingApiV1.Response<CachingApiV1.ServeStaleContentResponse>>}
+   */
+  public updateServeStaleContent(params?: CachingApiV1.UpdateServeStaleContentParams): Promise<CachingApiV1.Response<CachingApiV1.ServeStaleContentResponse>> {
+    const _params = Object.assign({}, params);
+
+    const body = {
+      'value': _params.value
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_id': this.zoneId
+    };
+
+    const sdkHeaders = getSdkHeaders(CachingApiV1.DEFAULT_SERVICE_NAME, 'v1', 'updateServeStaleContent');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_id}/settings/always_online',
         method: 'PATCH',
         body,
         path,
@@ -662,6 +739,27 @@ namespace CachingApiV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `getServeStaleContent` operation. */
+  export interface GetServeStaleContentParams {
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateServeStaleContent` operation. */
+  export interface UpdateServeStaleContentParams {
+    /** on/off value. */
+    value?: UpdateServeStaleContentConstants.Value | string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `updateServeStaleContent` operation. */
+  export namespace UpdateServeStaleContentConstants {
+    /** on/off value. */
+    export enum Value {
+      ON = 'on',
+      OFF = 'off',
+    }
+  }
+
   /** Parameters for the `getDevelopmentMode` operation. */
   export interface GetDevelopmentModeParams {
     headers?: OutgoingHttpHeaders;
@@ -784,6 +882,18 @@ namespace CachingApiV1 {
     id?: string;
   }
 
+  /** result object. */
+  export interface ServeStaleContentResponseResult {
+    /** serve stale content cache id. */
+    id?: string;
+    /** on/off value. */
+    value?: string;
+    /** editable value. */
+    editable?: boolean;
+    /** modified date. */
+    modified_on?: string;
+  }
+
   /** browser ttl response. */
   export interface BrowserTTLResponse {
     /** success response. */
@@ -842,6 +952,18 @@ namespace CachingApiV1 {
     messages: string[][];
     /** purge object. */
     result: PurgeAllResponseResult;
+  }
+
+  /** serve stale conent response. */
+  export interface ServeStaleContentResponse {
+    /** success response. */
+    success: boolean;
+    /** errors. */
+    errors: string[][];
+    /** messages. */
+    messages: string[][];
+    /** result object. */
+    result: ServeStaleContentResponseResult;
   }
 
 }

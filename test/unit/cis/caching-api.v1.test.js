@@ -423,6 +423,102 @@ describe('CachingApiV1', () => {
       });
     });
   });
+  describe('getServeStaleContent', () => {
+    describe('positive tests', () => {
+      test('should pass the right params to createRequest', () => {
+        // Construct the params object for operation getServeStaleContent
+        const params = {};
+
+        const getServeStaleContentResult = cachingApiService.getServeStaleContent(params);
+
+        // all methods should return a Promise
+        expectToBePromise(getServeStaleContentResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const options = getOptions(createRequestMock);
+
+        checkUrlAndMethod(options, '/v1/{crn}/zones/{zone_id}/settings/always_online', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(options.path['crn']).toEqual(service.crn);
+        expect(options.path['zone_id']).toEqual(service.zoneId);
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        cachingApiService.getServeStaleContent(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        cachingApiService.getServeStaleContent({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+  describe('updateServeStaleContent', () => {
+    describe('positive tests', () => {
+      test('should pass the right params to createRequest', () => {
+        // Construct the params object for operation updateServeStaleContent
+        const value = 'on';
+        const params = {
+          value: value,
+        };
+
+        const updateServeStaleContentResult = cachingApiService.updateServeStaleContent(params);
+
+        // all methods should return a Promise
+        expectToBePromise(updateServeStaleContentResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const options = getOptions(createRequestMock);
+
+        checkUrlAndMethod(options, '/v1/{crn}/zones/{zone_id}/settings/always_online', 'PATCH');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(options.body['value']).toEqual(value);
+        expect(options.path['crn']).toEqual(service.crn);
+        expect(options.path['zone_id']).toEqual(service.zoneId);
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        cachingApiService.updateServeStaleContent(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        cachingApiService.updateServeStaleContent({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
   describe('getDevelopmentMode', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {

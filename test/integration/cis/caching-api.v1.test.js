@@ -36,6 +36,7 @@ let cachingApiV1;
 let cachingDetails;
 let browserCacheTtl;
 let developmentMode;
+let servestaleContent;
 let sortQueryStrForCache;
 
 describe('DNSRecordsApisV1', () => {
@@ -282,9 +283,9 @@ describe('DNSRecordsApisV1', () => {
   describe('Updating development mode setting as part of Caching Setting', () => {
     test('should successfully update development mode setting for cache setting', async done => {
       try {
-        const isBrowserCacheTtlOn = browserCacheTtl === 'off' ? 'on' : 'off';
+        const isdevelopmentModeOn = developmentMode === 'off' ? 'on' : 'off';
         const params = {
-          'value': isBrowserCacheTtlOn,
+          'value': isdevelopmentModeOn,
         };
         const response = await cachingApiV1.updateDevelopmentMode(params);
         expect(response).toBeDefined();
@@ -298,7 +299,7 @@ describe('DNSRecordsApisV1', () => {
           developmentMode = result.result;
           expect(developmentMode).toBeDefined();
           expect(developmentMode.id).toEqual('development_mode');
-          expect(developmentMode.value).toEqual(isBrowserCacheTtlOn);
+          expect(developmentMode.value).toEqual(isdevelopmentModeOn);
         }
         done();
       } catch (err) {
@@ -307,6 +308,55 @@ describe('DNSRecordsApisV1', () => {
     });
   });
 
+  describe('Fecthing serve stale content setting as part of Caching Setting', () => {
+    test('should successfully Get serve stale content setting for cache setting', async done => {
+      try {
+        const response = await cachingApiV1.getServeStaleContent();
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+
+        if (result && result.result) {
+          servestaleContent = result.result;
+          expect(servestaleContent).toBeDefined();
+          expect(servestaleContent.id).toEqual('always_online');
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe('Updating serve stale content setting as part of Caching Setting', () => {
+    test('should successfully update serve stale content setting for cache setting', async done => {
+      try {
+        const isservestaleContentlOn = servestaleContent === 'off' ? 'on' : 'off';
+        const response = await cachingApiV1.updateServeStaleContent({
+          'value': isservestaleContentlOn,
+        });
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+
+        if (result && result.result) {
+          servestaleContent = result.result;
+          expect(servestaleContent).toBeDefined();
+          expect(servestaleContent.id).toEqual('always_online');
+          expect(servestaleContent.value).toEqual(isservestaleContentlOn);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
   describe('Fecthing Enable Query String Sort setting as part of Caching Setting', () => {
     test('should successfully Get Enable Query String Sort setting for cache setting', async done => {
       try {
