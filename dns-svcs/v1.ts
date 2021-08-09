@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.26.0-4b317b0c-20210127-171701
+ * IBM OpenAPI SDK Code Generator Version: 3.32.0-4c6a3129-20210514-210323
  */
 
 
@@ -604,6 +604,108 @@ class DnsSvcsV1 extends BaseService {
         headers: extend(true, sdkHeaders, {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Export resource records to a zone file.
+   *
+   * Export resource records to a zone file.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<NodeJS.ReadableStream|Buffer>>}
+   */
+  public exportResourceRecords(params: DnsSvcsV1.ExportResourceRecordsParams): Promise<DnsSvcsV1.Response<NodeJS.ReadableStream|Buffer>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'dnszoneId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'dnszone_id': _params.dnszoneId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'exportResourceRecords');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/dnszones/{dnszone_id}/export_resource_records',
+        method: 'GET',
+        path,
+        responseType: 'stream',
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'text/plain; charset=utf-8',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Import resource records from a zone file.
+   *
+   * Import resource records from a zone file.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
+   * @param {NodeJS.ReadableStream|Buffer} [params.file] - file to upload.
+   * @param {string} [params.fileContentType] - The content type of file.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ImportResourceRecordsResp>>}
+   */
+  public importResourceRecords(params: DnsSvcsV1.ImportResourceRecordsParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ImportResourceRecordsResp>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'dnszoneId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const formData = {
+      'file': {
+        data: _params.file,
+        contentType: _params.fileContentType
+      }
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'dnszone_id': _params.dnszoneId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'importResourceRecords');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/dnszones/{dnszone_id}/import_resource_records',
+        method: 'POST',
+        path,
+        formData
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
           'X-Correlation-ID': _params.xCorrelationId
         }, _params.headers),
       }),
@@ -1676,6 +1778,671 @@ class DnsSvcsV1 extends BaseService {
 
     return this.createRequest(parameters);
   };
+
+  /*************************
+   * customResolvers
+   ************************/
+
+  /**
+   * List custom resolvers.
+   *
+   * List the custom resolvers.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolverList>>}
+   */
+  public listCustomResolvers(params: DnsSvcsV1.ListCustomResolversParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolverList>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'listCustomResolvers');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Create a custom resolver.
+   *
+   * Create a custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} [params.name] - Name of the custom resolver.
+   * @param {LocationInput[]} [params.locations] - Locations on which the custom resolver will be running.
+   * @param {string} [params.description] - Descriptive text of the custom resolver.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>>}
+   */
+  public createCustomResolver(params: DnsSvcsV1.CreateCustomResolverParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const body = {
+      'name': _params.name,
+      'locations': _params.locations,
+      'description': _params.description
+    };
+
+    const path = {
+      'instance_id': _params.instanceId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'createCustomResolver');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Delete a custom resolver.
+   *
+   * Delete a custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
+   */
+  public deleteCustomResolver(params: DnsSvcsV1.DeleteCustomResolverParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'resolverId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteCustomResolver');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}',
+        method: 'DELETE',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Get a custom resolver.
+   *
+   * Get details of a custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>>}
+   */
+  public getCustomResolver(params: DnsSvcsV1.GetCustomResolverParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'resolverId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'getCustomResolver');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Update the properties of a custom resolver.
+   *
+   * Update the properties of a custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.name] - Name of the custom resolver.
+   * @param {string} [params.description] - Descriptive text of the custom resolver.
+   * @param {boolean} [params.enabled] - Whether the custom resolver is enabled.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>>}
+   */
+  public updateCustomResolver(params: DnsSvcsV1.UpdateCustomResolverParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'resolverId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const body = {
+      'name': _params.name,
+      'description': _params.description,
+      'enabled': _params.enabled
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateCustomResolver');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /*************************
+   * customResolverLocations
+   ************************/
+
+  /**
+   * Add custom resolver location.
+   *
+   * Add custom resolver location.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.subnetCrn] - Custom resolver location, subnet CRN.
+   * @param {boolean} [params.enabled] - Enable/Disable custom resolver location.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>>}
+   */
+  public addCustomResolverLocation(params: DnsSvcsV1.AddCustomResolverLocationParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'resolverId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const body = {
+      'subnet_crn': _params.subnetCrn,
+      'enabled': _params.enabled
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'addCustomResolverLocation');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Update custom resolver location.
+   *
+   * Update custom resolver location.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.locationId - Custom resolver location ID.
+   * @param {boolean} [params.enabled] - Enable/Disable custom resolver location.
+   * @param {string} [params.subnetCrn] - Subnet CRN.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>>}
+   */
+  public updateCustomResolverLocation(params: DnsSvcsV1.UpdateCustomResolverLocationParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'resolverId', 'locationId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const body = {
+      'enabled': _params.enabled,
+      'subnet_crn': _params.subnetCrn
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'location_id': _params.locationId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateCustomResolverLocation');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Delete custom resolver location.
+   *
+   * Delete custom resolver location.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.locationId - Custom resolver location ID.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
+   */
+  public deleteCustomResolverLocation(params: DnsSvcsV1.DeleteCustomResolverLocationParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'resolverId', 'locationId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'location_id': _params.locationId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteCustomResolverLocation');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}',
+        method: 'DELETE',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /*************************
+   * forwardingRules
+   ************************/
+
+  /**
+   * List forwarding rules.
+   *
+   * List the forwarding rules of the given custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRuleList>>}
+   */
+  public listForwardingRules(params: DnsSvcsV1.ListForwardingRulesParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRuleList>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'resolverId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'listForwardingRules');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Create a forwarding rule.
+   *
+   * Create a forwarding rule for the given custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.type] - Type of the forwarding rule.
+   * @param {string} [params.match] - The matching zone or hostname.
+   * @param {string[]} [params.forwardTo] - The upstream DNS servers will be forwarded to.
+   * @param {string} [params.description] - Descriptive text of the forwarding rule.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>>}
+   */
+  public createForwardingRule(params: DnsSvcsV1.CreateForwardingRuleParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'resolverId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const body = {
+      'type': _params.type,
+      'match': _params.match,
+      'forward_to': _params.forwardTo,
+      'description': _params.description
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'createForwardingRule');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Delete a forwarding rule.
+   *
+   * Delete a forwarding rule on the given custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.ruleId - The unique identifier of a forwarding rule.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
+   */
+  public deleteForwardingRule(params: DnsSvcsV1.DeleteForwardingRuleParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'resolverId', 'ruleId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'rule_id': _params.ruleId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteForwardingRule');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}',
+        method: 'DELETE',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Get a forwarding rule.
+   *
+   * Get details of a forwarding rule on the given custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.ruleId - The unique identifier of a forwarding rule.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>>}
+   */
+  public getForwardingRule(params: DnsSvcsV1.GetForwardingRuleParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'resolverId', 'ruleId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'rule_id': _params.ruleId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'getForwardingRule');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Update the properties of a forwarding rule.
+   *
+   * Update the properties of a forwarding rule on the given custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.ruleId - The unique identifier of a forwarding rule.
+   * @param {string} [params.description] - Descriptive text of the forwarding rule.
+   * @param {string} [params.match] - The matching zone or hostname.
+   * @param {string[]} [params.forwardTo] - The upstream DNS servers will be forwarded to.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>>}
+   */
+  public updateForwardingRule(params: DnsSvcsV1.UpdateForwardingRuleParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
+    const _params = Object.assign({}, params);
+    const requiredParams = ['instanceId', 'resolverId', 'ruleId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const body = {
+      'description': _params.description,
+      'match': _params.match,
+      'forward_to': _params.forwardTo
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'rule_id': _params.ruleId
+    };
+
+    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateForwardingRule');
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Correlation-ID': _params.xCorrelationId
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
 }
 
 /*************************
@@ -1868,6 +2635,32 @@ namespace DnsSvcsV1 {
     service?: string;
     /** Only used for SRV record. */
     protocol?: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `exportResourceRecords` operation. */
+  export interface ExportResourceRecordsParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a DNS zone. */
+    dnszoneId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `importResourceRecords` operation. */
+  export interface ImportResourceRecordsParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a DNS zone. */
+    dnszoneId: string;
+    /** file to upload. */
+    file?: NodeJS.ReadableStream|Buffer;
+    /** The content type of file. */
+    fileContentType?: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
     headers?: OutgoingHttpHeaders;
@@ -2313,7 +3106,198 @@ namespace DnsSvcsV1 {
       HEAD = 'HEAD',
     }
   }
-  
+
+  /** Parameters for the `listCustomResolvers` operation. */
+  export interface ListCustomResolversParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createCustomResolver` operation. */
+  export interface CreateCustomResolverParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** Name of the custom resolver. */
+    name?: string;
+    /** Locations on which the custom resolver will be running. */
+    locations?: LocationInput[];
+    /** Descriptive text of the custom resolver. */
+    description?: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `deleteCustomResolver` operation. */
+  export interface DeleteCustomResolverParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getCustomResolver` operation. */
+  export interface GetCustomResolverParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateCustomResolver` operation. */
+  export interface UpdateCustomResolverParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Name of the custom resolver. */
+    name?: string;
+    /** Descriptive text of the custom resolver. */
+    description?: string;
+    /** Whether the custom resolver is enabled. */
+    enabled?: boolean;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `addCustomResolverLocation` operation. */
+  export interface AddCustomResolverLocationParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Custom resolver location, subnet CRN. */
+    subnetCrn?: string;
+    /** Enable/Disable custom resolver location. */
+    enabled?: boolean;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateCustomResolverLocation` operation. */
+  export interface UpdateCustomResolverLocationParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Custom resolver location ID. */
+    locationId: string;
+    /** Enable/Disable custom resolver location. */
+    enabled?: boolean;
+    /** Subnet CRN. */
+    subnetCrn?: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `deleteCustomResolverLocation` operation. */
+  export interface DeleteCustomResolverLocationParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Custom resolver location ID. */
+    locationId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `listForwardingRules` operation. */
+  export interface ListForwardingRulesParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createForwardingRule` operation. */
+  export interface CreateForwardingRuleParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Type of the forwarding rule. */
+    type?: CreateForwardingRuleConstants.Type | string;
+    /** The matching zone or hostname. */
+    match?: string;
+    /** The upstream DNS servers will be forwarded to. */
+    forwardTo?: string[];
+    /** Descriptive text of the forwarding rule. */
+    description?: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `createForwardingRule` operation. */
+  export namespace CreateForwardingRuleConstants {
+    /** Type of the forwarding rule. */
+    export enum Type {
+      ZONE = 'zone',
+    }
+  }
+
+  /** Parameters for the `deleteForwardingRule` operation. */
+  export interface DeleteForwardingRuleParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** The unique identifier of a forwarding rule. */
+    ruleId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getForwardingRule` operation. */
+  export interface GetForwardingRuleParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** The unique identifier of a forwarding rule. */
+    ruleId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateForwardingRule` operation. */
+  export interface UpdateForwardingRuleParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** The unique identifier of a forwarding rule. */
+    ruleId: string;
+    /** Descriptive text of the forwarding rule. */
+    description?: string;
+    /** The matching zone or hostname. */
+    match?: string;
+    /** The upstream DNS servers will be forwarded to. */
+    forwardTo?: string[];
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /*************************
    * model interfaces
    ************************/
@@ -2338,12 +3322,46 @@ namespace DnsSvcsV1 {
     vpc?: string;
   }
 
+  /** RecordsImportErrorModelError. */
+  export interface RecordsImportErrorModelError {
+    /** Internal service error when DNS resource created fails by internal error. */
+    code: string;
+    /** An internal error occurred. Try again later. */
+    message: string;
+  }
+
   /** Content of the resource record. */
   export interface ResourceRecordInputRdata {
   }
 
   /** Content of the resource record. */
   export interface ResourceRecordUpdateInputRdata {
+  }
+
+  /** custom resolver details. */
+  export interface CustomResolver {
+    /** Identifier of the custom resolver. */
+    id?: string;
+    /** Name of the custom resolver. */
+    name?: string;
+    /** Descriptive text of the custom resolver. */
+    description?: string;
+    /** Whether the custom resolver is enabled. */
+    enabled?: boolean;
+    /** Healthy state of the custom resolver. */
+    health?: string;
+    /** Locations on which the custom resolver will be running. */
+    locations?: Location[];
+    /** the time when a custom resolver is created, RFC3339 format. */
+    created_on?: string;
+    /** the recent time when a custom resolver is modified, RFC3339 format. */
+    modified_on?: string;
+  }
+
+  /** List custom resolvers response. */
+  export interface CustomResolverList {
+    /** An array of custom resolvers. */
+    custom_resolvers?: CustomResolver[];
   }
 
   /** DNS zone details. */
@@ -2372,12 +3390,53 @@ namespace DnsSvcsV1 {
     href?: string;
   }
 
+  /** forwarding rule details. */
+  export interface ForwardingRule {
+    /** Identifier of the forwarding rule. */
+    id?: string;
+    /** Descriptive text of the forwarding rule. */
+    description?: string;
+    /** Type of the forwarding rule. */
+    type?: string;
+    /** The matching zone or hostname. */
+    match?: string;
+    /** The upstream DNS servers will be forwarded to. */
+    forward_to?: string[];
+    /** the time when a forwarding rule is created, RFC3339 format. */
+    created_on?: string;
+    /** the recent time when a forwarding rule is modified, RFC3339 format. */
+    modified_on?: string;
+  }
+
+  /** An array of forwarding rules. */
+  export interface ForwardingRuleList {
+    forwarding_rules?: ForwardingRule[];
+  }
+
   /** The HTTP header of health check request. */
   export interface HealthcheckHeader {
     /** The name of HTTP request header. */
     name: string;
     /** The value of HTTP request header. */
     value: string[];
+  }
+
+  /** Import DNS records response. */
+  export interface ImportResourceRecordsResp {
+    /** Number of records parsed from the zone file. */
+    total_records_parsed: number;
+    /** Number of records imported successfully. */
+    records_added: number;
+    /** Number of records failed import. */
+    records_failed: number;
+    /** Number of records classified by type. */
+    records_added_by_type: RecordStatsByType;
+    /** Number of records classified by type. */
+    records_failed_by_type: RecordStatsByType;
+    /** Error messages. */
+    messages?: RecordsImportMessageModel[];
+    /** Number of records parsed from the zone file. */
+    errors?: RecordsImportErrorModel[];
   }
 
   /** List DNS zones response. */
@@ -2508,6 +3567,28 @@ namespace DnsSvcsV1 {
     created_on?: string;
     /** The recent time when a load balancer is modified. */
     modified_on?: string;
+  }
+
+  /** Custom resolver location. */
+  export interface Location {
+    /** Location ID. */
+    id?: string;
+    /** Subnet CRN. */
+    subnet_crn?: string;
+    /** Whether the location is enabled for the custom resolver. */
+    enabled?: boolean;
+    /** Whether the DNS server in this location is healthy or not. */
+    healthy?: boolean;
+    /** The ip address of this dns server. */
+    dns_server_ip?: string;
+  }
+
+  /** Request to add custom resolver location. */
+  export interface LocationInput {
+    /** Custom resolver location, subnet CRN. */
+    subnet_crn: string;
+    /** Enable/Disable custom resolver location. */
+    enabled?: boolean;
   }
 
   /** Load balancer monitor details. */
@@ -2651,6 +3732,39 @@ namespace DnsSvcsV1 {
     created_on?: string;
     /** the recent time when a load balancer pool is modified. */
     modified_on?: string;
+  }
+
+  /** Number of records classified by type. */
+  export interface RecordStatsByType {
+    /** Number of records, type A. */
+    A: number;
+    /** Number of records, type AAAA. */
+    AAAA: number;
+    /** Number of records, type CNAME. */
+    CNAME: number;
+    /** Number of records, type SRV. */
+    SRV: number;
+    /** Number of records, type TXT. */
+    TXT: number;
+    /** Number of records, type MX. */
+    MX: number;
+    /** Number of records, type PTR. */
+    PTR: number;
+  }
+
+  /** RecordsImportErrorModel. */
+  export interface RecordsImportErrorModel {
+    /** resource record content in zone file. */
+    resource_record: string;
+    error: RecordsImportErrorModelError;
+  }
+
+  /** RecordsImportMessageModel. */
+  export interface RecordsImportMessageModel {
+    /** Code to classify import DNS records error. */
+    code: string;
+    /** Message to describe import DNS records error. */
+    message: string;
   }
 
   /** Resource record details. */
