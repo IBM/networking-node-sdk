@@ -10,8 +10,6 @@ before_install:
 
 jobs:
   include:
-    - stage: Node JS 10
-      node_js: 10
     - stage: Node JS 12
       node_js: 12
 
