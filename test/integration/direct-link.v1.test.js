@@ -459,7 +459,7 @@ describe('DirectLinkV1', () => {
     });
   });
 
-  describe('DirectLink virtual connections', () => {
+  describe.skip('DirectLink virtual connections', () => {
     jest.setTimeout(timeout);
 
     // GatewayTemplate for dedicated gateway
@@ -734,7 +734,7 @@ describe('DirectLinkV1', () => {
   //  - PUT a completion notice to the gw.  It will fail with a 412 error because the GH issue and GW status are in the wrong state due to no manual interaction
   //  - GET CN for a gw.  It will expect a 404 since the CN could not be uploaded
   //
-  describe('LOA and Completion notice', () => {
+  describe.skip('LOA and Completion notice', () => {
     jest.setTimeout(timeout);
 
     // GatewayTemplate for dedicated gateway
@@ -856,7 +856,7 @@ describe('DirectLinkV1', () => {
     });
   });
 
-  describe('Offering Types', () => {
+  describe.skip('Offering Types', () => {
     jest.setTimeout(timeout);
     let firstDedicatedOT = null;
     let firstConnectOT = null;
@@ -1011,7 +1011,7 @@ describe('DirectLinkV1', () => {
     });
   });
 
-  describe('Ports', () => {
+  describe.skip('Ports', () => {
     jest.setTimeout(timeout);
     let firstPort = null;
 
@@ -1058,7 +1058,7 @@ describe('DirectLinkV1', () => {
     });
   });
 
-  describe('Create MD5 enabled gateway', () => {
+  describe.skip('Create MD5 enabled gateway', () => {
     // Save the gateway ID for update/delete
     let gatewayId = '';
     const time = currentDate.getTime().toString();
