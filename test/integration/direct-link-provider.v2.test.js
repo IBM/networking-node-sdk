@@ -272,7 +272,7 @@ describe('DirectLinkProviderV2', () => {
     });
   });
 
-  describe('Direct Link Provider Gateways with Client API', () => {
+  describe.skip('Direct Link Provider Gateways with Client API', () => {
     jest.setTimeout(timeout);
 
     const gwName = 'NODE-INT-SDK-PROVIDER-' + timestamp;
@@ -601,7 +601,7 @@ describe('DirectLinkProviderV2', () => {
     });
   });
 
-  describe('Direct Link Provider Gateways with Client API with authenticationKey', () => {
+  describe.skip('Direct Link Provider Gateways with Client API with authenticationKey', () => {
     jest.setTimeout(timeout);
 
     const time = currentDate.getTime().toString();
