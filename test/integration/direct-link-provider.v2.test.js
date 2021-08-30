@@ -272,7 +272,7 @@ describe('DirectLinkProviderV2', () => {
     });
   });
 
-  describe.skip('Direct Link Provider Gateways with Client API', () => {
+  describe('Direct Link Provider Gateways with Client API', () => {
     jest.setTimeout(timeout);
 
     const gwName = 'NODE-INT-SDK-PROVIDER-' + timestamp;
@@ -487,7 +487,7 @@ describe('DirectLinkProviderV2', () => {
         expect(result.type).toEqual('connect');
         expect(result.speed_mbps).toEqual(updatedSpeedMbps); // Speed updated now
         expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.operational_status).toEqual('provisioned');
+        expect(result.operational_status).toEqual('configuring');
         expect(result.provider_api_managed).toBeTruthy();
         expect(result.bgp_cer_cidr).not.toBe('');
         expect(result.bgp_ibm_cidr).not.toBe('');
@@ -601,7 +601,7 @@ describe('DirectLinkProviderV2', () => {
     });
   });
 
-  describe.skip('Direct Link Provider Gateways with Client API with authenticationKey', () => {
+  describe('Direct Link Provider Gateways with Client API with authenticationKey', () => {
     jest.setTimeout(timeout);
 
     const time = currentDate.getTime().toString();
