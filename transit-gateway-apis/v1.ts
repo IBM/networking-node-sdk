@@ -475,8 +475,9 @@ class TransitGatewayApisV1 extends BaseService {
    * Generally only used if the network is in a different account than the gateway. This field is required to be
    * unspecified for network type 'gre_tunnel'.
    * @param {string} [params.networkId] - The ID of the network being connected via this connection. This field is
-   * required for some types, such as 'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected. This
-   * field is required to be unspecified for network type 'classic' and 'gre_tunnel' connections.
+   * required for some types, such as 'vpc' and 'directlink'. For network types 'vpc' and 'directlink' this is the CRN
+   * of the VPC / Direct Link gateway respectively. This field is required to be unspecified for network type 'classic'
+   * and 'gre_tunnel' connections.
    * @param {string} [params.remoteBgpAsn] - Remote network BGP ASN.  This field is only applicable to 'gre_tunnel' type
    * connections. The following ASN values are reserved and unavailable 64512-64513, 65100, 65201-65234, 65402-65433,
    * 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel connection create requests IBM will
@@ -988,8 +989,9 @@ namespace TransitGatewayApisV1 {
      */
     networkAccountId?: string;
     /** The ID of the network being connected via this connection. This field is required for some types, such as
-     *  'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected. This field is required to be
-     *  unspecified for network type 'classic' and 'gre_tunnel' connections.
+     *  'vpc' and 'directlink'. For network types 'vpc' and 'directlink' this is the CRN of the VPC / Direct Link
+     *  gateway respectively. This field is required to be unspecified for network type 'classic' and 'gre_tunnel'
+     *  connections.
      */
     networkId?: string;
     /** Remote network BGP ASN.  This field is only applicable to 'gre_tunnel' type connections. The following ASN
@@ -1018,9 +1020,10 @@ namespace TransitGatewayApisV1 {
   export namespace CreateTransitGatewayConnectionConstants {
     /** Defines what type of network is connected via this connection. For access to gre_tunnel connections contact IBM support. */
     export enum NetworkType {
-      VPC = 'vpc',
       CLASSIC = 'classic',
+      DIRECTLINK = 'directlink',
       GRE_TUNNEL = 'gre_tunnel',
+      VPC = 'vpc',
     }
   }
 
@@ -1178,7 +1181,8 @@ namespace TransitGatewayApisV1 {
      */
     network_account_id?: string;
     /** The ID of the network being connected via this connection. This field is required for some types, such as
-     *  'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected.
+     *  'vpc' and 'directlink'. For network types 'vpc' and 'directlink' it should be the CRN of the target vpc /
+     *  gateway respectively.
      */
     network_id?: string;
     /** Defines what type of network is connected via this connection. The list of enumerated values for this
@@ -1297,7 +1301,8 @@ namespace TransitGatewayApisV1 {
     /** The user-defined name for this transit gateway connection. */
     name: string;
     /** The ID of the network being connected via this connection. This field is required for some types, such as
-     *  'vpc'. For network type 'vpc' this is the CRN of the VPC to be connected.
+     *  'vpc' and 'directlink'. For network types 'vpc' and 'directlink' it should be the CRN of the target vpc /
+     *  gateway respectively.
      */
     network_id?: string;
     /** Defines what type of network is connected via this connection. The list of enumerated values for this
