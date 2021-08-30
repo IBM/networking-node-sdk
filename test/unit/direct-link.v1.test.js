@@ -212,6 +212,7 @@ describe('DirectLinkV1', () => {
         bgp_base_cidr: 'testString',
         bgp_cer_cidr: '169.254.0.10/30',
         bgp_ibm_cidr: '169.254.0.9/30',
+        connection_mode: 'transit',
         global: true,
         metered: false,
         name: 'myGateway',
@@ -464,6 +465,7 @@ describe('DirectLinkV1', () => {
         // Construct the params object for operation updateGateway
         const id = 'testString';
         const authenticationKey = gatewayPatchTemplateAuthenticationKeyModel;
+        const connectionMode = 'transit';
         const global = true;
         const loaRejectReason = 'The port mentioned was incorrect';
         const macsecConfig = gatewayMacsecConfigPatchTemplateModel;
@@ -474,6 +476,7 @@ describe('DirectLinkV1', () => {
         const params = {
           id: id,
           authenticationKey: authenticationKey,
+          connectionMode: connectionMode,
           global: global,
           loaRejectReason: loaRejectReason,
           macsecConfig: macsecConfig,
@@ -498,6 +501,7 @@ describe('DirectLinkV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(options.body['authentication_key']).toEqual(authenticationKey);
+        expect(options.body['connection_mode']).toEqual(connectionMode);
         expect(options.body['global']).toEqual(global);
         expect(options.body['loa_reject_reason']).toEqual(loaRejectReason);
         expect(options.body['macsec_config']).toEqual(macsecConfig);
@@ -571,6 +575,7 @@ describe('DirectLinkV1', () => {
         const id = 'testString';
         const action = 'create_gateway_approve';
         const authenticationKey = gatewayActionTemplateAuthenticationKeyModel;
+        const connectionMode = 'transit';
         const global = true;
         const metered = false;
         const resourceGroup = resourceGroupIdentityModel;
@@ -579,6 +584,7 @@ describe('DirectLinkV1', () => {
           id: id,
           action: action,
           authenticationKey: authenticationKey,
+          connectionMode: connectionMode,
           global: global,
           metered: metered,
           resourceGroup: resourceGroup,
@@ -601,6 +607,7 @@ describe('DirectLinkV1', () => {
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(options.body['action']).toEqual(action);
         expect(options.body['authentication_key']).toEqual(authenticationKey);
+        expect(options.body['connection_mode']).toEqual(connectionMode);
         expect(options.body['global']).toEqual(global);
         expect(options.body['metered']).toEqual(metered);
         expect(options.body['resource_group']).toEqual(resourceGroup);

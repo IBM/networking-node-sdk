@@ -727,4 +727,122 @@ describe('DirectLinkProviderV2', () => {
       }
     });
   });
+
+  describe('Direct Link Provider Gateways with DLAAS', () => {
+    jest.setTimeout(timeout);
+
+    const time = currentDate.getTime().toString();
+    const gwName = 'NODE-INT-SDK-PROVIDER-DLAAS-' + time;
+    const speedMbps = 1000;
+
+    let portId = '';
+    let gatewayId = '';
+
+    const params = {
+      name: gwName,
+      speedMbps,
+      bgpAsn: 64999,
+      metered: false,
+      customerAccountId: config.CUSTOMER_ACCT_ID,
+    };
+
+    it('should successfully get the provider port', async done => {
+      try {
+        const response = await dlProviderService.listProviderPorts({});
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+        expect(result.ports.length).toBeGreaterThan(0);
+        portId = result.ports[0].id;
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should create a provider gateway', async done => {
+      try {
+        const response = await dlProviderService.createProviderGateway({
+          ...params,
+          port: { id: portId },
+        });
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(201);
+        gatewayId = response.result.id;
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully approve the provider created gateway with connection mode set as transit', async done => {
+      try {
+        const response = await dlService.createGatewayAction({
+          id: gatewayId,
+          action: 'create_gateway_approve',
+          global: false,
+          metered: false,
+          connectionMode: 'transit',
+        });
+
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        expect(result.id).toBe(gatewayId);
+        expect(result.name).toEqual(gwName);
+        expect(result.connection_mode).toEqual('transit');
+        expect(result.type).toEqual('connect');
+        expect(result.speed_mbps).toEqual(speedMbps);
+        expect(result.bgp_asn).toEqual(params.bgpAsn);
+        expect(result.port.id).toBe(portId);
+        expect(result.global).toBeFalsy();
+        expect(result.metered).toBeFalsy();
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully wait for the gateway to move to provisioned state', async done => {
+      try {
+        const result = await poll(
+          () => dlProviderService.getProviderGateway({ id: gatewayId }),
+          result => result.operational_status === 'provisioned',
+          100
+        );
+
+        expect(result).toBeDefined();
+        expect(result.operational_status).toEqual('provisioned');
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully request delete gateway using provider account', async done => {
+      try {
+        const response = await dlProviderService.deleteProviderGateway({ id: gatewayId });
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(202);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully approve delete gayeway using client account', async done => {
+      try {
+        const response = await dlService.createGatewayAction({
+          id: gatewayId,
+          action: 'delete_gateway_approve',
+        });
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(204);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
 });
