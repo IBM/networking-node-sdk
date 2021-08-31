@@ -288,6 +288,10 @@ class DirectLinkV1 extends BaseService {
    * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
    * in length.
    * To clear the optional `authentication_key` field patch its crn to `""`.
+   * @param {string} [params.connectionMode] - Type of services this Gateway is attached to. Mode transit means this
+   * Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or
+   * classic connection. The list of enumerated values for this property may expand in the future. Code and processes
+   * using this field  must tolerate unexpected values.
    * @param {boolean} [params.global] - Gateways with global routing (`true`) can connect to networks outside of their
    * associated region.
    * @param {string} [params.loaRejectReason] - Use this field during LOA rejection to provide the reason for the
@@ -324,6 +328,7 @@ class DirectLinkV1 extends BaseService {
 
       const body = {
         'authentication_key': _params.authenticationKey,
+        'connection_mode': _params.connectionMode,
         'global': _params.global,
         'loa_reject_reason': _params.loaRejectReason,
         'macsec_config': _params.macsecConfig,
@@ -379,6 +384,10 @@ class DirectLinkV1 extends BaseService {
    * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
    * in length.
    * To clear the optional `authentication_key` field patch its crn to `""`.
+   * @param {string} [params.connectionMode] - Type of services this Gateway is attached to. Mode transit means this
+   * Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or
+   * classic connection. The list of enumerated values for this property may expand in the future. Code and processes
+   * using this field  must tolerate unexpected values.
    * @param {boolean} [params.global] - Required for create_gateway_approve requests to select the gateway's routing
    * option.  Gateways with global routing (`true`) can connect to networks outside of their associated region.
    * @param {boolean} [params.metered] - Required for create_gateway_approve requests to select the gateway's metered
@@ -406,6 +415,7 @@ class DirectLinkV1 extends BaseService {
       const body = {
         'action': _params.action,
         'authentication_key': _params.authenticationKey,
+        'connection_mode': _params.connectionMode,
         'global': _params.global,
         'metered': _params.metered,
         'resource_group': _params.resourceGroup,
@@ -1250,6 +1260,12 @@ namespace DirectLinkV1 {
      *  To clear the optional `authentication_key` field patch its crn to `""`.
      */
     authenticationKey?: GatewayPatchTemplateAuthenticationKey;
+    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
+     *  Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of
+     *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
+     *  unexpected values.
+     */
+    connectionMode?: UpdateGatewayConstants.ConnectionMode | string;
     /** Gateways with global routing (`true`) can connect to networks outside of their associated region. */
     global?: boolean;
     /** Use this field during LOA rejection to provide the reason for the rejection.
@@ -1284,6 +1300,11 @@ namespace DirectLinkV1 {
 
   /** Constants for the `updateGateway` operation. */
   export namespace UpdateGatewayConstants {
+    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+    export enum ConnectionMode {
+      DIRECT = 'direct',
+      TRANSIT = 'transit',
+    }
     /** Gateway operational status. For gateways pending LOA approval, patch operational_status to the appropriate value to approve or reject its LOA.  When rejecting an LOA, provide reject reasoning in `loa_reject_reason`. Only allowed for type=dedicated gateways. */
     export enum OperationalStatus {
       LOA_ACCEPTED = 'loa_accepted',
@@ -1303,6 +1324,12 @@ namespace DirectLinkV1 {
      *  To clear the optional `authentication_key` field patch its crn to `""`.
      */
     authenticationKey?: GatewayActionTemplateAuthenticationKey;
+    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
+     *  Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of
+     *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
+     *  unexpected values.
+     */
+    connectionMode?: CreateGatewayActionConstants.ConnectionMode | string;
     /** Required for create_gateway_approve requests to select the gateway's routing option.  Gateways with global
      *  routing (`true`) can connect to networks outside of their associated region.
      */
@@ -1334,6 +1361,11 @@ namespace DirectLinkV1 {
       DELETE_GATEWAY_REJECT = 'delete_gateway_reject',
       UPDATE_ATTRIBUTES_APPROVE = 'update_attributes_approve',
       UPDATE_ATTRIBUTES_REJECT = 'update_attributes_reject',
+    }
+    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+    export enum ConnectionMode {
+      DIRECT = 'direct',
+      TRANSIT = 'transit',
     }
   }
 
@@ -1552,7 +1584,7 @@ namespace DirectLinkV1 {
     /** (DEPRECATED) BGP base CIDR is deprecated and no longer recognized by the Direct Link APIs.
      *
      *  See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
-     * 
+     *
      *  Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
      */
     bgp_base_cidr?: string;
@@ -1574,6 +1606,12 @@ namespace DirectLinkV1 {
      *  notice.
      */
     completion_notice_reject_reason?: string;
+    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
+     *  Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of
+     *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
+     *  unexpected values.
+     */
+    connection_mode?: string;
     /** The date and time resource was created. */
     created_at: string;
     /** The CRN (Cloud Resource Name) of this gateway. */
@@ -1867,6 +1905,12 @@ namespace DirectLinkV1 {
      *  bgp_ibm_cidr must have matching network and subnet mask values.
      */
     bgp_ibm_cidr?: string;
+    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
+     *  Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of
+     *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
+     *  unexpected values.
+     */
+    connection_mode?: string;
     /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
     global: boolean;
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
