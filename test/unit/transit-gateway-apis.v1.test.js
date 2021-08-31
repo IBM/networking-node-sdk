@@ -540,7 +540,9 @@ describe('TransitGatewayApisV1', () => {
           transitGatewayId: transitGatewayId,
         };
 
-        const listTransitGatewayConnectionsResult = transitGatewayApisService.listTransitGatewayConnections(params);
+        const listTransitGatewayConnectionsResult = transitGatewayApisService.listTransitGatewayConnections(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(listTransitGatewayConnectionsResult);
@@ -618,7 +620,8 @@ describe('TransitGatewayApisV1', () => {
         const localTunnelIp = '192.168.129.2';
         const name = 'Transit_Service_BWTN_SJ_DL';
         const networkAccountId = '28e4d90ac7504be694471ee66e70d0d5';
-        const networkId = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b';
+        const networkId =
+          'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b';
         const remoteBgpAsn = '65010';
         const remoteGatewayIp = '10.242.63.12';
         const remoteTunnelIp = '192.168.129.1';
@@ -638,7 +641,9 @@ describe('TransitGatewayApisV1', () => {
           zone: zone,
         };
 
-        const createTransitGatewayConnectionResult = transitGatewayApisService.createTransitGatewayConnection(params);
+        const createTransitGatewayConnectionResult = transitGatewayApisService.createTransitGatewayConnection(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayConnectionResult);
@@ -722,7 +727,9 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const deleteTransitGatewayConnectionResult = transitGatewayApisService.deleteTransitGatewayConnection(params);
+        const deleteTransitGatewayConnectionResult = transitGatewayApisService.deleteTransitGatewayConnection(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteTransitGatewayConnectionResult);
@@ -732,7 +739,11 @@ describe('TransitGatewayApisV1', () => {
 
         const options = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'DELETE');
+        checkUrlAndMethod(
+          options,
+          '/transit_gateways/{transit_gateway_id}/connections/{id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -796,7 +807,9 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const getTransitGatewayConnectionResult = transitGatewayApisService.getTransitGatewayConnection(params);
+        const getTransitGatewayConnectionResult = transitGatewayApisService.getTransitGatewayConnection(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(getTransitGatewayConnectionResult);
@@ -806,7 +819,11 @@ describe('TransitGatewayApisV1', () => {
 
         const options = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'GET');
+        checkUrlAndMethod(
+          options,
+          '/transit_gateways/{transit_gateway_id}/connections/{id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -872,7 +889,9 @@ describe('TransitGatewayApisV1', () => {
           name: name,
         };
 
-        const updateTransitGatewayConnectionResult = transitGatewayApisService.updateTransitGatewayConnection(params);
+        const updateTransitGatewayConnectionResult = transitGatewayApisService.updateTransitGatewayConnection(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateTransitGatewayConnectionResult);
@@ -882,7 +901,11 @@ describe('TransitGatewayApisV1', () => {
 
         const options = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'PATCH');
+        checkUrlAndMethod(
+          options,
+          '/transit_gateways/{transit_gateway_id}/connections/{id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -949,7 +972,9 @@ describe('TransitGatewayApisV1', () => {
           action: action,
         };
 
-        const createTransitGatewayConnectionActionsResult = transitGatewayApisService.createTransitGatewayConnectionActions(params);
+        const createTransitGatewayConnectionActionsResult = transitGatewayApisService.createTransitGatewayConnectionActions(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayConnectionActionsResult);
@@ -959,7 +984,11 @@ describe('TransitGatewayApisV1', () => {
 
         const options = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/transit_gateways/{transit_gateway_id}/connections/{id}/actions', 'POST');
+        checkUrlAndMethod(
+          options,
+          '/transit_gateways/{transit_gateway_id}/connections/{id}/actions',
+          'POST'
+        );
         const expectedAccept = undefined;
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
