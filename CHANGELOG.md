@@ -1,3 +1,11 @@
+# [0.12.0](https://github.com/IBM/networking-node-sdk/compare/v0.11.0...v0.12.0) (2021-08-31)
+
+
+### Features
+
+* **DirectLink:** implement the DLaaS changes for Direct link gateway ([47878a4](https://github.com/IBM/networking-node-sdk/commit/47878a45ff3a7ca49fdeb1a2eb46539eab309d83))
+* Support for directlink tgw connection type ([#50](https://github.com/IBM/networking-node-sdk/issues/50)) ([4a3bed9](https://github.com/IBM/networking-node-sdk/commit/4a3bed985ba6423c6dbf2af04270d4c2569986be))
+
 # [0.11.0](https://github.com/IBM/networking-node-sdk/compare/v0.10.0...v0.11.0) (2021-08-16)
 
 
