@@ -15,22 +15,29 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.32.0-4c6a3129-20210514-210323
+ * IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
  */
-
 
 import * as extend from 'extend';
 import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
-import { Authenticator, BaseService, getAuthenticatorFromEnvironment, getMissingParams, UserOptions } from 'ibm-cloud-sdk-core';
+import {
+  Authenticator,
+  BaseService,
+  getAuthenticatorFromEnvironment,
+  getMissingParams,
+  UserOptions,
+} from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
 
 /**
  * DNS Services API
+ *
+ * API Version: 1.0.0
  */
 
 class DnsSvcsV1 extends BaseService {
-
   static DEFAULT_SERVICE_URL: string = 'https://api.dns-svcs.cloud.ibm.com/v1';
+
   static DEFAULT_SERVICE_NAME: string = 'dns_svcs';
 
   /*************************
@@ -63,7 +70,6 @@ class DnsSvcsV1 extends BaseService {
     }
     return service;
   }
-
 
   /**
    * Construct a DnsSvcsV1 object.
@@ -103,8 +109,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListDnszones>>}
    */
-  public listDnszones(params: DnsSvcsV1.ListDnszonesParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListDnszones>> {
-    const _params = Object.assign({}, params);
+  public listDnszones(
+    params: DnsSvcsV1.ListDnszonesParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListDnszones>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -114,14 +122,18 @@ class DnsSvcsV1 extends BaseService {
 
     const query = {
       'offset': _params.offset,
-      'limit': _params.limit
+      'limit': _params.limit,
     };
 
     const path = {
-      'instance_id': _params.instanceId
+      'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'listDnszones');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listDnszones'
+    );
 
     const parameters = {
       options: {
@@ -131,15 +143,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Create DNS zone.
@@ -155,8 +172,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>>}
    */
-  public createDnszone(params: DnsSvcsV1.CreateDnszoneParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>> {
-    const _params = Object.assign({}, params);
+  public createDnszone(
+    params: DnsSvcsV1.CreateDnszoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -167,14 +186,18 @@ class DnsSvcsV1 extends BaseService {
     const body = {
       'name': _params.name,
       'description': _params.description,
-      'label': _params.label
+      'label': _params.label,
     };
 
     const path = {
-      'instance_id': _params.instanceId
+      'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'createDnszone');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createDnszone'
+    );
 
     const parameters = {
       options: {
@@ -184,16 +207,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Delete DNS zone.
@@ -207,8 +235,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
    */
-  public deleteDnszone(params: DnsSvcsV1.DeleteDnszoneParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
-    const _params = Object.assign({}, params);
+  public deleteDnszone(
+    params: DnsSvcsV1.DeleteDnszoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -218,10 +248,14 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'dnszone_id': _params.dnszoneId
+      'dnszone_id': _params.dnszoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteDnszone');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteDnszone'
+    );
 
     const parameters = {
       options: {
@@ -230,14 +264,19 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get DNS zone.
@@ -251,8 +290,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>>}
    */
-  public getDnszone(params: DnsSvcsV1.GetDnszoneParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>> {
-    const _params = Object.assign({}, params);
+  public getDnszone(
+    params: DnsSvcsV1.GetDnszoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -262,10 +303,14 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'dnszone_id': _params.dnszoneId
+      'dnszone_id': _params.dnszoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'getDnszone');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getDnszone'
+    );
 
     const parameters = {
       options: {
@@ -274,15 +319,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update DNS zone.
@@ -298,8 +348,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>>}
    */
-  public updateDnszone(params: DnsSvcsV1.UpdateDnszoneParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>> {
-    const _params = Object.assign({}, params);
+  public updateDnszone(
+    params: DnsSvcsV1.UpdateDnszoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -309,15 +361,19 @@ class DnsSvcsV1 extends BaseService {
 
     const body = {
       'description': _params.description,
-      'label': _params.label
+      'label': _params.label,
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'dnszone_id': _params.dnszoneId
+      'dnszone_id': _params.dnszoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateDnszone');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateDnszone'
+    );
 
     const parameters = {
       options: {
@@ -327,17 +383,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
-
+  }
   /*************************
    * resourceRecords
    ************************/
@@ -356,8 +416,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListResourceRecords>>}
    */
-  public listResourceRecords(params: DnsSvcsV1.ListResourceRecordsParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListResourceRecords>> {
-    const _params = Object.assign({}, params);
+  public listResourceRecords(
+    params: DnsSvcsV1.ListResourceRecordsParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListResourceRecords>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -367,15 +429,19 @@ class DnsSvcsV1 extends BaseService {
 
     const query = {
       'offset': _params.offset,
-      'limit': _params.limit
+      'limit': _params.limit,
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'dnszone_id': _params.dnszoneId
+      'dnszone_id': _params.dnszoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'listResourceRecords');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listResourceRecords'
+    );
 
     const parameters = {
       options: {
@@ -385,15 +451,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Create resource record.
@@ -413,8 +484,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>>}
    */
-  public createResourceRecord(params: DnsSvcsV1.CreateResourceRecordParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>> {
-    const _params = Object.assign({}, params);
+  public createResourceRecord(
+    params: DnsSvcsV1.CreateResourceRecordParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -428,15 +501,19 @@ class DnsSvcsV1 extends BaseService {
       'rdata': _params.rdata,
       'ttl': _params.ttl,
       'service': _params.service,
-      'protocol': _params.protocol
+      'protocol': _params.protocol,
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'dnszone_id': _params.dnszoneId
+      'dnszone_id': _params.dnszoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'createResourceRecord');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createResourceRecord'
+    );
 
     const parameters = {
       options: {
@@ -446,16 +523,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Delete resource record.
@@ -470,8 +552,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
    */
-  public deleteResourceRecord(params: DnsSvcsV1.DeleteResourceRecordParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
-    const _params = Object.assign({}, params);
+  public deleteResourceRecord(
+    params: DnsSvcsV1.DeleteResourceRecordParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId', 'recordId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -482,10 +566,14 @@ class DnsSvcsV1 extends BaseService {
     const path = {
       'instance_id': _params.instanceId,
       'dnszone_id': _params.dnszoneId,
-      'record_id': _params.recordId
+      'record_id': _params.recordId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteResourceRecord');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteResourceRecord'
+    );
 
     const parameters = {
       options: {
@@ -494,14 +582,19 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get resource record.
@@ -516,8 +609,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>>}
    */
-  public getResourceRecord(params: DnsSvcsV1.GetResourceRecordParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>> {
-    const _params = Object.assign({}, params);
+  public getResourceRecord(
+    params: DnsSvcsV1.GetResourceRecordParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId', 'recordId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -528,10 +623,14 @@ class DnsSvcsV1 extends BaseService {
     const path = {
       'instance_id': _params.instanceId,
       'dnszone_id': _params.dnszoneId,
-      'record_id': _params.recordId
+      'record_id': _params.recordId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'getResourceRecord');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getResourceRecord'
+    );
 
     const parameters = {
       options: {
@@ -540,15 +639,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update resource record.
@@ -568,8 +672,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>>}
    */
-  public updateResourceRecord(params: DnsSvcsV1.UpdateResourceRecordParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>> {
-    const _params = Object.assign({}, params);
+  public updateResourceRecord(
+    params: DnsSvcsV1.UpdateResourceRecordParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId', 'recordId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -582,16 +688,20 @@ class DnsSvcsV1 extends BaseService {
       'rdata': _params.rdata,
       'ttl': _params.ttl,
       'service': _params.service,
-      'protocol': _params.protocol
+      'protocol': _params.protocol,
     };
 
     const path = {
       'instance_id': _params.instanceId,
       'dnszone_id': _params.dnszoneId,
-      'record_id': _params.recordId
+      'record_id': _params.recordId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateResourceRecord');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateResourceRecord'
+    );
 
     const parameters = {
       options: {
@@ -601,16 +711,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Export resource records to a zone file.
@@ -622,10 +737,12 @@ class DnsSvcsV1 extends BaseService {
    * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DnsSvcsV1.Response<NodeJS.ReadableStream|Buffer>>}
+   * @returns {Promise<DnsSvcsV1.Response<NodeJS.ReadableStream>>}
    */
-  public exportResourceRecords(params: DnsSvcsV1.ExportResourceRecordsParams): Promise<DnsSvcsV1.Response<NodeJS.ReadableStream|Buffer>> {
-    const _params = Object.assign({}, params);
+  public exportResourceRecords(
+    params: DnsSvcsV1.ExportResourceRecordsParams
+  ): Promise<DnsSvcsV1.Response<NodeJS.ReadableStream>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -635,10 +752,14 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'dnszone_id': _params.dnszoneId
+      'dnszone_id': _params.dnszoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'exportResourceRecords');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'exportResourceRecords'
+    );
 
     const parameters = {
       options: {
@@ -648,15 +769,20 @@ class DnsSvcsV1 extends BaseService {
         responseType: 'stream',
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'text/plain; charset=utf-8',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'text/plain; charset=utf-8',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Import resource records from a zone file.
@@ -666,14 +792,16 @@ class DnsSvcsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
-   * @param {NodeJS.ReadableStream|Buffer} [params.file] - file to upload.
+   * @param {NodeJS.ReadableStream | Buffer} [params.file] - file to upload.
    * @param {string} [params.fileContentType] - The content type of file.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ImportResourceRecordsResp>>}
    */
-  public importResourceRecords(params: DnsSvcsV1.ImportResourceRecordsParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ImportResourceRecordsResp>> {
-    const _params = Object.assign({}, params);
+  public importResourceRecords(
+    params: DnsSvcsV1.ImportResourceRecordsParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ImportResourceRecordsResp>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -684,16 +812,20 @@ class DnsSvcsV1 extends BaseService {
     const formData = {
       'file': {
         data: _params.file,
-        contentType: _params.fileContentType
-      }
+        contentType: _params.fileContentType,
+      },
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'dnszone_id': _params.dnszoneId
+      'dnszone_id': _params.dnszoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'importResourceRecords');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'importResourceRecords'
+    );
 
     const parameters = {
       options: {
@@ -703,17 +835,21 @@ class DnsSvcsV1 extends BaseService {
         formData
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'multipart/form-data',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
-
+  }
   /*************************
    * permittedNetwork
    ************************/
@@ -732,8 +868,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPermittedNetworks>>}
    */
-  public listPermittedNetworks(params: DnsSvcsV1.ListPermittedNetworksParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPermittedNetworks>> {
-    const _params = Object.assign({}, params);
+  public listPermittedNetworks(
+    params: DnsSvcsV1.ListPermittedNetworksParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPermittedNetworks>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -743,15 +881,19 @@ class DnsSvcsV1 extends BaseService {
 
     const query = {
       'offset': _params.offset,
-      'limit': _params.limit
+      'limit': _params.limit,
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'dnszone_id': _params.dnszoneId
+      'dnszone_id': _params.dnszoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'listPermittedNetworks');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listPermittedNetworks'
+    );
 
     const parameters = {
       options: {
@@ -761,15 +903,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Create permitted network.
@@ -785,8 +932,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>>}
    */
-  public createPermittedNetwork(params: DnsSvcsV1.CreatePermittedNetworkParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
-    const _params = Object.assign({}, params);
+  public createPermittedNetwork(
+    params: DnsSvcsV1.CreatePermittedNetworkParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -796,15 +945,19 @@ class DnsSvcsV1 extends BaseService {
 
     const body = {
       'type': _params.type,
-      'permitted_network': _params.permittedNetwork
+      'permitted_network': _params.permittedNetwork,
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'dnszone_id': _params.dnszoneId
+      'dnszone_id': _params.dnszoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'createPermittedNetwork');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createPermittedNetwork'
+    );
 
     const parameters = {
       options: {
@@ -814,16 +967,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Remove permitted network.
@@ -838,8 +996,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>>}
    */
-  public deletePermittedNetwork(params: DnsSvcsV1.DeletePermittedNetworkParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
-    const _params = Object.assign({}, params);
+  public deletePermittedNetwork(
+    params: DnsSvcsV1.DeletePermittedNetworkParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId', 'permittedNetworkId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -850,10 +1010,14 @@ class DnsSvcsV1 extends BaseService {
     const path = {
       'instance_id': _params.instanceId,
       'dnszone_id': _params.dnszoneId,
-      'permitted_network_id': _params.permittedNetworkId
+      'permitted_network_id': _params.permittedNetworkId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deletePermittedNetwork');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deletePermittedNetwork'
+    );
 
     const parameters = {
       options: {
@@ -862,15 +1026,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get permitted network.
@@ -885,8 +1054,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>>}
    */
-  public getPermittedNetwork(params: DnsSvcsV1.GetPermittedNetworkParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
-    const _params = Object.assign({}, params);
+  public getPermittedNetwork(
+    params: DnsSvcsV1.GetPermittedNetworkParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId', 'permittedNetworkId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -897,10 +1068,14 @@ class DnsSvcsV1 extends BaseService {
     const path = {
       'instance_id': _params.instanceId,
       'dnszone_id': _params.dnszoneId,
-      'permitted_network_id': _params.permittedNetworkId
+      'permitted_network_id': _params.permittedNetworkId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'getPermittedNetwork');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getPermittedNetwork'
+    );
 
     const parameters = {
       options: {
@@ -909,16 +1084,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
-
+  }
   /*************************
    * globalLoadBalancers
    ************************/
@@ -935,8 +1114,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListLoadBalancers>>}
    */
-  public listLoadBalancers(params: DnsSvcsV1.ListLoadBalancersParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListLoadBalancers>> {
-    const _params = Object.assign({}, params);
+  public listLoadBalancers(
+    params: DnsSvcsV1.ListLoadBalancersParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListLoadBalancers>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -946,10 +1127,14 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'dnszone_id': _params.dnszoneId
+      'dnszone_id': _params.dnszoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'listLoadBalancers');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listLoadBalancers'
+    );
 
     const parameters = {
       options: {
@@ -958,15 +1143,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Create load balancer.
@@ -988,8 +1178,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>>}
    */
-  public createLoadBalancer(params: DnsSvcsV1.CreateLoadBalancerParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>> {
-    const _params = Object.assign({}, params);
+  public createLoadBalancer(
+    params: DnsSvcsV1.CreateLoadBalancerParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1004,15 +1196,19 @@ class DnsSvcsV1 extends BaseService {
       'description': _params.description,
       'enabled': _params.enabled,
       'ttl': _params.ttl,
-      'az_pools': _params.azPools
+      'az_pools': _params.azPools,
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'dnszone_id': _params.dnszoneId
+      'dnszone_id': _params.dnszoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'createLoadBalancer');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createLoadBalancer'
+    );
 
     const parameters = {
       options: {
@@ -1022,16 +1218,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Delete load balancer.
@@ -1046,8 +1247,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
    */
-  public deleteLoadBalancer(params: DnsSvcsV1.DeleteLoadBalancerParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
-    const _params = Object.assign({}, params);
+  public deleteLoadBalancer(
+    params: DnsSvcsV1.DeleteLoadBalancerParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId', 'lbId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1058,10 +1261,14 @@ class DnsSvcsV1 extends BaseService {
     const path = {
       'instance_id': _params.instanceId,
       'dnszone_id': _params.dnszoneId,
-      'lb_id': _params.lbId
+      'lb_id': _params.lbId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteLoadBalancer');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteLoadBalancer'
+    );
 
     const parameters = {
       options: {
@@ -1070,14 +1277,19 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get load balancer.
@@ -1092,8 +1304,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>>}
    */
-  public getLoadBalancer(params: DnsSvcsV1.GetLoadBalancerParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>> {
-    const _params = Object.assign({}, params);
+  public getLoadBalancer(
+    params: DnsSvcsV1.GetLoadBalancerParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId', 'lbId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1104,10 +1318,14 @@ class DnsSvcsV1 extends BaseService {
     const path = {
       'instance_id': _params.instanceId,
       'dnszone_id': _params.dnszoneId,
-      'lb_id': _params.lbId
+      'lb_id': _params.lbId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'getLoadBalancer');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getLoadBalancer'
+    );
 
     const parameters = {
       options: {
@@ -1116,15 +1334,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update load balancer.
@@ -1147,8 +1370,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>>}
    */
-  public updateLoadBalancer(params: DnsSvcsV1.UpdateLoadBalancerParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>> {
-    const _params = Object.assign({}, params);
+  public updateLoadBalancer(
+    params: DnsSvcsV1.UpdateLoadBalancerParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'dnszoneId', 'lbId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1163,16 +1388,20 @@ class DnsSvcsV1 extends BaseService {
       'ttl': _params.ttl,
       'fallback_pool': _params.fallbackPool,
       'default_pools': _params.defaultPools,
-      'az_pools': _params.azPools
+      'az_pools': _params.azPools,
     };
 
     const path = {
       'instance_id': _params.instanceId,
       'dnszone_id': _params.dnszoneId,
-      'lb_id': _params.lbId
+      'lb_id': _params.lbId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateLoadBalancer');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateLoadBalancer'
+    );
 
     const parameters = {
       options: {
@@ -1182,17 +1411,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
-
+  }
   /*************************
    * pools
    ************************/
@@ -1208,8 +1441,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPools>>}
    */
-  public listPools(params: DnsSvcsV1.ListPoolsParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPools>> {
-    const _params = Object.assign({}, params);
+  public listPools(
+    params: DnsSvcsV1.ListPoolsParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPools>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1218,10 +1453,14 @@ class DnsSvcsV1 extends BaseService {
     }
 
     const path = {
-      'instance_id': _params.instanceId
+      'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'listPools');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listPools'
+    );
 
     const parameters = {
       options: {
@@ -1230,15 +1469,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Create load balancer pool.
@@ -1263,8 +1507,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>>}
    */
-  public createPool(params: DnsSvcsV1.CreatePoolParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>> {
-    const _params = Object.assign({}, params);
+  public createPool(
+    params: DnsSvcsV1.CreatePoolParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1281,14 +1527,18 @@ class DnsSvcsV1 extends BaseService {
       'monitor': _params.monitor,
       'notification_channel': _params.notificationChannel,
       'healthcheck_region': _params.healthcheckRegion,
-      'healthcheck_subnets': _params.healthcheckSubnets
+      'healthcheck_subnets': _params.healthcheckSubnets,
     };
 
     const path = {
-      'instance_id': _params.instanceId
+      'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'createPool');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createPool'
+    );
 
     const parameters = {
       options: {
@@ -1298,16 +1548,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Delete load balancer pool.
@@ -1321,8 +1576,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
    */
-  public deletePool(params: DnsSvcsV1.DeletePoolParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
-    const _params = Object.assign({}, params);
+  public deletePool(
+    params: DnsSvcsV1.DeletePoolParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'poolId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1332,10 +1589,14 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'pool_id': _params.poolId
+      'pool_id': _params.poolId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deletePool');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deletePool'
+    );
 
     const parameters = {
       options: {
@@ -1344,14 +1605,19 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get load balancer pool.
@@ -1365,8 +1631,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>>}
    */
-  public getPool(params: DnsSvcsV1.GetPoolParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>> {
-    const _params = Object.assign({}, params);
+  public getPool(
+    params: DnsSvcsV1.GetPoolParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'poolId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1376,10 +1644,14 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'pool_id': _params.poolId
+      'pool_id': _params.poolId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'getPool');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getPool'
+    );
 
     const parameters = {
       options: {
@@ -1388,15 +1660,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update load balancer pool.
@@ -1422,8 +1699,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>>}
    */
-  public updatePool(params: DnsSvcsV1.UpdatePoolParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>> {
-    const _params = Object.assign({}, params);
+  public updatePool(
+    params: DnsSvcsV1.UpdatePoolParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'poolId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1440,15 +1719,19 @@ class DnsSvcsV1 extends BaseService {
       'monitor': _params.monitor,
       'notification_channel': _params.notificationChannel,
       'healthcheck_region': _params.healthcheckRegion,
-      'healthcheck_subnets': _params.healthcheckSubnets
+      'healthcheck_subnets': _params.healthcheckSubnets,
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'pool_id': _params.poolId
+      'pool_id': _params.poolId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'updatePool');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updatePool'
+    );
 
     const parameters = {
       options: {
@@ -1458,17 +1741,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
-
+  }
   /*************************
    * monitors
    ************************/
@@ -1484,8 +1771,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListMonitors>>}
    */
-  public listMonitors(params: DnsSvcsV1.ListMonitorsParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListMonitors>> {
-    const _params = Object.assign({}, params);
+  public listMonitors(
+    params: DnsSvcsV1.ListMonitorsParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListMonitors>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1494,10 +1783,14 @@ class DnsSvcsV1 extends BaseService {
     }
 
     const path = {
-      'instance_id': _params.instanceId
+      'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'listMonitors');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listMonitors'
+    );
 
     const parameters = {
       options: {
@@ -1506,15 +1799,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Create load balancer monitor.
@@ -1552,8 +1850,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>>}
    */
-  public createMonitor(params: DnsSvcsV1.CreateMonitorParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>> {
-    const _params = Object.assign({}, params);
+  public createMonitor(
+    params: DnsSvcsV1.CreateMonitorParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1574,14 +1874,18 @@ class DnsSvcsV1 extends BaseService {
       'headers': _params._headers,
       'allow_insecure': _params.allowInsecure,
       'expected_codes': _params.expectedCodes,
-      'expected_body': _params.expectedBody
+      'expected_body': _params.expectedBody,
     };
 
     const path = {
-      'instance_id': _params.instanceId
+      'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'createMonitor');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createMonitor'
+    );
 
     const parameters = {
       options: {
@@ -1591,16 +1895,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Delete load balancer monitor.
@@ -1614,8 +1923,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
    */
-  public deleteMonitor(params: DnsSvcsV1.DeleteMonitorParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
-    const _params = Object.assign({}, params);
+  public deleteMonitor(
+    params: DnsSvcsV1.DeleteMonitorParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'monitorId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1625,10 +1936,14 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'monitor_id': _params.monitorId
+      'monitor_id': _params.monitorId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteMonitor');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteMonitor'
+    );
 
     const parameters = {
       options: {
@@ -1637,14 +1952,19 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get load balancer monitor.
@@ -1658,8 +1978,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>>}
    */
-  public getMonitor(params: DnsSvcsV1.GetMonitorParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>> {
-    const _params = Object.assign({}, params);
+  public getMonitor(
+    params: DnsSvcsV1.GetMonitorParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'monitorId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1669,10 +1991,14 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'monitor_id': _params.monitorId
+      'monitor_id': _params.monitorId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'getMonitor');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getMonitor'
+    );
 
     const parameters = {
       options: {
@@ -1681,15 +2007,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update load balancer monitor.
@@ -1728,8 +2059,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>>}
    */
-  public updateMonitor(params: DnsSvcsV1.UpdateMonitorParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>> {
-    const _params = Object.assign({}, params);
+  public updateMonitor(
+    params: DnsSvcsV1.UpdateMonitorParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'monitorId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1750,15 +2083,19 @@ class DnsSvcsV1 extends BaseService {
       'headers': _params._headers,
       'allow_insecure': _params.allowInsecure,
       'expected_codes': _params.expectedCodes,
-      'expected_body': _params.expectedBody
+      'expected_body': _params.expectedBody,
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'monitor_id': _params.monitorId
+      'monitor_id': _params.monitorId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateMonitor');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateMonitor'
+    );
 
     const parameters = {
       options: {
@@ -1768,17 +2105,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
-
+  }
   /*************************
    * customResolvers
    ************************/
@@ -1794,8 +2135,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolverList>>}
    */
-  public listCustomResolvers(params: DnsSvcsV1.ListCustomResolversParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolverList>> {
-    const _params = Object.assign({}, params);
+  public listCustomResolvers(
+    params: DnsSvcsV1.ListCustomResolversParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolverList>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1804,10 +2147,14 @@ class DnsSvcsV1 extends BaseService {
     }
 
     const path = {
-      'instance_id': _params.instanceId
+      'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'listCustomResolvers');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listCustomResolvers'
+    );
 
     const parameters = {
       options: {
@@ -1816,15 +2163,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Create a custom resolver.
@@ -1834,14 +2186,16 @@ class DnsSvcsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} [params.name] - Name of the custom resolver.
-   * @param {LocationInput[]} [params.locations] - Locations on which the custom resolver will be running.
    * @param {string} [params.description] - Descriptive text of the custom resolver.
+   * @param {LocationInput[]} [params.locations] - Locations on which the custom resolver will be running.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>>}
    */
-  public createCustomResolver(params: DnsSvcsV1.CreateCustomResolverParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
-    const _params = Object.assign({}, params);
+  public createCustomResolver(
+    params: DnsSvcsV1.CreateCustomResolverParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1851,15 +2205,19 @@ class DnsSvcsV1 extends BaseService {
 
     const body = {
       'name': _params.name,
+      'description': _params.description,
       'locations': _params.locations,
-      'description': _params.description
     };
 
     const path = {
-      'instance_id': _params.instanceId
+      'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'createCustomResolver');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createCustomResolver'
+    );
 
     const parameters = {
       options: {
@@ -1869,16 +2227,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Delete a custom resolver.
@@ -1892,8 +2255,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
    */
-  public deleteCustomResolver(params: DnsSvcsV1.DeleteCustomResolverParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
-    const _params = Object.assign({}, params);
+  public deleteCustomResolver(
+    params: DnsSvcsV1.DeleteCustomResolverParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'resolverId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1903,10 +2268,14 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'resolver_id': _params.resolverId
+      'resolver_id': _params.resolverId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteCustomResolver');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteCustomResolver'
+    );
 
     const parameters = {
       options: {
@@ -1915,14 +2284,19 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get a custom resolver.
@@ -1936,8 +2310,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>>}
    */
-  public getCustomResolver(params: DnsSvcsV1.GetCustomResolverParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
-    const _params = Object.assign({}, params);
+  public getCustomResolver(
+    params: DnsSvcsV1.GetCustomResolverParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'resolverId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1947,10 +2323,14 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'resolver_id': _params.resolverId
+      'resolver_id': _params.resolverId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'getCustomResolver');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getCustomResolver'
+    );
 
     const parameters = {
       options: {
@@ -1959,15 +2339,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update the properties of a custom resolver.
@@ -1984,8 +2369,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>>}
    */
-  public updateCustomResolver(params: DnsSvcsV1.UpdateCustomResolverParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
-    const _params = Object.assign({}, params);
+  public updateCustomResolver(
+    params: DnsSvcsV1.UpdateCustomResolverParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'resolverId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -1996,15 +2383,19 @@ class DnsSvcsV1 extends BaseService {
     const body = {
       'name': _params.name,
       'description': _params.description,
-      'enabled': _params.enabled
+      'enabled': _params.enabled,
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'resolver_id': _params.resolverId
+      'resolver_id': _params.resolverId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateCustomResolver');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateCustomResolver'
+    );
 
     const parameters = {
       options: {
@@ -2014,17 +2405,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
-
+  }
   /*************************
    * customResolverLocations
    ************************/
@@ -2043,8 +2438,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>>}
    */
-  public addCustomResolverLocation(params: DnsSvcsV1.AddCustomResolverLocationParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>> {
-    const _params = Object.assign({}, params);
+  public addCustomResolverLocation(
+    params: DnsSvcsV1.AddCustomResolverLocationParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'resolverId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -2054,15 +2451,19 @@ class DnsSvcsV1 extends BaseService {
 
     const body = {
       'subnet_crn': _params.subnetCrn,
-      'enabled': _params.enabled
+      'enabled': _params.enabled,
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'resolver_id': _params.resolverId
+      'resolver_id': _params.resolverId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'addCustomResolverLocation');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'addCustomResolverLocation'
+    );
 
     const parameters = {
       options: {
@@ -2072,16 +2473,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update custom resolver location.
@@ -2098,8 +2504,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>>}
    */
-  public updateCustomResolverLocation(params: DnsSvcsV1.UpdateCustomResolverLocationParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>> {
-    const _params = Object.assign({}, params);
+  public updateCustomResolverLocation(
+    params: DnsSvcsV1.UpdateCustomResolverLocationParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'resolverId', 'locationId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -2109,16 +2517,20 @@ class DnsSvcsV1 extends BaseService {
 
     const body = {
       'enabled': _params.enabled,
-      'subnet_crn': _params.subnetCrn
+      'subnet_crn': _params.subnetCrn,
     };
 
     const path = {
       'instance_id': _params.instanceId,
       'resolver_id': _params.resolverId,
-      'location_id': _params.locationId
+      'location_id': _params.locationId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateCustomResolverLocation');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateCustomResolverLocation'
+    );
 
     const parameters = {
       options: {
@@ -2128,16 +2540,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Delete custom resolver location.
@@ -2152,8 +2569,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
    */
-  public deleteCustomResolverLocation(params: DnsSvcsV1.DeleteCustomResolverLocationParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
-    const _params = Object.assign({}, params);
+  public deleteCustomResolverLocation(
+    params: DnsSvcsV1.DeleteCustomResolverLocationParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'resolverId', 'locationId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -2164,10 +2583,14 @@ class DnsSvcsV1 extends BaseService {
     const path = {
       'instance_id': _params.instanceId,
       'resolver_id': _params.resolverId,
-      'location_id': _params.locationId
+      'location_id': _params.locationId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteCustomResolverLocation');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteCustomResolverLocation'
+    );
 
     const parameters = {
       options: {
@@ -2176,15 +2599,19 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
-
+  }
   /*************************
    * forwardingRules
    ************************/
@@ -2201,8 +2628,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRuleList>>}
    */
-  public listForwardingRules(params: DnsSvcsV1.ListForwardingRulesParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRuleList>> {
-    const _params = Object.assign({}, params);
+  public listForwardingRules(
+    params: DnsSvcsV1.ListForwardingRulesParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRuleList>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'resolverId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -2212,10 +2641,14 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'resolver_id': _params.resolverId
+      'resolver_id': _params.resolverId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'listForwardingRules');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listForwardingRules'
+    );
 
     const parameters = {
       options: {
@@ -2224,15 +2657,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Create a forwarding rule.
@@ -2250,8 +2688,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>>}
    */
-  public createForwardingRule(params: DnsSvcsV1.CreateForwardingRuleParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
-    const _params = Object.assign({}, params);
+  public createForwardingRule(
+    params: DnsSvcsV1.CreateForwardingRuleParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'resolverId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -2263,15 +2703,19 @@ class DnsSvcsV1 extends BaseService {
       'type': _params.type,
       'match': _params.match,
       'forward_to': _params.forwardTo,
-      'description': _params.description
+      'description': _params.description,
     };
 
     const path = {
       'instance_id': _params.instanceId,
-      'resolver_id': _params.resolverId
+      'resolver_id': _params.resolverId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'createForwardingRule');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createForwardingRule'
+    );
 
     const parameters = {
       options: {
@@ -2281,16 +2725,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Delete a forwarding rule.
@@ -2305,8 +2754,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
    */
-  public deleteForwardingRule(params: DnsSvcsV1.DeleteForwardingRuleParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
-    const _params = Object.assign({}, params);
+  public deleteForwardingRule(
+    params: DnsSvcsV1.DeleteForwardingRuleParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'resolverId', 'ruleId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -2317,10 +2768,14 @@ class DnsSvcsV1 extends BaseService {
     const path = {
       'instance_id': _params.instanceId,
       'resolver_id': _params.resolverId,
-      'rule_id': _params.ruleId
+      'rule_id': _params.ruleId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteForwardingRule');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteForwardingRule'
+    );
 
     const parameters = {
       options: {
@@ -2329,14 +2784,19 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get a forwarding rule.
@@ -2351,8 +2811,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>>}
    */
-  public getForwardingRule(params: DnsSvcsV1.GetForwardingRuleParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
-    const _params = Object.assign({}, params);
+  public getForwardingRule(
+    params: DnsSvcsV1.GetForwardingRuleParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'resolverId', 'ruleId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -2363,10 +2825,14 @@ class DnsSvcsV1 extends BaseService {
     const path = {
       'instance_id': _params.instanceId,
       'resolver_id': _params.resolverId,
-      'rule_id': _params.ruleId
+      'rule_id': _params.ruleId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'getForwardingRule');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getForwardingRule'
+    );
 
     const parameters = {
       options: {
@@ -2375,15 +2841,20 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update the properties of a forwarding rule.
@@ -2401,8 +2872,10 @@ class DnsSvcsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>>}
    */
-  public updateForwardingRule(params: DnsSvcsV1.UpdateForwardingRuleParams): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
-    const _params = Object.assign({}, params);
+  public updateForwardingRule(
+    params: DnsSvcsV1.UpdateForwardingRuleParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
+    const _params = { ...params };
     const requiredParams = ['instanceId', 'resolverId', 'ruleId'];
 
     const missingParams = getMissingParams(_params, requiredParams);
@@ -2413,16 +2886,20 @@ class DnsSvcsV1 extends BaseService {
     const body = {
       'description': _params.description,
       'match': _params.match,
-      'forward_to': _params.forwardTo
+      'forward_to': _params.forwardTo,
     };
 
     const path = {
       'instance_id': _params.instanceId,
       'resolver_id': _params.resolverId,
-      'rule_id': _params.ruleId
+      'rule_id': _params.ruleId,
     };
 
-    const sdkHeaders = getSdkHeaders(DnsSvcsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateForwardingRule');
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateForwardingRule'
+    );
 
     const parameters = {
       options: {
@@ -2432,17 +2909,21 @@ class DnsSvcsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Correlation-ID': _params.xCorrelationId
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
       }),
     };
 
     return this.createRequest(parameters);
-  };
-
+  }
 }
 
 /*************************
@@ -2450,9 +2931,8 @@ class DnsSvcsV1 extends BaseService {
  ************************/
 
 namespace DnsSvcsV1 {
-
   /** An operation response. */
-  export interface Response<T = any>  {
+  export interface Response<T = any> {
     result: T;
     status: number;
     statusText: string;
@@ -2463,7 +2943,7 @@ namespace DnsSvcsV1 {
   export type Callback<T> = (error: any, response?: Response<T>) => void;
 
   /** The body of a service request that returns no response data. */
-  export interface Empty { }
+  export interface Empty {}
 
   /** A standard JS object, defined to avoid the limitations of `Object` and `object` */
   export interface JsonObject {
@@ -2658,7 +3138,7 @@ namespace DnsSvcsV1 {
     /** The unique identifier of a DNS zone. */
     dnszoneId: string;
     /** file to upload. */
-    file?: NodeJS.ReadableStream|Buffer;
+    file?: NodeJS.ReadableStream | Buffer;
     /** The content type of file. */
     fileContentType?: string;
     /** Uniquely identifying a request. */
@@ -3122,10 +3602,10 @@ namespace DnsSvcsV1 {
     instanceId: string;
     /** Name of the custom resolver. */
     name?: string;
-    /** Locations on which the custom resolver will be running. */
-    locations?: LocationInput[];
     /** Descriptive text of the custom resolver. */
     description?: string;
+    /** Locations on which the custom resolver will be running. */
+    locations?: LocationInput[];
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
     headers?: OutgoingHttpHeaders;
@@ -3888,7 +4368,6 @@ namespace DnsSvcsV1 {
     /** Human readable text. */
     text: string;
   }
-
 }
 
 export = DnsSvcsV1;
