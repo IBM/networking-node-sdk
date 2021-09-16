@@ -1,3 +1,10 @@
+# [0.13.0](https://github.com/IBM/networking-node-sdk/compare/v0.12.0...v0.13.0) (2021-09-16)
+
+
+### Features
+
+* SDK Custom Resolver Location as Optional ([2f82087](https://github.com/IBM/networking-node-sdk/commit/2f82087a1bd388e886371671b70716d012901424))
+
 # [0.12.0](https://github.com/IBM/networking-node-sdk/compare/v0.11.0...v0.12.0) (2021-08-31)
 
 
