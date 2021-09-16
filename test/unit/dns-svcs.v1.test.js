@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
 
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const core = require('ibm-cloud-sdk-core');
+
 const { NoAuthAuthenticator, unitTestUtils } = core;
 
 const DnsSvcsV1 = require('../../dist/dns-svcs/v1');
@@ -29,12 +29,12 @@ const {
   checkUserHeader,
 } = unitTestUtils;
 
-const service = {
+const dnsSvcsServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
   url: 'https://api.dns-svcs.cloud.ibm.com/v1',
 };
 
-const dnsSvcsService = new DnsSvcsV1(service);
+const dnsSvcsService = new DnsSvcsV1(dnsSvcsServiceOptions);
 
 // dont actually create a request
 const createRequestMock = jest.spyOn(dnsSvcsService, 'createRequest');
@@ -122,16 +122,16 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/dnszones', 'GET');
+        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.qs['offset']).toEqual(offset);
-        expect(options.qs['limit']).toEqual(limit);
-        expect(options.path['instance_id']).toEqual(instanceId);
+        expect(mockRequestOptions.qs.offset).toEqual(offset);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -201,17 +201,17 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/dnszones', 'POST');
+        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['description']).toEqual(description);
-        expect(options.body['label']).toEqual(label);
-        expect(options.path['instance_id']).toEqual(instanceId);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.label).toEqual(label);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -277,15 +277,19 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/dnszones/{dnszone_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -353,15 +357,19 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/dnszones/{dnszone_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -433,17 +441,21 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/dnszones/{dnszone_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['description']).toEqual(description);
-        expect(options.body['label']).toEqual(label);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.label).toEqual(label);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -515,10 +527,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records',
           'GET'
         );
@@ -526,10 +538,10 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.qs['offset']).toEqual(offset);
-        expect(options.qs['limit']).toEqual(limit);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
+        expect(mockRequestOptions.qs.offset).toEqual(offset);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -616,10 +628,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records',
           'POST'
         );
@@ -627,14 +639,14 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['type']).toEqual(type);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['rdata']).toEqual(rdata);
-        expect(options.body['ttl']).toEqual(ttl);
-        expect(options.body['service']).toEqual(service);
-        expect(options.body['protocol']).toEqual(protocol);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
+        expect(mockRequestOptions.body.type).toEqual(type);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.rdata).toEqual(rdata);
+        expect(mockRequestOptions.body.ttl).toEqual(ttl);
+        expect(mockRequestOptions.body.service).toEqual(service);
+        expect(mockRequestOptions.body.protocol).toEqual(protocol);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -704,10 +716,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}',
           'DELETE'
         );
@@ -715,9 +727,9 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
-        expect(options.path['record_id']).toEqual(recordId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
+        expect(mockRequestOptions.path.record_id).toEqual(recordId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -789,10 +801,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}',
           'GET'
         );
@@ -800,9 +812,9 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
-        expect(options.path['record_id']).toEqual(recordId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
+        expect(mockRequestOptions.path.record_id).toEqual(recordId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -891,10 +903,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}',
           'PUT'
         );
@@ -902,14 +914,14 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['rdata']).toEqual(rdata);
-        expect(options.body['ttl']).toEqual(ttl);
-        expect(options.body['service']).toEqual(service);
-        expect(options.body['protocol']).toEqual(protocol);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
-        expect(options.path['record_id']).toEqual(recordId);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.rdata).toEqual(rdata);
+        expect(mockRequestOptions.body.ttl).toEqual(ttl);
+        expect(mockRequestOptions.body.service).toEqual(service);
+        expect(mockRequestOptions.body.protocol).toEqual(protocol);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
+        expect(mockRequestOptions.path.record_id).toEqual(recordId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -979,10 +991,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/export_resource_records',
           'GET'
         );
@@ -990,9 +1002,9 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
-        expect(options.responseType).toBe('stream');
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
+        expect(mockRequestOptions.responseType).toBe('stream');
       });
 
       test('should prioritize user-given headers', () => {
@@ -1064,10 +1076,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/import_resource_records',
           'POST'
         );
@@ -1075,10 +1087,10 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = 'multipart/form-data';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.formData['file'].data).toEqual(file);
-        expect(options.formData['file'].contentType).toEqual(fileContentType);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
+        expect(mockRequestOptions.formData.file.data).toEqual(file);
+        expect(mockRequestOptions.formData.file.contentType).toEqual(fileContentType);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -1150,10 +1162,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks',
           'GET'
         );
@@ -1161,10 +1173,10 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.qs['offset']).toEqual(offset);
-        expect(options.qs['limit']).toEqual(limit);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
+        expect(mockRequestOptions.qs.offset).toEqual(offset);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -1244,10 +1256,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks',
           'POST'
         );
@@ -1255,10 +1267,10 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['type']).toEqual(type);
-        expect(options.body['permitted_network']).toEqual(permittedNetwork);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
+        expect(mockRequestOptions.body.type).toEqual(type);
+        expect(mockRequestOptions.body.permitted_network).toEqual(permittedNetwork);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -1328,10 +1340,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}',
           'DELETE'
         );
@@ -1339,9 +1351,9 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
-        expect(options.path['permitted_network_id']).toEqual(permittedNetworkId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
+        expect(mockRequestOptions.path.permitted_network_id).toEqual(permittedNetworkId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -1413,10 +1425,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}',
           'GET'
         );
@@ -1424,9 +1436,9 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
-        expect(options.path['permitted_network_id']).toEqual(permittedNetworkId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
+        expect(mockRequestOptions.path.permitted_network_id).toEqual(permittedNetworkId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -1496,10 +1508,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers',
           'GET'
         );
@@ -1507,8 +1519,8 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -1601,10 +1613,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers',
           'POST'
         );
@@ -1612,15 +1624,15 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['fallback_pool']).toEqual(fallbackPool);
-        expect(options.body['default_pools']).toEqual(defaultPools);
-        expect(options.body['description']).toEqual(description);
-        expect(options.body['enabled']).toEqual(enabled);
-        expect(options.body['ttl']).toEqual(ttl);
-        expect(options.body['az_pools']).toEqual(azPools);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.fallback_pool).toEqual(fallbackPool);
+        expect(mockRequestOptions.body.default_pools).toEqual(defaultPools);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.body.ttl).toEqual(ttl);
+        expect(mockRequestOptions.body.az_pools).toEqual(azPools);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -1690,10 +1702,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}',
           'DELETE'
         );
@@ -1701,9 +1713,9 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
-        expect(options.path['lb_id']).toEqual(lbId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
+        expect(mockRequestOptions.path.lb_id).toEqual(lbId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -1775,10 +1787,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}',
           'GET'
         );
@@ -1786,9 +1798,9 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
-        expect(options.path['lb_id']).toEqual(lbId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
+        expect(mockRequestOptions.path.lb_id).toEqual(lbId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -1885,10 +1897,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}',
           'PUT'
         );
@@ -1896,16 +1908,16 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['description']).toEqual(description);
-        expect(options.body['enabled']).toEqual(enabled);
-        expect(options.body['ttl']).toEqual(ttl);
-        expect(options.body['fallback_pool']).toEqual(fallbackPool);
-        expect(options.body['default_pools']).toEqual(defaultPools);
-        expect(options.body['az_pools']).toEqual(azPools);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['dnszone_id']).toEqual(dnszoneId);
-        expect(options.path['lb_id']).toEqual(lbId);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.body.ttl).toEqual(ttl);
+        expect(mockRequestOptions.body.fallback_pool).toEqual(fallbackPool);
+        expect(mockRequestOptions.body.default_pools).toEqual(defaultPools);
+        expect(mockRequestOptions.body.az_pools).toEqual(azPools);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
+        expect(mockRequestOptions.path.lb_id).toEqual(lbId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -1973,14 +1985,14 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/pools', 'GET');
+        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/pools', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -2074,23 +2086,23 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/pools', 'POST');
+        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/pools', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['origins']).toEqual(origins);
-        expect(options.body['description']).toEqual(description);
-        expect(options.body['enabled']).toEqual(enabled);
-        expect(options.body['healthy_origins_threshold']).toEqual(healthyOriginsThreshold);
-        expect(options.body['monitor']).toEqual(monitor);
-        expect(options.body['notification_channel']).toEqual(notificationChannel);
-        expect(options.body['healthcheck_region']).toEqual(healthcheckRegion);
-        expect(options.body['healthcheck_subnets']).toEqual(healthcheckSubnets);
-        expect(options.path['instance_id']).toEqual(instanceId);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.origins).toEqual(origins);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.body.healthy_origins_threshold).toEqual(healthyOriginsThreshold);
+        expect(mockRequestOptions.body.monitor).toEqual(monitor);
+        expect(mockRequestOptions.body.notification_channel).toEqual(notificationChannel);
+        expect(mockRequestOptions.body.healthcheck_region).toEqual(healthcheckRegion);
+        expect(mockRequestOptions.body.healthcheck_subnets).toEqual(healthcheckSubnets);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -2156,15 +2168,15 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/pools/{pool_id}', 'DELETE');
+        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/pools/{pool_id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['pool_id']).toEqual(poolId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.pool_id).toEqual(poolId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -2232,15 +2244,15 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/pools/{pool_id}', 'GET');
+        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/pools/{pool_id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['pool_id']).toEqual(poolId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.pool_id).toEqual(poolId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -2338,24 +2350,24 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/pools/{pool_id}', 'PUT');
+        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/pools/{pool_id}', 'PUT');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['description']).toEqual(description);
-        expect(options.body['enabled']).toEqual(enabled);
-        expect(options.body['healthy_origins_threshold']).toEqual(healthyOriginsThreshold);
-        expect(options.body['origins']).toEqual(origins);
-        expect(options.body['monitor']).toEqual(monitor);
-        expect(options.body['notification_channel']).toEqual(notificationChannel);
-        expect(options.body['healthcheck_region']).toEqual(healthcheckRegion);
-        expect(options.body['healthcheck_subnets']).toEqual(healthcheckSubnets);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['pool_id']).toEqual(poolId);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.body.healthy_origins_threshold).toEqual(healthyOriginsThreshold);
+        expect(mockRequestOptions.body.origins).toEqual(origins);
+        expect(mockRequestOptions.body.monitor).toEqual(monitor);
+        expect(mockRequestOptions.body.notification_channel).toEqual(notificationChannel);
+        expect(mockRequestOptions.body.healthcheck_region).toEqual(healthcheckRegion);
+        expect(mockRequestOptions.body.healthcheck_subnets).toEqual(healthcheckSubnets);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.pool_id).toEqual(poolId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -2421,14 +2433,14 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/monitors', 'GET');
+        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/monitors', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -2526,27 +2538,27 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/monitors', 'POST');
+        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/monitors', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['type']).toEqual(type);
-        expect(options.body['description']).toEqual(description);
-        expect(options.body['port']).toEqual(port);
-        expect(options.body['interval']).toEqual(interval);
-        expect(options.body['retries']).toEqual(retries);
-        expect(options.body['timeout']).toEqual(timeout);
-        expect(options.body['method']).toEqual(method);
-        expect(options.body['path']).toEqual(path);
-        expect(options.body['headers']).toEqual(_headers);
-        expect(options.body['allow_insecure']).toEqual(allowInsecure);
-        expect(options.body['expected_codes']).toEqual(expectedCodes);
-        expect(options.body['expected_body']).toEqual(expectedBody);
-        expect(options.path['instance_id']).toEqual(instanceId);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.type).toEqual(type);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.port).toEqual(port);
+        expect(mockRequestOptions.body.interval).toEqual(interval);
+        expect(mockRequestOptions.body.retries).toEqual(retries);
+        expect(mockRequestOptions.body.timeout).toEqual(timeout);
+        expect(mockRequestOptions.body.method).toEqual(method);
+        expect(mockRequestOptions.body.path).toEqual(path);
+        expect(mockRequestOptions.body.headers).toEqual(_headers);
+        expect(mockRequestOptions.body.allow_insecure).toEqual(allowInsecure);
+        expect(mockRequestOptions.body.expected_codes).toEqual(expectedCodes);
+        expect(mockRequestOptions.body.expected_body).toEqual(expectedBody);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -2612,15 +2624,19 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/monitors/{monitor_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/monitors/{monitor_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['monitor_id']).toEqual(monitorId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.monitor_id).toEqual(monitorId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -2688,15 +2704,19 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/monitors/{monitor_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/monitors/{monitor_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['monitor_id']).toEqual(monitorId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.monitor_id).toEqual(monitorId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -2798,28 +2818,32 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/monitors/{monitor_id}', 'PUT');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/monitors/{monitor_id}',
+          'PUT'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['description']).toEqual(description);
-        expect(options.body['type']).toEqual(type);
-        expect(options.body['port']).toEqual(port);
-        expect(options.body['interval']).toEqual(interval);
-        expect(options.body['retries']).toEqual(retries);
-        expect(options.body['timeout']).toEqual(timeout);
-        expect(options.body['method']).toEqual(method);
-        expect(options.body['path']).toEqual(path);
-        expect(options.body['headers']).toEqual(_headers);
-        expect(options.body['allow_insecure']).toEqual(allowInsecure);
-        expect(options.body['expected_codes']).toEqual(expectedCodes);
-        expect(options.body['expected_body']).toEqual(expectedBody);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['monitor_id']).toEqual(monitorId);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.type).toEqual(type);
+        expect(mockRequestOptions.body.port).toEqual(port);
+        expect(mockRequestOptions.body.interval).toEqual(interval);
+        expect(mockRequestOptions.body.retries).toEqual(retries);
+        expect(mockRequestOptions.body.timeout).toEqual(timeout);
+        expect(mockRequestOptions.body.method).toEqual(method);
+        expect(mockRequestOptions.body.path).toEqual(path);
+        expect(mockRequestOptions.body.headers).toEqual(_headers);
+        expect(mockRequestOptions.body.allow_insecure).toEqual(allowInsecure);
+        expect(mockRequestOptions.body.expected_codes).toEqual(expectedCodes);
+        expect(mockRequestOptions.body.expected_body).toEqual(expectedBody);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.monitor_id).toEqual(monitorId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -2885,14 +2909,14 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/custom_resolvers', 'GET');
+        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -2952,14 +2976,14 @@ describe('DnsSvcsV1', () => {
         // Construct the params object for operation createCustomResolver
         const instanceId = 'testString';
         const name = 'my-resolver';
-        const locations = [locationInputModel];
         const description = 'custom resolver';
+        const locations = [locationInputModel];
         const xCorrelationId = 'testString';
         const params = {
           instanceId: instanceId,
           name: name,
-          locations: locations,
           description: description,
+          locations: locations,
           xCorrelationId: xCorrelationId,
         };
 
@@ -2971,17 +2995,17 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/instances/{instance_id}/custom_resolvers', 'POST');
+        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['locations']).toEqual(locations);
-        expect(options.body['description']).toEqual(description);
-        expect(options.path['instance_id']).toEqual(instanceId);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.locations).toEqual(locations);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -3047,10 +3071,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/custom_resolvers/{resolver_id}',
           'DELETE'
         );
@@ -3058,8 +3082,8 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['resolver_id']).toEqual(resolverId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -3127,10 +3151,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/custom_resolvers/{resolver_id}',
           'GET'
         );
@@ -3138,8 +3162,8 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['resolver_id']).toEqual(resolverId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -3213,10 +3237,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/custom_resolvers/{resolver_id}',
           'PATCH'
         );
@@ -3224,11 +3248,11 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['description']).toEqual(description);
-        expect(options.body['enabled']).toEqual(enabled);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['resolver_id']).toEqual(resolverId);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -3301,10 +3325,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations',
           'POST'
         );
@@ -3312,10 +3336,10 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['subnet_crn']).toEqual(subnetCrn);
-        expect(options.body['enabled']).toEqual(enabled);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['resolver_id']).toEqual(resolverId);
+        expect(mockRequestOptions.body.subnet_crn).toEqual(subnetCrn);
+        expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -3392,10 +3416,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}',
           'PATCH'
         );
@@ -3403,11 +3427,11 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['enabled']).toEqual(enabled);
-        expect(options.body['subnet_crn']).toEqual(subnetCrn);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['resolver_id']).toEqual(resolverId);
-        expect(options.path['location_id']).toEqual(locationId);
+        expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.body.subnet_crn).toEqual(subnetCrn);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+        expect(mockRequestOptions.path.location_id).toEqual(locationId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -3481,10 +3505,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}',
           'DELETE'
         );
@@ -3492,9 +3516,9 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['resolver_id']).toEqual(resolverId);
-        expect(options.path['location_id']).toEqual(locationId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+        expect(mockRequestOptions.path.location_id).toEqual(locationId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -3564,10 +3588,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules',
           'GET'
         );
@@ -3575,8 +3599,8 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['resolver_id']).toEqual(resolverId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -3652,10 +3676,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules',
           'POST'
         );
@@ -3663,12 +3687,12 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['type']).toEqual(type);
-        expect(options.body['match']).toEqual(match);
-        expect(options.body['forward_to']).toEqual(forwardTo);
-        expect(options.body['description']).toEqual(description);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['resolver_id']).toEqual(resolverId);
+        expect(mockRequestOptions.body.type).toEqual(type);
+        expect(mockRequestOptions.body.match).toEqual(match);
+        expect(mockRequestOptions.body.forward_to).toEqual(forwardTo);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -3738,10 +3762,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}',
           'DELETE'
         );
@@ -3749,9 +3773,9 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['resolver_id']).toEqual(resolverId);
-        expect(options.path['rule_id']).toEqual(ruleId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+        expect(mockRequestOptions.path.rule_id).toEqual(ruleId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -3823,10 +3847,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}',
           'GET'
         );
@@ -3834,9 +3858,9 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['resolver_id']).toEqual(resolverId);
-        expect(options.path['rule_id']).toEqual(ruleId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+        expect(mockRequestOptions.path.rule_id).toEqual(ruleId);
       });
 
       test('should prioritize user-given headers', () => {
@@ -3914,10 +3938,10 @@ describe('DnsSvcsV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
         checkUrlAndMethod(
-          options,
+          mockRequestOptions,
           '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}',
           'PATCH'
         );
@@ -3925,12 +3949,12 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(options.body['description']).toEqual(description);
-        expect(options.body['match']).toEqual(match);
-        expect(options.body['forward_to']).toEqual(forwardTo);
-        expect(options.path['instance_id']).toEqual(instanceId);
-        expect(options.path['resolver_id']).toEqual(resolverId);
-        expect(options.path['rule_id']).toEqual(ruleId);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.match).toEqual(match);
+        expect(mockRequestOptions.body.forward_to).toEqual(forwardTo);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+        expect(mockRequestOptions.path.rule_id).toEqual(ruleId);
       });
 
       test('should prioritize user-given headers', () => {

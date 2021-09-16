@@ -79,7 +79,7 @@ let glbMonitor;
 let glbPool;
 let glb;
 let customResolver;
-// let customResolverLocation;
+let customResolverLocation;
 let forwardingRule;
 
 describe('DNSSVCSApisV1', () => {
@@ -1069,16 +1069,9 @@ describe('DNSSVCSApisV1', () => {
     test('should successfully created a custom resolver', async done => {
       try {
         const pathByDate = new Date().getTime();
-        // LocationInput
-        const locationInputModel = {
-          subnet_crn: config.DNS_SVCS_SUBNET_CRN,
-          enabled: false,
-        };
-        const locations = [locationInputModel];
         const params = {
           instanceId: config.DNS_SVCS_INSTANCE_ID,
           name: 'test-resolver' + pathByDate,
-          locations: locations,
           description: 'SDK test custom resolver',
           xCorrelationId: 'abc123',
         };
@@ -1172,6 +1165,68 @@ describe('DNSSVCSApisV1', () => {
           expect(localResolver.name).toEqual(params.name);
           expect(localResolver.description).toEqual(params.description);
           expect(localResolver.id).toEqual(params.resolverId);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+  // Add a custom resolver loction
+  describe('Add custom resolver location   ', () => {
+    test('should successfully add a custom resolver location', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          resolverId: customResolver.id,
+          subnetCrn: config.DNS_SVCS_CUSTOMER_LOCATION_SUBNET_CRN,
+          enabled: true,
+          xCorrelationId: 'abc123',
+        };
+
+        const response = await dnsSvcsApisV1.addCustomResolverLocation(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+
+        if (result) {
+          customResolverLocation = result;
+          expect(customResolverLocation).toBeDefined();
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+  // Update Custom Resolver Location
+  describe('Update custom resolver location', () => {
+    test('should successfully update the custom resolver location', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          resolverId: customResolver.id,
+          locationId: customResolverLocation.id,
+          enabled: false,
+          subnetCrn: config.DNS_SVCS_CUSTOMER_LOCATION_SUBNET_CRN,
+          xCorrelationId: 'abc123',
+        };
+
+        const response = await dnsSvcsApisV1.updateCustomResolverLocation(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+
+        if (result && result.result) {
+          const localResolverLocation = result;
+          expect(localResolverLocation).toBeDefined();
+          expect(localResolverLocation.id).toEqual(params.locationId);
         }
         done();
       } catch (err) {
@@ -1325,6 +1380,35 @@ describe('DNSSVCSApisV1', () => {
 
         if (result && result.result) {
           expect(result.result.id).toEqual(params.ruleId);
+          expect(result.result).toBeDefined();
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+  // Delete a Custom Resolver Location
+  describe('Delete custom resolver location', () => {
+    test('should successfully delete a custom resolver location', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          resolverId: customResolver.id,
+          locationId: customResolverLocation.id,
+          xCorrelationId: 'abc123',
+        };
+
+        const response = await dnsSvcsApisV1.deleteCustomResolverLocation(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(204);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+
+        if (result && result.result) {
+          expect(result.result.id).toEqual(customResolverLocation.id);
           expect(result.result).toBeDefined();
         }
         done();
