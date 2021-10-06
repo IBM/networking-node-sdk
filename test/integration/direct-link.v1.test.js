@@ -1386,4 +1386,548 @@ describe('DirectLinkV1', () => {
       });
     });
   });
+
+  describe('BGP IP Update', () => {
+    // Save the gateway ID for update/delete
+    let gatewayId = '';
+    const time = currentDate.getTime().toString();
+
+    describe('Create/verify/update a dedicated Gateway', () => {
+      // GatewayTemplate for dedicated gateway
+      const gatewayTemplate = {
+        name: 'NODE-INT-SDK-DEDICATED-BGP-IP-' + time,
+        type: 'dedicated',
+        speed_mbps: 1000,
+        global: true,
+        bgp_asn: 64999,
+        metered: false,
+        carrier_name: 'myCarrierName',
+        customer_name: 'newCustomerName',
+        cross_connect_router: 'LAB-xcr01.dal09',
+        location_name: config.LOCATION_NAME,
+      };
+
+      it('should successfully create a dedicated gateway', async done => {
+        jest.setTimeout(timeout);
+
+        const params = {
+          gatewayTemplate: gatewayTemplate,
+        };
+
+        try {
+          dlService.createGateway(params).then(response => {
+            expect(response.hasOwnProperty('status')).toBe(true);
+            expect(response.status).toBe(201);
+            if (null != response && null != response.result && null != response.result.id) {
+              gatewayId = response.result.id;
+            }
+
+            expect(response.result.id).toBeDefined();
+            expect(response.result.name).toBe(gatewayTemplate.name);
+            expect(response.result.type).toBe(gatewayTemplate.type);
+            expect(response.result.speed_mbps).toBe(gatewayTemplate.speed_mbps);
+            expect(response.result.global).toBe(gatewayTemplate.global);
+            expect(response.result.bgp_asn).toBe(gatewayTemplate.bgp_asn);
+            expect(response.result.bgp_cer_cidr).toBeDefined();
+            expect(response.result.bgp_ibm_cidr).toBeDefined();
+            expect(response.result.metered).toBe(gatewayTemplate.metered);
+            expect(response.result.cross_connect_router).toBe(gatewayTemplate.cross_connect_router);
+            expect(response.result.location_name).toBe(gatewayTemplate.location_name);
+            expect(response.result.location_display_name).toBe(config.LOCATION_DISPLAY_NAME);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      it('should successfully update the bgp_asn', async done => {
+        const params = {
+          id: gatewayId,
+          bgpAsn: 63999,
+        };
+
+        try {
+          dlService.updateGateway(params).then(response => {
+            expect(response.status).toBe(200);
+            expect(response.result.id).toBe(gatewayId);
+            expect(response.result.name).toBe(gatewayTemplate.name);
+            expect(response.result.bgp_asn).toBe(63999);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      it('should successfully update the bgp_cer_cidr and bgp_ibm_cidr', async done => {
+        const params = {
+          id: gatewayId,
+          bgpCerCidr: '172.17.252.2/29',
+          bgpIbmCidr: '172.17.252.1/29',
+        };
+
+        try {
+          dlService.updateGateway(params).then(response => {
+            expect(response.status).toBe(200);
+            expect(response.result.id).toBe(gatewayId);
+            expect(response.result.name).toBe(gatewayTemplate.name);
+            expect(response.result.bgp_cer_cidr).toBe(params.bgpCerCidr);
+            expect(response.result.bgp_ibm_cidr).toBe(params.bgpIbmCidr);
+            done();
+          });
+        } catch (err) {
+          expect(err.status).toBe(400);
+          expect(err.message).toBe('Please make sure localIP and remoteIP are not in use');
+          done();
+        }
+      });
+
+      // delete the dedicated gateway
+      it('Successfully delete the gateway', done => {
+        const params = {
+          id: gatewayId,
+        };
+
+        try {
+          dlService.deleteGateway(params).then(response => {
+            expect(response.status).toBe(204);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+
+    describe('Create/verify/update a connect gateway', () => {
+      jest.setTimeout(timeout);
+
+      let port = null;
+      let gatewayId = '';
+      const gatewayTemplate = {
+        name: 'NODE-INT-SDK-CONNECT-BGP-IP-' + timestamp,
+        type: 'connect',
+        speed_mbps: 1000,
+        bgp_asn: 64999,
+        global: false,
+        metered: false,
+      };
+
+      it('should list ports and save the id of the first port', done => {
+        try {
+          dlService.listPorts({}).then(response => {
+            expect(response.status).toBe(200);
+            if (null != response && null != response.result && null != response.result.ports) {
+              port = response.result.ports[0];
+            }
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      it('should successfully create a connect gateway with connection mode as transit', done => {
+        const params = {
+          gatewayTemplate: { ...gatewayTemplate, port: { id: port.id } },
+        };
+        try {
+          dlService.createGateway(params).then(response => {
+            expect(response.status).toBe(201);
+            expect(response.result.id).toBeDefined();
+            if (null != response && null != response.result && null != response.result.id) {
+              gatewayId = response.result.id;
+            }
+
+            // make sure all the expected fields are present
+            expect(response.result.bgp_asn).toBe(gatewayTemplate.bgp_asn);
+            expect(response.result.global).toBe(gatewayTemplate.global);
+            expect(response.result.name).toBe(gatewayTemplate.name);
+            expect(response.result.speed_mbps).toBe(gatewayTemplate.speed_mbps);
+            expect(response.result.type).toBe(gatewayTemplate.type);
+            expect(response.result.metered).toBe(gatewayTemplate.metered);
+            expect(response.result.port.id).toBe(port.id);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      // Wait for the gateway to move to provisioned state
+      it('should successfully wait for gateway to be provisioned', async done => {
+        try {
+          const result = await poll(
+            () => dlService.getGateway({ id: gatewayId }),
+            result => result.operational_status === 'provisioned',
+            50
+          );
+
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      it('should successfully update the bgp_asn', async done => {
+        const params = {
+          id: gatewayId,
+          bgpAsn: 63999,
+        };
+
+        try {
+          dlService.updateGateway(params).then(response => {
+            expect(response.status).toBe(200);
+            expect(response.result.id).toBe(gatewayId);
+            expect(response.result.name).toBe(gatewayTemplate.name);
+            expect(response.result.type).toBe(gatewayTemplate.type);
+            expect(response.result.bgp_asn).toBe(63999);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      // Wait for the gateway to move to provisioned state
+      it('should successfully wait for gateway to be provisioned', async done => {
+        try {
+          const result = await poll(
+            () => dlService.getGateway({ id: gatewayId }),
+            result => result.operational_status === 'provisioned',
+            50
+          );
+
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      it('should successfully update the bgp_cer_cidr and bgp_ibm_cidr', async done => {
+        const params = {
+          id: gatewayId,
+          bgpCerCidr: '172.17.252.2/29',
+          bgpIbmCidr: '172.17.252.1/29',
+        };
+
+        try {
+          dlService.updateGateway(params).then(response => {
+            expect(response.status).toBe(200);
+            expect(response.result.id).toBe(gatewayId);
+            expect(response.result.name).toBe(gatewayTemplate.name);
+            expect(response.result.bgp_cer_cidr).toBe(params.bgpCerCidr);
+            expect(response.result.bgp_ibm_cidr).toBe(params.bgpIbmCidr);
+            done();
+          });
+        } catch (err) {
+          expect(err.status).toBe(400);
+          expect(err.message).toBe('Please make sure localIP and remoteIP are not in use');
+          done();
+        }
+      });
+
+      // Wait for the gateway to move to provisioned state
+      it('should successfully wait for gateway to be provisioned', async done => {
+        try {
+          const result = await poll(
+            () => dlService.getGateway({ id: gatewayId }),
+            result => result.operational_status === 'provisioned',
+            50
+          );
+
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      // delete the connect gateway
+      it('Successfully delete the connect gateway', done => {
+        const params = {
+          id: gatewayId,
+        };
+
+        try {
+          dlService.deleteGateway(params).then(response => {
+            expect(response.status).toBe(204);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+  });
+
+  describe('BFD Config and Gateway Status', () => {
+    // Save the gateway ID for update/delete
+    let gatewayId = '';
+    const time = currentDate.getTime().toString();
+
+    describe('Create/verify/update a dedicated Gateway', () => {
+      const bfdConfig = {
+        interval: 1000,
+        multiplier: 2,
+      };
+
+      // GatewayTemplate for dedicated gateway
+      const gatewayTemplate = {
+        name: 'NODE-INT-SDK-DEDICATED-BFD-' + time,
+        type: 'dedicated',
+        speed_mbps: 1000,
+        global: true,
+        bgp_asn: 64999,
+        metered: false,
+        carrier_name: 'myCarrierName',
+        customer_name: 'newCustomerName',
+        cross_connect_router: 'LAB-xcr01.dal09',
+        location_name: config.LOCATION_NAME,
+        bfd_config: bfdConfig,
+      };
+
+      it('should successfully create a dedicated gateway', async done => {
+        jest.setTimeout(timeout);
+
+        const params = {
+          gatewayTemplate: gatewayTemplate,
+        };
+
+        try {
+          dlService.createGateway(params).then(response => {
+            expect(response.hasOwnProperty('status')).toBe(true);
+            expect(response.status).toBe(201);
+            if (null != response && null != response.result && null != response.result.id) {
+              gatewayId = response.result.id;
+            }
+
+            expect(response.result.id).toBeDefined();
+            expect(response.result.name).toBe(gatewayTemplate.name);
+            expect(response.result.type).toBe(gatewayTemplate.type);
+            expect(response.result.speed_mbps).toBe(gatewayTemplate.speed_mbps);
+            expect(response.result.global).toBe(gatewayTemplate.global);
+            expect(response.result.bgp_asn).toBe(gatewayTemplate.bgp_asn);
+            expect(response.result.bgp_cer_cidr).toBeDefined();
+            expect(response.result.bgp_ibm_cidr).toBeDefined();
+            expect(response.result.metered).toBe(gatewayTemplate.metered);
+            expect(response.result.cross_connect_router).toBe(gatewayTemplate.cross_connect_router);
+            expect(response.result.location_name).toBe(gatewayTemplate.location_name);
+            expect(response.result.location_display_name).toBe(config.LOCATION_DISPLAY_NAME);
+            expect(response.result.bfd_config).toBeDefined();
+            expect(response.result.bfd_config.interval).toBe(bfdConfig.interval);
+            expect(response.result.bfd_config.multiplier).toBe(bfdConfig.multiplier);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      it('should successfully update the bfd_config', async done => {
+        const updatedBfdConfig = {
+          interval: 500,
+          multiplier: 100,
+        };
+
+        const params = {
+          id: gatewayId,
+          bfdConfig: updatedBfdConfig,
+        };
+
+        try {
+          dlService.updateGateway(params).then(response => {
+            expect(response.status).toBe(200);
+            expect(response.result.id).toBe(gatewayId);
+            expect(response.result.name).toBe(gatewayTemplate.name);
+            expect(response.result.bfd_config).toBeDefined();
+            expect(response.result.bfd_config.interval).toBe(updatedBfdConfig.interval);
+            expect(response.result.bfd_config.multiplier).toBe(updatedBfdConfig.multiplier);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      it('should successfully get the gateway status', async done => {
+        const params = {
+          id: gatewayId,
+          type: 'link',
+        };
+        try {
+          dlService.getGatewayStatus(params).then(response => {
+            expect(response.status).toBe(200);
+            expect(response.result.status).toBeDefined();
+            expect(response.result.status.length).toBeGreaterThanOrEqual(1);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      // delete the dedicated gateway
+      it('Successfully delete the gateway', done => {
+        const params = {
+          id: gatewayId,
+        };
+
+        try {
+          dlService.deleteGateway(params).then(response => {
+            expect(response.status).toBe(204);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+
+    describe('Create/verify/update a connect gateway', () => {
+      jest.setTimeout(timeout);
+
+      let port = null;
+      let gatewayId = '';
+      const bfdConfig = {
+        interval: 1000,
+        multiplier: 2,
+      };
+      const gatewayTemplate = {
+        name: 'NODE-INT-SDK-CONNECT-BFD-' + timestamp,
+        type: 'connect',
+        speed_mbps: 1000,
+        bgp_asn: 64999,
+        global: false,
+        metered: false,
+        bfd_config: bfdConfig,
+      };
+
+      it('should list ports and save the id of the first port', done => {
+        try {
+          dlService.listPorts({}).then(response => {
+            expect(response.status).toBe(200);
+            if (null != response && null != response.result && null != response.result.ports) {
+              port = response.result.ports[0];
+            }
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      it('should successfully create a connect gateway', done => {
+        const params = {
+          gatewayTemplate: { ...gatewayTemplate, port: { id: port.id } },
+        };
+        try {
+          dlService.createGateway(params).then(response => {
+            expect(response.status).toBe(201);
+            expect(response.result.id).toBeDefined();
+            if (null != response && null != response.result && null != response.result.id) {
+              gatewayId = response.result.id;
+            }
+
+            // make sure all the expected fields are present
+            expect(response.result.bgp_asn).toBe(gatewayTemplate.bgp_asn);
+            expect(response.result.global).toBe(gatewayTemplate.global);
+            expect(response.result.name).toBe(gatewayTemplate.name);
+            expect(response.result.speed_mbps).toBe(gatewayTemplate.speed_mbps);
+            expect(response.result.type).toBe(gatewayTemplate.type);
+            expect(response.result.metered).toBe(gatewayTemplate.metered);
+            expect(response.result.port.id).toBe(port.id);
+            expect(response.result.bfd_config).toBeDefined();
+            expect(response.result.bfd_config.interval).toBe(bfdConfig.interval);
+            expect(response.result.bfd_config.multiplier).toBe(bfdConfig.multiplier);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      // Wait for the gateway to move to provisioned state
+      it('should successfully wait for gateway to be provisioned', async done => {
+        try {
+          const result = await poll(
+            () => dlService.getGateway({ id: gatewayId }),
+            result => result.operational_status === 'provisioned',
+            50
+          );
+
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      it('should successfully update the bfd_config', async done => {
+        const updatedBfdConfig = {
+          interval: 500,
+          multiplier: 100,
+        };
+        const params = {
+          id: gatewayId,
+          bfdConfig: updatedBfdConfig,
+        };
+
+        try {
+          dlService.updateGateway(params).then(response => {
+            expect(response.status).toBe(200);
+            expect(response.result.id).toBe(gatewayId);
+            expect(response.result.name).toBe(gatewayTemplate.name);
+            expect(response.result.type).toBe(gatewayTemplate.type);
+            expect(response.result.bfd_config).toBeDefined();
+            expect(response.result.bfd_config.interval).toBe(updatedBfdConfig.interval);
+            expect(response.result.bfd_config.multiplier).toBe(updatedBfdConfig.multiplier);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      // Wait for the gateway to move to provisioned state
+      it('should successfully wait for gateway to be provisioned', async done => {
+        try {
+          const result = await poll(
+            () => dlService.getGateway({ id: gatewayId }),
+            result => result.operational_status === 'provisioned',
+            50
+          );
+
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      // delete the connect gateway
+      it('Successfully delete the connect gateway', done => {
+        const params = {
+          id: gatewayId,
+        };
+
+        try {
+          dlService.deleteGateway(params).then(response => {
+            expect(response.status).toBe(204);
+            done();
+          });
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+  });
 });

@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -189,7 +189,7 @@ describe('DirectLinkProviderV2', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation createProviderGateway
         const bgpAsn = 64999;
-        const customerAccountId = '57a7d05f36894e3cb9b46a43556d903e';
+        const customerAccountId = '4111d05f36894e3cb9b46a43556d9000';
         const name = 'myGateway';
         const port = providerGatewayPortIdentityModel;
         const speedMbps = 1000;
@@ -235,7 +235,7 @@ describe('DirectLinkProviderV2', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const bgpAsn = 64999;
-        const customerAccountId = '57a7d05f36894e3cb9b46a43556d903e';
+        const customerAccountId = '4111d05f36894e3cb9b46a43556d9000';
         const name = 'myGateway';
         const port = providerGatewayPortIdentityModel;
         const speedMbps = 1000;
@@ -425,10 +425,16 @@ describe('DirectLinkProviderV2', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateProviderGateway
         const id = 'testString';
+        const bgpAsn = 64999;
+        const bgpCerCidr = '169.254.0.10/30';
+        const bgpIbmCidr = '169.254.0.9/30';
         const name = 'myNewGateway';
         const speedMbps = 1000;
         const params = {
           id: id,
+          bgpAsn: bgpAsn,
+          bgpCerCidr: bgpCerCidr,
+          bgpIbmCidr: bgpIbmCidr,
           name: name,
           speedMbps: speedMbps,
         };
@@ -447,6 +453,9 @@ describe('DirectLinkProviderV2', () => {
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(options.body['bgp_asn']).toEqual(bgpAsn);
+        expect(options.body['bgp_cer_cidr']).toEqual(bgpCerCidr);
+        expect(options.body['bgp_ibm_cidr']).toEqual(bgpIbmCidr);
         expect(options.body['name']).toEqual(name);
         expect(options.body['speed_mbps']).toEqual(speedMbps);
         expect(options.qs['version']).toEqual(service.version);

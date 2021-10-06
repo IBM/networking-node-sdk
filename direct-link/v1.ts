@@ -288,6 +288,23 @@ class DirectLinkV1 extends BaseService {
    * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
    * in length.
    * To clear the optional `authentication_key` field patch its crn to `""`.
+   * @param {GatewayBfdPatchTemplate} [params.bfdConfig] - BFD configuration information.
+   * @param {number} [params.bgpAsn] - The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration
+   * for the IBM side of the DL 2.0 gateway.
+   * @param {string} [params.bgpCerCidr] - BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain
+   * Routing) value to be updated on customer edge router for the DL 2.0 gateway.
+   *
+   * Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be accompanied
+   * with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+   * value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public
+   * CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+   * @param {string} [params.bgpIbmCidr] - BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be
+   * updated on IBM edge router for the DL 2.0 gateway.
+   *
+   * IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+   * edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+   * reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+   * bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
    * @param {string} [params.connectionMode] - Type of services this Gateway is attached to. Mode transit means this
    * Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or
    * classic connection. The list of enumerated values for this property may expand in the future. Code and processes
@@ -312,6 +329,8 @@ class DirectLinkV1 extends BaseService {
    * When rejecting an LOA, provide reject reasoning in `loa_reject_reason`.
    *
    * Only allowed for type=dedicated gateways.
+   * @param {string} [params.patchPanelCompletionNotice] - Gateway patch panel complete notification from implementation
+   * team.
    * @param {number} [params.speedMbps] - Gateway speed in megabits per second.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>>}
@@ -328,6 +347,10 @@ class DirectLinkV1 extends BaseService {
 
       const body = {
         'authentication_key': _params.authenticationKey,
+        'bfd_config': _params.bfdConfig,
+        'bgp_asn': _params.bgpAsn,
+        'bgp_cer_cidr': _params.bgpCerCidr,
+        'bgp_ibm_cidr': _params.bgpIbmCidr,
         'connection_mode': _params.connectionMode,
         'global': _params.global,
         'loa_reject_reason': _params.loaRejectReason,
@@ -335,6 +358,7 @@ class DirectLinkV1 extends BaseService {
         'metered': _params.metered,
         'name': _params.name,
         'operational_status': _params.operationalStatus,
+        'patch_panel_completion_notice': _params.patchPanelCompletionNotice,
         'speed_mbps': _params.speedMbps
       };
 
@@ -379,18 +403,21 @@ class DirectLinkV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link Connect gateway identifier.
    * @param {string} params.action - Action request.
-   * @param {GatewayActionTemplateAuthenticationKey} [params.authenticationKey] - The identity of the standard key to
-   * use for BGP MD5 authentication key.
+   * @param {GatewayActionTemplateAuthenticationKey} [params.authenticationKey] - Applicable for create_gateway_approve
+   * requests to select the gateway's BGP MD5 authentication key.
    * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
    * in length.
    * To clear the optional `authentication_key` field patch its crn to `""`.
-   * @param {string} [params.connectionMode] - Type of services this Gateway is attached to. Mode transit means this
-   * Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or
-   * classic connection. The list of enumerated values for this property may expand in the future. Code and processes
-   * using this field  must tolerate unexpected values.
-   * @param {boolean} [params.global] - Required for create_gateway_approve requests to select the gateway's routing
-   * option.  Gateways with global routing (`true`) can connect to networks outside of their associated region.
-   * @param {boolean} [params.metered] - Required for create_gateway_approve requests to select the gateway's metered
+   * @param {GatewayBfdConfigActionTemplate} [params.bfdConfig] - Applicable for create_gateway_approve requests to
+   * select the gateway's BFD configuration information.
+   * @param {string} [params.connectionMode] - Applicable for create_gateway_approve requests to select the type of
+   * services this gateway is attached to. Mode transit indicates this gateway will be attached to Transit Gateway
+   * Service and direct means this gateway will be attached to vpc or classic connection. If unspecified on
+   * create_gateway_approve, default value direct is used. The list of enumerated values for this property may expand in
+   * the future. Code and processes using this field must tolerate unexpected values.
+   * @param {boolean} [params.global] - Applicable for create_gateway_approve requests to select the gateway's routing
+   * option. Gateways with global routing (`true`) can connect to networks outside of their associated region.
+   * @param {boolean} [params.metered] - Applicable for create_gateway_approve requests to select the gateway's metered
    * billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte usage
    * charge, instead a flat rate is charged for the gateway.
    * @param {ResourceGroupIdentity} [params.resourceGroup] - Set for create_gateway_approve requests to select the
@@ -415,6 +442,7 @@ class DirectLinkV1 extends BaseService {
       const body = {
         'action': _params.action,
         'authentication_key': _params.authenticationKey,
+        'bfd_config': _params.bfdConfig,
         'connection_mode': _params.connectionMode,
         'global': _params.global,
         'metered': _params.metered,
@@ -609,14 +637,14 @@ class DirectLinkV1 extends BaseService {
   };
 
   /**
-   * Gateway statistics.
+   * Gateway statistics/debug information.
    *
-   * Retrieve gateway statistics.  Specify statistic to retrieve using required `type` query parameter.  Currently data
-   * retrieval is only supported for MACsec configurations.
+   * Retrieve gateway statistics or debug information.  Specify statistic to retrieve using required `type` query
+   * parameter.
    *
    * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.id - Direct Link Dedicated gateway identifier.
-   * @param {string} params.type - specify statistic to retrieve.
+   * @param {string} params.id - Direct Link gateway identifier.
+   * @param {string} params.type - Specify statistic to retrieve.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.GatewayStatisticCollection>>}
    */
@@ -644,6 +672,56 @@ class DirectLinkV1 extends BaseService {
       const parameters = {
         options: {
           url: '/gateways/{id}/statistics',
+          method: 'GET',
+          qs: query,
+          path,
+        },
+        defaultOptions: extend(true, {}, this.baseOptions, {
+          headers: extend(true, sdkHeaders, {
+            'Accept': 'application/json',
+          }, _params.headers),
+        }),
+      };
+
+      return resolve(this.createRequest(parameters));
+    });
+  };
+
+  /**
+   * Gateway status information.
+   *
+   * Retrieve gateway status.  Specify status to retrieve using required `type` query parameter.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - Direct Link gateway identifier.
+   * @param {string} [params.type] - Specify status to retrieve.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.GatewayStatusCollection>>}
+   */
+  public getGatewayStatus(params: DirectLinkV1.GetGatewayStatusParams): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayStatusCollection>> {
+    const _params = extend({}, params);
+    const requiredParams = ['id'];
+
+    return new Promise((resolve, reject) => {
+      const missingParams = getMissingParams(_params, requiredParams);
+      if (missingParams) {
+        return reject(missingParams);
+      }
+
+      const query = {
+        'version': this.version,
+        'type': _params.type
+      };
+
+      const path = {
+        'id': _params.id
+      };
+
+      const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayStatus');
+
+      const parameters = {
+        options: {
+          url: '/gateways/{id}/status',
           method: 'GET',
           qs: query,
           path,
@@ -1260,6 +1338,31 @@ namespace DirectLinkV1 {
      *  To clear the optional `authentication_key` field patch its crn to `""`.
      */
     authenticationKey?: GatewayPatchTemplateAuthenticationKey;
+    /** BFD configuration information. */
+    bfdConfig?: GatewayBfdPatchTemplate;
+    /** The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL
+     *  2.0 gateway.
+     */
+    bgpAsn?: number;
+    /** BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on
+     *  customer edge router for the DL 2.0 gateway.
+     *
+     *  Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be
+     *  accompanied with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and
+     *  bgp_ibm_cidr CIDR, the value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+     *  "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet
+     *  mask values.
+     */
+    bgpCerCidr?: string;
+    /** BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the
+     *  DL 2.0 gateway.
+     *
+     *  IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+     *  edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+     *  reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+     *  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+     */
+    bgpIbmCidr?: string;
     /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
      *  Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of
      *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
@@ -1293,6 +1396,8 @@ namespace DirectLinkV1 {
      *  Only allowed for type=dedicated gateways.
      */
     operationalStatus?: UpdateGatewayConstants.OperationalStatus | string;
+    /** Gateway patch panel complete notification from implementation team. */
+    patchPanelCompletionNotice?: string;
     /** Gateway speed in megabits per second. */
     speedMbps?: number;
     headers?: OutgoingHttpHeaders;
@@ -1318,23 +1423,26 @@ namespace DirectLinkV1 {
     id: string;
     /** Action request. */
     action: CreateGatewayActionConstants.Action | string;
-    /** The identity of the standard key to use for BGP MD5 authentication key.
+    /** Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key.
      *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
      *  characters in length.
      *  To clear the optional `authentication_key` field patch its crn to `""`.
      */
     authenticationKey?: GatewayActionTemplateAuthenticationKey;
-    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
-     *  Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of
-     *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
-     *  unexpected values.
+    /** Applicable for create_gateway_approve requests to select the gateway's BFD configuration information. */
+    bfdConfig?: GatewayBfdConfigActionTemplate;
+    /** Applicable for create_gateway_approve requests to select the type of services this gateway is attached to.
+     *  Mode transit indicates this gateway will be attached to Transit Gateway Service and direct means this gateway
+     *  will be attached to vpc or classic connection. If unspecified on create_gateway_approve, default value direct is
+     *  used. The list of enumerated values for this property may expand in the future. Code and processes using this
+     *  field must tolerate unexpected values.
      */
     connectionMode?: CreateGatewayActionConstants.ConnectionMode | string;
-    /** Required for create_gateway_approve requests to select the gateway's routing option.  Gateways with global
+    /** Applicable for create_gateway_approve requests to select the gateway's routing option. Gateways with global
      *  routing (`true`) can connect to networks outside of their associated region.
      */
     global?: boolean;
-    /** Required for create_gateway_approve requests to select the gateway's metered billing option.  When `true`
+    /** Applicable for create_gateway_approve requests to select the gateway's metered billing option.  When `true`
      *  gateway usage is billed per gigabyte.  When `false` there is no per gigabyte usage charge, instead a flat rate
      *  is charged for the gateway.
      */
@@ -1362,7 +1470,7 @@ namespace DirectLinkV1 {
       UPDATE_ATTRIBUTES_APPROVE = 'update_attributes_approve',
       UPDATE_ATTRIBUTES_REJECT = 'update_attributes_reject',
     }
-    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+    /** Applicable for create_gateway_approve requests to select the type of services this gateway is attached to. Mode transit indicates this gateway will be attached to Transit Gateway Service and direct means this gateway will be attached to vpc or classic connection. If unspecified on create_gateway_approve, default value direct is used. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
     export enum ConnectionMode {
       DIRECT = 'direct',
       TRANSIT = 'transit',
@@ -1396,19 +1504,38 @@ namespace DirectLinkV1 {
 
   /** Parameters for the `getGatewayStatistics` operation. */
   export interface GetGatewayStatisticsParams {
-    /** Direct Link Dedicated gateway identifier. */
+    /** Direct Link gateway identifier. */
     id: string;
-    /** specify statistic to retrieve. */
+    /** Specify statistic to retrieve. */
     type: GetGatewayStatisticsConstants.Type | string;
     headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `getGatewayStatistics` operation. */
   export namespace GetGatewayStatisticsConstants {
-    /** specify statistic to retrieve. */
+    /** Specify statistic to retrieve. */
     export enum Type {
       MACSEC_MKA = 'macsec_mka',
       MACSEC_SECURITY = 'macsec_security',
+    }
+  }
+
+  /** Parameters for the `getGatewayStatus` operation. */
+  export interface GetGatewayStatusParams {
+    /** Direct Link gateway identifier. */
+    id: string;
+    /** Specify status to retrieve. */
+    type?: GetGatewayStatusConstants.Type | string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `getGatewayStatus` operation. */
+  export namespace GetGatewayStatusConstants {
+    /** Specify status to retrieve. */
+    export enum Type {
+      BGP = 'bgp',
+      BFD = 'bfd',
+      LINK = 'link',
     }
   }
 
@@ -1579,6 +1706,8 @@ namespace DirectLinkV1 {
      *  To clear the optional `authentication_key` field patch its crn to `""`.
      */
     authentication_key?: GatewayAuthenticationKey;
+    /** BFD configuration information. */
+    bfd_config?: GatewayBfdConfig;
     /** Customer BGP ASN. */
     bgp_asn: number;
     /** (DEPRECATED) BGP base CIDR is deprecated and no longer recognized by the Direct Link APIs.
@@ -1598,6 +1727,8 @@ namespace DirectLinkV1 {
      *  processes using this field  must tolerate unexpected values.
      */
     bgp_status?: string;
+    /** Date and time bgp status was updated. */
+    bgp_status_updated_at?: string;
     /** Carrier name.  Only set for type=dedicated gateways. */
     carrier_name?: string;
     /** Changes pending approval for provider managed Direct Link Connect gateways. */
@@ -1628,6 +1759,8 @@ namespace DirectLinkV1 {
      *  property may expand in the future. Code and processes using this field  must tolerate unexpected values.
      */
     link_status?: string;
+    /** Date and time link status was updated. */
+    link_status_updated_at?: string;
     /** Gateway location long name. */
     location_display_name: string;
     /** Gateway location. */
@@ -1646,6 +1779,8 @@ namespace DirectLinkV1 {
      *  and processes using this field  must tolerate unexpected values.
      */
     operational_status: string;
+    /** Gateway patch panel complete notification from implementation team. */
+    patch_panel_completion_notice?: string;
     /** gateway port for type=connect gateways. */
     port?: GatewayPort;
     /** Indicates whether gateway changes must be made via a provider portal. */
@@ -1662,7 +1797,7 @@ namespace DirectLinkV1 {
     vlan?: number;
   }
 
-  /** The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
+  /** Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
   export interface GatewayActionTemplateAuthenticationKey {
     /** The CRN of the [Key Protect Standard
      *  Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
@@ -1678,6 +1813,62 @@ namespace DirectLinkV1 {
      *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
      */
     crn: string;
+  }
+
+  /** BFD configuration information. */
+  export interface GatewayBfdConfig {
+    /** Gateway BFD status. The list of enumerated values for this property may expand in the future. Code and
+     *  processes using this field must tolerate unexpected values.
+     */
+    bfd_status?: string;
+    /** Date and time bfd status was updated. */
+    bfd_status_updated_at?: string;
+    /** Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects
+     *  to receive a reply from a neighbor with which it has established a BFD session.
+     */
+    interval: number;
+    /** The number of hello packets not received by a neighbor that causes the originating interface to be declared
+     *  down.
+     */
+    multiplier: number;
+  }
+
+  /** Applicable for create_gateway_approve requests to select the gateway's BFD configuration information. */
+  export interface GatewayBfdConfigActionTemplate {
+    /** Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects
+     *  to receive a reply from a neighbor with which it has established a BFD session.
+     */
+    interval: number;
+    /** The number of hello packets not received by a neighbor that causes the originating interface to be declared
+     *  down.
+     */
+    multiplier?: number;
+  }
+
+  /** BFD configuration information. */
+  export interface GatewayBfdConfigTemplate {
+    /** Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects
+     *  to receive a reply from a neighbor with which it has established a BFD session.
+     */
+    interval: number;
+    /** The number of hello packets not received by a neighbor that causes the originating interface to be declared
+     *  down.
+     */
+    multiplier?: number;
+  }
+
+  /** BFD configuration information. */
+  export interface GatewayBfdPatchTemplate {
+    /** Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects
+     *  to receive a reply from a neighbor with which it has established a BFD session.
+     *
+     *  To clear the BFD configuration patch its interval to 0.
+     */
+    interval?: number;
+    /** The number of hello packets not received by a neighbor that causes the originating interface to be declared
+     *  down.
+     */
+    multiplier?: number;
   }
 
   /** GatewayChangeRequest. */
@@ -1851,7 +2042,7 @@ namespace DirectLinkV1 {
     id: string;
   }
 
-  /** Gateway statistics.  Currently data retrieval is only supported for MACsec configurations. */
+  /** Gateway statistics and debug commands. */
   export interface GatewayStatistic {
     /** Date and time data was collected. */
     created_at: string;
@@ -1867,6 +2058,15 @@ namespace DirectLinkV1 {
     statistics: GatewayStatistic[];
   }
 
+  /** GatewayStatus. */
+  export interface GatewayStatus {
+  }
+
+  /** gateway status. */
+  export interface GatewayStatusCollection {
+    status?: GatewayStatus[];
+  }
+
   /** Create gateway template. */
   export interface GatewayTemplate {
     /** The identity of the standard key to use for BGP MD5 authentication key.
@@ -1875,6 +2075,8 @@ namespace DirectLinkV1 {
      *  To clear the optional `authentication_key` field patch its crn to `""`.
      */
     authentication_key?: GatewayTemplateAuthenticationKey;
+    /** BFD configuration information. */
+    bfd_config?: GatewayBfdConfigTemplate;
     /** BGP ASN. */
     bgp_asn: number;
     /** (DEPRECATED) BGP base CIDR.
@@ -1919,6 +2121,8 @@ namespace DirectLinkV1 {
     metered: boolean;
     /** The unique user-defined name for this gateway. */
     name: string;
+    /** Gateway patch panel complete notification from implementation team. */
+    patch_panel_completion_notice?: string;
     /** Resource group for this resource. If unspecified, the account's [default resource
      *  group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
      */
@@ -2132,6 +2336,36 @@ namespace DirectLinkV1 {
     type: string;
     /** array of pending updates. */
     updates: JsonObject[];
+  }
+
+  /** Gateway bfd status. */
+  export interface GatewayStatusGatewayBFDStatus extends GatewayStatus {
+    /** Status type. */
+    type: string;
+    /** Date and time status was collected. */
+    updated_at: string;
+    /** Status. */
+    value: string;
+  }
+
+  /** Gateway bgp status. */
+  export interface GatewayStatusGatewayBGPStatus extends GatewayStatus {
+    /** Status type. */
+    type: string;
+    /** Date and time status was collected. */
+    updated_at: string;
+    /** Status. */
+    value: string;
+  }
+
+  /** Gateway link status. Only available for dedicated gateways. */
+  export interface GatewayStatusGatewayLinkStatus extends GatewayStatus {
+    /** Status type. */
+    type: string;
+    /** Date and time status was collected. */
+    updated_at: string;
+    /** Status. */
+    value: string;
   }
 
   /** Gateway fields specific to type=connect gateway create. */
