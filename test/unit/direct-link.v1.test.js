@@ -186,6 +186,12 @@ describe('DirectLinkV1', () => {
           'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
+      // GatewayBfdConfigTemplate
+      const gatewayBfdConfigTemplateModel = {
+        interval: 2000,
+        multiplier: 10,
+      };
+
       // GatewayMacsecConfigTemplate
       const gatewayMacsecConfigTemplateModel = {
         active: true,
@@ -208,6 +214,7 @@ describe('DirectLinkV1', () => {
       // GatewayTemplateGatewayTypeDedicatedTemplate
       const gatewayTemplateModel = {
         authentication_key: gatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKeyModel,
+        bfd_config: gatewayBfdConfigTemplateModel,
         bgp_asn: 64999,
         bgp_base_cidr: 'testString',
         bgp_cer_cidr: '169.254.0.10/30',
@@ -216,6 +223,7 @@ describe('DirectLinkV1', () => {
         global: true,
         metered: false,
         name: 'myGateway',
+        patch_panel_completion_notice: 'patch panel configuration details',
         resource_group: resourceGroupIdentityModel,
         speed_mbps: 1000,
         type: 'dedicated',
@@ -441,6 +449,12 @@ describe('DirectLinkV1', () => {
           'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
       };
 
+      // GatewayBfdPatchTemplate
+      const gatewayBfdPatchTemplateModel = {
+        interval: 2000,
+        multiplier: 10,
+      };
+
       // GatewayMacsecConfigPatchTemplateFallbackCak
       const gatewayMacsecConfigPatchTemplateFallbackCakModel = {
         crn:
@@ -465,6 +479,10 @@ describe('DirectLinkV1', () => {
         // Construct the params object for operation updateGateway
         const id = 'testString';
         const authenticationKey = gatewayPatchTemplateAuthenticationKeyModel;
+        const bfdConfig = gatewayBfdPatchTemplateModel;
+        const bgpAsn = 64999;
+        const bgpCerCidr = '169.254.0.10/30';
+        const bgpIbmCidr = '169.254.0.9/30';
         const connectionMode = 'transit';
         const global = true;
         const loaRejectReason = 'The port mentioned was incorrect';
@@ -472,10 +490,15 @@ describe('DirectLinkV1', () => {
         const metered = false;
         const name = 'testGateway';
         const operationalStatus = 'loa_accepted';
+        const patchPanelCompletionNotice = 'patch panel configuration details';
         const speedMbps = 1000;
         const params = {
           id: id,
           authenticationKey: authenticationKey,
+          bfdConfig: bfdConfig,
+          bgpAsn: bgpAsn,
+          bgpCerCidr: bgpCerCidr,
+          bgpIbmCidr: bgpIbmCidr,
           connectionMode: connectionMode,
           global: global,
           loaRejectReason: loaRejectReason,
@@ -483,6 +506,7 @@ describe('DirectLinkV1', () => {
           metered: metered,
           name: name,
           operationalStatus: operationalStatus,
+          patchPanelCompletionNotice: patchPanelCompletionNotice,
           speedMbps: speedMbps,
         };
 
@@ -501,6 +525,10 @@ describe('DirectLinkV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(options.body['authentication_key']).toEqual(authenticationKey);
+        expect(options.body['bfd_config']).toEqual(bfdConfig);
+        expect(options.body['bgp_asn']).toEqual(bgpAsn);
+        expect(options.body['bgp_cer_cidr']).toEqual(bgpCerCidr);
+        expect(options.body['bgp_ibm_cidr']).toEqual(bgpIbmCidr);
         expect(options.body['connection_mode']).toEqual(connectionMode);
         expect(options.body['global']).toEqual(global);
         expect(options.body['loa_reject_reason']).toEqual(loaRejectReason);
@@ -508,6 +536,7 @@ describe('DirectLinkV1', () => {
         expect(options.body['metered']).toEqual(metered);
         expect(options.body['name']).toEqual(name);
         expect(options.body['operational_status']).toEqual(operationalStatus);
+        expect(options.body['patch_panel_completion_notice']).toEqual(patchPanelCompletionNotice);
         expect(options.body['speed_mbps']).toEqual(speedMbps);
         expect(options.qs['version']).toEqual(service.version);
         expect(options.path['id']).toEqual(id);
@@ -565,6 +594,12 @@ describe('DirectLinkV1', () => {
           'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
       };
 
+      // GatewayBfdConfigActionTemplate
+      const gatewayBfdConfigActionTemplateModel = {
+        interval: 2000,
+        multiplier: 10,
+      };
+
       // ResourceGroupIdentity
       const resourceGroupIdentityModel = {
         id: '56969d6043e9465c883cb9f7363e78e8',
@@ -575,6 +610,7 @@ describe('DirectLinkV1', () => {
         const id = 'testString';
         const action = 'create_gateway_approve';
         const authenticationKey = gatewayActionTemplateAuthenticationKeyModel;
+        const bfdConfig = gatewayBfdConfigActionTemplateModel;
         const connectionMode = 'transit';
         const global = true;
         const metered = false;
@@ -584,6 +620,7 @@ describe('DirectLinkV1', () => {
           id: id,
           action: action,
           authenticationKey: authenticationKey,
+          bfdConfig: bfdConfig,
           connectionMode: connectionMode,
           global: global,
           metered: metered,
@@ -607,6 +644,7 @@ describe('DirectLinkV1', () => {
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(options.body['action']).toEqual(action);
         expect(options.body['authentication_key']).toEqual(authenticationKey);
+        expect(options.body['bfd_config']).toEqual(bfdConfig);
         expect(options.body['connection_mode']).toEqual(connectionMode);
         expect(options.body['global']).toEqual(global);
         expect(options.body['metered']).toEqual(metered);
@@ -947,6 +985,78 @@ describe('DirectLinkV1', () => {
         expectToBePromise(getGatewayStatisticsPromise);
 
         getGatewayStatisticsPromise.catch(err => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
+      });
+    });
+  });
+  describe('getGatewayStatus', () => {
+    describe('positive tests', () => {
+      test('should pass the right params to createRequest', () => {
+        // Construct the params object for operation getGatewayStatus
+        const id = 'testString';
+        const type = 'bgp';
+        const params = {
+          id: id,
+          type: type,
+        };
+
+        const getGatewayStatusResult = directLink.getGatewayStatus(params);
+
+        // all methods should return a Promise
+        expectToBePromise(getGatewayStatusResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const options = getOptions(createRequestMock);
+
+        checkUrlAndMethod(options, '/gateways/{id}/status', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(options.qs['version']).toEqual(service.version);
+        expect(options.qs['type']).toEqual(type);
+        expect(options.path['id']).toEqual(id);
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLink.getGatewayStatus(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async done => {
+        let err;
+        try {
+          await directLink.getGatewayStatus({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+        done();
+      });
+
+      test('should reject promise when required params are not given', done => {
+        const getGatewayStatusPromise = directLink.getGatewayStatus();
+        expectToBePromise(getGatewayStatusPromise);
+
+        getGatewayStatusPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });

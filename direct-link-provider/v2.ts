@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -328,6 +328,20 @@ class DirectLinkProviderV2 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link Connect gateway identifier.
+   * @param {number} [params.bgpAsn] - The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration
+   * for the IBM side of the DL 2.0 gateway.
+   * @param {string} [params.bgpCerCidr] - BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain
+   * Routing) value to be updated on customer edge router for the DL 2.0 gateway. Customer edge IP and IBM IP should be
+   * in the same network. Updating customer edge router CIDR should be accompanied with IBM CIDR in the request. Update
+   * customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of
+   * "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and
+   * bgp_ibm_cidr must have matching network and subnet mask values.
+   * @param {string} [params.bgpIbmCidr] - BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be
+   * updated on IBM edge router for the DL 2.0 gateway. IBM IP and customer edge IP should be in the same network.
+   * Updating IBM CIDR should be accompanied with customer edge router CIDR in the request. Update IBM CIDR to a valid
+   * bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
+   * "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching
+   * network and subnet mask values.
    * @param {string} [params.name] - The unique user-defined name for this gateway.
    * @param {number} [params.speedMbps] - Gateway speed in megabits per second.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
@@ -344,6 +358,9 @@ class DirectLinkProviderV2 extends BaseService {
       }
 
       const body = {
+        'bgp_asn': _params.bgpAsn,
+        'bgp_cer_cidr': _params.bgpCerCidr,
+        'bgp_ibm_cidr': _params.bgpIbmCidr,
         'name': _params.name,
         'speed_mbps': _params.speedMbps
       };
@@ -576,6 +593,26 @@ namespace DirectLinkProviderV2 {
   export interface UpdateProviderGatewayParams {
     /** Direct Link Connect gateway identifier. */
     id: string;
+    /** The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL
+     *  2.0 gateway.
+     */
+    bgpAsn?: number;
+    /** BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on
+     *  customer edge router for the DL 2.0 gateway. Customer edge IP and IBM IP should be in the same network. Updating
+     *  customer edge router CIDR should be accompanied with IBM CIDR in the request. Update customer edge router IP to
+     *  a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
+     *  "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching
+     *  network and subnet mask values.
+     */
+    bgpCerCidr?: string;
+    /** BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the
+     *  DL 2.0 gateway. IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be
+     *  accompanied with customer edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and
+     *  bgp_ibm_cidr CIDR, the value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+     *  "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet
+     *  mask values.
+     */
+    bgpIbmCidr?: string;
     /** The unique user-defined name for this gateway. */
     name?: string;
     /** Gateway speed in megabits per second. */
