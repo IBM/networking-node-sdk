@@ -1,3 +1,10 @@
+# [0.14.0](https://github.com/IBM/networking-node-sdk/compare/v0.13.0...v0.14.0) (2021-10-06)
+
+
+### Features
+
+* **DirectLink:** add the changes to updated BGP parameters - IP and ASN, Also enable/edit the BFD parameters ([daa4105](https://github.com/IBM/networking-node-sdk/commit/daa410583b7853b74e4e8cb1b1d87408c9d16f14))
+
 # [0.13.0](https://github.com/IBM/networking-node-sdk/compare/v0.12.0...v0.13.0) (2021-09-16)
 
 
