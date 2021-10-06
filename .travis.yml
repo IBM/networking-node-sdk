@@ -2,7 +2,12 @@ language: node_js
 
 sudo: false
 
+node_js:
+- 12
+- 14
+
 before_install:
+- echo -e "machine github.ibm.com\n  login $GH_TOKEN" > ~/.netrc
 - '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_3d8a3eb98382_key -iv $encrypted_3d8a3eb98382_iv -in transit.env.enc -out transit.env -d || true'
 - '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_6de0fb2f002f_key -iv $encrypted_6de0fb2f002f_iv -in directlink.env.enc -out directlink.env -d || true'
 - '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_fc092b9428d6_key -iv $encrypted_fc092b9428d6_iv -in cis.env.enc -out cis.env -d || true'
@@ -24,7 +29,6 @@ after_success:
 - npm run report-coverage
 # - scripts/jsdoc/publish.sh - currently in progress
 
-# To enable semantic-release, uncomment this section.
 deploy:
 - provider: script
   skip_cleanup: true
