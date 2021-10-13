@@ -84,6 +84,12 @@ const wait = (ms = 5000) => {
   });
 };
 
+const get_port = ports => {
+  const providerToBeUsed = 'DL2-TEST';
+  const port = ports.find(port => port.provider_name === providerToBeUsed);
+  return port;
+};
+
 const options = {
   authenticator: new IamAuthenticator({
     apikey: config.IAMAPIKEY,
@@ -368,7 +374,7 @@ describe('DirectLinkV1', () => {
         dlService.listPorts({}).then(response => {
           expect(response.status).toBe(200);
           if (null != response && null != response.result && null != response.result.ports) {
-            port = response.result.ports[0];
+            port = get_port(response.result.ports);
           }
           done();
         });
@@ -1275,7 +1281,7 @@ describe('DirectLinkV1', () => {
           dlService.listPorts({}).then(response => {
             expect(response.status).toBe(200);
             if (null != response && null != response.result && null != response.result.ports) {
-              port = response.result.ports[0];
+              port = get_port(response.result.ports);
             }
             done();
           });
@@ -1519,7 +1525,7 @@ describe('DirectLinkV1', () => {
           dlService.listPorts({}).then(response => {
             expect(response.status).toBe(200);
             if (null != response && null != response.result && null != response.result.ports) {
-              port = response.result.ports[0];
+              port = get_port(response.result.ports);
             }
             done();
           });
@@ -1814,7 +1820,7 @@ describe('DirectLinkV1', () => {
           dlService.listPorts({}).then(response => {
             expect(response.status).toBe(200);
             if (null != response && null != response.result && null != response.result.ports) {
-              port = response.result.ports[0];
+              port = get_port(response.result.ports);
             }
             done();
           });
