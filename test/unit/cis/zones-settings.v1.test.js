@@ -2030,6 +2030,102 @@ describe('ZonesSettingsV1', () => {
       });
     });
   });
+  describe('getHttp3', () => {
+    describe('positive tests', () => {
+      test('should pass the right params to createRequest', () => {
+        // Construct the params object for operation getHttp3
+        const params = {};
+
+        const getHttp3Result = zonesSettingsService.getHttp3(params);
+
+        // all methods should return a Promise
+        expectToBePromise(getHttp3Result);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const options = getOptions(createRequestMock);
+
+        checkUrlAndMethod(options, '/v1/{crn}/zones/{zone_identifier}/settings/http3', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(options.path['crn']).toEqual(service.crn);
+        expect(options.path['zone_identifier']).toEqual(service.zoneIdentifier);
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        zonesSettingsService.getHttp3(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        zonesSettingsService.getHttp3({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+  describe('updateHttp3', () => {
+    describe('positive tests', () => {
+      test('should pass the right params to createRequest', () => {
+        // Construct the params object for operation updateHttp3
+        const value = 'on';
+        const params = {
+          value: value,
+        };
+
+        const updateHttp3Result = zonesSettingsService.updateHttp3(params);
+
+        // all methods should return a Promise
+        expectToBePromise(updateHttp3Result);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const options = getOptions(createRequestMock);
+
+        checkUrlAndMethod(options, '/v1/{crn}/zones/{zone_identifier}/settings/http3', 'PATCH');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(options.body['value']).toEqual(value);
+        expect(options.path['crn']).toEqual(service.crn);
+        expect(options.path['zone_identifier']).toEqual(service.zoneIdentifier);
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        zonesSettingsService.updateHttp3(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        zonesSettingsService.updateHttp3({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
   describe('getIpv6', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {

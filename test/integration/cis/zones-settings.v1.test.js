@@ -69,7 +69,7 @@ const MaxUpload = [
   500,
 ];
 
-describe.skip('Zones Settings', () => {
+describe('Zones Settings', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.
@@ -1060,10 +1060,10 @@ describe.skip('Zones Settings', () => {
           expect(result.result.id).toEqual('security_header');
           expect(result.result.value).toMatchObject({
             strict_transport_security: {
-              enabled: false,
-              include_subdomains: false,
-              max_age: 0,
-              nosniff: false,
+              enabled: true,
+              include_subdomains: true,
+              max_age: 86400,
+              nosniff: true,
               preload: false,
             },
           });
@@ -1258,6 +1258,74 @@ describe.skip('Zones Settings', () => {
       };
       try {
         await zoneInstance.updateHttp2(params);
+      } catch (err) {
+        expect(err.status).toEqual(400);
+        done();
+      }
+      done();
+    });
+  });
+
+  describe('Http3 setting', () => {
+    let storedValue;
+    test('successfully get Http3', async done => {
+      try {
+        const response = await zoneInstance.getHttp3({});
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.id).toEqual('http3');
+          expect(['on', 'off']).toContain(result.result.value);
+          storedValue = result.result.value;
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+    test('successfully update/turn on Http3 setting', async done => {
+      const params = {
+        value: 'on',
+      };
+      try {
+        const response = await zoneInstance.updateHttp3(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(params.value);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('successfully reset previous Http3 setting', async done => {
+      const params = {
+        value: storedValue,
+      };
+      try {
+        const response = await zoneInstance.updateHttp3(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(storedValue);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('should fail to update Http3 setting', async done => {
+      const params = {
+        value: 'test',
+      };
+      try {
+        await zoneInstance.updateHttp3(params);
       } catch (err) {
         expect(err.status).toEqual(400);
         done();
