@@ -32,7 +32,7 @@ const describe = authHelper.prepareTests(configFile);
 // config properties, rather than let the SDK do it for us.
 const config = authHelper.loadConfig();
 
-describe.skip('GLBEventsApi', () => {
+describe('GLBEventsApi', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

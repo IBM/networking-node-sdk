@@ -36,7 +36,7 @@ let zonesV1;
 let zone;
 const NEW_ZONE_NAME = 'testingsdk.';
 
-describe.skip('DNSRecordsApisV1', () => {
+describe('DNSRecordsApisV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

@@ -34,7 +34,7 @@ const describe = authHelper.prepareTests(configFile);
 // config properties, rather than let the SDK do it for us.
 const config = authHelper.loadConfig();
 
-describe.skip('WafRuleGroupsApiV1', () => {
+describe('WafRuleGroupsApiV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

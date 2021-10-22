@@ -34,7 +34,7 @@ const config = authHelper.loadConfig();
 
 let securityEventsApiV1;
 
-describe.skip('SecurityEventsApiV1', () => {
+describe('SecurityEventsApiV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

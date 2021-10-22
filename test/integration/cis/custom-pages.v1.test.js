@@ -36,7 +36,7 @@ let customPagesV1;
 let customPage;
 let customPage1;
 
-describe.skip('CustomPagesV1', () => {
+describe('CustomPagesV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

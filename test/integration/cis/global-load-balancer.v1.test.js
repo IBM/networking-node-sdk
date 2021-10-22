@@ -33,7 +33,7 @@ const describe = authHelper.prepareTests(configFile);
 // config properties, rather than let the SDK do it for us.
 const config = authHelper.loadConfig();
 
-describe.skip('GlobalLoadBalancerApi', () => {
+describe('GlobalLoadBalancerApi', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.
@@ -72,7 +72,7 @@ describe.skip('GlobalLoadBalancerApi', () => {
     steeringPolicy: 'dynamic_latency',
   };
 
-  describe.skip('Create and verify load balancer', () => {
+  describe('Create and verify load balancer', () => {
     // Construct the params object for operation createLoadBalancer
     const randomId = new Date().getTime().toString(36);
     const poolConfig = {
@@ -139,7 +139,7 @@ describe.skip('GlobalLoadBalancerApi', () => {
     });
   });
 
-  describe.skip('List Load Balancers', () => {
+  describe('List Load Balancers', () => {
     test('should list all the load balancers', async done => {
       try {
         const response = await loadBalancerInstance.listAllLoadBalancers({});
