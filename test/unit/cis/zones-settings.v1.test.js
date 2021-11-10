@@ -385,7 +385,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateOpportunisticEncryption
-        const value = 'false';
+        const value = 'off';
         const params = {
           value: value,
         };
@@ -597,7 +597,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateAutomaticHttpsRewrites
-        const value = 'false';
+        const value = 'off';
         const params = {
           value: value,
         };
@@ -703,7 +703,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateTrueClientIp
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -807,7 +807,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateAlwaysUseHttps
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -1021,7 +1021,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateScriptLoadOptimization
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -1129,7 +1129,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateImageLoadOptimization
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -1233,9 +1233,9 @@ describe('ZonesSettingsV1', () => {
 
       // MinifySettingValue
       const minifySettingValueModel = {
-        css: 'false',
-        html: 'false',
-        js: 'false',
+        css: 'off',
+        html: 'off',
+        js: 'off',
       };
 
       test('should pass the right params to createRequest', () => {
@@ -1444,7 +1444,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateIpGeolocation
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -1548,7 +1548,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateServerSideExclude
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -1773,7 +1773,7 @@ describe('ZonesSettingsV1', () => {
 
       // MobileRedirecSettingValue
       const mobileRedirecSettingValueModel = {
-        status: 'true',
+        status: 'on',
         mobile_subdomain: 'm',
         strip_uri: false,
       };
@@ -1884,7 +1884,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updatePrefetchPreload
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -1984,7 +1984,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateHttp2
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -2026,6 +2026,102 @@ describe('ZonesSettingsV1', () => {
       test('should not have any problems when no parameters are passed in', () => {
         // invoke the method with no parameters
         zonesSettingsService.updateHttp2({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+  describe('getHttp3', () => {
+    describe('positive tests', () => {
+      test('should pass the right params to createRequest', () => {
+        // Construct the params object for operation getHttp3
+        const params = {};
+
+        const getHttp3Result = zonesSettingsService.getHttp3(params);
+
+        // all methods should return a Promise
+        expectToBePromise(getHttp3Result);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const options = getOptions(createRequestMock);
+
+        checkUrlAndMethod(options, '/v1/{crn}/zones/{zone_identifier}/settings/http3', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(options.path['crn']).toEqual(service.crn);
+        expect(options.path['zone_identifier']).toEqual(service.zoneIdentifier);
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        zonesSettingsService.getHttp3(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        zonesSettingsService.getHttp3({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+  describe('updateHttp3', () => {
+    describe('positive tests', () => {
+      test('should pass the right params to createRequest', () => {
+        // Construct the params object for operation updateHttp3
+        const value = 'on';
+        const params = {
+          value: value,
+        };
+
+        const updateHttp3Result = zonesSettingsService.updateHttp3(params);
+
+        // all methods should return a Promise
+        expectToBePromise(updateHttp3Result);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const options = getOptions(createRequestMock);
+
+        checkUrlAndMethod(options, '/v1/{crn}/zones/{zone_identifier}/settings/http3', 'PATCH');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(options.body['value']).toEqual(value);
+        expect(options.path['crn']).toEqual(service.crn);
+        expect(options.path['zone_identifier']).toEqual(service.zoneIdentifier);
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        zonesSettingsService.updateHttp3(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        zonesSettingsService.updateHttp3({});
         checkForSuccessfulExecution(createRequestMock);
       });
     });
@@ -2080,7 +2176,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateIpv6
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -2176,7 +2272,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateWebSockets
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -2380,7 +2476,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateResponseBuffering
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -2484,7 +2580,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateHotlinkProtection
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -2688,7 +2784,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateTlsClientAuth
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -2792,7 +2888,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateBrowserCheck
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -2896,7 +2992,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateEnableErrorPagesOn
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -3000,7 +3096,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateWebApplicationFirewall
-        const value = 'true';
+        const value = 'on';
         const params = {
           value: value,
         };
@@ -3098,7 +3194,7 @@ describe('ZonesSettingsV1', () => {
     describe('positive tests', () => {
       test('should pass the right params to createRequest', () => {
         // Construct the params object for operation updateCiphers
-        const value = ['ECDHE-ECDSA-AES128-GCM-SHA256'];
+        const value = ['AES256-GCM-SHA384', 'AES256-SHA256'];
         const params = {
           value: value,
         };
