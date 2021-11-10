@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe('RangeApplicationsV1', () => {
+describe.skip('RangeApplicationsV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = RangeApplicationsV1.newInstance(requiredGlobals);

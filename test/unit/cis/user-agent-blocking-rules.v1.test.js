@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe('UserAgentBlockingRulesV1', () => {
+describe.skip('UserAgentBlockingRulesV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = UserAgentBlockingRulesV1.newInstance(requiredGlobals);

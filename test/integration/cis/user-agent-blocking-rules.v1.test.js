@@ -35,7 +35,7 @@ const config = authHelper.loadConfig();
 let userAgentBlockingRulesV1;
 let userAgentBlockingRule;
 
-describe('UserAgentBlockingRulesV1', () => {
+describe.skip('UserAgentBlockingRulesV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

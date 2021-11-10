@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe('RoutingV1', () => {
+describe.skip('RoutingV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = RoutingV1.newInstance(requiredGlobals);

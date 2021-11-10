@@ -38,7 +38,7 @@ let edgeFunctionsApiV1;
 let edgeFunctionAction;
 let edgeFunctionTrigger;
 
-describe('EdgeFunctionsApiV1', () => {
+describe.skip('EdgeFunctionsApiV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

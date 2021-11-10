@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe('DnsRecordsV1', () => {
+describe.skip('DnsRecordsV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = DnsRecordsV1.newInstance(requiredGlobals);

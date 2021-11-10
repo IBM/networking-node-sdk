@@ -62,7 +62,7 @@ beforeEach(() => {
   };
 });
 
-describe('SslCertificateApiV1', () => {
+describe.skip('SslCertificateApiV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = SslCertificateApiV1.newInstance(requiredGlobals);

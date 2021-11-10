@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe('PageRuleApiV1', () => {
+describe.skip('PageRuleApiV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = PageRuleApiV1.newInstance(requiredGlobals);

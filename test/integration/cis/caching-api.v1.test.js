@@ -38,7 +38,7 @@ let browserCacheTtl;
 let developmentMode;
 let sortQueryStrForCache;
 
-describe('DNSRecordsApisV1', () => {
+describe.skip('DNSRecordsApisV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

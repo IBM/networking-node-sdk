@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe('WafApiV1', () => {
+describe.skip('WafApiV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = WafApiV1.newInstance(requiredGlobals);

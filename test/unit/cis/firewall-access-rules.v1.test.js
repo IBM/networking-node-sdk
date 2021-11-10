@@ -59,7 +59,7 @@ beforeEach(() => {
   };
 });
 
-describe('FirewallAccessRulesV1', () => {
+describe.skip('FirewallAccessRulesV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = FirewallAccessRulesV1.newInstance(requiredGlobals);

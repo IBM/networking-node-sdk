@@ -60,7 +60,7 @@ beforeEach(() => {
   };
 });
 
-describe('DirectLinkV1', () => {
+describe.skip('DirectLinkV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = DirectLinkV1.newInstance(requiredGlobals);

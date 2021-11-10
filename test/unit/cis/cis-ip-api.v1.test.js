@@ -49,7 +49,7 @@ afterEach(() => {
   getAuthenticatorMock.mockClear();
 });
 
-describe('CisIpApiV1', () => {
+describe.skip('CisIpApiV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = CisIpApiV1.newInstance();

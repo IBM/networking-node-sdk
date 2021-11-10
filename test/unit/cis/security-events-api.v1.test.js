@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe('SecurityEventsApiV1', () => {
+describe.skip('SecurityEventsApiV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = SecurityEventsApiV1.newInstance(requiredGlobals);

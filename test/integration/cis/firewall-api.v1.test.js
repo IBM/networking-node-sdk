@@ -35,7 +35,7 @@ const config = authHelper.loadConfig();
 let firewallApiV1;
 let currentSecurityLevel;
 
-describe('FirewallApiV1', () => {
+describe.skip('FirewallApiV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.
