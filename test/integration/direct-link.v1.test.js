@@ -102,7 +102,7 @@ const options = {
 // Initialize the service client.
 const dlService = new DirectLinkV1(options);
 
-describe('DirectLinkV1', () => {
+describe.skip('DirectLinkV1', () => {
   describe('Create/verify a dedicated gateway', () => {
     jest.setTimeout(timeout);
 
