@@ -1494,6 +1494,84 @@ class ZonesSettingsV1 extends BaseService {
     return this.createRequest(parameters);
   };
 
+
+  /**
+   * Get http/3 setting.
+   *
+   * Get http/3 setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http3Resp>>}
+   */
+   public getHttp3(params?: ZonesSettingsV1.GetHttp3Params): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http3Resp>> {
+    const _params = Object.assign({}, params);
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getHttp3');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/http3',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
+  /**
+   * Update http/3 setting.
+   *
+   * Update http/3 setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.value] - Value.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http3Resp>>}
+   */
+  public updateHttp3(params?: ZonesSettingsV1.UpdateHttp3Params): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http3Resp>> {
+    const _params = Object.assign({}, params);
+
+    const body = {
+      'value': _params.value
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateHttp3');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/http3',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  };
+
   /**
    * Get IPv6 compatibility setting.
    *
@@ -2723,6 +2801,27 @@ namespace ZonesSettingsV1 {
     }
   }
 
+  /** Parameters for the `getHttp3` operation. */
+  export interface GetHttp3Params {
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateHttp3` operation. */
+  export interface UpdateHttp3Params {
+    /** Value. */
+    value?: UpdateHttp3Constants.Value | string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `updateHttp3` operation. */
+  export namespace UpdateHttp3Constants {
+    /** Value. */
+    export enum Value {
+      ON = 'on',
+      OFF = 'off',
+    }
+  }
+
   /** Parameters for the `getIpv6` operation. */
   export interface GetIpv6Params {
     headers?: OutgoingHttpHeaders;
@@ -3045,6 +3144,18 @@ namespace ZonesSettingsV1 {
 
   /** Container for response information. */
   export interface Http2RespResult {
+    /** ID. */
+    id: string;
+    /** Value. */
+    value: string;
+    /** Editable. */
+    editable: boolean;
+    /** Modified date. */
+    modified_on: string;
+  }
+
+  /** Container for response information. */
+  export interface Http3RespResult {
     /** ID. */
     id: string;
     /** Value. */
@@ -3487,6 +3598,18 @@ namespace ZonesSettingsV1 {
   export interface Http2Resp {
     /** Container for response information. */
     result: Http2RespResult;
+    /** Was the get successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+  }
+
+  /** HTTP3 Response. */
+  export interface Http3Resp {
+    /** Container for response information. */
+    result: Http3RespResult;
     /** Was the get successful. */
     success: boolean;
     /** Array of errors encountered. */

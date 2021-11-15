@@ -33,7 +33,7 @@ const describe = authHelper.prepareTests(configFile);
 // config properties, rather than let the SDK do it for us.
 const config = authHelper.loadConfig();
 
-describe.skip('RangeApplicationsV1', () => {
+describe('RangeApplicationsV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.
@@ -64,32 +64,21 @@ describe.skip('RangeApplicationsV1', () => {
 
   test('should successfully create the range application', async done => {
     try {
-      let response = await zonesV1.listZones();
-      let zone;
-      expect(response).toBeDefined();
-      expect(response.status).toEqual(200);
-      let { result } = response || {};
-
-      if (result && result.result) {
-        expect(result.result.length).toBeGreaterThanOrEqual(1);
-        expect(result.result).toBeDefined();
-        zone = result.result[0];
-      }
       const params = {
-        protocol: 'tcp/32',
-        dns: { type: 'CNAME', name: 'ab.' + zone.name },
-        originDirect: ['tcp://2.5.6.7:32'],
+        protocol: 'tcp/35',
+        dns: { type: 'CNAME', name: 'ab.' + config.DOMAIN_NAME },
+        originDirect: ['tcp://2.5.6.7:35'],
         proxyProtocol: 'off',
-        ipFirewall: true,
+        ipFirewall: false,
         tls: 'off',
         trafficType: 'direct',
         edgeIps: { connectivity: 'all', type: 'dynamic' },
       };
-      response = await rangeApplicationsV1.createRangeApp(params);
+      const response = await rangeApplicationsV1.createRangeApp(params);
       expect(response).toBeDefined();
       expect(response.status).toEqual(200);
 
-      result = response || {};
+      const result = response || {};
       expect(result).toBeDefined();
 
       rangeAppCreated = result.result;
@@ -112,14 +101,13 @@ describe.skip('RangeApplicationsV1', () => {
     try {
       const params = {
         appIdentifier: rangeAppCreated.result.id,
-        protocol: 'tcp/32',
+        protocol: 'tcp/35',
         dns: { type: 'CNAME', name: rangeAppCreated.result.dns.name },
         originDirect: ['tcp://2.5.6.7:32'],
         proxyProtocol: 'v1',
         ipFirewall: true,
         tls: 'flexible',
         trafficType: 'direct',
-        edgeIps: { connectivity: 'all', type: 'dynamic' },
       };
       const response = await rangeApplicationsV1.updateRangeApp(params);
       expect(response).toBeDefined();
