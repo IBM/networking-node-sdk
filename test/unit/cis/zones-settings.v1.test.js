@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe.skip('ZonesSettingsV1', () => {
+describe('ZonesSettingsV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = ZonesSettingsV1.newInstance(requiredGlobals);

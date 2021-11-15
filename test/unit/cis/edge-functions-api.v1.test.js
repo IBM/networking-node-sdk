@@ -62,7 +62,7 @@ beforeEach(() => {
   };
 });
 
-describe.skip('EdgeFunctionsApiV1', () => {
+describe('EdgeFunctionsApiV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = EdgeFunctionsApiV1.newInstance(requiredGlobals);

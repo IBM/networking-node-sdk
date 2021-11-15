@@ -49,7 +49,7 @@ afterEach(() => {
   getAuthenticatorMock.mockClear();
 });
 
-describe.skip('DnsSvcsV1', () => {
+describe('DnsSvcsV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = DnsSvcsV1.newInstance();

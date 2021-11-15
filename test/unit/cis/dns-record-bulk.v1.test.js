@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe.skip('DnsRecordBulkV1', () => {
+describe('DnsRecordBulkV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = DnsRecordBulkV1.newInstance(requiredGlobals);

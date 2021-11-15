@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe.skip('CachingApiV1', () => {
+describe('CachingApiV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = CachingApiV1.newInstance(requiredGlobals);

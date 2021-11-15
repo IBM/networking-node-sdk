@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe.skip('FirewallApiV1', () => {
+describe('FirewallApiV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = FirewallApiV1.newInstance(requiredGlobals);

@@ -59,7 +59,7 @@ beforeEach(() => {
   };
 });
 
-describe.skip('TransitGatewayApisV1', () => {
+describe('TransitGatewayApisV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = TransitGatewayApisV1.newInstance(requiredGlobals);

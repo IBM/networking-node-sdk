@@ -59,7 +59,7 @@ beforeEach(() => {
   };
 });
 
-describe.skip('GlobalLoadBalancerMonitorV1', () => {
+describe('GlobalLoadBalancerMonitorV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = GlobalLoadBalancerMonitorV1.newInstance(requiredGlobals);

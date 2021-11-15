@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe.skip('CustomPagesV1', () => {
+describe('CustomPagesV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = CustomPagesV1.newInstance(requiredGlobals);

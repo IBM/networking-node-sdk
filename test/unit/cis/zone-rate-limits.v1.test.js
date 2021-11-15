@@ -61,7 +61,7 @@ beforeEach(() => {
   };
 });
 
-describe.skip('ZoneRateLimitsV1', () => {
+describe('ZoneRateLimitsV1', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = ZoneRateLimitsV1.newInstance(requiredGlobals);

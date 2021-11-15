@@ -59,7 +59,7 @@ beforeEach(() => {
   };
 });
 
-describe.skip('GlobalLoadBalancerPoolsV0', () => {
+describe('GlobalLoadBalancerPoolsV0', () => {
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = GlobalLoadBalancerPoolsV0.newInstance(requiredGlobals);
