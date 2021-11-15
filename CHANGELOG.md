@@ -1,3 +1,10 @@
+# [0.15.0](https://github.com/IBM/networking-node-sdk/compare/v0.14.0...v0.15.0) (2021-11-15)
+
+
+### Features
+
+* **http3:** added http3 setting ([52fe8f4](https://github.com/IBM/networking-node-sdk/commit/52fe8f4058b92269bed9fa6061527a88929d6567))
+
 # [0.14.0](https://github.com/IBM/networking-node-sdk/compare/v0.13.0...v0.14.0) (2021-10-06)
 
 
