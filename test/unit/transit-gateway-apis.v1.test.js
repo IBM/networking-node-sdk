@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
 
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const core = require('ibm-cloud-sdk-core');
+
 const { NoAuthAuthenticator, unitTestUtils } = core;
 
 const TransitGatewayApisV1 = require('../../dist/transit-gateway-apis/v1');
@@ -29,13 +29,13 @@ const {
   checkForSuccessfulExecution,
 } = unitTestUtils;
 
-const service = {
+const transitGatewayApisServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
   url: 'https://transit.cloud.ibm.com/v1',
   version: 'testString',
 };
 
-const transitGatewayApisService = new TransitGatewayApisV1(service);
+const transitGatewayApisService = new TransitGatewayApisV1(transitGatewayApisServiceOptions);
 
 // dont actually create a request
 const createRequestMock = jest.spyOn(transitGatewayApisService, 'createRequest');
@@ -118,15 +118,15 @@ describe('TransitGatewayApisV1', () => {
   describe('service-level tests', () => {
     describe('positive tests', () => {
       test('construct service with global params', () => {
-        const serviceObj = new TransitGatewayApisV1(service);
+        const serviceObj = new TransitGatewayApisV1(transitGatewayApisServiceOptions);
         expect(serviceObj).not.toBeNull();
-        expect(serviceObj.version).toEqual(service.version);
+        expect(serviceObj.version).toEqual(transitGatewayApisServiceOptions.version);
       });
     });
   });
   describe('listConnections', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __listConnectionsTest() {
         // Construct the params object for operation listConnections
         const limit = 1;
         const start = 'testString';
@@ -145,16 +145,31 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/connections', 'GET');
+        checkUrlAndMethod(mockRequestOptions, '/connections', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.qs['limit']).toEqual(limit);
-        expect(options.qs['start']).toEqual(start);
-        expect(options.qs['network_id']).toEqual(networkId);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.start).toEqual(start);
+        expect(mockRequestOptions.qs.network_id).toEqual(networkId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listConnectionsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __listConnectionsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __listConnectionsTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -179,9 +194,355 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+  describe('listTransitGatewayRouteReports', () => {
+    describe('positive tests', () => {
+      function __listTransitGatewayRouteReportsTest() {
+        // Construct the params object for operation listTransitGatewayRouteReports
+        const transitGatewayId = 'testString';
+        const params = {
+          transitGatewayId: transitGatewayId,
+        };
+
+        const listTransitGatewayRouteReportsResult = transitGatewayApisService.listTransitGatewayRouteReports(params);
+
+        // all methods should return a Promise
+        expectToBePromise(listTransitGatewayRouteReportsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listTransitGatewayRouteReportsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __listTransitGatewayRouteReportsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __listTransitGatewayRouteReportsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const transitGatewayId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          transitGatewayId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        transitGatewayApisService.listTransitGatewayRouteReports(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.listTransitGatewayRouteReports({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.listTransitGatewayRouteReports();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('createTransitGatewayRouteReport', () => {
+    describe('positive tests', () => {
+      function __createTransitGatewayRouteReportTest() {
+        // Construct the params object for operation createTransitGatewayRouteReport
+        const transitGatewayId = 'testString';
+        const params = {
+          transitGatewayId: transitGatewayId,
+        };
+
+        const createTransitGatewayRouteReportResult = transitGatewayApisService.createTransitGatewayRouteReport(params);
+
+        // all methods should return a Promise
+        expectToBePromise(createTransitGatewayRouteReportResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createTransitGatewayRouteReportTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __createTransitGatewayRouteReportTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __createTransitGatewayRouteReportTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const transitGatewayId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          transitGatewayId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        transitGatewayApisService.createTransitGatewayRouteReport(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.createTransitGatewayRouteReport({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.createTransitGatewayRouteReport();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('deleteTransitGatewayRouteReport', () => {
+    describe('positive tests', () => {
+      function __deleteTransitGatewayRouteReportTest() {
+        // Construct the params object for operation deleteTransitGatewayRouteReport
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const params = {
+          transitGatewayId: transitGatewayId,
+          id: id,
+        };
+
+        const deleteTransitGatewayRouteReportResult = transitGatewayApisService.deleteTransitGatewayRouteReport(params);
+
+        // all methods should return a Promise
+        expectToBePromise(deleteTransitGatewayRouteReportResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports/{id}', 'DELETE');
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteTransitGatewayRouteReportTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __deleteTransitGatewayRouteReportTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __deleteTransitGatewayRouteReportTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          transitGatewayId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        transitGatewayApisService.deleteTransitGatewayRouteReport(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.deleteTransitGatewayRouteReport({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.deleteTransitGatewayRouteReport();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('getTransitGatewayRouteReport', () => {
+    describe('positive tests', () => {
+      function __getTransitGatewayRouteReportTest() {
+        // Construct the params object for operation getTransitGatewayRouteReport
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const params = {
+          transitGatewayId: transitGatewayId,
+          id: id,
+        };
+
+        const getTransitGatewayRouteReportResult = transitGatewayApisService.getTransitGatewayRouteReport(params);
+
+        // all methods should return a Promise
+        expectToBePromise(getTransitGatewayRouteReportResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports/{id}', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getTransitGatewayRouteReportTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __getTransitGatewayRouteReportTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __getTransitGatewayRouteReportTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          transitGatewayId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        transitGatewayApisService.getTransitGatewayRouteReport(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.getTransitGatewayRouteReport({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.getTransitGatewayRouteReport();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
   describe('listTransitGateways', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __listTransitGatewaysTest() {
         // Construct the params object for operation listTransitGateways
         const limit = 1;
         const start = 'testString';
@@ -198,15 +559,30 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/transit_gateways', 'GET');
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.qs['limit']).toEqual(limit);
-        expect(options.qs['start']).toEqual(start);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.start).toEqual(start);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listTransitGatewaysTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __listTransitGatewaysTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __listTransitGatewaysTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -240,7 +616,7 @@ describe('TransitGatewayApisV1', () => {
         id: '56969d6043e9465c883cb9f7363e78e8',
       };
 
-      test('should pass the right params to createRequest', () => {
+      function __createTransitGatewayTest() {
         // Construct the params object for operation createTransitGateway
         const location = 'us-south';
         const name = 'Transit_Service_BWTN_SJ_DL';
@@ -261,17 +637,32 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/transit_gateways', 'POST');
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.body['location']).toEqual(location);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['global']).toEqual(global);
-        expect(options.body['resource_group']).toEqual(resourceGroup);
-        expect(options.qs['version']).toEqual(service.version);
+        expect(mockRequestOptions.body.location).toEqual(location);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.global).toEqual(global);
+        expect(mockRequestOptions.body.resource_group).toEqual(resourceGroup);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createTransitGatewayTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __createTransitGatewayTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __createTransitGatewayTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -295,7 +686,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await transitGatewayApisService.createTransitGateway({});
@@ -304,23 +695,23 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
-      test('should reject promise when required params are not given', done => {
-        const createTransitGatewayPromise = transitGatewayApisService.createTransitGateway();
-        expectToBePromise(createTransitGatewayPromise);
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.createTransitGateway();
+        } catch (e) {
+          err = e;
+        }
 
-        createTransitGatewayPromise.catch(err => {
-          expect(err.message).toMatch(/Missing required parameters/);
-          done();
-        });
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
   describe('deleteTransitGateway', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __deleteTransitGatewayTest() {
         // Construct the params object for operation deleteTransitGateway
         const id = 'testString';
         const params = {
@@ -335,14 +726,29 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/transit_gateways/{id}', 'DELETE');
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.path['id']).toEqual(id);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteTransitGatewayTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __deleteTransitGatewayTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __deleteTransitGatewayTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -364,7 +770,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await transitGatewayApisService.deleteTransitGateway({});
@@ -373,23 +779,23 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
-      test('should reject promise when required params are not given', done => {
-        const deleteTransitGatewayPromise = transitGatewayApisService.deleteTransitGateway();
-        expectToBePromise(deleteTransitGatewayPromise);
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.deleteTransitGateway();
+        } catch (e) {
+          err = e;
+        }
 
-        deleteTransitGatewayPromise.catch(err => {
-          expect(err.message).toMatch(/Missing required parameters/);
-          done();
-        });
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
   describe('getTransitGateway', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __getTransitGatewayTest() {
         // Construct the params object for operation getTransitGateway
         const id = 'testString';
         const params = {
@@ -404,14 +810,29 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/transit_gateways/{id}', 'GET');
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.path['id']).toEqual(id);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getTransitGatewayTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __getTransitGatewayTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __getTransitGatewayTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -433,7 +854,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await transitGatewayApisService.getTransitGateway({});
@@ -442,23 +863,23 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
-      test('should reject promise when required params are not given', done => {
-        const getTransitGatewayPromise = transitGatewayApisService.getTransitGateway();
-        expectToBePromise(getTransitGatewayPromise);
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.getTransitGateway();
+        } catch (e) {
+          err = e;
+        }
 
-        getTransitGatewayPromise.catch(err => {
-          expect(err.message).toMatch(/Missing required parameters/);
-          done();
-        });
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
   describe('updateTransitGateway', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __updateTransitGatewayTest() {
         // Construct the params object for operation updateTransitGateway
         const id = 'testString';
         const global = true;
@@ -477,16 +898,31 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/transit_gateways/{id}', 'PATCH');
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.body['global']).toEqual(global);
-        expect(options.body['name']).toEqual(name);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.path['id']).toEqual(id);
+        expect(mockRequestOptions.body.global).toEqual(global);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateTransitGatewayTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __updateTransitGatewayTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __updateTransitGatewayTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -508,7 +944,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await transitGatewayApisService.updateTransitGateway({});
@@ -517,32 +953,30 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
-      test('should reject promise when required params are not given', done => {
-        const updateTransitGatewayPromise = transitGatewayApisService.updateTransitGateway();
-        expectToBePromise(updateTransitGatewayPromise);
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.updateTransitGateway();
+        } catch (e) {
+          err = e;
+        }
 
-        updateTransitGatewayPromise.catch(err => {
-          expect(err.message).toMatch(/Missing required parameters/);
-          done();
-        });
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
   describe('listTransitGatewayConnections', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __listTransitGatewayConnectionsTest() {
         // Construct the params object for operation listTransitGatewayConnections
         const transitGatewayId = 'testString';
         const params = {
           transitGatewayId: transitGatewayId,
         };
 
-        const listTransitGatewayConnectionsResult = transitGatewayApisService.listTransitGatewayConnections(
-          params
-        );
+        const listTransitGatewayConnectionsResult = transitGatewayApisService.listTransitGatewayConnections(params);
 
         // all methods should return a Promise
         expectToBePromise(listTransitGatewayConnectionsResult);
@@ -550,14 +984,29 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/transit_gateways/{transit_gateway_id}/connections', 'GET');
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.path['transit_gateway_id']).toEqual(transitGatewayId);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listTransitGatewayConnectionsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __listTransitGatewayConnectionsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __listTransitGatewayConnectionsTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -579,7 +1028,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await transitGatewayApisService.listTransitGatewayConnections({});
@@ -588,17 +1037,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
-      test('should reject promise when required params are not given', done => {
-        const listTransitGatewayConnectionsPromise = transitGatewayApisService.listTransitGatewayConnections();
-        expectToBePromise(listTransitGatewayConnectionsPromise);
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.listTransitGatewayConnections();
+        } catch (e) {
+          err = e;
+        }
 
-        listTransitGatewayConnectionsPromise.catch(err => {
-          expect(err.message).toMatch(/Missing required parameters/);
-          done();
-        });
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
@@ -611,7 +1060,7 @@ describe('TransitGatewayApisV1', () => {
         name: 'us-south-1',
       };
 
-      test('should pass the right params to createRequest', () => {
+      function __createTransitGatewayConnectionTest() {
         // Construct the params object for operation createTransitGatewayConnection
         const transitGatewayId = 'testString';
         const networkType = 'vpc';
@@ -620,8 +1069,7 @@ describe('TransitGatewayApisV1', () => {
         const localTunnelIp = '192.168.129.2';
         const name = 'Transit_Service_BWTN_SJ_DL';
         const networkAccountId = '28e4d90ac7504be694471ee66e70d0d5';
-        const networkId =
-          'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b';
+        const networkId = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b';
         const remoteBgpAsn = '65010';
         const remoteGatewayIp = '10.242.63.12';
         const remoteTunnelIp = '192.168.129.1';
@@ -641,9 +1089,7 @@ describe('TransitGatewayApisV1', () => {
           zone: zone,
         };
 
-        const createTransitGatewayConnectionResult = transitGatewayApisService.createTransitGatewayConnection(
-          params
-        );
+        const createTransitGatewayConnectionResult = transitGatewayApisService.createTransitGatewayConnection(params);
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayConnectionResult);
@@ -651,25 +1097,40 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/transit_gateways/{transit_gateway_id}/connections', 'POST');
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.body['network_type']).toEqual(networkType);
-        expect(options.body['base_connection_id']).toEqual(baseConnectionId);
-        expect(options.body['local_gateway_ip']).toEqual(localGatewayIp);
-        expect(options.body['local_tunnel_ip']).toEqual(localTunnelIp);
-        expect(options.body['name']).toEqual(name);
-        expect(options.body['network_account_id']).toEqual(networkAccountId);
-        expect(options.body['network_id']).toEqual(networkId);
-        expect(options.body['remote_bgp_asn']).toEqual(remoteBgpAsn);
-        expect(options.body['remote_gateway_ip']).toEqual(remoteGatewayIp);
-        expect(options.body['remote_tunnel_ip']).toEqual(remoteTunnelIp);
-        expect(options.body['zone']).toEqual(zone);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.path['transit_gateway_id']).toEqual(transitGatewayId);
+        expect(mockRequestOptions.body.network_type).toEqual(networkType);
+        expect(mockRequestOptions.body.base_connection_id).toEqual(baseConnectionId);
+        expect(mockRequestOptions.body.local_gateway_ip).toEqual(localGatewayIp);
+        expect(mockRequestOptions.body.local_tunnel_ip).toEqual(localTunnelIp);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.network_account_id).toEqual(networkAccountId);
+        expect(mockRequestOptions.body.network_id).toEqual(networkId);
+        expect(mockRequestOptions.body.remote_bgp_asn).toEqual(remoteBgpAsn);
+        expect(mockRequestOptions.body.remote_gateway_ip).toEqual(remoteGatewayIp);
+        expect(mockRequestOptions.body.remote_tunnel_ip).toEqual(remoteTunnelIp);
+        expect(mockRequestOptions.body.zone).toEqual(zone);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createTransitGatewayConnectionTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __createTransitGatewayConnectionTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __createTransitGatewayConnectionTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -693,7 +1154,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await transitGatewayApisService.createTransitGatewayConnection({});
@@ -702,23 +1163,23 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
-      test('should reject promise when required params are not given', done => {
-        const createTransitGatewayConnectionPromise = transitGatewayApisService.createTransitGatewayConnection();
-        expectToBePromise(createTransitGatewayConnectionPromise);
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.createTransitGatewayConnection();
+        } catch (e) {
+          err = e;
+        }
 
-        createTransitGatewayConnectionPromise.catch(err => {
-          expect(err.message).toMatch(/Missing required parameters/);
-          done();
-        });
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
   describe('deleteTransitGatewayConnection', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __deleteTransitGatewayConnectionTest() {
         // Construct the params object for operation deleteTransitGatewayConnection
         const transitGatewayId = 'testString';
         const id = 'testString';
@@ -727,9 +1188,7 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const deleteTransitGatewayConnectionResult = transitGatewayApisService.deleteTransitGatewayConnection(
-          params
-        );
+        const deleteTransitGatewayConnectionResult = transitGatewayApisService.deleteTransitGatewayConnection(params);
 
         // all methods should return a Promise
         expectToBePromise(deleteTransitGatewayConnectionResult);
@@ -737,19 +1196,30 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          options,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.path['transit_gateway_id']).toEqual(transitGatewayId);
-        expect(options.path['id']).toEqual(id);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteTransitGatewayConnectionTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __deleteTransitGatewayConnectionTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __deleteTransitGatewayConnectionTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -773,7 +1243,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await transitGatewayApisService.deleteTransitGatewayConnection({});
@@ -782,23 +1252,23 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
-      test('should reject promise when required params are not given', done => {
-        const deleteTransitGatewayConnectionPromise = transitGatewayApisService.deleteTransitGatewayConnection();
-        expectToBePromise(deleteTransitGatewayConnectionPromise);
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.deleteTransitGatewayConnection();
+        } catch (e) {
+          err = e;
+        }
 
-        deleteTransitGatewayConnectionPromise.catch(err => {
-          expect(err.message).toMatch(/Missing required parameters/);
-          done();
-        });
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
   describe('getTransitGatewayConnection', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __getTransitGatewayConnectionTest() {
         // Construct the params object for operation getTransitGatewayConnection
         const transitGatewayId = 'testString';
         const id = 'testString';
@@ -807,9 +1277,7 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const getTransitGatewayConnectionResult = transitGatewayApisService.getTransitGatewayConnection(
-          params
-        );
+        const getTransitGatewayConnectionResult = transitGatewayApisService.getTransitGatewayConnection(params);
 
         // all methods should return a Promise
         expectToBePromise(getTransitGatewayConnectionResult);
@@ -817,19 +1285,30 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          options,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.path['transit_gateway_id']).toEqual(transitGatewayId);
-        expect(options.path['id']).toEqual(id);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getTransitGatewayConnectionTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __getTransitGatewayConnectionTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __getTransitGatewayConnectionTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -853,7 +1332,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await transitGatewayApisService.getTransitGatewayConnection({});
@@ -862,23 +1341,23 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
-      test('should reject promise when required params are not given', done => {
-        const getTransitGatewayConnectionPromise = transitGatewayApisService.getTransitGatewayConnection();
-        expectToBePromise(getTransitGatewayConnectionPromise);
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.getTransitGatewayConnection();
+        } catch (e) {
+          err = e;
+        }
 
-        getTransitGatewayConnectionPromise.catch(err => {
-          expect(err.message).toMatch(/Missing required parameters/);
-          done();
-        });
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
   describe('updateTransitGatewayConnection', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __updateTransitGatewayConnectionTest() {
         // Construct the params object for operation updateTransitGatewayConnection
         const transitGatewayId = 'testString';
         const id = 'testString';
@@ -889,9 +1368,7 @@ describe('TransitGatewayApisV1', () => {
           name: name,
         };
 
-        const updateTransitGatewayConnectionResult = transitGatewayApisService.updateTransitGatewayConnection(
-          params
-        );
+        const updateTransitGatewayConnectionResult = transitGatewayApisService.updateTransitGatewayConnection(params);
 
         // all methods should return a Promise
         expectToBePromise(updateTransitGatewayConnectionResult);
@@ -899,20 +1376,31 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          options,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.body['name']).toEqual(name);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.path['transit_gateway_id']).toEqual(transitGatewayId);
-        expect(options.path['id']).toEqual(id);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateTransitGatewayConnectionTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __updateTransitGatewayConnectionTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __updateTransitGatewayConnectionTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -936,7 +1424,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await transitGatewayApisService.updateTransitGatewayConnection({});
@@ -945,23 +1433,23 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
-      test('should reject promise when required params are not given', done => {
-        const updateTransitGatewayConnectionPromise = transitGatewayApisService.updateTransitGatewayConnection();
-        expectToBePromise(updateTransitGatewayConnectionPromise);
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.updateTransitGatewayConnection();
+        } catch (e) {
+          err = e;
+        }
 
-        updateTransitGatewayConnectionPromise.catch(err => {
-          expect(err.message).toMatch(/Missing required parameters/);
-          done();
-        });
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
   describe('createTransitGatewayConnectionActions', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __createTransitGatewayConnectionActionsTest() {
         // Construct the params object for operation createTransitGatewayConnectionActions
         const transitGatewayId = 'testString';
         const id = 'testString';
@@ -972,9 +1460,7 @@ describe('TransitGatewayApisV1', () => {
           action: action,
         };
 
-        const createTransitGatewayConnectionActionsResult = transitGatewayApisService.createTransitGatewayConnectionActions(
-          params
-        );
+        const createTransitGatewayConnectionActionsResult = transitGatewayApisService.createTransitGatewayConnectionActions(params);
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayConnectionActionsResult);
@@ -982,20 +1468,31 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          options,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}/actions',
-          'POST'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/actions', 'POST');
         const expectedAccept = undefined;
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.body['action']).toEqual(action);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.path['transit_gateway_id']).toEqual(transitGatewayId);
-        expect(options.path['id']).toEqual(id);
+        expect(mockRequestOptions.body.action).toEqual(action);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createTransitGatewayConnectionActionsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __createTransitGatewayConnectionActionsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __createTransitGatewayConnectionActionsTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -1021,7 +1518,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await transitGatewayApisService.createTransitGatewayConnectionActions({});
@@ -1030,23 +1527,23 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
-      test('should reject promise when required params are not given', done => {
-        const createTransitGatewayConnectionActionsPromise = transitGatewayApisService.createTransitGatewayConnectionActions();
-        expectToBePromise(createTransitGatewayConnectionActionsPromise);
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.createTransitGatewayConnectionActions();
+        } catch (e) {
+          err = e;
+        }
 
-        createTransitGatewayConnectionActionsPromise.catch(err => {
-          expect(err.message).toMatch(/Missing required parameters/);
-          done();
-        });
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
   describe('listGatewayLocations', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __listGatewayLocationsTest() {
         // Construct the params object for operation listGatewayLocations
         const params = {};
 
@@ -1058,13 +1555,28 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/locations', 'GET');
+        checkUrlAndMethod(mockRequestOptions, '/locations', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.qs['version']).toEqual(service.version);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listGatewayLocationsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __listGatewayLocationsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __listGatewayLocationsTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -1091,7 +1603,7 @@ describe('TransitGatewayApisV1', () => {
   });
   describe('getGatewayLocation', () => {
     describe('positive tests', () => {
-      test('should pass the right params to createRequest', () => {
+      function __getGatewayLocationTest() {
         // Construct the params object for operation getGatewayLocation
         const name = 'testString';
         const params = {
@@ -1106,14 +1618,29 @@ describe('TransitGatewayApisV1', () => {
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
-        const options = getOptions(createRequestMock);
+        const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(options, '/locations/{name}', 'GET');
+        checkUrlAndMethod(mockRequestOptions, '/locations/{name}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(options.qs['version']).toEqual(service.version);
-        expect(options.path['name']).toEqual(name);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.name).toEqual(name);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getGatewayLocationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __getGatewayLocationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __getGatewayLocationTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -1135,7 +1662,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await transitGatewayApisService.getGatewayLocation({});
@@ -1144,17 +1671,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
-      test('should reject promise when required params are not given', done => {
-        const getGatewayLocationPromise = transitGatewayApisService.getGatewayLocation();
-        expectToBePromise(getGatewayLocationPromise);
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.getGatewayLocation();
+        } catch (e) {
+          err = e;
+        }
 
-        getGatewayLocationPromise.catch(err => {
-          expect(err.message).toMatch(/Missing required parameters/);
-          done();
-        });
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
