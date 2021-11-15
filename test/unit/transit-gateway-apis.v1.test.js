@@ -255,7 +255,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.listTransitGatewayRouteReports({});
@@ -264,17 +264,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.listTransitGatewayRouteReports();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const listTransitGatewayRouteReportsPromise = transitGatewayApisService.listTransitGatewayRouteReports();
+        expectToBePromise(listTransitGatewayRouteReportsPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        listTransitGatewayRouteReportsPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -339,7 +339,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.createTransitGatewayRouteReport({});
@@ -348,17 +348,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.createTransitGatewayRouteReport();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const createTransitGatewayRouteReportPromise = transitGatewayApisService.createTransitGatewayRouteReport();
+        expectToBePromise(createTransitGatewayRouteReportPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        createTransitGatewayRouteReportPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -428,7 +428,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.deleteTransitGatewayRouteReport({});
@@ -437,17 +437,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.deleteTransitGatewayRouteReport();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const deleteTransitGatewayRouteReportPromise = transitGatewayApisService.deleteTransitGatewayRouteReport();
+        expectToBePromise(deleteTransitGatewayRouteReportPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        deleteTransitGatewayRouteReportPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -517,7 +517,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.getTransitGatewayRouteReport({});
@@ -526,17 +526,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.getTransitGatewayRouteReport();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const getTransitGatewayRouteReportPromise = transitGatewayApisService.getTransitGatewayRouteReport();
+        expectToBePromise(getTransitGatewayRouteReportPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        getTransitGatewayRouteReportPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -686,7 +686,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.createTransitGateway({});
@@ -695,17 +695,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.createTransitGateway();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const createTransitGatewayPromise = transitGatewayApisService.createTransitGateway();
+        expectToBePromise(createTransitGatewayPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        createTransitGatewayPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -770,7 +770,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.deleteTransitGateway({});
@@ -779,17 +779,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.deleteTransitGateway();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const deleteTransitGatewayPromise = transitGatewayApisService.deleteTransitGateway();
+        expectToBePromise(deleteTransitGatewayPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        deleteTransitGatewayPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -854,7 +854,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.getTransitGateway({});
@@ -863,17 +863,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.getTransitGateway();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const getTransitGatewayPromise = transitGatewayApisService.getTransitGateway();
+        expectToBePromise(getTransitGatewayPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        getTransitGatewayPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -944,7 +944,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.updateTransitGateway({});
@@ -953,17 +953,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.updateTransitGateway();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const updateTransitGatewayPromise = transitGatewayApisService.updateTransitGateway();
+        expectToBePromise(updateTransitGatewayPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        updateTransitGatewayPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1028,7 +1028,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.listTransitGatewayConnections({});
@@ -1037,17 +1037,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.listTransitGatewayConnections();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const listTransitGatewayConnectionsPromise = transitGatewayApisService.listTransitGatewayConnections();
+        expectToBePromise(listTransitGatewayConnectionsPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        listTransitGatewayConnectionsPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1154,7 +1154,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.createTransitGatewayConnection({});
@@ -1163,17 +1163,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.createTransitGatewayConnection();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const createTransitGatewayConnectionPromise = transitGatewayApisService.createTransitGatewayConnection();
+        expectToBePromise(createTransitGatewayConnectionPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        createTransitGatewayConnectionPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1243,7 +1243,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.deleteTransitGatewayConnection({});
@@ -1252,17 +1252,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.deleteTransitGatewayConnection();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const deleteTransitGatewayConnectionPromise = transitGatewayApisService.deleteTransitGatewayConnection();
+        expectToBePromise(deleteTransitGatewayConnectionPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        deleteTransitGatewayConnectionPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1332,7 +1332,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.getTransitGatewayConnection({});
@@ -1341,17 +1341,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.getTransitGatewayConnection();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const getTransitGatewayConnectionPromise = transitGatewayApisService.getTransitGatewayConnection();
+        expectToBePromise(getTransitGatewayConnectionPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        getTransitGatewayConnectionPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1424,7 +1424,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.updateTransitGatewayConnection({});
@@ -1433,17 +1433,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.updateTransitGatewayConnection();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const updateTransitGatewayConnectionPromise = transitGatewayApisService.updateTransitGatewayConnection();
+        expectToBePromise(updateTransitGatewayConnectionPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        updateTransitGatewayConnectionPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1518,7 +1518,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.createTransitGatewayConnectionActions({});
@@ -1527,17 +1527,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.createTransitGatewayConnectionActions();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const createTransitGatewayConnectionActionsPromise = transitGatewayApisService.createTransitGatewayConnectionActions();
+        expectToBePromise(createTransitGatewayConnectionActionsPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        createTransitGatewayConnectionActionsPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1662,7 +1662,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await transitGatewayApisService.getGatewayLocation({});
@@ -1671,17 +1671,17 @@ describe('TransitGatewayApisV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.getGatewayLocation();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const getGatewayLocationPromise = transitGatewayApisService.getGatewayLocation();
+        expectToBePromise(getGatewayLocationPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        getGatewayLocationPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });

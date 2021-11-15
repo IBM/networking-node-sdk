@@ -85,7 +85,7 @@ const wait = (ms = 5000) => {
   });
 };
 
-describe('TransitGatewayApisV1', () => {
+describe.skip('TransitGatewayApisV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.
