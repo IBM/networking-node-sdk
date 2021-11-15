@@ -1,3 +1,10 @@
+# [0.16.0](https://github.com/IBM/networking-node-sdk/compare/v0.15.0...v0.16.0) (2021-11-15)
+
+
+### Features
+
+* Added Gateway Route Reports Integration tests for NODE-SDK. ([e701db2](https://github.com/IBM/networking-node-sdk/commit/e701db29851ddecd7adc57295c29a20ca84465fa))
+
 # [0.15.0](https://github.com/IBM/networking-node-sdk/compare/v0.14.0...v0.15.0) (2021-11-15)
 
 
