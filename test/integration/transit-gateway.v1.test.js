@@ -44,7 +44,6 @@ let VPC_CONN_INSTANCE_NAME;
 let GRE_CONN_INSTANCE_NAME;
 let CLASSIC_CONN_INSTANCE_NAME;
 
-
 const poll = async (fn, fnCondition, sec) => {
   let result;
   let timerCount = 0;
@@ -114,35 +113,35 @@ describe.skip('TransitGatewayApisV1', () => {
         expect(response.status).toBe(200);
 
         const { result } = response || {};
-        let gateways = result.transit_gateways;
+        const gateways = result.transit_gateways;
         for (let i = 0; i < gateways.length; i++) {
-          let gtwName = gateways[i].name;
-          if (gtwName.includes("SDK-NODE-TEST") === true) {
+          const gtwName = gateways[i].name;
+          if (gtwName.includes('SDK-NODE-TEST') === true) {
             const response = await transitGateway.listTransitGatewayConnections({
               transitGatewayId: gateways[i].id,
             });
             expect(response.status).toBe(200);
-    
+
             const { result } = response || {};
-            let connections = result.connections;
-            if(connections.length > 0){
+            const connections = result.connections;
+            if (connections.length > 0) {
               const connIDs = [];
               for (let j = 0; j < connections.length; j++) {
-                if (connections[j].status.includes("delet") === false) {
-                  let connID = connections[j].id; 
+                if (connections[j].status.includes('delet') === false) {
+                  const connID = connections[j].id;
                   // Delete GRE Connections first.
-                  if (connections[j].networkType === "gre_tunnel"){
+                  if (connections[j].networkType === 'gre_tunnel') {
                     const response = await transitGateway.deleteTransitGateway({
                       id: connID,
                     });
                     expect(response.status).toBe(204);
                   } else {
                     connIDs.push(connID);
-                  };
-                };
-              };
+                  }
+                }
+              }
               // Delete Connections from other types.
-              for (let k = 0; k < connIDs.length; k++){
+              for (let k = 0; k < connIDs.length; k++) {
                 const response = await transitGateway.deleteTransitGateway({
                   id: connIDs[k],
                 });
@@ -150,25 +149,25 @@ describe.skip('TransitGatewayApisV1', () => {
               }
             }
             // Remove empty gateways
-            if (gateways[i].status.includes("delet") === false) {
+            if (gateways[i].status.includes('delet') === false) {
               const response = await transitGateway.deleteTransitGateway({
                 id: gateways[i].id,
               });
               expect(response.status).toBe(204);
-            };
-          };
-        };
+            }
+          }
+        }
 
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
-  }); 
-  
-  /////////////////////////////////////////////////////////////////////////////
+  });
+
+  // ///////////////////////////////////////////////////////////////////////////
   //                        Transit Locations Tests                          //
-  /////////////////////////////////////////////////////////////////////////////
+  // ///////////////////////////////////////////////////////////////////////////
 
   describe('LIST Transit Locations', () => {
     test('successfully lists the gateway locations', async done => {
@@ -183,7 +182,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
   });
 
@@ -201,7 +200,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('fail to get location by instance name', async done => {
@@ -212,20 +211,20 @@ describe.skip('TransitGatewayApisV1', () => {
       } catch (err) {
         expect(err.status).toEqual(404);
         done();
-      };
+      }
       done();
     });
   });
-  
-  ///////////////////////////////////////////////////////////////////////////////
+
+  // /////////////////////////////////////////////////////////////////////////////
   //                           Transit Gateway Tests                           //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('CREATE Transit Gateway', () => {
     test('should successfully create a gateway', async done => {
       try {
         const stamp = Math.floor(Math.random() * 1000);
-        config.GATEWAY_NAME = config.GATEWAY_NAME + "_" + stamp;
+        config.GATEWAY_NAME = config.GATEWAY_NAME + '_' + stamp;
 
         const response = await transitGateway.createTransitGateway({
           name: config.GATEWAY_NAME,
@@ -239,13 +238,13 @@ describe.skip('TransitGatewayApisV1', () => {
         expect(result).toBeDefined();
         expect(result.name).toEqual(config.GATEWAY_NAME);
         expect(result.location).toEqual(config.LOCATION);
-        
+
         GATEWAY_INSTANCE_ID = result.id;
 
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('should successfully wait for gateway to be created', async done => {
@@ -262,7 +261,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('should fail to create a gateway', async done => {
@@ -275,7 +274,7 @@ describe.skip('TransitGatewayApisV1', () => {
         expect(err.status).toEqual(409);
         expect(err.message).toEqual('A gateway with the same name already exists.');
         done();
-      };
+      }
       done();
     });
   });
@@ -297,7 +296,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('should fail to get gateway by instance id', async done => {
@@ -313,8 +312,8 @@ describe.skip('TransitGatewayApisV1', () => {
 
   describe('UPDATE Transit Gateway', () => {
     test('should successfully update the name of the gateway', async done => {
-      config.GATEWAY_NAME = "UPDATED-" + config.GATEWAY_NAME;
-      try {       
+      config.GATEWAY_NAME = 'UPDATED-' + config.GATEWAY_NAME;
+      try {
         const response = await transitGateway.updateTransitGateway({
           id: GATEWAY_INSTANCE_ID,
           name: config.GATEWAY_NAME,
@@ -331,19 +330,19 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('should fail to update the gateway with wrong instance id', async done => {
       try {
         await transitGateway.updateTransitGateway({
           id: 'bad-id-123',
-          name: "updateGatewayName",
+          name: 'updateGatewayName',
         });
       } catch (err) {
         expect(err.status).toEqual(404);
         done();
-      };
+      }
 
       done();
     });
@@ -356,7 +355,7 @@ describe.skip('TransitGatewayApisV1', () => {
         expect(response.status).toBe(200);
 
         const { result } = response || {};
-        let gateways = result.transit_gateways;
+        const gateways = result.transit_gateways;
         expect(gateways.length).toBeGreaterThan(0);
 
         let found = false;
@@ -364,28 +363,28 @@ describe.skip('TransitGatewayApisV1', () => {
           if (gateways[i].id === GATEWAY_INSTANCE_ID) {
             expect(gateways[i].name).toBe(config.GATEWAY_NAME);
             expect(gateways[i].location).toEqual(config.LOCATION);
-            
+
             found = true;
-          };
-        };
+          }
+        }
         expect(found).toEqual(true);
 
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
   });
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   //                    Transit Gateway Connections Tests                      //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('CREATE Transit Gateway Connection', () => {
     test('successfully creates CLASSIC connection', async done => {
       const type = 'classic';
       const stamp = Math.floor(Math.random() * 1000);
-      const connectionName = "CLASSIC-" + config.GATEWAY_CONNECTION_NAME + "_" + stamp;
+      const connectionName = 'CLASSIC-' + config.GATEWAY_CONNECTION_NAME + '_' + stamp;
 
       try {
         const response = await transitGateway.createTransitGatewayConnection({
@@ -405,10 +404,9 @@ describe.skip('TransitGatewayApisV1', () => {
         CLASSIC_CONN_INSTANCE_NAME = result.name;
 
         done();
-        
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully wait for the CLASSIC connection to report as attached', async done => {
@@ -429,14 +427,14 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully creates VPC connection', async done => {
       const type = 'vpc';
       const crn = config.VPC_CRN;
       const stamp = Math.floor(Math.random() * 1000);
-      const connectionName = "VPC-" + config.GATEWAY_CONNECTION_NAME + "_" + stamp;
+      const connectionName = 'VPC-' + config.GATEWAY_CONNECTION_NAME + '_' + stamp;
 
       try {
         const response = await transitGateway.createTransitGatewayConnection({
@@ -455,12 +453,11 @@ describe.skip('TransitGatewayApisV1', () => {
 
         VPC_CONN_INSTANCE_ID = result.id;
         VPC_CONN_INSTANCE_NAME = result.name;
-        
-        done();
 
+        done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully wait for the VPC connection to report as attached', async done => {
@@ -481,14 +478,14 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully creates DL connection', async done => {
       const type = 'directlink';
       const crn = config.DL_CRN;
       const stamp = Math.floor(Math.random() * 1000);
-      const connectionName = "DL-" + config.GATEWAY_CONNECTION_NAME + "_" + stamp;
+      const connectionName = 'DL-' + config.GATEWAY_CONNECTION_NAME + '_' + stamp;
 
       try {
         const response = await transitGateway.createTransitGatewayConnection({
@@ -509,10 +506,9 @@ describe.skip('TransitGatewayApisV1', () => {
         DL_CONN_INSTANCE_NAME = result.name;
 
         done();
-        
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully wait for the DL connection to report as attached', async done => {
@@ -533,14 +529,14 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
-    test('successfully creates GRE connection', async done => { 
+    test('successfully creates GRE connection', async done => {
       const type = 'gre_tunnel';
-      const testZone = {name: "us-south-1"};
-      const stamp = Math.floor(Math.random() * 1000);  
-      const connectionName = "GRE-" + config.GATEWAY_CONNECTION_NAME + "_" + stamp;
+      const testZone = { name: 'us-south-1' };
+      const stamp = Math.floor(Math.random() * 1000);
+      const connectionName = 'GRE-' + config.GATEWAY_CONNECTION_NAME + '_' + stamp;
 
       try {
         const response = await transitGateway.createTransitGatewayConnection({
@@ -548,10 +544,10 @@ describe.skip('TransitGatewayApisV1', () => {
           networkType: type,
           name: connectionName,
           zone: testZone,
-          localTunnelIp: "192.168.101.1",
-          localGatewayIp: "192.168.100.1",
-          remoteTunnelIp: "192.168.101.2",
-          remoteGatewayIp: "10.242.63.12",
+          localTunnelIp: '192.168.101.1',
+          localGatewayIp: '192.168.100.1',
+          remoteTunnelIp: '192.168.101.2',
+          remoteGatewayIp: '10.242.63.12',
           baseConnectionId: CLASSIC_CONN_INSTANCE_ID,
         });
 
@@ -567,10 +563,9 @@ describe.skip('TransitGatewayApisV1', () => {
         GRE_CONN_INSTANCE_NAME = result.name;
 
         done();
-        
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully wait for the GRE connection to report as attached', async done => {
@@ -591,7 +586,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('fail to create a transit connection', async done => {
@@ -605,7 +600,7 @@ describe.skip('TransitGatewayApisV1', () => {
       } catch (err) {
         expect(err.status).toEqual(400);
         done();
-      };
+      }
 
       done();
     });
@@ -624,11 +619,11 @@ describe.skip('TransitGatewayApisV1', () => {
         const { result } = response || {};
         expect(result.id).toEqual(VPC_CONN_INSTANCE_ID);
         expect(result.name).toEqual(VPC_CONN_INSTANCE_NAME);
-                
+
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('sucessfully get CLASSIC connection by id', async done => {
@@ -642,12 +637,12 @@ describe.skip('TransitGatewayApisV1', () => {
 
         const { result } = response || {};
         expect(result.id).toEqual(CLASSIC_CONN_INSTANCE_ID);
-        expect(result.name).toEqual(CLASSIC_CONN_INSTANCE_NAME); 
-                
+        expect(result.name).toEqual(CLASSIC_CONN_INSTANCE_NAME);
+
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('sucessfully get DL connection by id', async done => {
@@ -662,11 +657,11 @@ describe.skip('TransitGatewayApisV1', () => {
         const { result } = response || {};
         expect(result.id).toEqual(DL_CONN_INSTANCE_ID);
         expect(result.name).toEqual(DL_CONN_INSTANCE_NAME);
-                
+
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('sucessfully get GRE connection by id', async done => {
@@ -681,11 +676,11 @@ describe.skip('TransitGatewayApisV1', () => {
         const { result } = response || {};
         expect(result.id).toEqual(GRE_CONN_INSTANCE_ID);
         expect(result.name).toEqual(GRE_CONN_INSTANCE_NAME);
-                
+
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('fail to get connection by instanceID', async done => {
@@ -698,7 +693,7 @@ describe.skip('TransitGatewayApisV1', () => {
       } catch (err) {
         expect(err.status).toEqual(404);
         done();
-      };
+      }
 
       done();
     });
@@ -722,7 +717,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully update a CLASSIC connection name by instance id', async done => {
@@ -742,7 +737,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully update a DL connection name by instance id', async done => {
@@ -762,7 +757,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully update a GRE connection name by instance id', async done => {
@@ -782,7 +777,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('fail to update Connection by instance id', async done => {
@@ -796,7 +791,7 @@ describe.skip('TransitGatewayApisV1', () => {
       } catch (err) {
         expect(err.status).toEqual(404);
         done();
-      };
+      }
 
       done();
     });
@@ -811,9 +806,9 @@ describe.skip('TransitGatewayApisV1', () => {
         expect(response.status).toBe(200);
 
         const { result } = response || {};
-        let connections = result.connections;
+        const connections = result.connections;
         expect(connections.length).toBeGreaterThan(0);
-        
+
         let foundDL = false;
         let foundVPC = false;
         let foundGRE = false;
@@ -822,66 +817,67 @@ describe.skip('TransitGatewayApisV1', () => {
           if (connections[i].id === CLASSIC_CONN_INSTANCE_ID) {
             expect(connections[i].name).toEqual(CLASSIC_CONN_INSTANCE_NAME);
             foundClassic = true;
-
           } else if (connections[i].id === VPC_CONN_INSTANCE_ID) {
             expect(connections[i].name).toEqual(VPC_CONN_INSTANCE_NAME);
             foundVPC = true;
-            
           } else if (connections[i].id === DL_CONN_INSTANCE_ID) {
             expect(connections[i].name).toEqual(DL_CONN_INSTANCE_NAME);
             foundDL = true;
-          
           } else if (connections[i].id === GRE_CONN_INSTANCE_ID) {
             expect(connections[i].name).toEqual(GRE_CONN_INSTANCE_NAME);
             foundGRE = true;
-          };
-        };
+          }
+        }
         expect(foundDL).toEqual(true);
         expect(foundVPC).toEqual(true);
         expect(foundGRE).toEqual(true);
         expect(foundClassic).toEqual(true);
-        
+
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
   });
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   //                  Transit Gateway Route Reports Tests                      //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('CREATE Gateway Route Report', () => {
     test('should successfully create a route report', async done => {
       try {
         const response = await transitGateway.createTransitGatewayRouteReport({
-          transitGatewayId: GATEWAY_INSTANCE_ID});
-        
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+        });
+
         expect(response).toBeDefined();
         expect(response.status).toEqual(202);
 
         const { result } = response || {};
 
         expect(result).toBeDefined();
-        expect(result.id).not.toBe("");
-        expect(result.status).not.toBe("");
-        expect(result.createdAt).not.toBe("");
-        expect(result.updatedAt).not.toBe("");
-        
+        expect(result.id).not.toBe('');
+        expect(result.status).not.toBe('');
+        expect(result.createdAt).not.toBe('');
+        expect(result.updatedAt).not.toBe('');
+
         RR_INSTANCE_ID = result.id;
-        
-        done(); 
+
+        done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('should successfully wait for route report to be created', async done => {
       try {
         const result = await poll(
-          () => transitGateway.getTransitGatewayRouteReport({ 
-            transitGatewayId: GATEWAY_INSTANCE_ID, id: RR_INSTANCE_ID}),
+          () =>
+            transitGateway.getTransitGatewayRouteReport({
+              transitGatewayId: GATEWAY_INSTANCE_ID,
+              id: RR_INSTANCE_ID,
+            }),
           result => result.status === 'complete',
           500
         );
@@ -892,18 +888,19 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('should fail to create a route report', async done => {
       try {
         await transitGateway.createTransitGatewayRouteReport({
-          transitGatewayId: "bad-id-123"});
+          transitGatewayId: 'bad-id-123',
+        });
       } catch (err) {
         expect(err.status).toEqual(404);
         expect(err.message).toEqual('The gateway was not found.');
         done();
-      };
+      }
       done();
     });
   });
@@ -911,23 +908,25 @@ describe.skip('TransitGatewayApisV1', () => {
   describe('GET Gateway Route Report By Id', () => {
     test('should successfully fetches the route report by instance id', async done => {
       try {
-        const response = await transitGateway.getTransitGatewayRouteReport({ 
-          transitGatewayId: GATEWAY_INSTANCE_ID, id: RR_INSTANCE_ID});
+        const response = await transitGateway.getTransitGatewayRouteReport({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: RR_INSTANCE_ID,
+        });
 
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
 
         const { result } = response || {};
-        let rrConnections = result.connections;
+        const rrConnections = result.connections;
 
         expect(result).toBeDefined();
-        expect(result.createdAt).not.toBe("");
-        expect(result.updatedAt).not.toBe("");
-        expect(result.status).toBe("complete");
+        expect(result.createdAt).not.toBe('');
+        expect(result.updatedAt).not.toBe('');
+        expect(result.status).toBe('complete');
         expect(rrConnections).not.toBe(null);
         expect(result.id).toBe(RR_INSTANCE_ID);
         expect(rrConnections.length).toBeGreaterThan(0);
-        
+
         let foundDL = false;
         let foundVPC = false;
         let foundGRE = false;
@@ -936,39 +935,38 @@ describe.skip('TransitGatewayApisV1', () => {
           if (rrConnections[i].id === VPC_CONN_INSTANCE_ID) {
             expect(rrConnections[i].name).toEqual(VPC_CONN_INSTANCE_NAME);
             foundVPC = true;
-          
           } else if (rrConnections[i].id === DL_CONN_INSTANCE_ID) {
             expect(rrConnections[i].name).toEqual(DL_CONN_INSTANCE_NAME);
             foundDL = true;
-          
           } else if (rrConnections[i].id === GRE_CONN_INSTANCE_ID) {
             expect(rrConnections[i].name).toEqual(GRE_CONN_INSTANCE_NAME);
             foundGRE = true;
-          
           } else if (rrConnections[i].id === CLASSIC_CONN_INSTANCE_ID) {
             expect(rrConnections[i].name).toEqual(CLASSIC_CONN_INSTANCE_NAME);
             foundClassic = true;
-          };
-        };
+          }
+        }
         expect(foundDL).toEqual(true);
         expect(foundVPC).toEqual(true);
         expect(foundGRE).toEqual(true);
         expect(foundClassic).toEqual(true);
-        
+
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('should fail to get route report by instance id', async done => {
       try {
-        await transitGateway.getTransitGatewayRouteReport({ 
-          transitGatewayId: GATEWAY_INSTANCE_ID, id: 'bad-id-123'});
+        await transitGateway.getTransitGatewayRouteReport({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: 'bad-id-123',
+        });
       } catch (err) {
         expect(err.status).toEqual(404);
         done();
-      };
+      }
       done();
     });
   });
@@ -977,57 +975,62 @@ describe.skip('TransitGatewayApisV1', () => {
     test('should list all Route Report in a gateway', async done => {
       try {
         const response = await transitGateway.listTransitGatewayRouteReports({
-          transitGatewayId: GATEWAY_INSTANCE_ID});
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+        });
         expect(response.status).toBe(200);
 
         const { result } = response || {};
-        let reports = result. route_reports;
+        const reports = result.route_reports;
         expect(reports.length).toBeGreaterThan(0);
 
         let found = false;
         for (let i = 0; i < reports.length; i++) {
           if (reports[i].id === RR_INSTANCE_ID) {
-            expect(reports[i].createdAt).not.toBe("");
-            expect(reports[i].updatedAt).not.toBe("");
-            expect(reports[i].status).toBe("complete");
+            expect(reports[i].createdAt).not.toBe('');
+            expect(reports[i].updatedAt).not.toBe('');
+            expect(reports[i].status).toBe('complete');
             expect(reports[i].connections).not.toBe(null);
             expect(reports[i].connections.length).toBeGreaterThan(0);
-            
+
             found = true;
           }
         }
         expect(found).toEqual(true);
-				
+
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
   });
- 
-  ///////////////////////////////////////////////////////////////////////////////
+
+  // /////////////////////////////////////////////////////////////////////////////
   //                   DELETE Transit Gateway Route Report                     //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('DELETE Gateway Route Report', () => {
     test('successfully delete route report by instanceID', async done => {
       try {
-        const response = await transitGateway.deleteTransitGatewayRouteReport({ 
-          transitGatewayId: GATEWAY_INSTANCE_ID, id: RR_INSTANCE_ID });
+        const response = await transitGateway.deleteTransitGatewayRouteReport({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: RR_INSTANCE_ID,
+        });
 
         expect(response.status).toBe(204);
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully waits for the route report to be deleted', async done => {
       try {
         const result = await poll(
           () =>
-            transitGateway.getTransitGatewayRouteReport({ 
-              transitGatewayId: GATEWAY_INSTANCE_ID, id: RR_INSTANCE_ID }),
+            transitGateway.getTransitGatewayRouteReport({
+              transitGatewayId: GATEWAY_INSTANCE_ID,
+              id: RR_INSTANCE_ID,
+            }),
           result => result.status === 404,
           50
         );
@@ -1037,27 +1040,27 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('fail to delete the route report by instanceID', async done => {
       try {
         await transitGateway.deleteTransitGatewayRouteReport({
-          transitGatewayId: GATEWAY_INSTANCE_ID, 
+          transitGatewayId: GATEWAY_INSTANCE_ID,
           id: 'bad-id-123',
         });
       } catch (err) {
         expect(err.status).toEqual(404);
         done();
-      };
+      }
 
       done();
     });
   });
-  
-  ///////////////////////////////////////////////////////////////////////////////
+
+  // /////////////////////////////////////////////////////////////////////////////
   //                    DELETE Transit Gateway Connections                     //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('DELETE Transit Gateway Connection', () => {
     test('successfully delete GRE Connection by instanceID', async done => {
@@ -1071,7 +1074,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully waits for the GRE connection to report as deleted', async done => {
@@ -1091,7 +1094,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully delete VPC connection by instanceID', async done => {
@@ -1105,7 +1108,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully waits for the VPC connection to report as deleted', async done => {
@@ -1125,7 +1128,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully delete DL connection by instanceID', async done => {
@@ -1139,7 +1142,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully waits for the DL connection to report as deleted', async done => {
@@ -1159,7 +1162,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully delete CLASSIC connection by instanceID', async done => {
@@ -1173,7 +1176,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully waits for the CLASSIC connection to report as deleted', async done => {
@@ -1193,7 +1196,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('Failed to delete the transit gateway connection by instance id', async done => {
@@ -1205,15 +1208,15 @@ describe.skip('TransitGatewayApisV1', () => {
       } catch (err) {
         expect(err.status).toEqual(404);
         done();
-      };
+      }
 
       done();
     });
   });
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   //                           DELETE Transit Gateway                          //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('DELETE Transit Gateway', () => {
     test('successfully delete gateway by instanceID', async done => {
@@ -1226,7 +1229,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('successfully waits for the gateway to be deleted', async done => {
@@ -1245,7 +1248,7 @@ describe.skip('TransitGatewayApisV1', () => {
         done();
       } catch (err) {
         done(err);
-      };
+      }
     });
 
     test('fail to delete the gateway by instanceID', async done => {
@@ -1256,7 +1259,7 @@ describe.skip('TransitGatewayApisV1', () => {
       } catch (err) {
         expect(err.status).toEqual(404);
         done();
-      };
+      }
 
       done();
     });

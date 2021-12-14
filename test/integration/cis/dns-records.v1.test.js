@@ -34,7 +34,7 @@ const config = authHelper.loadConfig();
 
 let DNS_RECORD_ID;
 
-describe.skip('DNSRecordsApisV1', () => {
+describe('DNSRecordsApisV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

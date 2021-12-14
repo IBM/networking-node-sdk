@@ -203,7 +203,9 @@ describe('TransitGatewayApisV1', () => {
           transitGatewayId: transitGatewayId,
         };
 
-        const listTransitGatewayRouteReportsResult = transitGatewayApisService.listTransitGatewayRouteReports(params);
+        const listTransitGatewayRouteReportsResult = transitGatewayApisService.listTransitGatewayRouteReports(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(listTransitGatewayRouteReportsResult);
@@ -213,7 +215,11 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/transit_gateways/{transit_gateway_id}/route_reports',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -255,7 +261,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.listTransitGatewayRouteReports({});
@@ -267,11 +273,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const listTransitGatewayRouteReportsPromise = transitGatewayApisService.listTransitGatewayRouteReports();
         expectToBePromise(listTransitGatewayRouteReportsPromise);
 
-        listTransitGatewayRouteReportsPromise.catch((err) => {
+        listTransitGatewayRouteReportsPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -287,7 +293,9 @@ describe('TransitGatewayApisV1', () => {
           transitGatewayId: transitGatewayId,
         };
 
-        const createTransitGatewayRouteReportResult = transitGatewayApisService.createTransitGatewayRouteReport(params);
+        const createTransitGatewayRouteReportResult = transitGatewayApisService.createTransitGatewayRouteReport(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayRouteReportResult);
@@ -297,7 +305,11 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/transit_gateways/{transit_gateway_id}/route_reports',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -339,7 +351,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.createTransitGatewayRouteReport({});
@@ -351,11 +363,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const createTransitGatewayRouteReportPromise = transitGatewayApisService.createTransitGatewayRouteReport();
         expectToBePromise(createTransitGatewayRouteReportPromise);
 
-        createTransitGatewayRouteReportPromise.catch((err) => {
+        createTransitGatewayRouteReportPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -373,7 +385,9 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const deleteTransitGatewayRouteReportResult = transitGatewayApisService.deleteTransitGatewayRouteReport(params);
+        const deleteTransitGatewayRouteReportResult = transitGatewayApisService.deleteTransitGatewayRouteReport(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteTransitGatewayRouteReportResult);
@@ -383,7 +397,11 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports/{id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/transit_gateways/{transit_gateway_id}/route_reports/{id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -428,7 +446,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.deleteTransitGatewayRouteReport({});
@@ -440,11 +458,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const deleteTransitGatewayRouteReportPromise = transitGatewayApisService.deleteTransitGatewayRouteReport();
         expectToBePromise(deleteTransitGatewayRouteReportPromise);
 
-        deleteTransitGatewayRouteReportPromise.catch((err) => {
+        deleteTransitGatewayRouteReportPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -462,7 +480,9 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const getTransitGatewayRouteReportResult = transitGatewayApisService.getTransitGatewayRouteReport(params);
+        const getTransitGatewayRouteReportResult = transitGatewayApisService.getTransitGatewayRouteReport(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(getTransitGatewayRouteReportResult);
@@ -472,7 +492,11 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports/{id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/transit_gateways/{transit_gateway_id}/route_reports/{id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -517,7 +541,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.getTransitGatewayRouteReport({});
@@ -529,11 +553,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const getTransitGatewayRouteReportPromise = transitGatewayApisService.getTransitGatewayRouteReport();
         expectToBePromise(getTransitGatewayRouteReportPromise);
 
-        getTransitGatewayRouteReportPromise.catch((err) => {
+        getTransitGatewayRouteReportPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -686,7 +710,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.createTransitGateway({});
@@ -698,11 +722,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const createTransitGatewayPromise = transitGatewayApisService.createTransitGateway();
         expectToBePromise(createTransitGatewayPromise);
 
-        createTransitGatewayPromise.catch((err) => {
+        createTransitGatewayPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -770,7 +794,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.deleteTransitGateway({});
@@ -782,11 +806,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const deleteTransitGatewayPromise = transitGatewayApisService.deleteTransitGateway();
         expectToBePromise(deleteTransitGatewayPromise);
 
-        deleteTransitGatewayPromise.catch((err) => {
+        deleteTransitGatewayPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -854,7 +878,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.getTransitGateway({});
@@ -866,11 +890,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const getTransitGatewayPromise = transitGatewayApisService.getTransitGateway();
         expectToBePromise(getTransitGatewayPromise);
 
-        getTransitGatewayPromise.catch((err) => {
+        getTransitGatewayPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -944,7 +968,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.updateTransitGateway({});
@@ -956,11 +980,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const updateTransitGatewayPromise = transitGatewayApisService.updateTransitGateway();
         expectToBePromise(updateTransitGatewayPromise);
 
-        updateTransitGatewayPromise.catch((err) => {
+        updateTransitGatewayPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -976,7 +1000,9 @@ describe('TransitGatewayApisV1', () => {
           transitGatewayId: transitGatewayId,
         };
 
-        const listTransitGatewayConnectionsResult = transitGatewayApisService.listTransitGatewayConnections(params);
+        const listTransitGatewayConnectionsResult = transitGatewayApisService.listTransitGatewayConnections(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(listTransitGatewayConnectionsResult);
@@ -986,7 +1012,11 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/transit_gateways/{transit_gateway_id}/connections',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1028,7 +1058,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.listTransitGatewayConnections({});
@@ -1040,11 +1070,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const listTransitGatewayConnectionsPromise = transitGatewayApisService.listTransitGatewayConnections();
         expectToBePromise(listTransitGatewayConnectionsPromise);
 
-        listTransitGatewayConnectionsPromise.catch((err) => {
+        listTransitGatewayConnectionsPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -1069,7 +1099,8 @@ describe('TransitGatewayApisV1', () => {
         const localTunnelIp = '192.168.129.2';
         const name = 'Transit_Service_BWTN_SJ_DL';
         const networkAccountId = '28e4d90ac7504be694471ee66e70d0d5';
-        const networkId = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b';
+        const networkId =
+          'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b';
         const remoteBgpAsn = '65010';
         const remoteGatewayIp = '10.242.63.12';
         const remoteTunnelIp = '192.168.129.1';
@@ -1089,7 +1120,9 @@ describe('TransitGatewayApisV1', () => {
           zone: zone,
         };
 
-        const createTransitGatewayConnectionResult = transitGatewayApisService.createTransitGatewayConnection(params);
+        const createTransitGatewayConnectionResult = transitGatewayApisService.createTransitGatewayConnection(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayConnectionResult);
@@ -1099,7 +1132,11 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/transit_gateways/{transit_gateway_id}/connections',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1154,7 +1191,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.createTransitGatewayConnection({});
@@ -1166,11 +1203,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const createTransitGatewayConnectionPromise = transitGatewayApisService.createTransitGatewayConnection();
         expectToBePromise(createTransitGatewayConnectionPromise);
 
-        createTransitGatewayConnectionPromise.catch((err) => {
+        createTransitGatewayConnectionPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -1188,7 +1225,9 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const deleteTransitGatewayConnectionResult = transitGatewayApisService.deleteTransitGatewayConnection(params);
+        const deleteTransitGatewayConnectionResult = transitGatewayApisService.deleteTransitGatewayConnection(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteTransitGatewayConnectionResult);
@@ -1198,7 +1237,11 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/transit_gateways/{transit_gateway_id}/connections/{id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1243,7 +1286,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.deleteTransitGatewayConnection({});
@@ -1255,11 +1298,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const deleteTransitGatewayConnectionPromise = transitGatewayApisService.deleteTransitGatewayConnection();
         expectToBePromise(deleteTransitGatewayConnectionPromise);
 
-        deleteTransitGatewayConnectionPromise.catch((err) => {
+        deleteTransitGatewayConnectionPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -1277,7 +1320,9 @@ describe('TransitGatewayApisV1', () => {
           id: id,
         };
 
-        const getTransitGatewayConnectionResult = transitGatewayApisService.getTransitGatewayConnection(params);
+        const getTransitGatewayConnectionResult = transitGatewayApisService.getTransitGatewayConnection(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(getTransitGatewayConnectionResult);
@@ -1287,7 +1332,11 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/transit_gateways/{transit_gateway_id}/connections/{id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1332,7 +1381,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.getTransitGatewayConnection({});
@@ -1344,11 +1393,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const getTransitGatewayConnectionPromise = transitGatewayApisService.getTransitGatewayConnection();
         expectToBePromise(getTransitGatewayConnectionPromise);
 
-        getTransitGatewayConnectionPromise.catch((err) => {
+        getTransitGatewayConnectionPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -1368,7 +1417,9 @@ describe('TransitGatewayApisV1', () => {
           name: name,
         };
 
-        const updateTransitGatewayConnectionResult = transitGatewayApisService.updateTransitGatewayConnection(params);
+        const updateTransitGatewayConnectionResult = transitGatewayApisService.updateTransitGatewayConnection(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateTransitGatewayConnectionResult);
@@ -1378,7 +1429,11 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/transit_gateways/{transit_gateway_id}/connections/{id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1424,7 +1479,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.updateTransitGatewayConnection({});
@@ -1436,11 +1491,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const updateTransitGatewayConnectionPromise = transitGatewayApisService.updateTransitGatewayConnection();
         expectToBePromise(updateTransitGatewayConnectionPromise);
 
-        updateTransitGatewayConnectionPromise.catch((err) => {
+        updateTransitGatewayConnectionPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -1460,7 +1515,9 @@ describe('TransitGatewayApisV1', () => {
           action: action,
         };
 
-        const createTransitGatewayConnectionActionsResult = transitGatewayApisService.createTransitGatewayConnectionActions(params);
+        const createTransitGatewayConnectionActionsResult = transitGatewayApisService.createTransitGatewayConnectionActions(
+          params
+        );
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayConnectionActionsResult);
@@ -1470,7 +1527,11 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/actions', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/transit_gateways/{transit_gateway_id}/connections/{id}/actions',
+          'POST'
+        );
         const expectedAccept = undefined;
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1518,7 +1579,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.createTransitGatewayConnectionActions({});
@@ -1530,11 +1591,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const createTransitGatewayConnectionActionsPromise = transitGatewayApisService.createTransitGatewayConnectionActions();
         expectToBePromise(createTransitGatewayConnectionActionsPromise);
 
-        createTransitGatewayConnectionActionsPromise.catch((err) => {
+        createTransitGatewayConnectionActionsPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
@@ -1662,7 +1723,7 @@ describe('TransitGatewayApisV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async (done) => {
+      test('should enforce required parameters', async done => {
         let err;
         try {
           await transitGatewayApisService.getGatewayLocation({});
@@ -1674,11 +1735,11 @@ describe('TransitGatewayApisV1', () => {
         done();
       });
 
-      test('should reject promise when required params are not given', (done) => {
+      test('should reject promise when required params are not given', done => {
         const getGatewayLocationPromise = transitGatewayApisService.getGatewayLocation();
         expectToBePromise(getGatewayLocationPromise);
 
-        getGatewayLocationPromise.catch((err) => {
+        getGatewayLocationPromise.catch(err => {
           expect(err.message).toMatch(/Missing required parameters/);
           done();
         });
