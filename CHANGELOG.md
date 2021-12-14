@@ -1,3 +1,15 @@
+# [0.17.0](https://github.com/IBM/networking-node-sdk/compare/v0.16.0...v0.17.0) (2021-12-14)
+
+
+### Bug Fixes
+
+* Updated Node SDK per latest updates in sdk-core templates. ([9f8fe66](https://github.com/IBM/networking-node-sdk/commit/9f8fe66ae7eb6b2cf933e8a8b8d957bbadc40c47))
+
+
+### Features
+
+* **filters:** added filters ([92d2025](https://github.com/IBM/networking-node-sdk/commit/92d20250439d519cb7e46f5dfe02efe844b5d58a))
+
 # [0.16.0](https://github.com/IBM/networking-node-sdk/compare/v0.15.0...v0.16.0) (2021-11-15)
 
 
