@@ -82,7 +82,7 @@ let customResolver;
 let customResolverLocation;
 let forwardingRule;
 
-describe.skip('DNSSVCSApisV1', () => {
+describe('DNSSVCSApisV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

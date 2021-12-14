@@ -35,7 +35,7 @@ const config = authHelper.loadConfig();
 let firewallAccessRulesV1;
 let firewallAccessRule;
 
-describe.skip('FirewallAccessRulesV1', () => {
+describe('FirewallAccessRulesV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

@@ -1062,7 +1062,6 @@ describe('Zones Settings', () => {
             strict_transport_security: {
               enabled: true,
               include_subdomains: true,
-              max_age: 86400,
               nosniff: true,
               preload: false,
             },

@@ -35,7 +35,7 @@ const config = authHelper.loadConfig();
 let zoneLockdownV1;
 let zoneLockdown;
 
-describe.skip('ZoneLockdownV1', () => {
+describe('ZoneLockdownV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.

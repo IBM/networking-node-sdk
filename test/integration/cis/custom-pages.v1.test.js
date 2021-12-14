@@ -36,7 +36,7 @@ let customPagesV1;
 let customPage;
 let customPage1;
 
-describe.skip('CustomPagesV1', () => {
+describe('CustomPagesV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.
@@ -107,7 +107,7 @@ describe.skip('CustomPagesV1', () => {
         done();
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.log('Warning --- ' + err);
+        // console.log('Warning --- ' + err);
         done();
       }
     });
@@ -143,7 +143,7 @@ describe.skip('CustomPagesV1', () => {
         done();
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.log('Warning --- ' + err);
+        // console.log('Warning --- ' + err);
         done();
       }
     });
@@ -177,7 +177,7 @@ describe.skip('CustomPagesV1', () => {
         done();
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.log('Warning --- ' + err);
+        // console.log('Warning --- ' + err);
         done();
       }
     });
@@ -213,7 +213,7 @@ describe.skip('CustomPagesV1', () => {
         done();
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.log('Warning --- ' + err);
+        // console.log('Warning --- ' + err);
         done();
       }
     });
@@ -251,7 +251,7 @@ describe.skip('CustomPagesV1', () => {
         done();
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.log('Warning --- ' + err);
+        // console.log('Warning --- ' + err);
         done();
       }
     });
@@ -285,7 +285,7 @@ describe.skip('CustomPagesV1', () => {
         done();
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.log('Warning --- ' + err);
+        // console.log('Warning --- ' + err);
         done();
       }
     });
@@ -321,7 +321,7 @@ describe.skip('CustomPagesV1', () => {
         done();
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.log('Warning --- ' + err);
+        // console.log('Warning --- ' + err);
         done();
       }
     });
