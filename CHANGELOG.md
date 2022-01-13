@@ -1,3 +1,10 @@
+# [0.18.0](https://github.com/IBM/networking-node-sdk/compare/v0.17.0...v0.18.0) (2022-01-13)
+
+
+### Features
+
+* **Alerts and webhooks:** added Alerts and Webhooks ([4d2830e](https://github.com/IBM/networking-node-sdk/commit/4d2830e0066b0b23b3a7f30621ce0314dae6654e))
+
 # [0.17.0](https://github.com/IBM/networking-node-sdk/compare/v0.16.0...v0.17.0) (2021-12-14)
 
 
