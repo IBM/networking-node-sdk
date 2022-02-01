@@ -89,7 +89,7 @@ const get_port = ports => {
   const port = ports.find(port => port.provider_name === providerToBeUsed);
   return port;
 };
-describe('DirectLinkV1', () => {
+describe.skip('DirectLinkV1', () => {
   const options = {
     authenticator: new IamAuthenticator({
       apikey: config.IAMAPIKEY,

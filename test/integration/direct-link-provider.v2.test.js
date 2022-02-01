@@ -108,7 +108,7 @@ const dlService = new DirectLinkV1(options);
 // Initialize the provider.
 const dlProviderService = new DirectLinkProviderV2(providerOptions);
 
-describe('DirectLinkProviderV2', () => {
+describe.skip('DirectLinkProviderV2', () => {
   describe('Direct Link Provider Ports', () => {
     jest.setTimeout(timeout);
 
