@@ -89,20 +89,20 @@ const get_port = ports => {
   const port = ports.find(port => port.provider_name === providerToBeUsed);
   return port;
 };
+describe('DirectLinkV1', () => {
+  const options = {
+    authenticator: new IamAuthenticator({
+      apikey: config.IAMAPIKEY,
+      url: config.IAMURL,
+    }),
+    serviceUrl: config.SERVICE_URL,
+    version: '2020-06-01',
+  };
 
-const options = {
-  authenticator: new IamAuthenticator({
-    apikey: config.IAMAPIKEY,
-    url: config.IAMURL,
-  }),
-  serviceUrl: config.SERVICE_URL,
-  version: '2020-06-01',
-};
+  // Initialize the service client.
+  const dlService = new DirectLinkV1(options);
 
-// Initialize the service client.
-const dlService = new DirectLinkV1(options);
-
-describe.skip('DirectLinkV1', () => {
+  // describe.skip('DirectLinkV1', () => {
   describe('Create/verify a dedicated gateway', () => {
     jest.setTimeout(timeout);
 
