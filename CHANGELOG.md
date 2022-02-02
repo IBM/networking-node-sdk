@@ -1,3 +1,10 @@
+# [0.19.0](https://github.com/IBM/networking-node-sdk/compare/v0.18.0...v0.19.0) (2022-02-02)
+
+
+### Features
+
+* add the changes to allow the provider to provide/edit the vlan while creating Direct Link gateways ([#67](https://github.com/IBM/networking-node-sdk/issues/67)) ([2739183](https://github.com/IBM/networking-node-sdk/commit/27391830dfcb6e026d248d9fafe1df0ef3840dce))
+
 # [0.18.0](https://github.com/IBM/networking-node-sdk/compare/v0.17.0...v0.18.0) (2022-01-13)
 
 
