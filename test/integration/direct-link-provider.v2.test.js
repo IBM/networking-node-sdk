@@ -1,5 +1,5 @@
 /**
- * Copyright 2020 IBM All Rights Reserved.
+ * Copyright 2020, 2022 IBM All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -279,6 +279,8 @@ describe.skip('DirectLinkProviderV2', () => {
     const updatedGWName = 'NODE-INT-SDK-PROVIDER-PATCH-' + timestamp;
     const speedMbps = 1000;
     const updatedSpeedMbps = 2000;
+    const vlan = 34;
+    const updatedVlan = 87;
 
     let portId = '';
     let gatewayId = '';
@@ -289,6 +291,7 @@ describe.skip('DirectLinkProviderV2', () => {
       bgpAsn: 64999,
       metered: false,
       customerAccountId: config.CUSTOMER_ACCT_ID,
+      vlan: vlan,
     };
 
     it('should successfully get the provider port', async done => {
@@ -315,6 +318,8 @@ describe.skip('DirectLinkProviderV2', () => {
         expect(response).toBeDefined();
         expect(response.status).toEqual(201);
         gatewayId = response.result.id;
+        const { result } = response || {};
+        expect(result.vlan).toEqual(vlan);
         done();
       } catch (err) {
         done(err);
@@ -332,6 +337,7 @@ describe.skip('DirectLinkProviderV2', () => {
         expect(result.name).toEqual(gwName);
         expect(result.type).toEqual('connect');
         expect(result.speed_mbps).toEqual(speedMbps);
+        expect(result.vlan).toEqual(vlan);
         expect(result.bgp_asn).toEqual(params.bgpAsn);
         expect(result.operational_status).toEqual('create_pending');
         expect(result.provider_api_managed).toBeTruthy();
@@ -364,6 +370,7 @@ describe.skip('DirectLinkProviderV2', () => {
         expect(result.name).toEqual(gwName);
         expect(result.type).toEqual('connect');
         expect(result.speed_mbps).toEqual(speedMbps);
+        expect(result.vlan).toEqual(vlan);
         expect(result.bgp_asn).toEqual(params.bgpAsn);
         expect(result.operational_status).toEqual('create_pending');
         expect(result.provider_api_managed).toBeTruthy();
@@ -386,7 +393,7 @@ describe.skip('DirectLinkProviderV2', () => {
         const result = await poll(
           () => dlService.getGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          50
+          300
         );
 
         expect(result).toBeDefined();
@@ -413,6 +420,7 @@ describe.skip('DirectLinkProviderV2', () => {
         expect(result.id).toEqual(gatewayId);
         expect(result.type).toEqual('connect');
         expect(result.speed_mbps).toEqual(speedMbps);
+        expect(result.vlan).toEqual(vlan);
         expect(result.bgp_asn).toEqual(params.bgpAsn);
         expect(result.operational_status).toEqual('provisioned');
         expect(result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
@@ -447,6 +455,7 @@ describe.skip('DirectLinkProviderV2', () => {
         expect(result.id).toEqual(gatewayId);
         expect(result.type).toEqual('connect');
         expect(result.speed_mbps).toEqual(speedMbps); // Speed not updated yet
+        expect(result.vlan).toEqual(vlan);
         expect(result.bgp_asn).toEqual(params.bgpAsn);
         expect(result.operational_status).toEqual('provisioned');
         expect(result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
@@ -465,7 +474,42 @@ describe.skip('DirectLinkProviderV2', () => {
       }
     });
 
-    it('should successfully approve gateway speed change using client account', async done => {
+    it('should successfully request the vlan update of the gateway', async done => {
+      try {
+        const response = await dlProviderService.updateProviderGateway({
+          id: gatewayId,
+          vlan: updatedVlan,
+        });
+
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result.name).toEqual(updatedGWName);
+        expect(result.id).toEqual(gatewayId);
+        expect(result.type).toEqual('connect');
+        expect(result.speed_mbps).toEqual(speedMbps); // Speed not updated yet
+        expect(result.vlan).toEqual(vlan); // not updated until approved
+        expect(result.bgp_asn).toEqual(params.bgpAsn);
+        expect(result.operational_status).toEqual('provisioned');
+        expect(result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
+        expect(result.provider_api_managed).toBeTruthy();
+        expect(result.bgp_cer_cidr).not.toBe('');
+        expect(result.bgp_ibm_cidr).not.toBe('');
+        expect(result.bgp_ibm_asn).not.toBe('');
+        expect(result.bgp_status).not.toBe('');
+        expect(result.created_at).not.toBe('');
+        expect(result.port.id).toBe(portId);
+        expect(result.global).toBeFalsy();
+        expect(result.metered).toBeFalsy();
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully approve gateway speed and vlan change using client account', async done => {
       try {
         const response = await dlService.createGatewayAction({
           id: gatewayId,
@@ -473,6 +517,7 @@ describe.skip('DirectLinkProviderV2', () => {
           updates: [
             {
               speed_mbps: updatedSpeedMbps,
+              vlan: updatedVlan,
             },
           ],
         });
@@ -486,8 +531,8 @@ describe.skip('DirectLinkProviderV2', () => {
         expect(result.id).toEqual(gatewayId);
         expect(result.type).toEqual('connect');
         expect(result.speed_mbps).toEqual(updatedSpeedMbps); // Speed updated now
+        expect(result.vlan).toEqual(updatedVlan); // updated now
         expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.operational_status).toEqual('configuring');
         expect(result.provider_api_managed).toBeTruthy();
         expect(result.bgp_cer_cidr).not.toBe('');
         expect(result.bgp_ibm_cidr).not.toBe('');
@@ -508,7 +553,7 @@ describe.skip('DirectLinkProviderV2', () => {
         const result = await poll(
           () => dlProviderService.getProviderGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          100
+          300
         );
 
         expect(result).toBeDefined();
@@ -530,7 +575,7 @@ describe.skip('DirectLinkProviderV2', () => {
       }
     });
 
-    it('should successfully reject delete gayeway using client account', async done => {
+    it('should successfully reject delete gateway using client account', async done => {
       try {
         const response = await dlService.createGatewayAction({
           id: gatewayId,
@@ -564,7 +609,7 @@ describe.skip('DirectLinkProviderV2', () => {
         const result = await poll(
           () => dlProviderService.getProviderGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          100
+          300
         );
 
         expect(result).toBeDefined();
@@ -586,7 +631,7 @@ describe.skip('DirectLinkProviderV2', () => {
       }
     });
 
-    it('should successfully approve delete gayeway using client account', async done => {
+    it('should successfully approve delete gateway using client account', async done => {
       try {
         const response = await dlService.createGatewayAction({
           id: gatewayId,
@@ -691,7 +736,7 @@ describe.skip('DirectLinkProviderV2', () => {
         const result = await poll(
           () => dlProviderService.getProviderGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          100
+          300
         );
 
         expect(result).toBeDefined();
@@ -713,7 +758,7 @@ describe.skip('DirectLinkProviderV2', () => {
       }
     });
 
-    it('should successfully approve delete gayeway using client account', async done => {
+    it('should successfully approve delete gateway using client account', async done => {
       try {
         const response = await dlService.createGatewayAction({
           id: gatewayId,
@@ -809,7 +854,7 @@ describe.skip('DirectLinkProviderV2', () => {
         const result = await poll(
           () => dlProviderService.getProviderGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          100
+          300
         );
 
         expect(result).toBeDefined();
@@ -831,7 +876,7 @@ describe.skip('DirectLinkProviderV2', () => {
       }
     });
 
-    it('should successfully approve delete gayeway using client account', async done => {
+    it('should successfully approve delete gateway using client account', async done => {
       try {
         const response = await dlService.createGatewayAction({
           id: gatewayId,
@@ -923,7 +968,7 @@ describe.skip('DirectLinkProviderV2', () => {
         const result = await poll(
           () => dlProviderService.getProviderGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          100
+          300
         );
 
         expect(result).toBeDefined();
@@ -990,7 +1035,7 @@ describe.skip('DirectLinkProviderV2', () => {
         const result = await poll(
           () => dlProviderService.getProviderGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          100
+          300
         );
 
         expect(result).toBeDefined();
@@ -1012,7 +1057,7 @@ describe.skip('DirectLinkProviderV2', () => {
       }
     });
 
-    it('should successfully approve delete gayeway using client account', async done => {
+    it('should successfully approve delete gateway using client account', async done => {
       try {
         const response = await dlService.createGatewayAction({
           id: gatewayId,
@@ -1115,7 +1160,7 @@ describe.skip('DirectLinkProviderV2', () => {
         const result = await poll(
           () => dlProviderService.getProviderGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          100
+          300
         );
 
         expect(result).toBeDefined();
@@ -1137,7 +1182,7 @@ describe.skip('DirectLinkProviderV2', () => {
       }
     });
 
-    it('should successfully approve delete gayeway using client account', async done => {
+    it('should successfully approve delete gateway using client account', async done => {
       try {
         const response = await dlService.createGatewayAction({
           id: gatewayId,
