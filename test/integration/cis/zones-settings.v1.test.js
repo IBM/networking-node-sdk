@@ -69,7 +69,7 @@ const MaxUpload = [
   500,
 ];
 
-describe('Zones Settings', () => {
+describe.skip('Zones Settings', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.
