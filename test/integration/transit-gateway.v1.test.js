@@ -13,6 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/*
+Possible ways to run this test:     
+  1) jest test/integration/transit-gateway.v1.test.js 
+  2) ./node_modules/.bin/jest test/integration/transit-gateway.v1.test.js
+  3) npm run test-integration 
+*/
+
 'use strict';
 
 const TransitGatewayApisV1 = require('../../dist/transit-gateway-apis/v1');
@@ -33,6 +41,7 @@ const describe = authHelper.prepareTests(configFile);
 const config = authHelper.loadConfig();
 
 let RR_INSTANCE_ID;
+let PF_INSTANCE_ID;
 let GATEWAY_INSTANCE_ID;
 let DL_CONN_INSTANCE_ID;
 let VPC_CONN_INSTANCE_ID;
@@ -43,6 +52,10 @@ let DL_CONN_INSTANCE_NAME;
 let VPC_CONN_INSTANCE_NAME;
 let GRE_CONN_INSTANCE_NAME;
 let CLASSIC_CONN_INSTANCE_NAME;
+
+let PREFIX_FILTERS_INSTANCE;
+let PREFIX_FILTERS_BEFORE_INSTANCE;
+let PREFIX_FILTERS_DEFAULT_INSTANCE;
 
 const poll = async (fn, fnCondition, sec) => {
   let result;
@@ -84,7 +97,7 @@ const wait = (ms = 5000) => {
   });
 };
 
-describe.skip('TransitGatewayApisV1', () => {
+describe('TransitGatewayApisV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.
@@ -116,7 +129,7 @@ describe.skip('TransitGatewayApisV1', () => {
         const gateways = result.transit_gateways;
         for (let i = 0; i < gateways.length; i++) {
           const gtwName = gateways[i].name;
-          if (gtwName.includes('SDK-NODE-TEST') === true) {
+          if (gtwName.includes('NODE-SDK-INT') === true) {
             const response = await transitGateway.listTransitGatewayConnections({
               transitGatewayId: gateways[i].id,
             });
@@ -165,9 +178,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  // ///////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
   //                        Transit Locations Tests                          //
-  // ///////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
 
   describe('LIST Transit Locations', () => {
     test('successfully lists the gateway locations', async done => {
@@ -216,9 +229,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  // /////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
   //                           Transit Gateway Tests                           //
-  // /////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
 
   describe('CREATE Transit Gateway', () => {
     test('should successfully create a gateway', async done => {
@@ -376,9 +389,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  // /////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
   //                    Transit Gateway Connections Tests                      //
-  // /////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
 
   describe('CREATE Transit Gateway Connection', () => {
     test('successfully creates CLASSIC connection', async done => {
@@ -435,6 +448,15 @@ describe.skip('TransitGatewayApisV1', () => {
       const crn = config.VPC_CRN;
       const stamp = Math.floor(Math.random() * 1000);
       const connectionName = 'VPC-' + config.GATEWAY_CONNECTION_NAME + '_' + stamp;
+      PREFIX_FILTERS_DEFAULT_INSTANCE = 'permit';
+      PREFIX_FILTERS_INSTANCE = [
+        {
+          "action": PREFIX_FILTERS_DEFAULT_INSTANCE,
+          "ge": 24,
+          "le": 32,
+          "prefix": "192.168.100.0/24"
+        }
+      ];
 
       try {
         const response = await transitGateway.createTransitGatewayConnection({
@@ -442,6 +464,8 @@ describe.skip('TransitGatewayApisV1', () => {
           networkType: type,
           name: connectionName,
           networkId: crn,
+          prefixFilters: PREFIX_FILTERS_INSTANCE,
+          prefixFiltersDefault: PREFIX_FILTERS_DEFAULT_INSTANCE,
         });
         expect(response).toBeDefined();
         expect(response.status).toEqual(201);
@@ -453,6 +477,7 @@ describe.skip('TransitGatewayApisV1', () => {
 
         VPC_CONN_INSTANCE_ID = result.id;
         VPC_CONN_INSTANCE_NAME = result.name;
+        PREFIX_FILTERS_BEFORE_INSTANCE = result.prefix_filters[0].id;
 
         done();
       } catch (err) {
@@ -550,7 +575,6 @@ describe.skip('TransitGatewayApisV1', () => {
           remoteGatewayIp: '10.242.63.12',
           baseConnectionId: CLASSIC_CONN_INSTANCE_ID,
         });
-
         expect(response).toBeDefined();
         expect(response.status).toEqual(201);
 
@@ -613,12 +637,18 @@ describe.skip('TransitGatewayApisV1', () => {
           transitGatewayId: GATEWAY_INSTANCE_ID,
           id: VPC_CONN_INSTANCE_ID,
         });
-
         expect(response.status).toBe(200);
 
         const { result } = response || {};
         expect(result.id).toEqual(VPC_CONN_INSTANCE_ID);
         expect(result.name).toEqual(VPC_CONN_INSTANCE_NAME);
+        expect(result.prefix_filters_default).toEqual(PREFIX_FILTERS_DEFAULT_INSTANCE);
+        expect(result.prefix_filters[0].action).toEqual(PREFIX_FILTERS_INSTANCE[0].action);
+        expect(result.prefix_filters[0].prefix).toEqual(PREFIX_FILTERS_INSTANCE[0].prefix);
+        expect(result.prefix_filters[0].ge).toEqual(PREFIX_FILTERS_INSTANCE[0].ge);
+        expect(result.prefix_filters[0].le).toEqual(PREFIX_FILTERS_INSTANCE[0].le);
+        expect(result.prefix_filters[0].createdAt).not.toBe('');
+        expect(result.prefix_filters[0].updatedAt).not.toBe('');
 
         done();
       } catch (err) {
@@ -632,7 +662,6 @@ describe.skip('TransitGatewayApisV1', () => {
           transitGatewayId: GATEWAY_INSTANCE_ID,
           id: CLASSIC_CONN_INSTANCE_ID,
         });
-
         expect(response.status).toBe(200);
 
         const { result } = response || {};
@@ -651,7 +680,6 @@ describe.skip('TransitGatewayApisV1', () => {
           transitGatewayId: GATEWAY_INSTANCE_ID,
           id: DL_CONN_INSTANCE_ID,
         });
-
         expect(response.status).toBe(200);
 
         const { result } = response || {};
@@ -670,7 +698,6 @@ describe.skip('TransitGatewayApisV1', () => {
           transitGatewayId: GATEWAY_INSTANCE_ID,
           id: GRE_CONN_INSTANCE_ID,
         });
-
         expect(response.status).toBe(200);
 
         const { result } = response || {};
@@ -702,17 +729,20 @@ describe.skip('TransitGatewayApisV1', () => {
   describe('UPDATE Transit Gateway Connection', () => {
     test('successfully update a VPC connection name by instance id', async done => {
       VPC_CONN_INSTANCE_NAME = 'UPDATED-' + VPC_CONN_INSTANCE_NAME;
+      PREFIX_FILTERS_DEFAULT_INSTANCE = "deny"
       try {
         const response = await transitGateway.updateTransitGatewayConnection({
           transitGatewayId: GATEWAY_INSTANCE_ID,
           id: VPC_CONN_INSTANCE_ID,
           name: VPC_CONN_INSTANCE_NAME,
+          prefixFiltersDefault: PREFIX_FILTERS_DEFAULT_INSTANCE,
         });
         expect(response.status).toBe(200);
 
         const { result } = response || {};
         expect(result.id).toEqual(VPC_CONN_INSTANCE_ID);
         expect(result.name).toEqual(VPC_CONN_INSTANCE_NAME);
+        expect(result.prefix_filters_default).toEqual(PREFIX_FILTERS_DEFAULT_INSTANCE);
 
         done();
       } catch (err) {
@@ -796,7 +826,7 @@ describe.skip('TransitGatewayApisV1', () => {
       done();
     });
   });
-
+  
   describe('LIST Gateway Connections', () => {
     test('should list all the connections for a gateway', async done => {
       try {
@@ -838,11 +868,218 @@ describe.skip('TransitGatewayApisV1', () => {
         done(err);
       }
     });
+
+    test('should fail to list gateway connections', async done => {
+      try {
+        await transitGateway.listTransitGatewayConnections({
+          transitGatewayId: "bad-gateway-id-123",
+        });
+      } catch (err) {
+        expect(err.status).toEqual(404);
+        expect(err.message).toEqual('The gateway was not found.');
+        done();
+      }
+      done();
+    });
   });
 
-  // /////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
+  //                 Transit Connection Prefix-Filters Tests                   //
+  ///////////////////////////////////////////////////////////////////////////////
+  
+  describe('CREATE Connection Prefix Filter', () => {
+    test('should successfully create a prefix filter', async done => {
+      try {
+        const response = await transitGateway.createTransitGatewayConnectionPrefixFilter({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: VPC_CONN_INSTANCE_ID,
+          action: 'permit',
+          before: PREFIX_FILTERS_BEFORE_INSTANCE,
+          prefix: "192.168.111.0/12",
+          ge: 12,
+          le: 22,
+        });
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(201);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        expect(result.id).not.toBe('');
+        expect(result.createdAt).not.toBe('');
+
+        PF_INSTANCE_ID = result.id;
+
+        done();
+      } catch (err) {  
+        done(err);
+      }
+    });
+
+    test('should fail to create a prefix filter', async done => {
+      try {
+        await transitGateway.createTransitGatewayConnectionPrefixFilter({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: "bad-conn-id-123",
+          action: 'deny',
+          prefix: "192.168.111.0/12",
+        });
+      } catch (err) {
+        expect(err.status).toEqual(404);
+        expect(err.message).toEqual('The connection was not found.');
+        done();
+      }
+      done();
+    });
+  });
+
+  describe('GET Connection Prefix Filter', () => {
+    test('should successfully get a prefix filter', async done => {
+      try {
+        const response = await transitGateway.getTransitGatewayConnectionPrefixFilter({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: VPC_CONN_INSTANCE_ID,
+          filterId: PF_INSTANCE_ID,
+        });
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        expect(result.id).toEqual(PF_INSTANCE_ID);
+        expect(result.ge).toEqual(12);
+        expect(result.le).toEqual(22);
+        expect(result.action).toEqual('permit');
+        expect(result.prefix).toEqual("192.168.111.0/12");
+        expect(result.before).toEqual(PREFIX_FILTERS_BEFORE_INSTANCE);
+        
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('should fail to get a prefix filter', async done => {
+      try {
+        await transitGateway.getTransitGatewayConnectionPrefixFilter({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: VPC_CONN_INSTANCE_ID,
+          filterId: 'bad-pf-id-123',
+        });
+      } catch (err) {
+        expect(err.status).toEqual(404);
+        expect(err.message).toEqual('The prefix filter was not found');
+        done();
+      }
+      done();
+    });
+  });
+
+  describe('UPDATE Connection Prefix Filter', () => {
+    test('should successfully update a prefix filter', async done => {
+      try {
+        const response = await transitGateway.updateTransitGatewayConnectionPrefixFilter({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: VPC_CONN_INSTANCE_ID,
+          filterId: PF_INSTANCE_ID,
+          action: 'deny',
+          prefix: "192.168.112.1/18",
+          ge: 18,
+          le: 24,
+        });
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        expect(result.id).toEqual(PF_INSTANCE_ID);
+        expect(result.ge).toEqual(18);
+        expect(result.le).toEqual(24);
+        expect(result.action).toEqual('deny');
+        expect(result.prefix).toEqual("192.168.112.1/18");
+        
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('should fail to update a prefix filter', async done => {
+      try {
+        await transitGateway.updateTransitGatewayConnectionPrefixFilter({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: VPC_CONN_INSTANCE_ID,
+          filterId: 'bad-pf-id-123',
+        });
+      } catch (err) {
+        expect(err.status).toEqual(400);
+        expect(err.message).toEqual('The information given was invalid, malformed, or missing a required field.');
+        done();
+      }
+      done();
+    });
+  });
+
+  describe('LIST Connections Prefix Filters', () => {
+    test('should list all the prefix filters for a connection', async done => {
+      try {
+        const response = await transitGateway.listTransitGatewayConnectionPrefixFilters({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: VPC_CONN_INSTANCE_ID,
+        });
+        expect(response.status).toBe(200);
+
+        const { result } = response || {};
+        const prefixFilters = result.prefix_filters;
+        expect(prefixFilters.length).toBeGreaterThan(0);
+
+        let foundPF1 = false;
+        let foundPF2 = false;
+        for (let i = 0; i < prefixFilters.length; i++) {
+          if (prefixFilters[i].id === PF_INSTANCE_ID) {
+            expect(prefixFilters[i].ge).toEqual(18);
+            expect(prefixFilters[i].le).toEqual(24);
+            expect(prefixFilters[i].action).toEqual('deny');
+            expect(prefixFilters[i].prefix).toEqual("192.168.112.1/18");
+            expect(prefixFilters[i].before).toEqual(PREFIX_FILTERS_BEFORE_INSTANCE);
+            foundPF1 = true;
+          } else if (prefixFilters[i].id === PREFIX_FILTERS_BEFORE_INSTANCE) {
+            expect(prefixFilters[i].ge).toEqual(24);
+            expect(prefixFilters[i].le).toEqual(32);
+            expect(prefixFilters[i].action).toEqual('permit');
+            expect(prefixFilters[i].prefix).toEqual("192.168.100.0/24");
+            foundPF2 = true;
+          } 
+        }
+        expect(foundPF1).toEqual(true);
+        expect(foundPF2).toEqual(true);
+        
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('should fail to list a prefix filters', async done => {
+      try {
+        await transitGateway.listTransitGatewayConnectionPrefixFilters({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: 'bad-conn-id-123',
+        });
+      } catch (err) {
+        expect(err.status).toEqual(404);
+        expect(err.message).toEqual('The connection was not found.');
+        done();
+      }
+      done();
+    });
+  });
+
+  ///////////////////////////////////////////////////////////////////////////////
   //                  Transit Gateway Route Reports Tests                      //
-  // /////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
 
   describe('CREATE Gateway Route Report', () => {
     test('should successfully create a route report', async done => {
@@ -850,7 +1087,6 @@ describe.skip('TransitGatewayApisV1', () => {
         const response = await transitGateway.createTransitGatewayRouteReport({
           transitGatewayId: GATEWAY_INSTANCE_ID,
         });
-
         expect(response).toBeDefined();
         expect(response.status).toEqual(202);
 
@@ -912,7 +1148,6 @@ describe.skip('TransitGatewayApisV1', () => {
           transitGatewayId: GATEWAY_INSTANCE_ID,
           id: RR_INSTANCE_ID,
         });
-
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
 
@@ -1004,9 +1239,66 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  // /////////////////////////////////////////////////////////////////////////////
-  //                   DELETE Transit Gateway Route Report                     //
-  // /////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
+  //                 DELETE Connection Prefix-Filters Test                     //
+  ///////////////////////////////////////////////////////////////////////////////
+
+  describe('DELETE Connection Prefix Filter', () => {
+    test('successfully delete prefix filter by instanceID', async done => {
+      try {
+        const response = await transitGateway.deleteTransitGatewayConnectionPrefixFilter({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: VPC_CONN_INSTANCE_ID,
+          filterId: PF_INSTANCE_ID,
+        });
+
+        expect(response.status).toBe(204);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('successfully waits for the prefix filter to be deleted', async done => {
+      try {
+        const result = await poll(
+          () =>
+            transitGateway.deleteTransitGatewayConnectionPrefixFilter({
+              transitGatewayId: GATEWAY_INSTANCE_ID,
+              id: VPC_CONN_INSTANCE_ID,
+              filterId: PF_INSTANCE_ID,
+            }),
+          result => result.status === 404,
+          50
+        );
+
+        expect(result).toBeDefined();
+        expect(result.status).toBe(404);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('fail to delete the route report by instanceID', async done => {
+      try {
+        await transitGateway.deleteTransitGatewayConnectionPrefixFilter({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: VPC_CONN_INSTANCE_ID,
+          filterId: 'bad-filter-id-123',
+        });
+      } catch (err) {
+        expect(err.status).toEqual(404);
+        done();
+      }
+
+      done();
+    });
+  });
+  
+  ///////////////////////////////////////////////////////////////////////////////
+  //                DELETE Transit Gateway Route Report Test                   //
+  ///////////////////////////////////////////////////////////////////////////////
 
   describe('DELETE Gateway Route Report', () => {
     test('successfully delete route report by instanceID', async done => {
@@ -1058,9 +1350,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  // /////////////////////////////////////////////////////////////////////////////
-  //                    DELETE Transit Gateway Connections                     //
-  // /////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
+  //                DELETE Transit Gateway Connection Tests                    //
+  ///////////////////////////////////////////////////////////////////////////////
 
   describe('DELETE Transit Gateway Connection', () => {
     test('successfully delete GRE Connection by instanceID', async done => {
@@ -1214,9 +1506,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  // /////////////////////////////////////////////////////////////////////////////
-  //                           DELETE Transit Gateway                          //
-  // /////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////
+  //                       DELETE Transit Gateway Tests                        //
+  ///////////////////////////////////////////////////////////////////////////////
 
   describe('DELETE Transit Gateway', () => {
     test('successfully delete gateway by instanceID', async done => {
