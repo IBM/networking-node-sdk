@@ -1,6 +1,6 @@
 {
   "name": "ibm-networking-services",
-  "version": "0.19.0",
+  "version": "0.18.0",
   "description": "Node.js client library for IBM Cloud Networking Services",
   "repository": {
     "type": "git",
@@ -37,7 +37,7 @@
     "@types/extend": "^3.0.0",
     "@types/node": "^12.0.8",
     "extend": "^3.0.2",
-    "ibm-cloud-sdk-core": "^2.14.4"
+    "ibm-cloud-sdk-core": "^2.17.9"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^5.0.1",
