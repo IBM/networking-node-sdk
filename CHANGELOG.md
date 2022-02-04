@@ -1,3 +1,10 @@
+# [0.20.0](https://github.com/IBM/networking-node-sdk/compare/v0.19.0...v0.20.0) (2022-02-04)
+
+
+### Features
+
+* Added Prefix -Filters API functionality and Integration Tests to Node Transit SDK. ([b882d00](https://github.com/IBM/networking-node-sdk/commit/b882d00538d1439e3ce629e1d0d6c75c88af507e))
+
 # [0.19.0](https://github.com/IBM/networking-node-sdk/compare/v0.18.0...v0.19.0) (2022-02-02)
 
 
