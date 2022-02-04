@@ -27,7 +27,7 @@ const TransitGatewayApisV1 = require('../../dist/transit-gateway-apis/v1');
 const { IamAuthenticator } = require('ibm-cloud-sdk-core');
 const authHelper = require('../resources/auth-helper.js');
 
-const timeout = 120000; // two minutes
+const timeout = 300000; // five minutes
 
 // Location of our config file.
 const configFile = 'transit.env';
@@ -124,30 +124,51 @@ describe('TransitGatewayApisV1', () => {
       try {
         const response = await transitGateway.listTransitGateways({});
         expect(response.status).toBe(200);
-
         const { result } = response || {};
         const gateways = result.transit_gateways;
+  
         for (let i = 0; i < gateways.length; i++) {
+          const gtwID = gateways[i].id;
           const gtwName = gateways[i].name;
-          if (gtwName.includes('NODE-SDK-INT') === true) {
+  
+          if (gtwName.includes('NODE-SDK') === true) {
             const response = await transitGateway.listTransitGatewayConnections({
-              transitGatewayId: gateways[i].id,
+              transitGatewayId: gtwID,
             });
             expect(response.status).toBe(200);
-
             const { result } = response || {};
             const connections = result.connections;
+  
             if (connections.length > 0) {
               const connIDs = [];
               for (let j = 0; j < connections.length; j++) {
                 if (connections[j].status.includes('delet') === false) {
                   const connID = connections[j].id;
+                  const connName = connections[j].name;
+                  
                   // Delete GRE Connections first.
-                  if (connections[j].networkType === 'gre_tunnel') {
-                    const response = await transitGateway.deleteTransitGateway({
+                  if (connName.includes('GRE-NODE') === true) {
+                    const response = await transitGateway.deleteTransitGatewayConnection({
+                      transitGatewayId: gtwID,
                       id: connID,
                     });
                     expect(response.status).toBe(204);
+                    try {
+                      const result = await poll(
+                        () =>
+                          transitGateway.getTransitGatewayConnection({
+                            transitGatewayId: gtwID,
+                            id: connID,
+                          }),
+                        result => result.status === 404,
+                        200
+                      );
+                      expect(result).toBeDefined();
+                      expect(result.status).toBe(404);
+                      done();
+                    } catch (err) {
+                      done(err);
+                    }
                   } else {
                     connIDs.push(connID);
                   }
@@ -155,22 +176,38 @@ describe('TransitGatewayApisV1', () => {
               }
               // Delete Connections from other types.
               for (let k = 0; k < connIDs.length; k++) {
-                const response = await transitGateway.deleteTransitGateway({
+                const response = await transitGateway.deleteTransitGatewayConnection({
+                  transitGatewayId: gtwID,
                   id: connIDs[k],
                 });
                 expect(response.status).toBe(204);
+                try {
+                  const result = await poll(
+                    () =>
+                      transitGateway.getTransitGatewayConnection({
+                        transitGatewayId: gtwID,
+                        id: connIDs[k],
+                      }),
+                    result => result.status === 404,
+                    200
+                  );
+                  expect(result).toBeDefined();
+                  expect(result.status).toBe(404);
+                  done();
+                } catch (err) {
+                  done(err);
+                }
               }
             }
             // Remove empty gateways
             if (gateways[i].status.includes('delet') === false) {
               const response = await transitGateway.deleteTransitGateway({
-                id: gateways[i].id,
+                id: gtwID,
               });
               expect(response.status).toBe(204);
             }
           }
-        }
-
+        } 
         done();
       } catch (err) {
         done(err);

@@ -18,7 +18,7 @@ before_install:
   -iv $encrypted_89a9eb4f9417_iv -in dns.env.enc -out dns.env -d || true'
 script:
 - npm run build
-- npm run test-travis || travis_terminate 1
+- travis_wait 30 npm run test-travis || travis_terminate 1
 - npm run check-packages
 deploy:
 - provider: script
