@@ -27,7 +27,7 @@ const TransitGatewayApisV1 = require('../../dist/transit-gateway-apis/v1');
 const { IamAuthenticator } = require('ibm-cloud-sdk-core');
 const authHelper = require('../resources/auth-helper.js');
 
-const timeout = 300000; // five minutes
+const timeout = 600000; // ten minutes
 
 // Location of our config file.
 const configFile = 'transit.env';
@@ -97,7 +97,7 @@ const wait = (ms = 5000) => {
   });
 };
 
-describe('TransitGatewayApisV1', () => {
+describe.skip('TransitGatewayApisV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.
