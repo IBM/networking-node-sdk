@@ -15,7 +15,8 @@ before_install:
 
 script:
 - npm run build
-- travis_wait 30 npm run test-travis || travis_terminate 1
+# - travis_wait 30 npm run test-travis || travis_terminate 1
+- npm run test-unit-travis || travis_terminate 1
 # - npm run lint
 - npm run check-packages
 # - sh scripts/typedoc/generate_typedoc.sh
@@ -25,5 +26,5 @@ deploy:
   skip_cleanup: true
   script: npx semantic-release
   on:
-    node: 12
+    node: 14
     branch: master
