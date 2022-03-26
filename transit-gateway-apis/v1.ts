@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.40.0-910cf8c2-20211006-154754
+ * IBM OpenAPI SDK Code Generator Version: 3.43.5-e0ec19e2-20220124-172004
  */
 
 import * as extend from 'extend';
@@ -24,7 +24,7 @@ import {
   Authenticator,
   BaseService,
   getAuthenticatorFromEnvironment,
-  getMissingParams,
+  validateParams,
   UserOptions,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
@@ -91,10 +91,10 @@ class TransitGatewayApisV1 extends BaseService {
   constructor(options: UserOptions) {
     options = options || {};
 
-    const requiredParams = ['version'];
-    const missingParams = getMissingParams(options, requiredParams);
-    if (missingParams) {
-      throw missingParams;
+    const _requiredParams = ['version'];
+    const _validationErrors = validateParams(options, _requiredParams, null);
+    if (_validationErrors) {
+      throw _validationErrors;
     }
     super(options);
     if (options.serviceUrl) {
@@ -125,6 +125,12 @@ class TransitGatewayApisV1 extends BaseService {
     params?: TransitGatewayApisV1.ListConnectionsParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitConnectionCollection>> {
     const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['limit', 'start', 'networkId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const query = {
       'version': this.version,
@@ -160,6 +166,369 @@ class TransitGatewayApisV1 extends BaseService {
     return this.createRequest(parameters);
   }
   /*************************
+   * transitGatewayConnectionPrefixFilters
+   ************************/
+
+  /**
+   * Retrieves all prefix filters in a Transit Gateway connection.
+   *
+   * This request retrieves all prefix filters in a Transit Gateway connection.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.transitGatewayId - The Transit Gateway identifier.
+   * @param {string} params.id - The connection identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCollection>>}
+   */
+  public listTransitGatewayConnectionPrefixFilters(
+    params: TransitGatewayApisV1.ListTransitGatewayConnectionPrefixFiltersParams
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['transitGatewayId', 'id'];
+    const _validParams = ['transitGatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'transit_gateway_id': _params.transitGatewayId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listTransitGatewayConnectionPrefixFilters'
+    );
+
+    const parameters = {
+      options: {
+        url: '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Add a prefix filter to a Transit Gateway Connection.
+   *
+   * Add a prefix filter to a Transit Gateway Connection.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.transitGatewayId - The Transit Gateway identifier.
+   * @param {string} params.id - The connection identifier.
+   * @param {string} params.action - Whether to permit or deny prefix filter.
+   * @param {string} params.prefix - IP Prefix.
+   * @param {string} [params.before] - Identifier of prefix filter to handle the ordering and follow semantics:
+   * - When a filter reference another filter in it's before field, then the filter making the reference is applied
+   * before
+   *   the referenced filter. For example: if filter A references filter B in its before field, A is applied before B.
+   * - When a new filter is added that has the same before as an existing filter, then the older filter will have its
+   * before
+   *   field updated to point to the new filter. Starting with the above example: if filter C is added and it references
+   * B in its
+   *   before field, then A's before field should be modified to point to C, so the order of application would be A, C
+   * and finally B.
+   * - A filter that has an empty before reference will be applied last (though the date order mentioned above will
+   * still apply).
+   *   So continuing the above examples, if filter B has an empty before field, then it will be applied last, but if
+   * filter D
+   *   is created with an empty before field, then B's before field will be modified to point to D, so B will be applied
+   * before D.
+   * @param {number} [params.ge] - IP Prefix GE.
+   * @param {number} [params.le] - IP Prefix LE.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>>}
+   */
+  public createTransitGatewayConnectionPrefixFilter(
+    params: TransitGatewayApisV1.CreateTransitGatewayConnectionPrefixFilterParams
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>> {
+    const _params = { ...params };
+    const _requiredParams = ['transitGatewayId', 'id', 'action', 'prefix'];
+    const _validParams = ['transitGatewayId', 'id', 'action', 'prefix', 'before', 'ge', 'le', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'action': _params.action,
+      'prefix': _params.prefix,
+      'before': _params.before,
+      'ge': _params.ge,
+      'le': _params.le,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'transit_gateway_id': _params.transitGatewayId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createTransitGatewayConnectionPrefixFilter'
+    );
+
+    const parameters = {
+      options: {
+        url: '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters',
+        method: 'POST',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Remove prefix filter from Transit Gateway Connection.
+   *
+   * Delete a prefix filter.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.transitGatewayId - The Transit Gateway identifier.
+   * @param {string} params.id - The connection identifier.
+   * @param {string} params.filterId - Prefix filter identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>>}
+   */
+  public deleteTransitGatewayConnectionPrefixFilter(
+    params: TransitGatewayApisV1.DeleteTransitGatewayConnectionPrefixFilterParams
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>> {
+    const _params = { ...params };
+    const _requiredParams = ['transitGatewayId', 'id', 'filterId'];
+    const _validParams = ['transitGatewayId', 'id', 'filterId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'transit_gateway_id': _params.transitGatewayId,
+      'id': _params.id,
+      'filter_id': _params.filterId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteTransitGatewayConnectionPrefixFilter'
+    );
+
+    const parameters = {
+      options: {
+        url: '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}',
+        method: 'DELETE',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Retrieves specified Transit Gateway connection prefix filter.
+   *
+   * This request retrieves a prefix filter from the Transit Gateway Connection.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.transitGatewayId - The Transit Gateway identifier.
+   * @param {string} params.id - The connection identifier.
+   * @param {string} params.filterId - Prefix filter identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>>}
+   */
+  public getTransitGatewayConnectionPrefixFilter(
+    params: TransitGatewayApisV1.GetTransitGatewayConnectionPrefixFilterParams
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>> {
+    const _params = { ...params };
+    const _requiredParams = ['transitGatewayId', 'id', 'filterId'];
+    const _validParams = ['transitGatewayId', 'id', 'filterId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'transit_gateway_id': _params.transitGatewayId,
+      'id': _params.id,
+      'filter_id': _params.filterId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getTransitGatewayConnectionPrefixFilter'
+    );
+
+    const parameters = {
+      options: {
+        url: '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Updates specified Transit Gateway connection prefix filter.
+   *
+   * Update prefix filter for a Transit Gateway Connection.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.transitGatewayId - The Transit Gateway identifier.
+   * @param {string} params.id - The connection identifier.
+   * @param {string} params.filterId - Prefix filter identifier.
+   * @param {string} [params.action] - Whether to permit or deny prefix filter.
+   * @param {string} [params.before] - Identifier of prefix filter to handle the ordering and follow semantics:
+   * - When a filter reference another filter in it's before field, then the filter making the reference is applied
+   * before
+   *   the referenced filter. For example: if filter A references filter B in its before field, A is applied before B.
+   * - When a new filter is added that has the same before as an existing filter, then the older filter will have its
+   * before
+   *   field updated to point to the new filter. Starting with the above example: if filter C is added and it references
+   * B in its
+   *   before field, then A's before field should be modified to point to C, so the order of application would be A, C
+   * and finally B.
+   * - A filter that has an empty before reference will be applied last (though the date order mentioned above will
+   * still apply).
+   *   So continuing the above examples, if filter B has an empty before field, then it will be applied last, but if
+   * filter D
+   *   is created with an empty before field, then B's before field will be modified to point to D, so B will be applied
+   * before D.
+   * @param {number} [params.ge] - IP Prefix GE.
+   * @param {number} [params.le] - IP Prefix LE.
+   * @param {string} [params.prefix] - IP Prefix.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>>}
+   */
+  public updateTransitGatewayConnectionPrefixFilter(
+    params: TransitGatewayApisV1.UpdateTransitGatewayConnectionPrefixFilterParams
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>> {
+    const _params = { ...params };
+    const _requiredParams = ['transitGatewayId', 'id', 'filterId'];
+    const _validParams = ['transitGatewayId', 'id', 'filterId', 'action', 'before', 'ge', 'le', 'prefix', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'action': _params.action,
+      'before': _params.before,
+      'ge': _params.ge,
+      'le': _params.le,
+      'prefix': _params.prefix,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'transit_gateway_id': _params.transitGatewayId,
+      'id': _params.id,
+      'filter_id': _params.filterId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateTransitGatewayConnectionPrefixFilter'
+    );
+
+    const parameters = {
+      options: {
+        url: '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}',
+        method: 'PATCH',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
    * transitGatewayRouteReports
    ************************/
 
@@ -178,11 +547,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.ListTransitGatewayRouteReportsParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RouteReportCollection>> {
     const _params = { ...params };
-    const requiredParams = ['transitGatewayId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['transitGatewayId'];
+    const _validParams = ['transitGatewayId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -236,11 +605,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.CreateTransitGatewayRouteReportParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RouteReport>> {
     const _params = { ...params };
-    const requiredParams = ['transitGatewayId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['transitGatewayId'];
+    const _validParams = ['transitGatewayId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -294,11 +663,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.DeleteTransitGatewayRouteReportParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['transitGatewayId', 'id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['transitGatewayId', 'id'];
+    const _validParams = ['transitGatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -352,11 +721,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.GetTransitGatewayRouteReportParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RouteReport>> {
     const _params = { ...params };
-    const requiredParams = ['transitGatewayId', 'id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['transitGatewayId', 'id'];
+    const _validParams = ['transitGatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -414,6 +783,12 @@ class TransitGatewayApisV1 extends BaseService {
     params?: TransitGatewayApisV1.ListTransitGatewaysParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayCollection>> {
     const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['limit', 'start', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const query = {
       'version': this.version,
@@ -467,11 +842,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.CreateTransitGatewayParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
     const _params = { ...params };
-    const requiredParams = ['location', 'name'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['location', 'name'];
+    const _validParams = ['location', 'name', 'global', 'resourceGroup', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -529,11 +904,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.DeleteTransitGatewayParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -585,11 +960,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.GetTransitGatewayParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -644,11 +1019,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.UpdateTransitGatewayParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'global', 'name', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -711,11 +1086,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.ListTransitGatewayConnectionsParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCollection>> {
     const _params = { ...params };
-    const requiredParams = ['transitGatewayId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['transitGatewayId'];
+    const _validParams = ['transitGatewayId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -782,6 +1157,13 @@ class TransitGatewayApisV1 extends BaseService {
    * required for some types, such as 'vpc' and 'directlink'. For network types 'vpc' and 'directlink' this is the CRN
    * of the VPC / Direct Link gateway respectively. This field is required to be unspecified for network type 'classic'
    * and 'gre_tunnel' connections.
+   * @param {TransitGatewayConnectionPrefixFilter[]} [params.prefixFilters] - Array of prefix route filters for a
+   * transit gateway connection. Prefix filters can be specified for netowrk type 'vpc', 'classic' and 'directlink'
+   * connections. They are not allowed for type 'gre_tunnel' connections. This is order dependent with those first in
+   * the array being applied first, and those at the end of the array being applied last, or just before applying the
+   * default.
+   * @param {string} [params.prefixFiltersDefault] - Default setting of permit or deny which applies to any routes that
+   * don't match a specified filter.
    * @param {string} [params.remoteBgpAsn] - Remote network BGP ASN.  This field is only applicable to 'gre_tunnel' type
    * connections. The following ASN values are reserved and unavailable 64512-64513, 65100, 65201-65234, 65402-65433,
    * 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel connection create requests IBM will
@@ -802,11 +1184,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.CreateTransitGatewayConnectionParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
     const _params = { ...params };
-    const requiredParams = ['transitGatewayId', 'networkType'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['transitGatewayId', 'networkType'];
+    const _validParams = ['transitGatewayId', 'networkType', 'baseConnectionId', 'localGatewayIp', 'localTunnelIp', 'name', 'networkAccountId', 'networkId', 'prefixFilters', 'prefixFiltersDefault', 'remoteBgpAsn', 'remoteGatewayIp', 'remoteTunnelIp', 'zone', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -817,6 +1199,8 @@ class TransitGatewayApisV1 extends BaseService {
       'name': _params.name,
       'network_account_id': _params.networkAccountId,
       'network_id': _params.networkId,
+      'prefix_filters': _params.prefixFilters,
+      'prefix_filters_default': _params.prefixFiltersDefault,
       'remote_bgp_asn': _params.remoteBgpAsn,
       'remote_gateway_ip': _params.remoteGatewayIp,
       'remote_tunnel_ip': _params.remoteTunnelIp,
@@ -877,11 +1261,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.DeleteTransitGatewayConnectionParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['transitGatewayId', 'id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['transitGatewayId', 'id'];
+    const _validParams = ['transitGatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -935,11 +1319,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.GetTransitGatewayConnectionParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
     const _params = { ...params };
-    const requiredParams = ['transitGatewayId', 'id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['transitGatewayId', 'id'];
+    const _validParams = ['transitGatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -990,6 +1374,8 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} [params.name] - The user-defined name for this transit gateway. If specified as empty string or
    * nil,  the name will be the network name (the name of the VPC in the case of network type 'vpc',  and the word
    * Classic, in the case of network type 'classic').
+   * @param {string} [params.prefixFiltersDefault] - Default setting of permit or deny which applies to any routes that
+   * don't match a specified filter.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
    */
@@ -997,15 +1383,16 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.UpdateTransitGatewayConnectionParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
     const _params = { ...params };
-    const requiredParams = ['transitGatewayId', 'id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['transitGatewayId', 'id'];
+    const _validParams = ['transitGatewayId', 'id', 'name', 'prefixFiltersDefault', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
       'name': _params.name,
+      'prefix_filters_default': _params.prefixFiltersDefault,
     };
 
     const query = {
@@ -1063,11 +1450,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.CreateTransitGatewayConnectionActionsParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['transitGatewayId', 'id', 'action'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['transitGatewayId', 'id', 'action'];
+    const _validParams = ['transitGatewayId', 'id', 'action', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -1128,6 +1515,12 @@ class TransitGatewayApisV1 extends BaseService {
     params?: TransitGatewayApisV1.ListGatewayLocationsParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSCollection>> {
     const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const query = {
       'version': this.version,
@@ -1174,11 +1567,11 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.GetGatewayLocationParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSLocation>> {
     const _params = { ...params };
-    const requiredParams = ['name'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['name'];
+    const _validParams = ['name', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -1263,6 +1656,129 @@ namespace TransitGatewayApisV1 {
     /** Search for connections with the given network_id value. */
     networkId?: string;
     headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `listTransitGatewayConnectionPrefixFilters` operation. */
+  export interface ListTransitGatewayConnectionPrefixFiltersParams {
+    /** The Transit Gateway identifier. */
+    transitGatewayId: string;
+    /** The connection identifier. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createTransitGatewayConnectionPrefixFilter` operation. */
+  export interface CreateTransitGatewayConnectionPrefixFilterParams {
+    /** The Transit Gateway identifier. */
+    transitGatewayId: string;
+    /** The connection identifier. */
+    id: string;
+    /** Whether to permit or deny prefix filter. */
+    action: CreateTransitGatewayConnectionPrefixFilterConstants.Action | string;
+    /** IP Prefix. */
+    prefix: string;
+    /** Identifier of prefix filter to handle the ordering and follow semantics:
+     *  - When a filter reference another filter in it's before field, then the filter making the reference is applied
+     *  before
+     *    the referenced filter. For example: if filter A references filter B in its before field, A is applied before
+     *  B.
+     *  - When a new filter is added that has the same before as an existing filter, then the older filter will have its
+     *  before
+     *    field updated to point to the new filter. Starting with the above example: if filter C is added and it
+     *  references B in its
+     *    before field, then A's before field should be modified to point to C, so the order of application would be A,
+     *  C and finally B.
+     *  - A filter that has an empty before reference will be applied last (though the date order mentioned above will
+     *  still apply).
+     *    So continuing the above examples, if filter B has an empty before field, then it will be applied last, but if
+     *  filter D
+     *    is created with an empty before field, then B's before field will be modified to point to D, so B will be
+     *  applied before D.
+     */
+    before?: string;
+    /** IP Prefix GE. */
+    ge?: number;
+    /** IP Prefix LE. */
+    le?: number;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `createTransitGatewayConnectionPrefixFilter` operation. */
+  export namespace CreateTransitGatewayConnectionPrefixFilterConstants {
+    /** Whether to permit or deny prefix filter. */
+    export enum Action {
+      PERMIT = 'permit',
+      DENY = 'deny',
+    }
+  }
+
+  /** Parameters for the `deleteTransitGatewayConnectionPrefixFilter` operation. */
+  export interface DeleteTransitGatewayConnectionPrefixFilterParams {
+    /** The Transit Gateway identifier. */
+    transitGatewayId: string;
+    /** The connection identifier. */
+    id: string;
+    /** Prefix filter identifier. */
+    filterId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getTransitGatewayConnectionPrefixFilter` operation. */
+  export interface GetTransitGatewayConnectionPrefixFilterParams {
+    /** The Transit Gateway identifier. */
+    transitGatewayId: string;
+    /** The connection identifier. */
+    id: string;
+    /** Prefix filter identifier. */
+    filterId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateTransitGatewayConnectionPrefixFilter` operation. */
+  export interface UpdateTransitGatewayConnectionPrefixFilterParams {
+    /** The Transit Gateway identifier. */
+    transitGatewayId: string;
+    /** The connection identifier. */
+    id: string;
+    /** Prefix filter identifier. */
+    filterId: string;
+    /** Whether to permit or deny prefix filter. */
+    action?: UpdateTransitGatewayConnectionPrefixFilterConstants.Action | string;
+    /** Identifier of prefix filter to handle the ordering and follow semantics:
+     *  - When a filter reference another filter in it's before field, then the filter making the reference is applied
+     *  before
+     *    the referenced filter. For example: if filter A references filter B in its before field, A is applied before
+     *  B.
+     *  - When a new filter is added that has the same before as an existing filter, then the older filter will have its
+     *  before
+     *    field updated to point to the new filter. Starting with the above example: if filter C is added and it
+     *  references B in its
+     *    before field, then A's before field should be modified to point to C, so the order of application would be A,
+     *  C and finally B.
+     *  - A filter that has an empty before reference will be applied last (though the date order mentioned above will
+     *  still apply).
+     *    So continuing the above examples, if filter B has an empty before field, then it will be applied last, but if
+     *  filter D
+     *    is created with an empty before field, then B's before field will be modified to point to D, so B will be
+     *  applied before D.
+     */
+    before?: string;
+    /** IP Prefix GE. */
+    ge?: number;
+    /** IP Prefix LE. */
+    le?: number;
+    /** IP Prefix. */
+    prefix?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `updateTransitGatewayConnectionPrefixFilter` operation. */
+  export namespace UpdateTransitGatewayConnectionPrefixFilterConstants {
+    /** Whether to permit or deny prefix filter. */
+    export enum Action {
+      PERMIT = 'permit',
+      DENY = 'deny',
+    }
   }
 
   /** Parameters for the `listTransitGatewayRouteReports` operation. */
@@ -1389,6 +1905,14 @@ namespace TransitGatewayApisV1 {
      *  connections.
      */
     networkId?: string;
+    /** Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk
+     *  type 'vpc', 'classic' and 'directlink' connections. They are not allowed for type 'gre_tunnel' connections. This
+     *  is order dependent with those first in the array being applied first, and those at the end of the array being
+     *  applied last, or just before applying the default.
+     */
+    prefixFilters?: TransitGatewayConnectionPrefixFilter[];
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. */
+    prefixFiltersDefault?: CreateTransitGatewayConnectionConstants.PrefixFiltersDefault | string;
     /** Remote network BGP ASN.  This field is only applicable to 'gre_tunnel' type connections. The following ASN
      *  values are reserved and unavailable 64512-64513, 65100, 65201-65234, 65402-65433, 65500 and
      *  4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel connection create requests IBM will assign
@@ -1419,6 +1943,11 @@ namespace TransitGatewayApisV1 {
       DIRECTLINK = 'directlink',
       GRE_TUNNEL = 'gre_tunnel',
       VPC = 'vpc',
+    }
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. */
+    export enum PrefixFiltersDefault {
+      PERMIT = 'permit',
+      DENY = 'deny',
     }
   }
 
@@ -1451,7 +1980,18 @@ namespace TransitGatewayApisV1 {
      *  network type 'classic').
      */
     name?: string;
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. */
+    prefixFiltersDefault?: UpdateTransitGatewayConnectionConstants.PrefixFiltersDefault | string;
     headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `updateTransitGatewayConnection` operation. */
+  export namespace UpdateTransitGatewayConnectionConstants {
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. */
+    export enum PrefixFiltersDefault {
+      PERMIT = 'permit',
+      DENY = 'deny',
+    }
   }
 
   /** Parameters for the `createTransitGatewayConnectionActions` operation. */
@@ -1489,6 +2029,49 @@ namespace TransitGatewayApisV1 {
   /*************************
    * model interfaces
    ************************/
+
+  /** prefix filters. */
+  export interface PrefixFilterCollection {
+    /** Array of prefix filters. */
+    prefix_filters: PrefixFilterCust[];
+  }
+
+  /** prefix filter. */
+  export interface PrefixFilterCust {
+    /** Whether to permit or deny prefix filter. */
+    action: string;
+    /** Identifier of prefix filter that handles the ordering and follow semantics:
+     *  - When a filter reference another filter in it's before field, then the filter making the reference is applied
+     *  before
+     *    the referenced filter. For example: if filter A references filter B in its before field, A is applied before
+     *  B.
+     *  - When a new filter is added that has the same before as an existing filter, then the older filter will have its
+     *  before
+     *    field updated to point to the new filter. Starting with the above example: if filter C is added and it
+     *  references B in its
+     *    before field, then A's before field should be modified to point to C, so the order of application would be A,
+     *  C and finally B.
+     *  - A filter that has an empty before reference will be applied last (though the date order mentioned above will
+     *  still apply).
+     *    So continuing the above examples, if filter B has an empty before field, then it will be applied last, but if
+     *  filter D
+     *    is created with an empty before field, then B's before field will be modified to point to D, so B will be
+     *  applied before D.
+     */
+    before?: string;
+    /** The date and time that this prefix filter was created. */
+    created_at: string;
+    /** IP Prefix GE. */
+    ge?: number;
+    /** Prefix Filter identifier. */
+    id: string;
+    /** IP Prefix LE. */
+    le?: number;
+    /** IP Prefix. */
+    prefix: string;
+    /** The date and time that this prefix filter was last updated. */
+    updated_at?: string;
+  }
 
   /** The resource group to use. If unspecified, the account's [default resource group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used. */
   export interface ResourceGroupIdentity {
@@ -1654,6 +2237,12 @@ namespace TransitGatewayApisV1 {
      *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
      */
     network_type: string;
+    /** Array of prefix route filters for a transit gateway connection. This is order dependent with those first in
+     *  the array being applied first, and those at the end of the array is applied last, or just before the default.
+     */
+    prefix_filters?: TransitGatewayConnectionPrefixFilterReference[];
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. */
+    prefix_filters_default: string;
     /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' connections. */
     remote_bgp_asn?: number;
     /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' connections. */
@@ -1796,6 +2385,12 @@ namespace TransitGatewayApisV1 {
      *  IBM Cloud account than the gateway.
      */
     network_account_id?: string;
+    /** Array of prefix route filters for a transit gateway connection. This is order dependent with those first in
+     *  the array being applied first, and those at the end of the array is applied last, or just before the default.
+     */
+    prefix_filters?: TransitGatewayConnectionPrefixFilterReference[];
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. */
+    prefix_filters_default: string;
     /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' connections. */
     remote_bgp_asn?: number;
     /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' connections. */
@@ -1821,6 +2416,55 @@ namespace TransitGatewayApisV1 {
   export interface TransitGatewayConnectionCustZone {
     /** Availability zone name. */
     name: string;
+  }
+
+  /** A prefix filter for a Transit Gateway connection. */
+  export interface TransitGatewayConnectionPrefixFilter {
+    /** Whether to permit or deny prefix filter. */
+    action: string;
+    /** IP Prefix GE. */
+    ge?: number;
+    /** IP Prefix LE. */
+    le?: number;
+    /** IP Prefix. */
+    prefix: string;
+  }
+
+  /** A prefix filter reference object for a Transit Gateway connection. */
+  export interface TransitGatewayConnectionPrefixFilterReference {
+    /** Whether to permit or deny prefix filter. */
+    action: string;
+    /** Identifier of prefix filter that handles the ordering and follow semantics:
+     *  - When a filter reference another filter in it's before field, then the filter making the reference is applied
+     *  before
+     *    the referenced filter. For example: if filter A references filter B in its before field, A is applied before
+     *  B.
+     *  - When a new filter is added that has the same before as an existing filter, then the older filter will have its
+     *  before
+     *    field updated to point to the new filter. Starting with the above example: if filter C is added and it
+     *  references B in its
+     *    before field, then A's before field should be modified to point to C, so the order of application would be A,
+     *  C and finally B.
+     *  - A filter that has an empty before reference will be applied last (though the date order mentioned above will
+     *  still apply).
+     *    So continuing the above examples, if filter B has an empty before field, then it will be applied last, but if
+     *  filter D
+     *    is created with an empty before field, then B's before field will be modified to point to D, so B will be
+     *  applied before D.
+     */
+    before?: string;
+    /** The date and time that this prefix filter was created. */
+    created_at: string;
+    /** IP Prefix GE. */
+    ge?: number;
+    /** Prefix Filter identifier. */
+    id: string;
+    /** IP Prefix LE. */
+    le?: number;
+    /** IP Prefix. */
+    prefix: string;
+    /** The date and time that this prefix filter was last updated. */
+    updated_at?: string;
   }
 
   /** Transit gateway reference. */
