@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
+ * IBM OpenAPI SDK Code Generator Version: 3.47.1-be944570-20220406-170244
  */
 
 import * as extend from 'extend';
@@ -24,8 +24,8 @@ import {
   Authenticator,
   BaseService,
   getAuthenticatorFromEnvironment,
-  getMissingParams,
   UserOptions,
+  validateParams,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
 
@@ -104,8 +104,8 @@ class DnsSvcsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
-   * @param {number} [params.offset] - Specify how many resource records to skip over, the default value is 0.
-   * @param {number} [params.limit] - Specify how many resource records are returned, the default value is 200.
+   * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
+   * @param {number} [params.limit] - Specify maximum resources might be returned.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListDnszones>>}
    */
@@ -113,11 +113,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.ListDnszonesParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListDnszones>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'xCorrelationId', 'offset', 'limit', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -176,11 +176,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.CreateDnszoneParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'name', 'description', 'label', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -239,11 +239,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.DeleteDnszoneParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -294,11 +294,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.GetDnszoneParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -352,11 +352,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.UpdateDnszoneParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Dnszone>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'description', 'label', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -411,8 +411,8 @@ class DnsSvcsV1 extends BaseService {
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
-   * @param {number} [params.offset] - Specify how many resource records to skip over, the default value is 0.
-   * @param {number} [params.limit] - Specify how many resource records are returned, the default value is 200.
+   * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
+   * @param {number} [params.limit] - Specify maximum resources might be returned.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListResourceRecords>>}
    */
@@ -420,11 +420,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.ListResourceRecordsParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListResourceRecords>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'xCorrelationId', 'offset', 'limit', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -488,11 +488,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.CreateResourceRecordParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'type', 'name', 'rdata', 'ttl', 'service', 'protocol', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -556,11 +556,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.DeleteResourceRecordParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId', 'recordId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId', 'recordId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'recordId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -613,11 +613,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.GetResourceRecordParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId', 'recordId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId', 'recordId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'recordId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -676,11 +676,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.UpdateResourceRecordParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ResourceRecord>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId', 'recordId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId', 'recordId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'recordId', 'name', 'rdata', 'ttl', 'service', 'protocol', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -743,11 +743,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.ExportResourceRecordsParams
   ): Promise<DnsSvcsV1.Response<NodeJS.ReadableStream>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -785,7 +785,7 @@ class DnsSvcsV1 extends BaseService {
   }
 
   /**
-   * Import resource records from a zone file.
+   * Import resource records from a zone file. The maximum size of a zone file is 8MB.
    *
    * Import resource records from a zone file.
    *
@@ -802,11 +802,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.ImportResourceRecordsParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ImportResourceRecordsResp>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'file', 'fileContentType', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const formData = {
@@ -863,8 +863,6 @@ class DnsSvcsV1 extends BaseService {
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
-   * @param {number} [params.offset] - Specify how many resource records to skip over, the default value is 0.
-   * @param {number} [params.limit] - Specify how many resource records are returned, the default value is 200.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPermittedNetworks>>}
    */
@@ -872,17 +870,12 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.ListPermittedNetworksParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPermittedNetworks>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
-
-    const query = {
-      'offset': _params.offset,
-      'limit': _params.limit,
-    };
 
     const path = {
       'instance_id': _params.instanceId,
@@ -899,7 +892,6 @@ class DnsSvcsV1 extends BaseService {
       options: {
         url: '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks',
         method: 'GET',
-        qs: query,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -936,11 +928,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.CreatePermittedNetworkParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'type', 'permittedNetwork', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -1000,11 +992,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.DeletePermittedNetworkParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId', 'permittedNetworkId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId', 'permittedNetworkId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'permittedNetworkId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -1058,11 +1050,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.GetPermittedNetworkParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId', 'permittedNetworkId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId', 'permittedNetworkId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'permittedNetworkId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -1111,6 +1103,8 @@ class DnsSvcsV1 extends BaseService {
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
+   * @param {number} [params.limit] - Specify maximum resources might be returned.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListLoadBalancers>>}
    */
@@ -1118,12 +1112,17 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.ListLoadBalancersParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListLoadBalancers>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'xCorrelationId', 'offset', 'limit', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
+
+    const query = {
+      'offset': _params.offset,
+      'limit': _params.limit,
+    };
 
     const path = {
       'instance_id': _params.instanceId,
@@ -1140,6 +1139,7 @@ class DnsSvcsV1 extends BaseService {
       options: {
         url: '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers',
         method: 'GET',
+        qs: query,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -1182,11 +1182,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.CreateLoadBalancerParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'name', 'fallbackPool', 'defaultPools', 'description', 'enabled', 'ttl', 'azPools', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -1251,11 +1251,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.DeleteLoadBalancerParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId', 'lbId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId', 'lbId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'lbId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -1308,11 +1308,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.GetLoadBalancerParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId', 'lbId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId', 'lbId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'lbId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -1374,11 +1374,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.UpdateLoadBalancerParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LoadBalancer>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'dnszoneId', 'lbId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'dnszoneId', 'lbId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'lbId', 'name', 'description', 'enabled', 'ttl', 'fallbackPool', 'defaultPools', 'azPools', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -1438,6 +1438,8 @@ class DnsSvcsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
+   * @param {number} [params.limit] - Specify maximum resources might be returned.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPools>>}
    */
@@ -1445,12 +1447,17 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.ListPoolsParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPools>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'xCorrelationId', 'offset', 'limit', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
+
+    const query = {
+      'offset': _params.offset,
+      'limit': _params.limit,
+    };
 
     const path = {
       'instance_id': _params.instanceId,
@@ -1466,6 +1473,7 @@ class DnsSvcsV1 extends BaseService {
       options: {
         url: '/instances/{instance_id}/pools',
         method: 'GET',
+        qs: query,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -1511,11 +1519,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.CreatePoolParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'name', 'origins', 'description', 'enabled', 'healthyOriginsThreshold', 'monitor', 'notificationChannel', 'healthcheckRegion', 'healthcheckSubnets', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -1580,11 +1588,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.DeletePoolParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'poolId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'poolId'];
+    const _validParams = ['instanceId', 'poolId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -1635,11 +1643,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.GetPoolParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'poolId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'poolId'];
+    const _validParams = ['instanceId', 'poolId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -1703,11 +1711,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.UpdatePoolParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Pool>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'poolId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'poolId'];
+    const _validParams = ['instanceId', 'poolId', 'name', 'description', 'enabled', 'healthyOriginsThreshold', 'origins', 'monitor', 'notificationChannel', 'healthcheckRegion', 'healthcheckSubnets', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -1768,6 +1776,8 @@ class DnsSvcsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
+   * @param {number} [params.limit] - Specify maximum resources might be returned.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListMonitors>>}
    */
@@ -1775,12 +1785,17 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.ListMonitorsParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListMonitors>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'xCorrelationId', 'offset', 'limit', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
+
+    const query = {
+      'offset': _params.offset,
+      'limit': _params.limit,
+    };
 
     const path = {
       'instance_id': _params.instanceId,
@@ -1796,6 +1811,7 @@ class DnsSvcsV1 extends BaseService {
       options: {
         url: '/instances/{instance_id}/monitors',
         method: 'GET',
+        qs: query,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -1854,11 +1870,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.CreateMonitorParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'name', 'type', 'description', 'port', 'interval', 'retries', 'timeout', 'method', 'path', '_headers', 'allowInsecure', 'expectedCodes', 'expectedBody', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -1927,11 +1943,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.DeleteMonitorParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'monitorId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'monitorId'];
+    const _validParams = ['instanceId', 'monitorId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -1982,11 +1998,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.GetMonitorParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'monitorId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'monitorId'];
+    const _validParams = ['instanceId', 'monitorId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -2063,11 +2079,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.UpdateMonitorParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Monitor>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'monitorId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'monitorId'];
+    const _validParams = ['instanceId', 'monitorId', 'name', 'description', 'type', 'port', 'interval', 'retries', 'timeout', 'method', 'path', '_headers', 'allowInsecure', 'expectedCodes', 'expectedBody', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -2139,11 +2155,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.ListCustomResolversParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolverList>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -2196,11 +2212,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.CreateCustomResolverParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'name', 'description', 'locations', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -2259,11 +2275,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.DeleteCustomResolverParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'resolverId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -2314,11 +2330,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.GetCustomResolverParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'resolverId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -2355,7 +2371,7 @@ class DnsSvcsV1 extends BaseService {
   }
 
   /**
-   * Update the properties of a custom resolver.
+   * Update a custom resolver.
    *
    * Update the properties of a custom resolver.
    *
@@ -2373,11 +2389,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.UpdateCustomResolverParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'resolverId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'name', 'description', 'enabled', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -2420,6 +2436,69 @@ class DnsSvcsV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
+
+  /**
+   * Update the locations order of a custom resolver.
+   *
+   * Update the locations order of a custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string[]} [params.locations] - Array of custom resolver location ID.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>>}
+   */
+  public updateCrLocationsOrder(
+    params: DnsSvcsV1.UpdateCrLocationsOrderParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.CustomResolver>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'locations', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'locations': _params.locations,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateCrLocationsOrder'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations_order',
+        method: 'PUT',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
   /*************************
    * customResolverLocations
    ************************/
@@ -2442,11 +2521,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.AddCustomResolverLocationParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'resolverId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'subnetCrn', 'enabled', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -2508,11 +2587,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.UpdateCustomResolverLocationParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Location>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'resolverId', 'locationId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'resolverId', 'locationId'];
+    const _validParams = ['instanceId', 'resolverId', 'locationId', 'enabled', 'subnetCrn', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -2573,11 +2652,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.DeleteCustomResolverLocationParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'resolverId', 'locationId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'resolverId', 'locationId'];
+    const _validParams = ['instanceId', 'resolverId', 'locationId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -2632,11 +2711,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.ListForwardingRulesParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRuleList>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'resolverId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -2692,11 +2771,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.CreateForwardingRuleParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'resolverId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'type', 'match', 'forwardTo', 'description', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -2749,7 +2828,7 @@ class DnsSvcsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} params.resolverId - The unique identifier of a custom resolver.
-   * @param {string} params.ruleId - The unique identifier of a forwarding rule.
+   * @param {string} params.ruleId - The unique identifier of a rule.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
@@ -2758,11 +2837,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.DeleteForwardingRuleParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'resolverId', 'ruleId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'resolverId', 'ruleId'];
+    const _validParams = ['instanceId', 'resolverId', 'ruleId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -2806,7 +2885,7 @@ class DnsSvcsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} params.resolverId - The unique identifier of a custom resolver.
-   * @param {string} params.ruleId - The unique identifier of a forwarding rule.
+   * @param {string} params.ruleId - The unique identifier of a rule.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>>}
@@ -2815,11 +2894,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.GetForwardingRuleParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'resolverId', 'ruleId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'resolverId', 'ruleId'];
+    const _validParams = ['instanceId', 'resolverId', 'ruleId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const path = {
@@ -2857,14 +2936,14 @@ class DnsSvcsV1 extends BaseService {
   }
 
   /**
-   * Update the properties of a forwarding rule.
+   * Update a forwarding rule.
    *
    * Update the properties of a forwarding rule on the given custom resolver.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} params.resolverId - The unique identifier of a custom resolver.
-   * @param {string} params.ruleId - The unique identifier of a forwarding rule.
+   * @param {string} params.ruleId - The unique identifier of a rule.
    * @param {string} [params.description] - Descriptive text of the forwarding rule.
    * @param {string} [params.match] - The matching zone or hostname.
    * @param {string[]} [params.forwardTo] - The upstream DNS servers will be forwarded to.
@@ -2876,11 +2955,11 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.UpdateForwardingRuleParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRule>> {
     const _params = { ...params };
-    const requiredParams = ['instanceId', 'resolverId', 'ruleId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['instanceId', 'resolverId', 'ruleId'];
+    const _validParams = ['instanceId', 'resolverId', 'ruleId', 'description', 'match', 'forwardTo', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -2915,6 +2994,1064 @@ class DnsSvcsV1 extends BaseService {
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
+   * secondaryZones
+   ************************/
+
+  /**
+   * Create a secondary zone.
+   *
+   * Create a secondary zone for the custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.zone] - zone name.
+   * @param {SecondaryZoneSourceInputItem[]} [params.transferFrom] - The source configuration of secondary zone input.
+   * @param {string} [params.description] - Descriptive text of the secondary zone.
+   * @param {boolean} [params.enabled] - Enable/Disable the secondary zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>>}
+   */
+  public createSecondaryZone(
+    params: DnsSvcsV1.CreateSecondaryZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'zone', 'transferFrom', 'description', 'enabled', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'zone': _params.zone,
+      'transfer_from': _params.transferFrom,
+      'description': _params.description,
+      'enabled': _params.enabled,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createSecondaryZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * List secondary zones.
+   *
+   * List secondary zones for the custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
+   * @param {number} [params.limit] - Specify maximum resources might be returned.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZoneList>>}
+   */
+  public listSecondaryZones(
+    params: DnsSvcsV1.ListSecondaryZonesParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZoneList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'xCorrelationId', 'offset', 'limit', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'offset': _params.offset,
+      'limit': _params.limit,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listSecondaryZones'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get a secondary zone.
+   *
+   * Get details of a secondary zone for the custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.szId - The unique identifier of a secondary zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>>}
+   */
+  public getSecondaryZone(
+    params: DnsSvcsV1.GetSecondaryZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId', 'szId'];
+    const _validParams = ['instanceId', 'resolverId', 'szId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'sz_id': _params.szId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getSecondaryZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update a secondary zone.
+   *
+   * Update a secondary zone for the custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.szId - The unique identifier of a secondary zone.
+   * @param {string} [params.description] - Descriptive text of the secondary zone.
+   * @param {boolean} [params.enabled] - Enable/Disable the secondary zone.
+   * @param {SecondaryZoneSourceInputItem[]} [params.transferFrom] - The source configuration of secondary zone input.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>>}
+   */
+  public updateSecondaryZone(
+    params: DnsSvcsV1.UpdateSecondaryZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId', 'szId'];
+    const _validParams = ['instanceId', 'resolverId', 'szId', 'description', 'enabled', 'transferFrom', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'description': _params.description,
+      'enabled': _params.enabled,
+      'transfer_from': _params.transferFrom,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'sz_id': _params.szId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateSecondaryZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Delete a secondary zone.
+   *
+   * Delete a secondary zone for the custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.szId - The unique identifier of a secondary zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
+   */
+  public deleteSecondaryZone(
+    params: DnsSvcsV1.DeleteSecondaryZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId', 'szId'];
+    const _validParams = ['instanceId', 'resolverId', 'szId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'sz_id': _params.szId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteSecondaryZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}',
+        method: 'DELETE',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
+   * linkedZones
+   ************************/
+
+  /**
+   * List linked zones.
+   *
+   * List linked zones in requestor's instance.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
+   * @param {number} [params.limit] - Specify maximum resources might be returned.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZonesList>>}
+   */
+  public listLinkedZones(
+    params: DnsSvcsV1.ListLinkedZonesParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZonesList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'xCorrelationId', 'offset', 'limit', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'offset': _params.offset,
+      'limit': _params.limit,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listLinkedZones'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/linked_dnszones',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Create a linked zone.
+   *
+   * Create a linked zone.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} [params.ownerInstanceId] - Owner's instance ID.
+   * @param {string} [params.ownerZoneId] - Owner's DNS zone ID.
+   * @param {string} [params.description] - Descriptive text of the linked zone.
+   * @param {string} [params.label] - The label of linked zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>>}
+   */
+  public createLinkedZone(
+    params: DnsSvcsV1.CreateLinkedZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'ownerInstanceId', 'ownerZoneId', 'description', 'label', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'owner_instance_id': _params.ownerInstanceId,
+      'owner_zone_id': _params.ownerZoneId,
+      'description': _params.description,
+      'label': _params.label,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createLinkedZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/linked_dnszones',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get a linked zone.
+   *
+   * Get details of a linked zone.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>>}
+   */
+  public getLinkedZone(
+    params: DnsSvcsV1.GetLinkedZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'lzId'];
+    const _validParams = ['instanceId', 'lzId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'lz_id': _params.lzId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getLinkedZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/linked_dnszones/{lz_id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update the properties of a linked zone.
+   *
+   * Update the properties of a linked zone.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} [params.description] - Descriptive text of the linked zone.
+   * @param {string} [params.label] - The label of linked zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>>}
+   */
+  public updateLinkedZone(
+    params: DnsSvcsV1.UpdateLinkedZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'lzId'];
+    const _validParams = ['instanceId', 'lzId', 'description', 'label', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'description': _params.description,
+      'label': _params.label,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'lz_id': _params.lzId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateLinkedZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/linked_dnszones/{lz_id}',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Delete a linked zone.
+   *
+   * Delete a linked zone.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
+   */
+  public deleteLinkedZone(
+    params: DnsSvcsV1.DeleteLinkedZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'lzId'];
+    const _validParams = ['instanceId', 'lzId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'lz_id': _params.lzId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteLinkedZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/linked_dnszones/{lz_id}',
+        method: 'DELETE',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
+   * accessRequests
+   ************************/
+
+  /**
+   * List Access Requests.
+   *
+   * List access requests in owner's instance.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
+   * @param {number} [params.limit] - Specify maximum resources might be returned.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.AccessRequestsList>>}
+   */
+  public listDnszoneAccessRequests(
+    params: DnsSvcsV1.ListDnszoneAccessRequestsParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.AccessRequestsList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'dnszoneId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'xCorrelationId', 'offset', 'limit', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'offset': _params.offset,
+      'limit': _params.limit,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'dnszone_id': _params.dnszoneId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listDnszoneAccessRequests'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get an access request.
+   *
+   * Get details of an access request.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
+   * @param {string} params.requestId - The unique identifier of an access request.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.AccessRequest>>}
+   */
+  public getDnszoneAccessRequest(
+    params: DnsSvcsV1.GetDnszoneAccessRequestParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.AccessRequest>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'dnszoneId', 'requestId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'requestId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'dnszone_id': _params.dnszoneId,
+      'request_id': _params.requestId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getDnszoneAccessRequest'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests/{request_id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update an access request.
+   *
+   * Update the state of an access request.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
+   * @param {string} params.requestId - The unique identifier of an access request.
+   * @param {string} [params.action] - The action applies to the access request.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.AccessRequest>>}
+   */
+  public updateDnszoneAccessRequest(
+    params: DnsSvcsV1.UpdateDnszoneAccessRequestParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.AccessRequest>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'dnszoneId', 'requestId'];
+    const _validParams = ['instanceId', 'dnszoneId', 'requestId', 'action', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'action': _params.action,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'dnszone_id': _params.dnszoneId,
+      'request_id': _params.requestId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateDnszoneAccessRequest'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests/{request_id}',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
+   * permittedNetworkForLinkedZone
+   ************************/
+
+  /**
+   * List permitted networks.
+   *
+   * List the permitted networks for a linked zone.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPermittedNetworks>>}
+   */
+  public listLinkedPermittedNetworks(
+    params: DnsSvcsV1.ListLinkedPermittedNetworksParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPermittedNetworks>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'lzId'];
+    const _validParams = ['instanceId', 'lzId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'lz_id': _params.lzId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listLinkedPermittedNetworks'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Create a permitted network.
+   *
+   * Create a permitted network for a linked zone.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} [params.type] - The type of a permitted network.
+   * @param {PermittedNetworkVpc} [params.permittedNetwork] - Permitted network data for VPC.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>>}
+   */
+  public createLzPermittedNetwork(
+    params: DnsSvcsV1.CreateLzPermittedNetworkParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'lzId'];
+    const _validParams = ['instanceId', 'lzId', 'type', 'permittedNetwork', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'type': _params.type,
+      'permitted_network': _params.permittedNetwork,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'lz_id': _params.lzId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createLzPermittedNetwork'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Remove a permitted network.
+   *
+   * Remove a permitted network from a linked zone.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} params.permittedNetworkId - The unique identifier of a permitted network.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>>}
+   */
+  public deleteLzPermittedNetwork(
+    params: DnsSvcsV1.DeleteLzPermittedNetworkParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'lzId', 'permittedNetworkId'];
+    const _validParams = ['instanceId', 'lzId', 'permittedNetworkId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'lz_id': _params.lzId,
+      'permitted_network_id': _params.permittedNetworkId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteLzPermittedNetwork'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks/{permitted_network_id}',
+        method: 'DELETE',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get a permitted network.
+   *
+   * Get a permitted network of a linked zone.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} params.permittedNetworkId - The unique identifier of a permitted network.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>>}
+   */
+  public getLinkedPermittedNetwork(
+    params: DnsSvcsV1.GetLinkedPermittedNetworkParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'lzId', 'permittedNetworkId'];
+    const _validParams = ['instanceId', 'lzId', 'permittedNetworkId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'lz_id': _params.lzId,
+      'permitted_network_id': _params.permittedNetworkId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getLinkedPermittedNetwork'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks/{permitted_network_id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
             'X-Correlation-ID': _params.xCorrelationId,
           },
           _params.headers
@@ -2960,9 +4097,9 @@ namespace DnsSvcsV1 {
     instanceId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
-    /** Specify how many resource records to skip over, the default value is 0. */
+    /** Specify how many resources to skip over, the default value is 0. */
     offset?: number;
-    /** Specify how many resource records are returned, the default value is 200. */
+    /** Specify maximum resources might be returned. */
     limit?: number;
     headers?: OutgoingHttpHeaders;
   }
@@ -3027,9 +4164,9 @@ namespace DnsSvcsV1 {
     dnszoneId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
-    /** Specify how many resource records to skip over, the default value is 0. */
+    /** Specify how many resources to skip over, the default value is 0. */
     offset?: number;
-    /** Specify how many resource records are returned, the default value is 200. */
+    /** Specify maximum resources might be returned. */
     limit?: number;
     headers?: OutgoingHttpHeaders;
   }
@@ -3154,10 +4291,6 @@ namespace DnsSvcsV1 {
     dnszoneId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
-    /** Specify how many resource records to skip over, the default value is 0. */
-    offset?: number;
-    /** Specify how many resource records are returned, the default value is 200. */
-    limit?: number;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3218,6 +4351,10 @@ namespace DnsSvcsV1 {
     dnszoneId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
+    /** Specify how many resources to skip over, the default value is 0. */
+    offset?: number;
+    /** Specify maximum resources might be returned. */
+    limit?: number;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3309,6 +4446,10 @@ namespace DnsSvcsV1 {
     instanceId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
+    /** Specify how many resources to skip over, the default value is 0. */
+    offset?: number;
+    /** Specify maximum resources might be returned. */
+    limit?: number;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3432,6 +4573,10 @@ namespace DnsSvcsV1 {
     instanceId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
+    /** Specify how many resources to skip over, the default value is 0. */
+    offset?: number;
+    /** Specify maximum resources might be returned. */
+    limit?: number;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3650,6 +4795,19 @@ namespace DnsSvcsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `updateCrLocationsOrder` operation. */
+  export interface UpdateCrLocationsOrderParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Array of custom resolver location ID. */
+    locations?: string[];
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `addCustomResolverLocation` operation. */
   export interface AddCustomResolverLocationParams {
     /** The unique identifier of a service instance. */
@@ -3739,7 +4897,7 @@ namespace DnsSvcsV1 {
     instanceId: string;
     /** The unique identifier of a custom resolver. */
     resolverId: string;
-    /** The unique identifier of a forwarding rule. */
+    /** The unique identifier of a rule. */
     ruleId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
@@ -3752,7 +4910,7 @@ namespace DnsSvcsV1 {
     instanceId: string;
     /** The unique identifier of a custom resolver. */
     resolverId: string;
-    /** The unique identifier of a forwarding rule. */
+    /** The unique identifier of a rule. */
     ruleId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
@@ -3765,7 +4923,7 @@ namespace DnsSvcsV1 {
     instanceId: string;
     /** The unique identifier of a custom resolver. */
     resolverId: string;
-    /** The unique identifier of a forwarding rule. */
+    /** The unique identifier of a rule. */
     ruleId: string;
     /** Descriptive text of the forwarding rule. */
     description?: string;
@@ -3778,9 +4936,282 @@ namespace DnsSvcsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `createSecondaryZone` operation. */
+  export interface CreateSecondaryZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** zone name. */
+    zone?: string;
+    /** The source configuration of secondary zone input. */
+    transferFrom?: SecondaryZoneSourceInputItem[];
+    /** Descriptive text of the secondary zone. */
+    description?: string;
+    /** Enable/Disable the secondary zone. */
+    enabled?: boolean;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `listSecondaryZones` operation. */
+  export interface ListSecondaryZonesParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    /** Specify how many resources to skip over, the default value is 0. */
+    offset?: number;
+    /** Specify maximum resources might be returned. */
+    limit?: number;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getSecondaryZone` operation. */
+  export interface GetSecondaryZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** The unique identifier of a secondary zone. */
+    szId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateSecondaryZone` operation. */
+  export interface UpdateSecondaryZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** The unique identifier of a secondary zone. */
+    szId: string;
+    /** Descriptive text of the secondary zone. */
+    description?: string;
+    /** Enable/Disable the secondary zone. */
+    enabled?: boolean;
+    /** The source configuration of secondary zone input. */
+    transferFrom?: SecondaryZoneSourceInputItem[];
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `deleteSecondaryZone` operation. */
+  export interface DeleteSecondaryZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** The unique identifier of a secondary zone. */
+    szId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `listLinkedZones` operation. */
+  export interface ListLinkedZonesParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    /** Specify how many resources to skip over, the default value is 0. */
+    offset?: number;
+    /** Specify maximum resources might be returned. */
+    limit?: number;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createLinkedZone` operation. */
+  export interface CreateLinkedZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** Owner's instance ID. */
+    ownerInstanceId?: string;
+    /** Owner's DNS zone ID. */
+    ownerZoneId?: string;
+    /** Descriptive text of the linked zone. */
+    description?: string;
+    /** The label of linked zone. */
+    label?: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getLinkedZone` operation. */
+  export interface GetLinkedZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a linked zone. */
+    lzId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateLinkedZone` operation. */
+  export interface UpdateLinkedZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a linked zone. */
+    lzId: string;
+    /** Descriptive text of the linked zone. */
+    description?: string;
+    /** The label of linked zone. */
+    label?: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `deleteLinkedZone` operation. */
+  export interface DeleteLinkedZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a linked zone. */
+    lzId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `listDnszoneAccessRequests` operation. */
+  export interface ListDnszoneAccessRequestsParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a DNS zone. */
+    dnszoneId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    /** Specify how many resources to skip over, the default value is 0. */
+    offset?: number;
+    /** Specify maximum resources might be returned. */
+    limit?: number;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getDnszoneAccessRequest` operation. */
+  export interface GetDnszoneAccessRequestParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a DNS zone. */
+    dnszoneId: string;
+    /** The unique identifier of an access request. */
+    requestId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateDnszoneAccessRequest` operation. */
+  export interface UpdateDnszoneAccessRequestParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a DNS zone. */
+    dnszoneId: string;
+    /** The unique identifier of an access request. */
+    requestId: string;
+    /** The action applies to the access request. */
+    action?: UpdateDnszoneAccessRequestConstants.Action | string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `updateDnszoneAccessRequest` operation. */
+  export namespace UpdateDnszoneAccessRequestConstants {
+    /** The action applies to the access request. */
+    export enum Action {
+      APPROVE = 'APPROVE',
+      REJECTE = 'REJECTE',
+      REVOKE = 'REVOKE',
+    }
+  }
+
+  /** Parameters for the `listLinkedPermittedNetworks` operation. */
+  export interface ListLinkedPermittedNetworksParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a linked zone. */
+    lzId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createLzPermittedNetwork` operation. */
+  export interface CreateLzPermittedNetworkParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a linked zone. */
+    lzId: string;
+    /** The type of a permitted network. */
+    type?: CreateLzPermittedNetworkConstants.Type | string;
+    /** Permitted network data for VPC. */
+    permittedNetwork?: PermittedNetworkVpc;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `createLzPermittedNetwork` operation. */
+  export namespace CreateLzPermittedNetworkConstants {
+    /** The type of a permitted network. */
+    export enum Type {
+      VPC = 'vpc',
+    }
+  }
+
+  /** Parameters for the `deleteLzPermittedNetwork` operation. */
+  export interface DeleteLzPermittedNetworkParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a linked zone. */
+    lzId: string;
+    /** The unique identifier of a permitted network. */
+    permittedNetworkId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getLinkedPermittedNetwork` operation. */
+  export interface GetLinkedPermittedNetworkParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a linked zone. */
+    lzId: string;
+    /** The unique identifier of a permitted network. */
+    permittedNetworkId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /*************************
    * model interfaces
    ************************/
+
+  /** The information of requestor. */
+  export interface AccessRequestRequestor {
+    /** The account of requestor. */
+    account?: string;
+  }
+
+  /** The owner's instance and zone that the zone is linked to. */
+  export interface LinkedZoneLinkedTo {
+    /** The owner's instance CRN. */
+    instance_crn?: string;
+    /** The owner's DNS zone. */
+    zone_id?: string;
+  }
 
   /** LoadBalancerAzPoolsItem. */
   export interface LoadBalancerAzPoolsItem {
@@ -3816,6 +5247,62 @@ namespace DnsSvcsV1 {
 
   /** Content of the resource record. */
   export interface ResourceRecordUpdateInputRdata {
+  }
+
+  /** The source address of secondary zone. */
+  export interface SecondaryZoneSourceInputItem {
+    /** The address of secondary zone. */
+    address?: string;
+  }
+
+  /** The source address of secondary zone. */
+  export interface SecondaryZoneTransferFromItem {
+    /** The address of secondary zone. */
+    address?: string;
+    /** The port number of secondary zone. */
+    port?: number;
+  }
+
+  /** Access request. */
+  export interface AccessRequest {
+    /** Access request ID. */
+    id?: string;
+    /** The information of requestor. */
+    requestor?: AccessRequestRequestor;
+    /** The zone ID that requestor requests access for. */
+    zone_id?: string;
+    /** The zone name that requestor requests access for. */
+    zone_name?: string;
+    /** The state of the access request. */
+    state?: string;
+    /** The expired time of the access request. */
+    expires_at?: string;
+    /** The time when the linked zone is created. */
+    created_on?: string;
+    /** The recent time when the linked zone is modified. */
+    modified_on?: string;
+  }
+
+  /** The list of access requests. */
+  export interface AccessRequestsList {
+    /** The list of access requests. */
+    access_requests: AccessRequest[];
+    /** The number of resources to skip over. */
+    offset: number;
+    /** The maximum number of resources might be returned. */
+    limit: number;
+    /** The number of resources are returned. */
+    count: number;
+    /** Total number of resources. */
+    total_count: number;
+    /** href. */
+    first?: PaginationRef;
+    /** href. */
+    last?: PaginationRef;
+    /** href. */
+    previous?: PaginationRef;
+    /** href. */
+    next?: PaginationRef;
   }
 
   /** custom resolver details. */
@@ -3864,12 +5351,6 @@ namespace DnsSvcsV1 {
     label?: string;
   }
 
-  /** href. */
-  export interface FirstHref {
-    /** href. */
-    href?: string;
-  }
-
   /** forwarding rule details. */
   export interface ForwardingRule {
     /** Identifier of the forwarding rule. */
@@ -3888,8 +5369,9 @@ namespace DnsSvcsV1 {
     modified_on?: string;
   }
 
-  /** An array of forwarding rules. */
+  /** List of forwarding rules. */
   export interface ForwardingRuleList {
+    /** An array of forwarding rules. */
     forwarding_rules?: ForwardingRule[];
   }
 
@@ -3919,106 +5401,166 @@ namespace DnsSvcsV1 {
     errors?: RecordsImportErrorModel[];
   }
 
+  /** linked zone details. */
+  export interface LinkedZone {
+    /** Identifier of the linked zone. */
+    id?: string;
+    /** Unique identifier of a service instance. */
+    instance_id?: string;
+    /** Name of owner's DNS zone. */
+    name?: string;
+    /** Descriptive text of the linked zone. */
+    description?: string;
+    /** The owner's instance and zone that the zone is linked to. */
+    linked_to?: LinkedZoneLinkedTo;
+    /** The state of linked zone. */
+    state?: string;
+    /** The label of linked zone. */
+    label?: string;
+    /** The expired time of access request that is created for the linked zone. */
+    approval_required_before?: string;
+    /** The time when the linked zone is created. */
+    created_on?: string;
+    /** The recent time when the linked zone is modified. */
+    modified_on?: string;
+  }
+
+  /** The list of linked zones. */
+  export interface LinkedZonesList {
+    /** The list of linked zones. */
+    linked_dnszones: LinkedZone[];
+    /** The number of resources to skip over. */
+    offset: number;
+    /** The maximum number of resources might be returned. */
+    limit: number;
+    /** The number of resources are returned. */
+    count: number;
+    /** Total number of resources. */
+    total_count: number;
+    /** href. */
+    first?: PaginationRef;
+    /** href. */
+    last?: PaginationRef;
+    /** href. */
+    previous?: PaginationRef;
+    /** href. */
+    next?: PaginationRef;
+  }
+
   /** List DNS zones response. */
   export interface ListDnszones {
     /** An array of DNS zones. */
     dnszones: Dnszone[];
-    /** Specify how many DNS zones to skip over, the default value is 0. */
+    /** The number of resources to skip over. */
     offset: number;
-    /** Specify how many DNS zones are returned, the default value is 10. */
+    /** The maximum number of resources might be returned. */
     limit: number;
-    /** Total number of DNS zones. */
+    /** The number of resources are returned. */
+    count: number;
+    /** Total number of resources. */
     total_count: number;
     /** href. */
-    first: FirstHref;
+    first: PaginationRef;
     /** href. */
-    next?: NextHref;
+    last: PaginationRef;
+    /** href. */
+    previous?: PaginationRef;
+    /** href. */
+    next?: PaginationRef;
   }
 
   /** List Global Load Balancers response. */
   export interface ListLoadBalancers {
     /** An array of Global Load Balancers. */
     load_balancers: LoadBalancer[];
-    /** Page number. */
+    /** The number of resources to skip over. */
     offset: number;
-    /** Number of Global Load Balancers per page. */
+    /** The maximum number of resources might be returned. */
     limit: number;
-    /** Number of Global Load Balancers. */
+    /** The number of resources are returned. */
     count: number;
-    /** Total number of Global Load Balancers. */
+    /** Total number of resources. */
     total_count: number;
     /** href. */
-    first: FirstHref;
+    first: PaginationRef;
     /** href. */
-    next: NextHref;
+    last: PaginationRef;
+    /** href. */
+    previous?: PaginationRef;
+    /** href. */
+    next?: PaginationRef;
   }
 
   /** List load balancer monitors response. */
   export interface ListMonitors {
     /** An array of load balancer monitors. */
     monitors: Monitor[];
-    /** Page number. */
+    /** The number of resources to skip over. */
     offset: number;
-    /** Number of load balancer monitors per page. */
+    /** The maximum number of resources might be returned. */
     limit: number;
-    /** Number of load balancers. */
+    /** The number of resources are returned. */
     count: number;
-    /** Total number of load balancers. */
+    /** Total number of resources. */
     total_count: number;
     /** href. */
-    first: FirstHref;
+    first: PaginationRef;
     /** href. */
-    next: NextHref;
+    last: PaginationRef;
+    /** href. */
+    previous?: PaginationRef;
+    /** href. */
+    next?: PaginationRef;
   }
 
   /** List permitted networks response. */
   export interface ListPermittedNetworks {
     /** An array of permitted networks. */
     permitted_networks: PermittedNetwork[];
-    /** Specify how many permitted networks to skip over, the default value is 0. */
-    offset: number;
-    /** Specify how many permitted networks are returned, the default value is 10. */
-    limit: number;
-    /** Total number of permitted networks. */
-    total_count: number;
-    /** href. */
-    first: FirstHref;
-    /** href. */
-    next?: NextHref;
   }
 
   /** List load balancer pools response. */
   export interface ListPools {
     /** An array of load balancer pools. */
     pools: Pool[];
-    /** Page number. */
+    /** The number of resources to skip over. */
     offset: number;
-    /** Number of load balancer pools per page. */
+    /** The maximum number of resources might be returned. */
     limit: number;
-    /** Number of load balancers. */
+    /** The number of resources are returned. */
     count: number;
-    /** Total number of load balancers. */
+    /** Total number of resources. */
     total_count: number;
     /** href. */
-    first: FirstHref;
+    first: PaginationRef;
     /** href. */
-    next: NextHref;
+    last: PaginationRef;
+    /** href. */
+    previous?: PaginationRef;
+    /** href. */
+    next?: PaginationRef;
   }
 
   /** List Resource Records response. */
   export interface ListResourceRecords {
     /** An array of resource records. */
     resource_records: ResourceRecord[];
-    /** Specify how many resource records to skip over, the default value is 0. */
+    /** The number of resources to skip over. */
     offset: number;
-    /** Specify how many resource records are returned, the default value is 20. */
+    /** The maximum number of resources might be returned. */
     limit: number;
-    /** Total number of resource records. */
+    /** The number of resources are returned. */
+    count: number;
+    /** Total number of resources. */
     total_count: number;
     /** href. */
-    first: FirstHref;
+    first: PaginationRef;
     /** href. */
-    next?: NextHref;
+    last: PaginationRef;
+    /** href. */
+    previous?: PaginationRef;
+    /** href. */
+    next?: PaginationRef;
   }
 
   /** Load balancer details. */
@@ -4121,12 +5663,6 @@ namespace DnsSvcsV1 {
     modified_on?: string;
   }
 
-  /** href. */
-  export interface NextHref {
-    /** href. */
-    href?: string;
-  }
-
   /** Origin server. */
   export interface Origin {
     /** The name of the origin server. */
@@ -4153,6 +5689,12 @@ namespace DnsSvcsV1 {
     address?: string;
     /** Whether the origin server is enabled. */
     enabled?: boolean;
+  }
+
+  /** href. */
+  export interface PaginationRef {
+    /** href. */
+    href?: string;
   }
 
   /** Permitted network details. */
@@ -4267,6 +5809,46 @@ namespace DnsSvcsV1 {
     service?: string;
     /** Only used for SRV record. */
     protocol?: string;
+  }
+
+  /** Secondary zone details. */
+  export interface SecondaryZone {
+    /** Identifier of the secondary zone. */
+    id?: string;
+    /** Descriptive text of the secondary zone. */
+    description?: string;
+    /** zone name. */
+    zone?: string;
+    /** Enable/Disable the secondary zone. */
+    enabled?: boolean;
+    /** The source configuration of secondary zone output. */
+    transfer_from?: SecondaryZoneTransferFromItem[];
+    /** The time when a secondary zone is created. */
+    created_on?: string;
+    /** The recent time when a secondary zone is modified. */
+    modified_on?: string;
+  }
+
+  /** List of secondary zones. */
+  export interface SecondaryZoneList {
+    /** Secondary zones. */
+    secondary_zones: SecondaryZone[];
+    /** The number of resources to skip over. */
+    offset: number;
+    /** The maximum number of resources might be returned. */
+    limit: number;
+    /** The number of resources are returned. */
+    count: number;
+    /** Total number of resources. */
+    total_count: number;
+    /** href. */
+    first?: PaginationRef;
+    /** href. */
+    last?: PaginationRef;
+    /** href. */
+    previous?: PaginationRef;
+    /** href. */
+    next?: PaginationRef;
   }
 
   /** The content of type-A resource record. */

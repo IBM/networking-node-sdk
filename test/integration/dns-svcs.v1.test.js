@@ -82,7 +82,7 @@ let customResolver;
 let customResolverLocation;
 let forwardingRule;
 
-describe.skip('DNSSVCSApisV1', () => {
+describe('DNSSVCSApisV1', () => {
   jest.setTimeout(timeout);
 
   // Initialize the service client.
@@ -325,7 +325,6 @@ describe.skip('DNSSVCSApisV1', () => {
           instanceId: config.DNS_SVCS_INSTANCE_ID,
           recordId: dnsResourceRecord.id,
           'name': 'test.example.com-testing',
-          'type': 'SRV',
           'rdata': {
             'priority': 110,
             'weight': 110,
@@ -350,7 +349,6 @@ describe.skip('DNSSVCSApisV1', () => {
           expect(result.protocol).toEqual(params.protocol);
           expect(result.rdata).toEqual(params.rdata);
           expect(result.ttl).toEqual(params.ttl);
-          expect(result.type).toEqual(params.type);
         }
         done();
       } catch (err) {
@@ -1069,10 +1067,15 @@ describe.skip('DNSSVCSApisV1', () => {
     test('should successfully created a custom resolver', async done => {
       try {
         const pathByDate = new Date().getTime();
+        const locationInputModel = {
+          subnet_crn: config.DNS_SVCS_CUSTOMER_LOCATION_SUBNET_CRN,
+          enabled: false,
+        };
         const params = {
           instanceId: config.DNS_SVCS_INSTANCE_ID,
           name: 'test-resolver' + pathByDate,
           description: 'SDK test custom resolver',
+          locations: [locationInputModel],
           xCorrelationId: 'abc123',
         };
         const response = await dnsSvcsApisV1.createCustomResolver(params);
@@ -1165,6 +1168,33 @@ describe.skip('DNSSVCSApisV1', () => {
           expect(localResolver.name).toEqual(params.name);
           expect(localResolver.description).toEqual(params.description);
           expect(localResolver.id).toEqual(params.resolverId);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+  // Test - Update the locations order of a custom resolver
+  describe('Update the locations order of a custom resolver', () => {
+    test('should successfully Update the locations order of a custom resolver', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          resolverId: customResolver.id,
+          xCorrelationId: 'abc123',
+          locations: [customResolver.locations[0].id],
+        };
+        const response = await dnsSvcsApisV1.updateCrLocationsOrder(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        expect(result).toBeDefined();
+        if (result && result.result) {
+          const localResolver = result;
+          expect(localResolver).toBeDefined();
+          expect(localResolver.id).toEqual(params.resolverId);
+          expect(localResolver.locations).toEqual(params.locations);
         }
         done();
       } catch (err) {
