@@ -24,8 +24,8 @@ import {
   Authenticator,
   BaseService,
   getAuthenticatorFromEnvironment,
-  validateParams,
   UserOptions,
+  validateParams,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
 

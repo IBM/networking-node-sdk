@@ -24,8 +24,8 @@ import {
   Authenticator,
   BaseService,
   getAuthenticatorFromEnvironment,
-  UserOptions,
   validateParams,
+  UserOptions,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
 
@@ -3016,7 +3016,7 @@ class DnsSvcsV1 extends BaseService {
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} params.resolverId - The unique identifier of a custom resolver.
    * @param {string} [params.zone] - zone name.
-   * @param {SecondaryZoneSourceInputItem[]} [params.transferFrom] - The source configuration of secondary zone input.
+   * @param {string[]} [params.transferFrom] - The source configuration of secondary zone input.
    * @param {string} [params.description] - Descriptive text of the secondary zone.
    * @param {boolean} [params.enabled] - Enable/Disable the secondary zone.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
@@ -3209,7 +3209,7 @@ class DnsSvcsV1 extends BaseService {
    * @param {string} params.szId - The unique identifier of a secondary zone.
    * @param {string} [params.description] - Descriptive text of the secondary zone.
    * @param {boolean} [params.enabled] - Enable/Disable the secondary zone.
-   * @param {SecondaryZoneSourceInputItem[]} [params.transferFrom] - The source configuration of secondary zone input.
+   * @param {string[]} [params.transferFrom] - The source configuration of secondary zone input.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>>}
@@ -4945,7 +4945,7 @@ namespace DnsSvcsV1 {
     /** zone name. */
     zone?: string;
     /** The source configuration of secondary zone input. */
-    transferFrom?: SecondaryZoneSourceInputItem[];
+    transferFrom?: string[];
     /** Descriptive text of the secondary zone. */
     description?: string;
     /** Enable/Disable the secondary zone. */
@@ -4996,7 +4996,7 @@ namespace DnsSvcsV1 {
     /** Enable/Disable the secondary zone. */
     enabled?: boolean;
     /** The source configuration of secondary zone input. */
-    transferFrom?: SecondaryZoneSourceInputItem[];
+    transferFrom?: string[];
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
     headers?: OutgoingHttpHeaders;
@@ -5247,20 +5247,6 @@ namespace DnsSvcsV1 {
 
   /** Content of the resource record. */
   export interface ResourceRecordUpdateInputRdata {
-  }
-
-  /** The source address of secondary zone. */
-  export interface SecondaryZoneSourceInputItem {
-    /** The address of secondary zone. */
-    address?: string;
-  }
-
-  /** The source address of secondary zone. */
-  export interface SecondaryZoneTransferFromItem {
-    /** The address of secondary zone. */
-    address?: string;
-    /** The port number of secondary zone. */
-    port?: number;
   }
 
   /** Access request. */
@@ -5822,7 +5808,7 @@ namespace DnsSvcsV1 {
     /** Enable/Disable the secondary zone. */
     enabled?: boolean;
     /** The source configuration of secondary zone output. */
-    transfer_from?: SecondaryZoneTransferFromItem[];
+    transfer_from?: string[];
     /** The time when a secondary zone is created. */
     created_on?: string;
     /** The recent time when a secondary zone is modified. */

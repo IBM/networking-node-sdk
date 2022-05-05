@@ -127,11 +127,11 @@ describe.skip('TransitGatewayApisV1', () => {
         expect(response.status).toBe(200);
         const { result } = response || {};
         const gateways = result.transit_gateways;
-  
+
         for (let i = 0; i < gateways.length; i++) {
           const gtwID = gateways[i].id;
           const gtwName = gateways[i].name;
-  
+
           if (gtwName.includes('NODE-SDK') === true) {
             const response = await transitGateway.listTransitGatewayConnections({
               transitGatewayId: gtwID,
@@ -139,14 +139,14 @@ describe.skip('TransitGatewayApisV1', () => {
             expect(response.status).toBe(200);
             const { result } = response || {};
             const connections = result.connections;
-  
+
             if (connections.length > 0) {
               const connIDs = [];
               for (let j = 0; j < connections.length; j++) {
                 if (connections[j].status.includes('delet') === false) {
                   const connID = connections[j].id;
                   const connName = connections[j].name;
-                  
+
                   // Delete GRE Connections first.
                   if (connName.includes('GRE-NODE') === true) {
                     const response = await transitGateway.deleteTransitGatewayConnection({
@@ -208,7 +208,7 @@ describe.skip('TransitGatewayApisV1', () => {
               expect(response.status).toBe(204);
             }
           }
-        } 
+        }
         done();
       } catch (err) {
         done(err);
@@ -216,9 +216,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  /////////////////////////////////////////////////////////////////////////////
+  // ///////////////////////////////////////////////////////////////////////////
   //                        Transit Locations Tests                          //
-  /////////////////////////////////////////////////////////////////////////////
+  // ///////////////////////////////////////////////////////////////////////////
 
   describe('LIST Transit Locations', () => {
     test('successfully lists the gateway locations', async done => {
@@ -267,9 +267,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   //                           Transit Gateway Tests                           //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('CREATE Transit Gateway', () => {
     test('should successfully create a gateway', async done => {
@@ -427,9 +427,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   //                    Transit Gateway Connections Tests                      //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('CREATE Transit Gateway Connection', () => {
     test('successfully creates CLASSIC connection', async done => {
@@ -489,11 +489,11 @@ describe.skip('TransitGatewayApisV1', () => {
       PREFIX_FILTERS_DEFAULT_INSTANCE = 'permit';
       PREFIX_FILTERS_INSTANCE = [
         {
-          "action": PREFIX_FILTERS_DEFAULT_INSTANCE,
-          "ge": 24,
-          "le": 32,
-          "prefix": "192.168.100.0/24"
-        }
+          'action': PREFIX_FILTERS_DEFAULT_INSTANCE,
+          'ge': 24,
+          'le': 32,
+          'prefix': '192.168.100.0/24',
+        },
       ];
 
       try {
@@ -767,7 +767,7 @@ describe.skip('TransitGatewayApisV1', () => {
   describe('UPDATE Transit Gateway Connection', () => {
     test('successfully update a VPC connection name by instance id', async done => {
       VPC_CONN_INSTANCE_NAME = 'UPDATED-' + VPC_CONN_INSTANCE_NAME;
-      PREFIX_FILTERS_DEFAULT_INSTANCE = "deny"
+      PREFIX_FILTERS_DEFAULT_INSTANCE = 'deny';
       try {
         const response = await transitGateway.updateTransitGatewayConnection({
           transitGatewayId: GATEWAY_INSTANCE_ID,
@@ -864,7 +864,7 @@ describe.skip('TransitGatewayApisV1', () => {
       done();
     });
   });
-  
+
   describe('LIST Gateway Connections', () => {
     test('should list all the connections for a gateway', async done => {
       try {
@@ -910,7 +910,7 @@ describe.skip('TransitGatewayApisV1', () => {
     test('should fail to list gateway connections', async done => {
       try {
         await transitGateway.listTransitGatewayConnections({
-          transitGatewayId: "bad-gateway-id-123",
+          transitGatewayId: 'bad-gateway-id-123',
         });
       } catch (err) {
         expect(err.status).toEqual(404);
@@ -921,10 +921,10 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   //                 Transit Connection Prefix-Filters Tests                   //
-  ///////////////////////////////////////////////////////////////////////////////
-  
+  // /////////////////////////////////////////////////////////////////////////////
+
   describe('CREATE Connection Prefix Filter', () => {
     test('should successfully create a prefix filter', async done => {
       try {
@@ -933,7 +933,7 @@ describe.skip('TransitGatewayApisV1', () => {
           id: VPC_CONN_INSTANCE_ID,
           action: 'permit',
           before: PREFIX_FILTERS_BEFORE_INSTANCE,
-          prefix: "192.168.111.0/12",
+          prefix: '192.168.111.0/12',
           ge: 12,
           le: 22,
         });
@@ -949,7 +949,7 @@ describe.skip('TransitGatewayApisV1', () => {
         PF_INSTANCE_ID = result.id;
 
         done();
-      } catch (err) {  
+      } catch (err) {
         done(err);
       }
     });
@@ -958,9 +958,9 @@ describe.skip('TransitGatewayApisV1', () => {
       try {
         await transitGateway.createTransitGatewayConnectionPrefixFilter({
           transitGatewayId: GATEWAY_INSTANCE_ID,
-          id: "bad-conn-id-123",
+          id: 'bad-conn-id-123',
           action: 'deny',
-          prefix: "192.168.111.0/12",
+          prefix: '192.168.111.0/12',
         });
       } catch (err) {
         expect(err.status).toEqual(404);
@@ -989,9 +989,9 @@ describe.skip('TransitGatewayApisV1', () => {
         expect(result.ge).toEqual(12);
         expect(result.le).toEqual(22);
         expect(result.action).toEqual('permit');
-        expect(result.prefix).toEqual("192.168.111.0/12");
+        expect(result.prefix).toEqual('192.168.111.0/12');
         expect(result.before).toEqual(PREFIX_FILTERS_BEFORE_INSTANCE);
-        
+
         done();
       } catch (err) {
         done(err);
@@ -1022,7 +1022,7 @@ describe.skip('TransitGatewayApisV1', () => {
           id: VPC_CONN_INSTANCE_ID,
           filterId: PF_INSTANCE_ID,
           action: 'deny',
-          prefix: "192.168.112.1/18",
+          prefix: '192.168.112.1/18',
           ge: 18,
           le: 24,
         });
@@ -1036,8 +1036,8 @@ describe.skip('TransitGatewayApisV1', () => {
         expect(result.ge).toEqual(18);
         expect(result.le).toEqual(24);
         expect(result.action).toEqual('deny');
-        expect(result.prefix).toEqual("192.168.112.1/18");
-        
+        expect(result.prefix).toEqual('192.168.112.1/18');
+
         done();
       } catch (err) {
         done(err);
@@ -1053,7 +1053,9 @@ describe.skip('TransitGatewayApisV1', () => {
         });
       } catch (err) {
         expect(err.status).toEqual(400);
-        expect(err.message).toEqual('The information given was invalid, malformed, or missing a required field.');
+        expect(err.message).toEqual(
+          'The information given was invalid, malformed, or missing a required field.'
+        );
         done();
       }
       done();
@@ -1080,20 +1082,20 @@ describe.skip('TransitGatewayApisV1', () => {
             expect(prefixFilters[i].ge).toEqual(18);
             expect(prefixFilters[i].le).toEqual(24);
             expect(prefixFilters[i].action).toEqual('deny');
-            expect(prefixFilters[i].prefix).toEqual("192.168.112.1/18");
+            expect(prefixFilters[i].prefix).toEqual('192.168.112.1/18');
             expect(prefixFilters[i].before).toEqual(PREFIX_FILTERS_BEFORE_INSTANCE);
             foundPF1 = true;
           } else if (prefixFilters[i].id === PREFIX_FILTERS_BEFORE_INSTANCE) {
             expect(prefixFilters[i].ge).toEqual(24);
             expect(prefixFilters[i].le).toEqual(32);
             expect(prefixFilters[i].action).toEqual('permit');
-            expect(prefixFilters[i].prefix).toEqual("192.168.100.0/24");
+            expect(prefixFilters[i].prefix).toEqual('192.168.100.0/24');
             foundPF2 = true;
-          } 
+          }
         }
         expect(foundPF1).toEqual(true);
         expect(foundPF2).toEqual(true);
-        
+
         done();
       } catch (err) {
         done(err);
@@ -1115,9 +1117,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   //                  Transit Gateway Route Reports Tests                      //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('CREATE Gateway Route Report', () => {
     test('should successfully create a route report', async done => {
@@ -1277,9 +1279,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   //                 DELETE Connection Prefix-Filters Test                     //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('DELETE Connection Prefix Filter', () => {
     test('successfully delete prefix filter by instanceID', async done => {
@@ -1333,10 +1335,10 @@ describe.skip('TransitGatewayApisV1', () => {
       done();
     });
   });
-  
-  ///////////////////////////////////////////////////////////////////////////////
+
+  // /////////////////////////////////////////////////////////////////////////////
   //                DELETE Transit Gateway Route Report Test                   //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('DELETE Gateway Route Report', () => {
     test('successfully delete route report by instanceID', async done => {
@@ -1388,9 +1390,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   //                DELETE Transit Gateway Connection Tests                    //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('DELETE Transit Gateway Connection', () => {
     test('successfully delete GRE Connection by instanceID', async done => {
@@ -1544,9 +1546,9 @@ describe.skip('TransitGatewayApisV1', () => {
     });
   });
 
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
   //                       DELETE Transit Gateway Tests                        //
-  ///////////////////////////////////////////////////////////////////////////////
+  // /////////////////////////////////////////////////////////////////////////////
 
   describe('DELETE Transit Gateway', () => {
     test('successfully delete gateway by instanceID', async done => {
