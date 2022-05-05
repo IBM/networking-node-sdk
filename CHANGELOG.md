@@ -1,3 +1,10 @@
+# [0.22.0](https://github.com/IBM/networking-node-sdk/compare/v0.21.0...v0.22.0) (2022-05-05)
+
+
+### Features
+
+* **logpushapi:** added logpush ([14a92c3](https://github.com/IBM/networking-node-sdk/commit/14a92c391cbe4012074cee4a35b46cab789834f1))
+
 # [0.21.0](https://github.com/IBM/networking-node-sdk/compare/v0.20.0...v0.21.0) (2022-03-26)
 
 
