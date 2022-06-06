@@ -296,7 +296,7 @@ describe('SslCertificateApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await sslCertificateApiService.deleteCertificate({});
@@ -582,7 +582,7 @@ describe('SslCertificateApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await sslCertificateApiService.getCustomCertificate({});
@@ -677,7 +677,7 @@ describe('SslCertificateApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await sslCertificateApiService.updateCustomCertificate({});
@@ -753,7 +753,7 @@ describe('SslCertificateApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await sslCertificateApiService.deleteCustomCertificate({});
