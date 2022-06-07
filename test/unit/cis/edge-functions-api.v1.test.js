@@ -305,16 +305,14 @@ describe('EdgeFunctionsApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await edgeFunctionsApiService.getEdgeFunctionsAction({});
         } catch (e) {
           err = e;
         }
-
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -379,7 +377,7 @@ describe('EdgeFunctionsApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await edgeFunctionsApiService.deleteEdgeFunctionsAction({});
@@ -388,7 +386,6 @@ describe('EdgeFunctionsApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -568,7 +565,7 @@ describe('EdgeFunctionsApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await edgeFunctionsApiService.getEdgeFunctionsTrigger({});
@@ -577,7 +574,6 @@ describe('EdgeFunctionsApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -653,7 +649,7 @@ describe('EdgeFunctionsApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await edgeFunctionsApiService.updateEdgeFunctionsTrigger({});
@@ -662,7 +658,6 @@ describe('EdgeFunctionsApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -732,7 +727,7 @@ describe('EdgeFunctionsApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await edgeFunctionsApiService.deleteEdgeFunctionsTrigger({});
@@ -741,7 +736,6 @@ describe('EdgeFunctionsApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
