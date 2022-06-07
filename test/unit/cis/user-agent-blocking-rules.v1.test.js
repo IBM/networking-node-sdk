@@ -312,7 +312,7 @@ describe('UserAgentBlockingRulesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await userAgentBlockingRulesService.deleteZoneUserAgentRule({});
@@ -321,7 +321,6 @@ describe('UserAgentBlockingRulesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -386,7 +385,7 @@ describe('UserAgentBlockingRulesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await userAgentBlockingRulesService.getUserAgentRule({});
@@ -395,7 +394,6 @@ describe('UserAgentBlockingRulesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -482,7 +480,7 @@ describe('UserAgentBlockingRulesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await userAgentBlockingRulesService.updateUserAgentRule({});
@@ -491,7 +489,6 @@ describe('UserAgentBlockingRulesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {

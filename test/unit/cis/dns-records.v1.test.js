@@ -314,7 +314,7 @@ describe('DnsRecordsV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await dnsRecordsService.deleteDnsRecord({});
@@ -323,7 +323,6 @@ describe('DnsRecordsV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -388,7 +387,7 @@ describe('DnsRecordsV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await dnsRecordsService.getDnsRecord({});
@@ -397,7 +396,6 @@ describe('DnsRecordsV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -483,7 +481,7 @@ describe('DnsRecordsV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await dnsRecordsService.updateDnsRecord({});
@@ -492,7 +490,6 @@ describe('DnsRecordsV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
