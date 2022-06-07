@@ -317,7 +317,7 @@ describe('FirewallAccessRulesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await firewallAccessRulesService.deleteAccountAccessRule({});
@@ -326,7 +326,6 @@ describe('FirewallAccessRulesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -390,7 +389,7 @@ describe('FirewallAccessRulesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await firewallAccessRulesService.getAccountAccessRule({});
@@ -399,7 +398,6 @@ describe('FirewallAccessRulesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -471,7 +469,7 @@ describe('FirewallAccessRulesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await firewallAccessRulesService.updateAccountAccessRule({});
@@ -480,7 +478,6 @@ describe('FirewallAccessRulesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {

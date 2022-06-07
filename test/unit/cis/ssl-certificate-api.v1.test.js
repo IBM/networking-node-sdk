@@ -296,7 +296,7 @@ describe('SslCertificateApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await sslCertificateApiService.deleteCertificate({});
@@ -305,7 +305,6 @@ describe('SslCertificateApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -582,7 +581,7 @@ describe('SslCertificateApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await sslCertificateApiService.getCustomCertificate({});
@@ -591,7 +590,6 @@ describe('SslCertificateApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -677,16 +675,14 @@ describe('SslCertificateApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await sslCertificateApiService.updateCustomCertificate({});
         } catch (e) {
           err = e;
         }
-
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -753,7 +749,7 @@ describe('SslCertificateApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await sslCertificateApiService.deleteCustomCertificate({});
@@ -762,7 +758,6 @@ describe('SslCertificateApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {

@@ -196,7 +196,7 @@ describe('WafRuleGroupsApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await wafRuleGroupsApiService.listWafRuleGroups({});
@@ -205,7 +205,6 @@ describe('WafRuleGroupsApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -275,7 +274,7 @@ describe('WafRuleGroupsApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await wafRuleGroupsApiService.getWafRuleGroup({});
@@ -284,7 +283,6 @@ describe('WafRuleGroupsApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -357,7 +355,7 @@ describe('WafRuleGroupsApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await wafRuleGroupsApiService.updateWafRuleGroup({});
@@ -366,7 +364,6 @@ describe('WafRuleGroupsApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {

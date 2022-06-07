@@ -174,7 +174,7 @@ describe('PageRuleApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await pageRuleApiService.getPageRule({});
@@ -183,7 +183,6 @@ describe('PageRuleApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -276,7 +275,7 @@ describe('PageRuleApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await pageRuleApiService.changePageRule({});
@@ -285,7 +284,6 @@ describe('PageRuleApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -378,7 +376,7 @@ describe('PageRuleApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await pageRuleApiService.updatePageRule({});
@@ -387,7 +385,6 @@ describe('PageRuleApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -448,7 +445,7 @@ describe('PageRuleApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await pageRuleApiService.deletePageRule({});
@@ -457,7 +454,6 @@ describe('PageRuleApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {

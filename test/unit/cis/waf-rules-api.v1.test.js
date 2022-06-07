@@ -199,7 +199,7 @@ describe('WafRulesApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await wafRulesApiService.listWafRules({});
@@ -208,7 +208,6 @@ describe('WafRulesApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -278,7 +277,7 @@ describe('WafRulesApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await wafRulesApiService.getWafRule({});
@@ -287,7 +286,6 @@ describe('WafRulesApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -375,7 +373,7 @@ describe('WafRulesApiV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await wafRulesApiService.updateWafRule({});
@@ -384,7 +382,6 @@ describe('WafRulesApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
