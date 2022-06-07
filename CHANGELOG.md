@@ -1,3 +1,19 @@
+## [0.22.1](https://github.com/IBM/networking-node-sdk/compare/v0.22.0...v0.22.1) (2022-06-07)
+
+
+### Bug Fixes
+
+* minor tweak ([2ebbb7f](https://github.com/IBM/networking-node-sdk/commit/2ebbb7f7e4b5cf875855f9295f43e42fd8fea72c))
+* minor tweak ([ca4db73](https://github.com/IBM/networking-node-sdk/commit/ca4db7336919737bd364c811950fa5494ce1de77))
+* minor tweak ([839261d](https://github.com/IBM/networking-node-sdk/commit/839261daa38f485f28a195a686ad2885d86da887))
+* minor tweak ([c1f5fda](https://github.com/IBM/networking-node-sdk/commit/c1f5fdab548530f04b5ea3a11e4be72bd548eef3))
+* minor tweak ([13e16e2](https://github.com/IBM/networking-node-sdk/commit/13e16e29a61282a09671d2f22e25f819ed63ce0c))
+* minor tweak ([099d747](https://github.com/IBM/networking-node-sdk/commit/099d74731527c8c0cb3baa74d14f850efcc5d3f8))
+* minor tweak ([1ad17dc](https://github.com/IBM/networking-node-sdk/commit/1ad17dc500c416f793cd0e80309eaaf3b42e4142))
+* minor tweak ([ecb4adf](https://github.com/IBM/networking-node-sdk/commit/ecb4adf89b529165a790bd2589c99f290d5de1a7))
+* minor tweak ([660151a](https://github.com/IBM/networking-node-sdk/commit/660151a7389d190aa3fe3c24ac6a7ab3e392fa33))
+* Packing does not respect root-level ignore files in workspace issue ([074e352](https://github.com/IBM/networking-node-sdk/commit/074e352e88421e0fba38fd5d16e2e9ed46863bb2))
+
 # [0.22.0](https://github.com/IBM/networking-node-sdk/compare/v0.21.0...v0.22.0) (2022-05-05)
 
 
