@@ -591,7 +591,6 @@ describe('SslCertificateApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -684,9 +683,7 @@ describe('SslCertificateApiV1', () => {
         } catch (e) {
           err = e;
         }
-
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -762,7 +759,6 @@ describe('SslCertificateApiV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
