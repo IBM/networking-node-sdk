@@ -337,7 +337,7 @@ describe('ZoneFirewallAccessRulesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await zoneFirewallAccessRulesService.deleteZoneAccessRule({});
@@ -346,7 +346,6 @@ describe('ZoneFirewallAccessRulesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -411,7 +410,7 @@ describe('ZoneFirewallAccessRulesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await zoneFirewallAccessRulesService.getZoneAccessRule({});
@@ -420,7 +419,6 @@ describe('ZoneFirewallAccessRulesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -493,7 +491,7 @@ describe('ZoneFirewallAccessRulesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await zoneFirewallAccessRulesService.updateZoneAccessRule({});
@@ -502,7 +500,6 @@ describe('ZoneFirewallAccessRulesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {

@@ -305,7 +305,7 @@ describe('ZoneLockdownV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await zoneLockdownService.deleteZoneLockdownRule({});
@@ -314,7 +314,6 @@ describe('ZoneLockdownV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -379,7 +378,7 @@ describe('ZoneLockdownV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await zoneLockdownService.getLockdown({});
@@ -388,7 +387,6 @@ describe('ZoneLockdownV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -480,7 +478,7 @@ describe('ZoneLockdownV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await zoneLockdownService.updateLockdownRule({});
@@ -489,7 +487,6 @@ describe('ZoneLockdownV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {

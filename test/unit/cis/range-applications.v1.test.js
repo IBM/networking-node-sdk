@@ -281,7 +281,7 @@ describe('RangeApplicationsV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await rangeApplicationsService.createRangeApp({});
@@ -290,7 +290,6 @@ describe('RangeApplicationsV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -355,7 +354,7 @@ describe('RangeApplicationsV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await rangeApplicationsService.getRangeApp({});
@@ -364,7 +363,6 @@ describe('RangeApplicationsV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -482,7 +480,7 @@ describe('RangeApplicationsV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await rangeApplicationsService.updateRangeApp({});
@@ -491,7 +489,6 @@ describe('RangeApplicationsV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -556,7 +553,7 @@ describe('RangeApplicationsV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await rangeApplicationsService.deleteRangeApp({});
@@ -565,7 +562,6 @@ describe('RangeApplicationsV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {

@@ -337,7 +337,7 @@ describe('GlobalLoadBalancerV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await globalLoadBalancerService.editLoadBalancer({});
@@ -346,7 +346,6 @@ describe('GlobalLoadBalancerV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -411,7 +410,7 @@ describe('GlobalLoadBalancerV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await globalLoadBalancerService.deleteLoadBalancer({});
@@ -420,7 +419,6 @@ describe('GlobalLoadBalancerV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -487,7 +485,7 @@ describe('GlobalLoadBalancerV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await globalLoadBalancerService.getLoadBalancerSettings({});
@@ -496,7 +494,6 @@ describe('GlobalLoadBalancerV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {

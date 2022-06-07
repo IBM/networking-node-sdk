@@ -218,7 +218,7 @@ describe('CustomPagesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await customPagesService.getInstanceCustomPage({});
@@ -227,7 +227,6 @@ describe('CustomPagesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -293,7 +292,7 @@ describe('CustomPagesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await customPagesService.updateInstanceCustomPage({});
@@ -302,7 +301,6 @@ describe('CustomPagesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -413,7 +411,7 @@ describe('CustomPagesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await customPagesService.getZoneCustomPage({});
@@ -422,7 +420,6 @@ describe('CustomPagesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
@@ -493,7 +490,7 @@ describe('CustomPagesV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async done => {
+      test('should enforce required parameters', async () => {
         let err;
         try {
           await customPagesService.updateZoneCustomPage({});
@@ -502,7 +499,6 @@ describe('CustomPagesV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-        done();
       });
 
       test('should reject promise when required params are not given', done => {
