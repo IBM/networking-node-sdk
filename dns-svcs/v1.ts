@@ -24,8 +24,8 @@ import {
   Authenticator,
   BaseService,
   getAuthenticatorFromEnvironment,
-  validateParams,
   UserOptions,
+  validateParams,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
 
@@ -785,9 +785,9 @@ class DnsSvcsV1 extends BaseService {
   }
 
   /**
-   * Import resource records from a zone file. The maximum size of a zone file is 8MB.
-   *
    * Import resource records from a zone file.
+   *
+   * Import resource records from a zone file. The maximum size of a zone file is 8MB.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
@@ -3004,326 +3004,6 @@ class DnsSvcsV1 extends BaseService {
     return this.createRequest(parameters);
   }
   /*************************
-   * secondaryZones
-   ************************/
-
-  /**
-   * Create a secondary zone.
-   *
-   * Create a secondary zone for the custom resolver.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.resolverId - The unique identifier of a custom resolver.
-   * @param {string} [params.zone] - zone name.
-   * @param {string[]} [params.transferFrom] - The source configuration of secondary zone input.
-   * @param {string} [params.description] - Descriptive text of the secondary zone.
-   * @param {boolean} [params.enabled] - Enable/Disable the secondary zone.
-   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>>}
-   */
-  public createSecondaryZone(
-    params: DnsSvcsV1.CreateSecondaryZoneParams
-  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'resolverId'];
-    const _validParams = ['instanceId', 'resolverId', 'zone', 'transferFrom', 'description', 'enabled', 'xCorrelationId', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'zone': _params.zone,
-      'transfer_from': _params.transferFrom,
-      'description': _params.description,
-      'enabled': _params.enabled,
-    };
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'resolver_id': _params.resolverId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      DnsSvcsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createSecondaryZone'
-    );
-
-    const parameters = {
-      options: {
-        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones',
-        method: 'POST',
-        body,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'X-Correlation-ID': _params.xCorrelationId,
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * List secondary zones.
-   *
-   * List secondary zones for the custom resolver.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.resolverId - The unique identifier of a custom resolver.
-   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
-   * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
-   * @param {number} [params.limit] - Specify maximum resources might be returned.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZoneList>>}
-   */
-  public listSecondaryZones(
-    params: DnsSvcsV1.ListSecondaryZonesParams
-  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZoneList>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'resolverId'];
-    const _validParams = ['instanceId', 'resolverId', 'xCorrelationId', 'offset', 'limit', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const query = {
-      'offset': _params.offset,
-      'limit': _params.limit,
-    };
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'resolver_id': _params.resolverId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      DnsSvcsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listSecondaryZones'
-    );
-
-    const parameters = {
-      options: {
-        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones',
-        method: 'GET',
-        qs: query,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'X-Correlation-ID': _params.xCorrelationId,
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Get a secondary zone.
-   *
-   * Get details of a secondary zone for the custom resolver.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.resolverId - The unique identifier of a custom resolver.
-   * @param {string} params.szId - The unique identifier of a secondary zone.
-   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>>}
-   */
-  public getSecondaryZone(
-    params: DnsSvcsV1.GetSecondaryZoneParams
-  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'resolverId', 'szId'];
-    const _validParams = ['instanceId', 'resolverId', 'szId', 'xCorrelationId', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'resolver_id': _params.resolverId,
-      'sz_id': _params.szId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      DnsSvcsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getSecondaryZone'
-    );
-
-    const parameters = {
-      options: {
-        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}',
-        method: 'GET',
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'X-Correlation-ID': _params.xCorrelationId,
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Update a secondary zone.
-   *
-   * Update a secondary zone for the custom resolver.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.resolverId - The unique identifier of a custom resolver.
-   * @param {string} params.szId - The unique identifier of a secondary zone.
-   * @param {string} [params.description] - Descriptive text of the secondary zone.
-   * @param {boolean} [params.enabled] - Enable/Disable the secondary zone.
-   * @param {string[]} [params.transferFrom] - The source configuration of secondary zone input.
-   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>>}
-   */
-  public updateSecondaryZone(
-    params: DnsSvcsV1.UpdateSecondaryZoneParams
-  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'resolverId', 'szId'];
-    const _validParams = ['instanceId', 'resolverId', 'szId', 'description', 'enabled', 'transferFrom', 'xCorrelationId', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'description': _params.description,
-      'enabled': _params.enabled,
-      'transfer_from': _params.transferFrom,
-    };
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'resolver_id': _params.resolverId,
-      'sz_id': _params.szId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      DnsSvcsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateSecondaryZone'
-    );
-
-    const parameters = {
-      options: {
-        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}',
-        method: 'PATCH',
-        body,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'X-Correlation-ID': _params.xCorrelationId,
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Delete a secondary zone.
-   *
-   * Delete a secondary zone for the custom resolver.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.resolverId - The unique identifier of a custom resolver.
-   * @param {string} params.szId - The unique identifier of a secondary zone.
-   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
-   */
-  public deleteSecondaryZone(
-    params: DnsSvcsV1.DeleteSecondaryZoneParams
-  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'resolverId', 'szId'];
-    const _validParams = ['instanceId', 'resolverId', 'szId', 'xCorrelationId', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'resolver_id': _params.resolverId,
-      'sz_id': _params.szId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      DnsSvcsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteSecondaryZone'
-    );
-
-    const parameters = {
-      options: {
-        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}',
-        method: 'DELETE',
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'X-Correlation-ID': _params.xCorrelationId,
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-  /*************************
    * linkedZones
    ************************/
 
@@ -3338,11 +3018,11 @@ class DnsSvcsV1 extends BaseService {
    * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
    * @param {number} [params.limit] - Specify maximum resources might be returned.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZonesList>>}
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedDnszonesList>>}
    */
   public listLinkedZones(
     params: DnsSvcsV1.ListLinkedZonesParams
-  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZonesList>> {
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedDnszonesList>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId'];
     const _validParams = ['instanceId', 'xCorrelationId', 'offset', 'limit', 'headers'];
@@ -3402,11 +3082,11 @@ class DnsSvcsV1 extends BaseService {
    * @param {string} [params.label] - The label of linked zone.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>>}
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedDnszone>>}
    */
   public createLinkedZone(
     params: DnsSvcsV1.CreateLinkedZoneParams
-  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>> {
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedDnszone>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId'];
     const _validParams = ['instanceId', 'ownerInstanceId', 'ownerZoneId', 'description', 'label', 'xCorrelationId', 'headers'];
@@ -3463,17 +3143,17 @@ class DnsSvcsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} params.linkedDnszoneId - The unique identifier of a linked zone.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>>}
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedDnszone>>}
    */
   public getLinkedZone(
     params: DnsSvcsV1.GetLinkedZoneParams
-  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>> {
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedDnszone>> {
     const _params = { ...params };
-    const _requiredParams = ['instanceId', 'lzId'];
-    const _validParams = ['instanceId', 'lzId', 'xCorrelationId', 'headers'];
+    const _requiredParams = ['instanceId', 'linkedDnszoneId'];
+    const _validParams = ['instanceId', 'linkedDnszoneId', 'xCorrelationId', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -3481,7 +3161,7 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'lz_id': _params.lzId,
+      'linked_dnszone_id': _params.linkedDnszoneId,
     };
 
     const sdkHeaders = getSdkHeaders(
@@ -3492,7 +3172,7 @@ class DnsSvcsV1 extends BaseService {
 
     const parameters = {
       options: {
-        url: '/instances/{instance_id}/linked_dnszones/{lz_id}',
+        url: '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}',
         method: 'GET',
         path,
       },
@@ -3519,19 +3199,19 @@ class DnsSvcsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} params.linkedDnszoneId - The unique identifier of a linked zone.
    * @param {string} [params.description] - Descriptive text of the linked zone.
    * @param {string} [params.label] - The label of linked zone.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>>}
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedDnszone>>}
    */
   public updateLinkedZone(
     params: DnsSvcsV1.UpdateLinkedZoneParams
-  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedZone>> {
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.LinkedDnszone>> {
     const _params = { ...params };
-    const _requiredParams = ['instanceId', 'lzId'];
-    const _validParams = ['instanceId', 'lzId', 'description', 'label', 'xCorrelationId', 'headers'];
+    const _requiredParams = ['instanceId', 'linkedDnszoneId'];
+    const _validParams = ['instanceId', 'linkedDnszoneId', 'description', 'label', 'xCorrelationId', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -3544,7 +3224,7 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'lz_id': _params.lzId,
+      'linked_dnszone_id': _params.linkedDnszoneId,
     };
 
     const sdkHeaders = getSdkHeaders(
@@ -3555,7 +3235,7 @@ class DnsSvcsV1 extends BaseService {
 
     const parameters = {
       options: {
-        url: '/instances/{instance_id}/linked_dnszones/{lz_id}',
+        url: '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}',
         method: 'PATCH',
         body,
         path,
@@ -3584,7 +3264,7 @@ class DnsSvcsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} params.linkedDnszoneId - The unique identifier of a linked zone.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
@@ -3593,8 +3273,8 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.DeleteLinkedZoneParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
     const _params = { ...params };
-    const _requiredParams = ['instanceId', 'lzId'];
-    const _validParams = ['instanceId', 'lzId', 'xCorrelationId', 'headers'];
+    const _requiredParams = ['instanceId', 'linkedDnszoneId'];
+    const _validParams = ['instanceId', 'linkedDnszoneId', 'xCorrelationId', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -3602,7 +3282,7 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'lz_id': _params.lzId,
+      'linked_dnszone_id': _params.linkedDnszoneId,
     };
 
     const sdkHeaders = getSdkHeaders(
@@ -3613,7 +3293,7 @@ class DnsSvcsV1 extends BaseService {
 
     const parameters = {
       options: {
-        url: '/instances/{instance_id}/linked_dnszones/{lz_id}',
+        url: '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}',
         method: 'DELETE',
         path,
       },
@@ -3832,7 +3512,7 @@ class DnsSvcsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} params.linkedDnszoneId - The unique identifier of a linked zone.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPermittedNetworks>>}
@@ -3841,8 +3521,8 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.ListLinkedPermittedNetworksParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPermittedNetworks>> {
     const _params = { ...params };
-    const _requiredParams = ['instanceId', 'lzId'];
-    const _validParams = ['instanceId', 'lzId', 'xCorrelationId', 'headers'];
+    const _requiredParams = ['instanceId', 'linkedDnszoneId'];
+    const _validParams = ['instanceId', 'linkedDnszoneId', 'xCorrelationId', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -3850,7 +3530,7 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'lz_id': _params.lzId,
+      'linked_dnszone_id': _params.linkedDnszoneId,
     };
 
     const sdkHeaders = getSdkHeaders(
@@ -3861,7 +3541,7 @@ class DnsSvcsV1 extends BaseService {
 
     const parameters = {
       options: {
-        url: '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks',
+        url: '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}/permitted_networks',
         method: 'GET',
         path,
       },
@@ -3888,7 +3568,7 @@ class DnsSvcsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} params.linkedDnszoneId - The unique identifier of a linked zone.
    * @param {string} [params.type] - The type of a permitted network.
    * @param {PermittedNetworkVpc} [params.permittedNetwork] - Permitted network data for VPC.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
@@ -3899,8 +3579,8 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.CreateLzPermittedNetworkParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
     const _params = { ...params };
-    const _requiredParams = ['instanceId', 'lzId'];
-    const _validParams = ['instanceId', 'lzId', 'type', 'permittedNetwork', 'xCorrelationId', 'headers'];
+    const _requiredParams = ['instanceId', 'linkedDnszoneId'];
+    const _validParams = ['instanceId', 'linkedDnszoneId', 'type', 'permittedNetwork', 'xCorrelationId', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -3913,7 +3593,7 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'lz_id': _params.lzId,
+      'linked_dnszone_id': _params.linkedDnszoneId,
     };
 
     const sdkHeaders = getSdkHeaders(
@@ -3924,7 +3604,7 @@ class DnsSvcsV1 extends BaseService {
 
     const parameters = {
       options: {
-        url: '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks',
+        url: '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}/permitted_networks',
         method: 'POST',
         body,
         path,
@@ -3953,7 +3633,7 @@ class DnsSvcsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} params.linkedDnszoneId - The unique identifier of a linked zone.
    * @param {string} params.permittedNetworkId - The unique identifier of a permitted network.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
@@ -3963,8 +3643,8 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.DeleteLzPermittedNetworkParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
     const _params = { ...params };
-    const _requiredParams = ['instanceId', 'lzId', 'permittedNetworkId'];
-    const _validParams = ['instanceId', 'lzId', 'permittedNetworkId', 'xCorrelationId', 'headers'];
+    const _requiredParams = ['instanceId', 'linkedDnszoneId', 'permittedNetworkId'];
+    const _validParams = ['instanceId', 'linkedDnszoneId', 'permittedNetworkId', 'xCorrelationId', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -3972,7 +3652,7 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'lz_id': _params.lzId,
+      'linked_dnszone_id': _params.linkedDnszoneId,
       'permitted_network_id': _params.permittedNetworkId,
     };
 
@@ -3984,7 +3664,7 @@ class DnsSvcsV1 extends BaseService {
 
     const parameters = {
       options: {
-        url: '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks/{permitted_network_id}',
+        url: '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}/permitted_networks/{permitted_network_id}',
         method: 'DELETE',
         path,
       },
@@ -4011,7 +3691,7 @@ class DnsSvcsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
-   * @param {string} params.lzId - The unique identifier of a linked zone.
+   * @param {string} params.linkedDnszoneId - The unique identifier of a linked zone.
    * @param {string} params.permittedNetworkId - The unique identifier of a permitted network.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
@@ -4021,8 +3701,8 @@ class DnsSvcsV1 extends BaseService {
     params: DnsSvcsV1.GetLinkedPermittedNetworkParams
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
     const _params = { ...params };
-    const _requiredParams = ['instanceId', 'lzId', 'permittedNetworkId'];
-    const _validParams = ['instanceId', 'lzId', 'permittedNetworkId', 'xCorrelationId', 'headers'];
+    const _requiredParams = ['instanceId', 'linkedDnszoneId', 'permittedNetworkId'];
+    const _validParams = ['instanceId', 'linkedDnszoneId', 'permittedNetworkId', 'xCorrelationId', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -4030,7 +3710,7 @@ class DnsSvcsV1 extends BaseService {
 
     const path = {
       'instance_id': _params.instanceId,
-      'lz_id': _params.lzId,
+      'linked_dnszone_id': _params.linkedDnszoneId,
       'permitted_network_id': _params.permittedNetworkId,
     };
 
@@ -4042,7 +3722,7 @@ class DnsSvcsV1 extends BaseService {
 
     const parameters = {
       options: {
-        url: '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks/{permitted_network_id}',
+        url: '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}/permitted_networks/{permitted_network_id}',
         method: 'GET',
         path,
       },
@@ -4936,85 +4616,6 @@ namespace DnsSvcsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Parameters for the `createSecondaryZone` operation. */
-  export interface CreateSecondaryZoneParams {
-    /** The unique identifier of a service instance. */
-    instanceId: string;
-    /** The unique identifier of a custom resolver. */
-    resolverId: string;
-    /** zone name. */
-    zone?: string;
-    /** The source configuration of secondary zone input. */
-    transferFrom?: string[];
-    /** Descriptive text of the secondary zone. */
-    description?: string;
-    /** Enable/Disable the secondary zone. */
-    enabled?: boolean;
-    /** Uniquely identifying a request. */
-    xCorrelationId?: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `listSecondaryZones` operation. */
-  export interface ListSecondaryZonesParams {
-    /** The unique identifier of a service instance. */
-    instanceId: string;
-    /** The unique identifier of a custom resolver. */
-    resolverId: string;
-    /** Uniquely identifying a request. */
-    xCorrelationId?: string;
-    /** Specify how many resources to skip over, the default value is 0. */
-    offset?: number;
-    /** Specify maximum resources might be returned. */
-    limit?: number;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `getSecondaryZone` operation. */
-  export interface GetSecondaryZoneParams {
-    /** The unique identifier of a service instance. */
-    instanceId: string;
-    /** The unique identifier of a custom resolver. */
-    resolverId: string;
-    /** The unique identifier of a secondary zone. */
-    szId: string;
-    /** Uniquely identifying a request. */
-    xCorrelationId?: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `updateSecondaryZone` operation. */
-  export interface UpdateSecondaryZoneParams {
-    /** The unique identifier of a service instance. */
-    instanceId: string;
-    /** The unique identifier of a custom resolver. */
-    resolverId: string;
-    /** The unique identifier of a secondary zone. */
-    szId: string;
-    /** Descriptive text of the secondary zone. */
-    description?: string;
-    /** Enable/Disable the secondary zone. */
-    enabled?: boolean;
-    /** The source configuration of secondary zone input. */
-    transferFrom?: string[];
-    /** Uniquely identifying a request. */
-    xCorrelationId?: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `deleteSecondaryZone` operation. */
-  export interface DeleteSecondaryZoneParams {
-    /** The unique identifier of a service instance. */
-    instanceId: string;
-    /** The unique identifier of a custom resolver. */
-    resolverId: string;
-    /** The unique identifier of a secondary zone. */
-    szId: string;
-    /** Uniquely identifying a request. */
-    xCorrelationId?: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
   /** Parameters for the `listLinkedZones` operation. */
   export interface ListLinkedZonesParams {
     /** The unique identifier of a service instance. */
@@ -5050,7 +4651,7 @@ namespace DnsSvcsV1 {
     /** The unique identifier of a service instance. */
     instanceId: string;
     /** The unique identifier of a linked zone. */
-    lzId: string;
+    linkedDnszoneId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
     headers?: OutgoingHttpHeaders;
@@ -5061,7 +4662,7 @@ namespace DnsSvcsV1 {
     /** The unique identifier of a service instance. */
     instanceId: string;
     /** The unique identifier of a linked zone. */
-    lzId: string;
+    linkedDnszoneId: string;
     /** Descriptive text of the linked zone. */
     description?: string;
     /** The label of linked zone. */
@@ -5076,7 +4677,7 @@ namespace DnsSvcsV1 {
     /** The unique identifier of a service instance. */
     instanceId: string;
     /** The unique identifier of a linked zone. */
-    lzId: string;
+    linkedDnszoneId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
     headers?: OutgoingHttpHeaders;
@@ -5130,7 +4731,7 @@ namespace DnsSvcsV1 {
     /** The action applies to the access request. */
     export enum Action {
       APPROVE = 'APPROVE',
-      REJECTE = 'REJECTE',
+      REJECT = 'REJECT',
       REVOKE = 'REVOKE',
     }
   }
@@ -5140,7 +4741,7 @@ namespace DnsSvcsV1 {
     /** The unique identifier of a service instance. */
     instanceId: string;
     /** The unique identifier of a linked zone. */
-    lzId: string;
+    linkedDnszoneId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
     headers?: OutgoingHttpHeaders;
@@ -5151,7 +4752,7 @@ namespace DnsSvcsV1 {
     /** The unique identifier of a service instance. */
     instanceId: string;
     /** The unique identifier of a linked zone. */
-    lzId: string;
+    linkedDnszoneId: string;
     /** The type of a permitted network. */
     type?: CreateLzPermittedNetworkConstants.Type | string;
     /** Permitted network data for VPC. */
@@ -5174,7 +4775,7 @@ namespace DnsSvcsV1 {
     /** The unique identifier of a service instance. */
     instanceId: string;
     /** The unique identifier of a linked zone. */
-    lzId: string;
+    linkedDnszoneId: string;
     /** The unique identifier of a permitted network. */
     permittedNetworkId: string;
     /** Uniquely identifying a request. */
@@ -5187,7 +4788,7 @@ namespace DnsSvcsV1 {
     /** The unique identifier of a service instance. */
     instanceId: string;
     /** The unique identifier of a linked zone. */
-    lzId: string;
+    linkedDnszoneId: string;
     /** The unique identifier of a permitted network. */
     permittedNetworkId: string;
     /** Uniquely identifying a request. */
@@ -5201,12 +4802,16 @@ namespace DnsSvcsV1 {
 
   /** The information of requestor. */
   export interface AccessRequestRequestor {
-    /** The account of requestor. */
-    account?: string;
+    /** The account ID of requestor. */
+    account_id?: string;
+    /** The requestor's DNS service instance ID. */
+    instance_id?: string;
+    /** The requestor's linked zone ID. */
+    linked_zone_id?: string;
   }
 
   /** The owner's instance and zone that the zone is linked to. */
-  export interface LinkedZoneLinkedTo {
+  export interface LinkedDnszoneLinkedTo {
     /** The owner's instance CRN. */
     instance_crn?: string;
     /** The owner's DNS zone. */
@@ -5233,7 +4838,7 @@ namespace DnsSvcsV1 {
     vpc?: string;
   }
 
-  /** RecordsImportErrorModelError. */
+  /** Error container. */
   export interface RecordsImportErrorModelError {
     /** Internal service error when DNS resource created fails by internal error. */
     code: string;
@@ -5252,17 +4857,17 @@ namespace DnsSvcsV1 {
   /** Access request. */
   export interface AccessRequest {
     /** Access request ID. */
-    id?: string;
+    id: string;
     /** The information of requestor. */
-    requestor?: AccessRequestRequestor;
+    requestor: AccessRequestRequestor;
     /** The zone ID that requestor requests access for. */
-    zone_id?: string;
+    zone_id: string;
     /** The zone name that requestor requests access for. */
-    zone_name?: string;
+    zone_name: string;
     /** The state of the access request. */
-    state?: string;
-    /** The expired time of the access request. */
-    expires_at?: string;
+    state: string;
+    /** The expired time of access request with state `pending`. */
+    pending_expires_at?: string;
     /** The time when the linked zone is created. */
     created_on?: string;
     /** The recent time when the linked zone is modified. */
@@ -5388,22 +4993,22 @@ namespace DnsSvcsV1 {
   }
 
   /** linked zone details. */
-  export interface LinkedZone {
+  export interface LinkedDnszone {
     /** Identifier of the linked zone. */
-    id?: string;
+    id: string;
     /** Unique identifier of a service instance. */
-    instance_id?: string;
+    instance_id: string;
     /** Name of owner's DNS zone. */
-    name?: string;
+    name: string;
     /** Descriptive text of the linked zone. */
     description?: string;
     /** The owner's instance and zone that the zone is linked to. */
-    linked_to?: LinkedZoneLinkedTo;
+    linked_to: LinkedDnszoneLinkedTo;
     /** The state of linked zone. */
-    state?: string;
+    state: string;
     /** The label of linked zone. */
     label?: string;
-    /** The expired time of access request that is created for the linked zone. */
+    /** The expired time of linked zone with state `approval pending`. */
     approval_required_before?: string;
     /** The time when the linked zone is created. */
     created_on?: string;
@@ -5412,9 +5017,9 @@ namespace DnsSvcsV1 {
   }
 
   /** The list of linked zones. */
-  export interface LinkedZonesList {
+  export interface LinkedDnszonesList {
     /** The list of linked zones. */
-    linked_dnszones: LinkedZone[];
+    linked_dnszones: LinkedDnszone[];
     /** The number of resources to skip over. */
     offset: number;
     /** The maximum number of resources might be returned. */
@@ -5764,6 +5369,7 @@ namespace DnsSvcsV1 {
   export interface RecordsImportErrorModel {
     /** resource record content in zone file. */
     resource_record: string;
+    /** Error container. */
     error: RecordsImportErrorModelError;
   }
 
@@ -5795,46 +5401,6 @@ namespace DnsSvcsV1 {
     service?: string;
     /** Only used for SRV record. */
     protocol?: string;
-  }
-
-  /** Secondary zone details. */
-  export interface SecondaryZone {
-    /** Identifier of the secondary zone. */
-    id?: string;
-    /** Descriptive text of the secondary zone. */
-    description?: string;
-    /** zone name. */
-    zone?: string;
-    /** Enable/Disable the secondary zone. */
-    enabled?: boolean;
-    /** The source configuration of secondary zone output. */
-    transfer_from?: string[];
-    /** The time when a secondary zone is created. */
-    created_on?: string;
-    /** The recent time when a secondary zone is modified. */
-    modified_on?: string;
-  }
-
-  /** List of secondary zones. */
-  export interface SecondaryZoneList {
-    /** Secondary zones. */
-    secondary_zones: SecondaryZone[];
-    /** The number of resources to skip over. */
-    offset: number;
-    /** The maximum number of resources might be returned. */
-    limit: number;
-    /** The number of resources are returned. */
-    count: number;
-    /** Total number of resources. */
-    total_count: number;
-    /** href. */
-    first?: PaginationRef;
-    /** href. */
-    last?: PaginationRef;
-    /** href. */
-    previous?: PaginationRef;
-    /** href. */
-    next?: PaginationRef;
   }
 
   /** The content of type-A resource record. */

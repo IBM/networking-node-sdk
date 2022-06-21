@@ -71,6 +71,7 @@ const wait = (ms = 5000) => {
 };
 
 let dnsSvcsApisV1;
+let dnsSvcsApisV1CrossAccountClient;
 let dnsZone;
 const NEW_ZONE_NAME = '.testingsdk';
 let dnsResourceRecord;
@@ -79,6 +80,9 @@ let glbMonitor;
 let glbPool;
 let glb;
 let customResolver;
+let linkedZone;
+let request_id;
+let permitted_network_id;
 let customResolverLocation;
 let forwardingRule;
 
@@ -96,10 +100,23 @@ describe('DNSSVCSApisV1', () => {
     version: config.DNS_SERVICES_API_VERSION,
   };
 
+  const optionsCrossAccount = {
+    authenticator: new IamAuthenticator({
+      apikey: config.DNS_SVCS_OWNER_APIKEY,
+      url: config.DNS_SVCS_AUTH_URL,
+    }),
+    serviceUrl: config.DNS_SVCS_URL,
+    version: config.DNS_SERVICES_API_VERSION,
+  };
+
   test('should successfully complete initialization', done => {
     // Initialize the service client.
     dnsSvcsApisV1 = DNSSVCSApisV1.newInstance(options);
     expect(dnsSvcsApisV1).not.toBeNull();
+    done();
+
+    dnsSvcsApisV1CrossAccountClient = DNSSVCSApisV1.newInstance(optionsCrossAccount);
+    expect(dnsSvcsApisV1CrossAccountClient).not.toBeNull();
     done();
   });
 
@@ -1490,6 +1507,365 @@ describe('DNSSVCSApisV1', () => {
         if (result) {
           expect(result).toBeDefined();
           expect(result.id).toEqual(dnsZone.id);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // Cross Account
+  // Create Linked zones
+  describe('Create linked zone', () => {
+    test('should successfully Create linked zone', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          ownerInstanceId: config.DNS_SVCS_OWNER_INSTANCE_ID,
+          ownerZoneId: config.DNS_SVCS_OWNER_ZONE_ID,
+          description: 'linked zone',
+          label: 'dev',
+          xCorrelationId: 'create-linked-zone-sdk-at123',
+        };
+
+        const response = await dnsSvcsApisV1.createLinkedZone(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          linkedZone = result;
+          expect(linkedZone).toBeDefined();
+          expect(linkedZone.linked_to.zone_id).toEqual(params.ownerZoneId);
+          expect(linkedZone.label).toEqual(params.label);
+          expect(linkedZone.description).toEqual(params.description);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // List Linked zones
+  describe('List linked zone', () => {
+    test('should successfully list linked zone', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          offset: 0,
+          limit: 200,
+          xCorrelationId: 'list-linked-zone-sdk-at123',
+        };
+
+        const response = await dnsSvcsApisV1.listLinkedZones(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+          expect(result.offset).toEqual(params.offset);
+          expect(result.limit).toEqual(params.limit);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // Get Linked zones
+  describe('Get linked zone', () => {
+    test('should successfully get linked zone', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          linkedDnszoneId: linkedZone.id,
+          xCorrelationId: 'get-linked-zone-sdk-at123',
+        };
+
+        const response = await dnsSvcsApisV1.getLinkedZone(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+          expect(result.id).toEqual(params.linkedDnszoneId);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // Update Linked zones
+  describe('Update linked zone', () => {
+    test('should successfully update linked zone', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          linkedDnszoneId: linkedZone.id,
+          description: 'update linked zone',
+          label: 'update-dev',
+          xCorrelationId: 'update-linked-zone-sdk-at123',
+        };
+
+        const response = await dnsSvcsApisV1.updateLinkedZone(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+          expect(result.id).toEqual(params.linkedDnszoneId);
+          expect(result.description).toEqual(params.description);
+          expect(result.label).toEqual(params.label);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // List Access Requests
+  describe('List access requests', () => {
+    test('should successfully list access requests', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_OWNER_INSTANCE_ID,
+          dnszoneId: config.DNS_SVCS_OWNER_ZONE_ID,
+          offset: 0,
+          limit: 200,
+          xCorrelationId: 'list-access-request-sdk-at123',
+        };
+
+        const response = await dnsSvcsApisV1CrossAccountClient.listDnszoneAccessRequests(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          request_id = result.access_requests[0]['id'];
+          expect(result).toBeDefined();
+          expect(result.offset).toEqual(params.offset);
+          expect(result.limit).toEqual(params.limit);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // Get Access Requests
+  describe('Get access requests', () => {
+    test('should successfully list access requests', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_OWNER_INSTANCE_ID,
+          dnszoneId: config.DNS_SVCS_OWNER_ZONE_ID,
+          requestId: request_id,
+          xCorrelationId: 'get-access-request-sdk-at123',
+        };
+
+        const response = await dnsSvcsApisV1CrossAccountClient.getDnszoneAccessRequest(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // Update the state of an access request
+  describe('Update the state of an access request', () => {
+    test('should successfully Update the state of an access request', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_OWNER_INSTANCE_ID,
+          dnszoneId: config.DNS_SVCS_OWNER_ZONE_ID,
+          requestId: request_id,
+          action: 'APPROVE',
+          xCorrelationId: 'update-access-request-sdk-at123',
+        };
+
+        const response = await dnsSvcsApisV1CrossAccountClient.updateDnszoneAccessRequest(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // Create a permitted network for a linked zone
+  describe('Create a permitted network for a linked zone', () => {
+    test('should successfully Create a permitted network for a linked zone', async done => {
+      try {
+        const permittedNetworkVpcModel = {
+          vpc_crn: config.DNS_SVCS_LZ_VPC_CRN,
+        };
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          linkedDnszoneId: linkedZone.id,
+          type: 'vpc',
+          permittedNetwork: permittedNetworkVpcModel,
+          xCorrelationId: 'create-permitted-network-sdk-at123',
+        };
+
+        const response = await dnsSvcsApisV1.createLzPermittedNetwork(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          permitted_network_id = result.id;
+          expect(result).toBeDefined();
+          expect(result.type).toEqual(params.type);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // List the permitted networks for a linked zone
+  describe('List the permitted networks for a linked zone', () => {
+    test('should successfully List the permitted networks for a linked zone', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          linkedDnszoneId: linkedZone.id,
+          xCorrelationId: 'list-permitted-network-sdk-at123',
+        };
+
+        const response = await dnsSvcsApisV1.listLinkedPermittedNetworks(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // Get a permitted networks for a linked zone
+  describe('Get a permitted networks for a linked zone', () => {
+    test('should successfully Get a permitted networks for a linked zone', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          linkedDnszoneId: linkedZone.id,
+          xCorrelationId: 'get-permitted-network-sdk-at123',
+          permittedNetworkId: permitted_network_id,
+        };
+
+        const response = await dnsSvcsApisV1.getLinkedPermittedNetwork(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // Remove a permitted networks for a linked zone
+  describe('Remove a permitted networks for a linked zone', () => {
+    test('should successfully remove a permitted networks for a linked zone', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          linkedDnszoneId: linkedZone.id,
+          xCorrelationId: 'delete-permitted-network-sdk-at123',
+          permittedNetworkId: permitted_network_id,
+        };
+
+        const response = await dnsSvcsApisV1.deleteLzPermittedNetwork(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(202);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // Delete Linked zones
+  describe('delete linked zone', () => {
+    test('should successfully delete linked zone', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          linkedDnszoneId: linkedZone.id,
+          xCorrelationId: 'list-linked-zone-sdk-at123',
+        };
+
+        const response = await dnsSvcsApisV1.deleteLinkedZone(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(204);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+          expect(result.id).toEqual(params.linkedDnszoneId);
         }
         done();
       } catch (err) {
