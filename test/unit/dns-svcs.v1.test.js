@@ -309,7 +309,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -400,7 +404,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -495,7 +503,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -582,7 +594,9 @@ describe('DnsSvcsV1', () => {
           limit: limit,
         };
 
-        const listResourceRecordsResult = dnsSvcsService.listResourceRecords(listResourceRecordsParams);
+        const listResourceRecordsResult = dnsSvcsService.listResourceRecords(
+          listResourceRecordsParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(listResourceRecordsResult);
@@ -592,7 +606,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -694,7 +712,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const createResourceRecordResult = dnsSvcsService.createResourceRecord(createResourceRecordParams);
+        const createResourceRecordResult = dnsSvcsService.createResourceRecord(
+          createResourceRecordParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createResourceRecordResult);
@@ -704,7 +724,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -793,7 +817,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const deleteResourceRecordResult = dnsSvcsService.deleteResourceRecord(deleteResourceRecordParams);
+        const deleteResourceRecordResult = dnsSvcsService.deleteResourceRecord(
+          deleteResourceRecordParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteResourceRecordResult);
@@ -803,7 +829,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -899,7 +929,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1002,7 +1036,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const updateResourceRecordResult = dnsSvcsService.updateResourceRecord(updateResourceRecordParams);
+        const updateResourceRecordResult = dnsSvcsService.updateResourceRecord(
+          updateResourceRecordParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateResourceRecordResult);
@@ -1012,7 +1048,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}', 'PUT');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}',
+          'PUT'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1101,7 +1141,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const exportResourceRecordsResult = dnsSvcsService.exportResourceRecords(exportResourceRecordsParams);
+        const exportResourceRecordsResult = dnsSvcsService.exportResourceRecords(
+          exportResourceRecordsParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(exportResourceRecordsResult);
@@ -1111,7 +1153,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/export_resource_records', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/export_resource_records',
+          'GET'
+        );
         const expectedAccept = 'text/plain; charset=utf-8';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1197,7 +1243,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const importResourceRecordsResult = dnsSvcsService.importResourceRecords(importResourceRecordsParams);
+        const importResourceRecordsResult = dnsSvcsService.importResourceRecords(
+          importResourceRecordsParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(importResourceRecordsResult);
@@ -1207,7 +1255,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/import_resource_records', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/import_resource_records',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'multipart/form-data';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1290,7 +1342,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const listPermittedNetworksResult = dnsSvcsService.listPermittedNetworks(listPermittedNetworksParams);
+        const listPermittedNetworksResult = dnsSvcsService.listPermittedNetworks(
+          listPermittedNetworksParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(listPermittedNetworksResult);
@@ -1300,7 +1354,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1374,7 +1432,8 @@ describe('DnsSvcsV1', () => {
 
       // PermittedNetworkVpc
       const permittedNetworkVpcModel = {
-        vpc_crn: 'crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6',
+        vpc_crn:
+          'crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6',
       };
 
       function __createPermittedNetworkTest() {
@@ -1392,7 +1451,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const createPermittedNetworkResult = dnsSvcsService.createPermittedNetwork(createPermittedNetworkParams);
+        const createPermittedNetworkResult = dnsSvcsService.createPermittedNetwork(
+          createPermittedNetworkParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createPermittedNetworkResult);
@@ -1402,7 +1463,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1487,7 +1552,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const deletePermittedNetworkResult = dnsSvcsService.deletePermittedNetwork(deletePermittedNetworkParams);
+        const deletePermittedNetworkResult = dnsSvcsService.deletePermittedNetwork(
+          deletePermittedNetworkParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(deletePermittedNetworkResult);
@@ -1497,7 +1564,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}',
+          'DELETE'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1583,7 +1654,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const getPermittedNetworkResult = dnsSvcsService.getPermittedNetwork(getPermittedNetworkParams);
+        const getPermittedNetworkResult = dnsSvcsService.getPermittedNetwork(
+          getPermittedNetworkParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getPermittedNetworkResult);
@@ -1593,7 +1666,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1691,7 +1768,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1777,7 +1858,10 @@ describe('DnsSvcsV1', () => {
         const dnszoneId = 'testString';
         const name = 'glb.example.com';
         const fallbackPool = '24ccf79a-4ae0-4769-b4c8-17f8f230072e';
-        const defaultPools = ['24ccf79a-4ae0-4769-b4c8-17f8f230072e', '13fa7d9e-aeff-4e14-8300-58021db9ee74'];
+        const defaultPools = [
+          '24ccf79a-4ae0-4769-b4c8-17f8f230072e',
+          '13fa7d9e-aeff-4e14-8300-58021db9ee74',
+        ];
         const description = 'Load balancer for glb.example.com.';
         const enabled = true;
         const ttl = 120;
@@ -1796,7 +1880,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const createLoadBalancerResult = dnsSvcsService.createLoadBalancer(createLoadBalancerParams);
+        const createLoadBalancerResult = dnsSvcsService.createLoadBalancer(
+          createLoadBalancerParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createLoadBalancerResult);
@@ -1806,7 +1892,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1896,7 +1986,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const deleteLoadBalancerResult = dnsSvcsService.deleteLoadBalancer(deleteLoadBalancerParams);
+        const deleteLoadBalancerResult = dnsSvcsService.deleteLoadBalancer(
+          deleteLoadBalancerParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteLoadBalancerResult);
@@ -1906,7 +1998,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2002,7 +2098,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2093,7 +2193,10 @@ describe('DnsSvcsV1', () => {
         const enabled = true;
         const ttl = 120;
         const fallbackPool = '24ccf79a-4ae0-4769-b4c8-17f8f230072e';
-        const defaultPools = ['24ccf79a-4ae0-4769-b4c8-17f8f230072e', '13fa7d9e-aeff-4e14-8300-58021db9ee74'];
+        const defaultPools = [
+          '24ccf79a-4ae0-4769-b4c8-17f8f230072e',
+          '13fa7d9e-aeff-4e14-8300-58021db9ee74',
+        ];
         const azPools = [loadBalancerAzPoolsItemModel];
         const xCorrelationId = 'testString';
         const updateLoadBalancerParams = {
@@ -2110,7 +2213,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const updateLoadBalancerResult = dnsSvcsService.updateLoadBalancer(updateLoadBalancerParams);
+        const updateLoadBalancerResult = dnsSvcsService.updateLoadBalancer(
+          updateLoadBalancerParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateLoadBalancerResult);
@@ -2120,7 +2225,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}', 'PUT');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}',
+          'PUT'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2313,7 +2422,9 @@ describe('DnsSvcsV1', () => {
         const monitor = '7dd6841c-264e-11ea-88df-062967242a6a';
         const notificationChannel = 'https://mywebsite.com/dns/webhook';
         const healthcheckRegion = 'us-south';
-        const healthcheckSubnets = ['crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04'];
+        const healthcheckSubnets = [
+          'crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04',
+        ];
         const xCorrelationId = 'testString';
         const createPoolParams = {
           instanceId: instanceId,
@@ -2619,7 +2730,9 @@ describe('DnsSvcsV1', () => {
         const monitor = '7dd6841c-264e-11ea-88df-062967242a6a';
         const notificationChannel = 'https://mywebsite.com/dns/webhook';
         const healthcheckRegion = 'us-south';
-        const healthcheckSubnets = ['crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04'];
+        const healthcheckSubnets = [
+          'crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04',
+        ];
         const xCorrelationId = 'testString';
         const updatePoolParams = {
           instanceId: instanceId,
@@ -2971,7 +3084,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/monitors/{monitor_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/monitors/{monitor_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3062,7 +3179,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/monitors/{monitor_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/monitors/{monitor_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3187,7 +3308,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/monitors/{monitor_id}', 'PUT');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/monitors/{monitor_id}',
+          'PUT'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3279,7 +3404,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const listCustomResolversResult = dnsSvcsService.listCustomResolvers(listCustomResolversParams);
+        const listCustomResolversResult = dnsSvcsService.listCustomResolvers(
+          listCustomResolversParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(listCustomResolversResult);
@@ -3360,7 +3487,8 @@ describe('DnsSvcsV1', () => {
 
       // LocationInput
       const locationInputModel = {
-        subnet_crn: 'crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04',
+        subnet_crn:
+          'crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04',
         enabled: false,
       };
 
@@ -3379,7 +3507,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const createCustomResolverResult = dnsSvcsService.createCustomResolver(createCustomResolverParams);
+        const createCustomResolverResult = dnsSvcsService.createCustomResolver(
+          createCustomResolverParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createCustomResolverResult);
@@ -3470,7 +3600,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const deleteCustomResolverResult = dnsSvcsService.deleteCustomResolver(deleteCustomResolverParams);
+        const deleteCustomResolverResult = dnsSvcsService.deleteCustomResolver(
+          deleteCustomResolverParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteCustomResolverResult);
@@ -3480,7 +3612,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3571,7 +3707,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3658,7 +3798,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const updateCustomResolverResult = dnsSvcsService.updateCustomResolver(updateCustomResolverParams);
+        const updateCustomResolverResult = dnsSvcsService.updateCustomResolver(
+          updateCustomResolverParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateCustomResolverResult);
@@ -3668,7 +3810,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3754,7 +3900,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const updateCrLocationsOrderResult = dnsSvcsService.updateCrLocationsOrder(updateCrLocationsOrderParams);
+        const updateCrLocationsOrderResult = dnsSvcsService.updateCrLocationsOrder(
+          updateCrLocationsOrderParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateCrLocationsOrderResult);
@@ -3764,7 +3912,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations_order', 'PUT');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations_order',
+          'PUT'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3839,7 +3991,8 @@ describe('DnsSvcsV1', () => {
         // Construct the params object for operation addCustomResolverLocation
         const instanceId = 'testString';
         const resolverId = 'testString';
-        const subnetCrn = 'crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04';
+        const subnetCrn =
+          'crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04';
         const enabled = false;
         const xCorrelationId = 'testString';
         const addCustomResolverLocationParams = {
@@ -3850,7 +4003,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const addCustomResolverLocationResult = dnsSvcsService.addCustomResolverLocation(addCustomResolverLocationParams);
+        const addCustomResolverLocationResult = dnsSvcsService.addCustomResolverLocation(
+          addCustomResolverLocationParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(addCustomResolverLocationResult);
@@ -3860,7 +4015,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3938,7 +4097,8 @@ describe('DnsSvcsV1', () => {
         const resolverId = 'testString';
         const locationId = 'testString';
         const enabled = false;
-        const subnetCrn = 'crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04';
+        const subnetCrn =
+          'crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04';
         const xCorrelationId = 'testString';
         const updateCustomResolverLocationParams = {
           instanceId: instanceId,
@@ -3949,7 +4109,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const updateCustomResolverLocationResult = dnsSvcsService.updateCustomResolverLocation(updateCustomResolverLocationParams);
+        const updateCustomResolverLocationResult = dnsSvcsService.updateCustomResolverLocation(
+          updateCustomResolverLocationParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateCustomResolverLocationResult);
@@ -3959,7 +4121,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4047,7 +4213,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const deleteCustomResolverLocationResult = dnsSvcsService.deleteCustomResolverLocation(deleteCustomResolverLocationParams);
+        const deleteCustomResolverLocationResult = dnsSvcsService.deleteCustomResolverLocation(
+          deleteCustomResolverLocationParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteCustomResolverLocationResult);
@@ -4057,7 +4225,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4141,7 +4313,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const listForwardingRulesResult = dnsSvcsService.listForwardingRules(listForwardingRulesParams);
+        const listForwardingRulesResult = dnsSvcsService.listForwardingRules(
+          listForwardingRulesParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(listForwardingRulesResult);
@@ -4151,7 +4325,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4240,7 +4418,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const createForwardingRuleResult = dnsSvcsService.createForwardingRule(createForwardingRuleParams);
+        const createForwardingRuleResult = dnsSvcsService.createForwardingRule(
+          createForwardingRuleParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createForwardingRuleResult);
@@ -4250,7 +4430,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4337,7 +4521,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const deleteForwardingRuleResult = dnsSvcsService.deleteForwardingRule(deleteForwardingRuleParams);
+        const deleteForwardingRuleResult = dnsSvcsService.deleteForwardingRule(
+          deleteForwardingRuleParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteForwardingRuleResult);
@@ -4347,7 +4533,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4443,7 +4633,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4535,7 +4729,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const updateForwardingRuleResult = dnsSvcsService.updateForwardingRule(updateForwardingRuleParams);
+        const updateForwardingRuleResult = dnsSvcsService.updateForwardingRule(
+          updateForwardingRuleParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateForwardingRuleResult);
@@ -4545,7 +4741,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4611,503 +4811,6 @@ describe('DnsSvcsV1', () => {
         let err;
         try {
           await dnsSvcsService.updateForwardingRule();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
-  describe('createSecondaryZone', () => {
-    describe('positive tests', () => {
-      function __createSecondaryZoneTest() {
-        // Construct the params object for operation createSecondaryZone
-        const instanceId = 'testString';
-        const resolverId = 'testString';
-        const zone = 'example.com';
-        const transferFrom = ['10.0.0.7'];
-        const description = 'secondary zone';
-        const enabled = false;
-        const xCorrelationId = 'testString';
-        const createSecondaryZoneParams = {
-          instanceId: instanceId,
-          resolverId: resolverId,
-          zone: zone,
-          transferFrom: transferFrom,
-          description: description,
-          enabled: enabled,
-          xCorrelationId: xCorrelationId,
-        };
-
-        const createSecondaryZoneResult = dnsSvcsService.createSecondaryZone(createSecondaryZoneParams);
-
-        // all methods should return a Promise
-        expectToBePromise(createSecondaryZoneResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones', 'POST');
-        const expectedAccept = 'application/json';
-        const expectedContentType = 'application/json';
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(mockRequestOptions.body.zone).toEqual(zone);
-        expect(mockRequestOptions.body.transfer_from).toEqual(transferFrom);
-        expect(mockRequestOptions.body.description).toEqual(description);
-        expect(mockRequestOptions.body.enabled).toEqual(enabled);
-        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __createSecondaryZoneTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        dnsSvcsService.enableRetries();
-        __createSecondaryZoneTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        dnsSvcsService.disableRetries();
-        __createSecondaryZoneTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const instanceId = 'testString';
-        const resolverId = 'testString';
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const createSecondaryZoneParams = {
-          instanceId,
-          resolverId,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        dnsSvcsService.createSecondaryZone(createSecondaryZoneParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await dnsSvcsService.createSecondaryZone({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await dnsSvcsService.createSecondaryZone();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
-  describe('listSecondaryZones', () => {
-    describe('positive tests', () => {
-      function __listSecondaryZonesTest() {
-        // Construct the params object for operation listSecondaryZones
-        const instanceId = 'testString';
-        const resolverId = 'testString';
-        const xCorrelationId = 'testString';
-        const offset = 38;
-        const limit = 200;
-        const listSecondaryZonesParams = {
-          instanceId: instanceId,
-          resolverId: resolverId,
-          xCorrelationId: xCorrelationId,
-          offset: offset,
-          limit: limit,
-        };
-
-        const listSecondaryZonesResult = dnsSvcsService.listSecondaryZones(listSecondaryZonesParams);
-
-        // all methods should return a Promise
-        expectToBePromise(listSecondaryZonesResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones', 'GET');
-        const expectedAccept = 'application/json';
-        const expectedContentType = undefined;
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(mockRequestOptions.qs.offset).toEqual(offset);
-        expect(mockRequestOptions.qs.limit).toEqual(limit);
-        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __listSecondaryZonesTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        dnsSvcsService.enableRetries();
-        __listSecondaryZonesTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        dnsSvcsService.disableRetries();
-        __listSecondaryZonesTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const instanceId = 'testString';
-        const resolverId = 'testString';
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const listSecondaryZonesParams = {
-          instanceId,
-          resolverId,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        dnsSvcsService.listSecondaryZones(listSecondaryZonesParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await dnsSvcsService.listSecondaryZones({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await dnsSvcsService.listSecondaryZones();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
-  describe('getSecondaryZone', () => {
-    describe('positive tests', () => {
-      function __getSecondaryZoneTest() {
-        // Construct the params object for operation getSecondaryZone
-        const instanceId = 'testString';
-        const resolverId = 'testString';
-        const szId = 'testString';
-        const xCorrelationId = 'testString';
-        const getSecondaryZoneParams = {
-          instanceId: instanceId,
-          resolverId: resolverId,
-          szId: szId,
-          xCorrelationId: xCorrelationId,
-        };
-
-        const getSecondaryZoneResult = dnsSvcsService.getSecondaryZone(getSecondaryZoneParams);
-
-        // all methods should return a Promise
-        expectToBePromise(getSecondaryZoneResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}', 'GET');
-        const expectedAccept = 'application/json';
-        const expectedContentType = undefined;
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
-        expect(mockRequestOptions.path.sz_id).toEqual(szId);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __getSecondaryZoneTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        dnsSvcsService.enableRetries();
-        __getSecondaryZoneTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        dnsSvcsService.disableRetries();
-        __getSecondaryZoneTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const instanceId = 'testString';
-        const resolverId = 'testString';
-        const szId = 'testString';
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const getSecondaryZoneParams = {
-          instanceId,
-          resolverId,
-          szId,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        dnsSvcsService.getSecondaryZone(getSecondaryZoneParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await dnsSvcsService.getSecondaryZone({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await dnsSvcsService.getSecondaryZone();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
-  describe('updateSecondaryZone', () => {
-    describe('positive tests', () => {
-      function __updateSecondaryZoneTest() {
-        // Construct the params object for operation updateSecondaryZone
-        const instanceId = 'testString';
-        const resolverId = 'testString';
-        const szId = 'testString';
-        const description = 'secondary zone';
-        const enabled = false;
-        const transferFrom = ['10.0.0.7'];
-        const xCorrelationId = 'testString';
-        const updateSecondaryZoneParams = {
-          instanceId: instanceId,
-          resolverId: resolverId,
-          szId: szId,
-          description: description,
-          enabled: enabled,
-          transferFrom: transferFrom,
-          xCorrelationId: xCorrelationId,
-        };
-
-        const updateSecondaryZoneResult = dnsSvcsService.updateSecondaryZone(updateSecondaryZoneParams);
-
-        // all methods should return a Promise
-        expectToBePromise(updateSecondaryZoneResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}', 'PATCH');
-        const expectedAccept = 'application/json';
-        const expectedContentType = 'application/json';
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(mockRequestOptions.body.description).toEqual(description);
-        expect(mockRequestOptions.body.enabled).toEqual(enabled);
-        expect(mockRequestOptions.body.transfer_from).toEqual(transferFrom);
-        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
-        expect(mockRequestOptions.path.sz_id).toEqual(szId);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __updateSecondaryZoneTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        dnsSvcsService.enableRetries();
-        __updateSecondaryZoneTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        dnsSvcsService.disableRetries();
-        __updateSecondaryZoneTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const instanceId = 'testString';
-        const resolverId = 'testString';
-        const szId = 'testString';
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const updateSecondaryZoneParams = {
-          instanceId,
-          resolverId,
-          szId,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        dnsSvcsService.updateSecondaryZone(updateSecondaryZoneParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await dnsSvcsService.updateSecondaryZone({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await dnsSvcsService.updateSecondaryZone();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
-  describe('deleteSecondaryZone', () => {
-    describe('positive tests', () => {
-      function __deleteSecondaryZoneTest() {
-        // Construct the params object for operation deleteSecondaryZone
-        const instanceId = 'testString';
-        const resolverId = 'testString';
-        const szId = 'testString';
-        const xCorrelationId = 'testString';
-        const deleteSecondaryZoneParams = {
-          instanceId: instanceId,
-          resolverId: resolverId,
-          szId: szId,
-          xCorrelationId: xCorrelationId,
-        };
-
-        const deleteSecondaryZoneResult = dnsSvcsService.deleteSecondaryZone(deleteSecondaryZoneParams);
-
-        // all methods should return a Promise
-        expectToBePromise(deleteSecondaryZoneResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}', 'DELETE');
-        const expectedAccept = undefined;
-        const expectedContentType = undefined;
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
-        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
-        expect(mockRequestOptions.path.sz_id).toEqual(szId);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __deleteSecondaryZoneTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        dnsSvcsService.enableRetries();
-        __deleteSecondaryZoneTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        dnsSvcsService.disableRetries();
-        __deleteSecondaryZoneTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const instanceId = 'testString';
-        const resolverId = 'testString';
-        const szId = 'testString';
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const deleteSecondaryZoneParams = {
-          instanceId,
-          resolverId,
-          szId,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        dnsSvcsService.deleteSecondaryZone(deleteSecondaryZoneParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await dnsSvcsService.deleteSecondaryZone({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await dnsSvcsService.deleteSecondaryZone();
         } catch (e) {
           err = e;
         }
@@ -5311,11 +5014,11 @@ describe('DnsSvcsV1', () => {
       function __getLinkedZoneTest() {
         // Construct the params object for operation getLinkedZone
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const xCorrelationId = 'testString';
         const getLinkedZoneParams = {
           instanceId: instanceId,
-          lzId: lzId,
+          linkedDnszoneId: linkedDnszoneId,
           xCorrelationId: xCorrelationId,
         };
 
@@ -5329,13 +5032,17 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/linked_dnszones/{lz_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.lz_id).toEqual(lzId);
+        expect(mockRequestOptions.path.linked_dnszone_id).toEqual(linkedDnszoneId);
       }
 
       test('should pass the right params to createRequest with enable and disable retries', () => {
@@ -5356,12 +5063,12 @@ describe('DnsSvcsV1', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const getLinkedZoneParams = {
           instanceId,
-          lzId,
+          linkedDnszoneId,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
@@ -5402,13 +5109,13 @@ describe('DnsSvcsV1', () => {
       function __updateLinkedZoneTest() {
         // Construct the params object for operation updateLinkedZone
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const description = 'linked zone example';
         const label = 'dev';
         const xCorrelationId = 'testString';
         const updateLinkedZoneParams = {
           instanceId: instanceId,
-          lzId: lzId,
+          linkedDnszoneId: linkedDnszoneId,
           description: description,
           label: label,
           xCorrelationId: xCorrelationId,
@@ -5424,7 +5131,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/linked_dnszones/{lz_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5432,7 +5143,7 @@ describe('DnsSvcsV1', () => {
         expect(mockRequestOptions.body.description).toEqual(description);
         expect(mockRequestOptions.body.label).toEqual(label);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.lz_id).toEqual(lzId);
+        expect(mockRequestOptions.path.linked_dnszone_id).toEqual(linkedDnszoneId);
       }
 
       test('should pass the right params to createRequest with enable and disable retries', () => {
@@ -5453,12 +5164,12 @@ describe('DnsSvcsV1', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const updateLinkedZoneParams = {
           instanceId,
-          lzId,
+          linkedDnszoneId,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
@@ -5499,11 +5210,11 @@ describe('DnsSvcsV1', () => {
       function __deleteLinkedZoneTest() {
         // Construct the params object for operation deleteLinkedZone
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const xCorrelationId = 'testString';
         const deleteLinkedZoneParams = {
           instanceId: instanceId,
-          lzId: lzId,
+          linkedDnszoneId: linkedDnszoneId,
           xCorrelationId: xCorrelationId,
         };
 
@@ -5517,13 +5228,17 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/linked_dnszones/{lz_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}',
+          'DELETE'
+        );
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.lz_id).toEqual(lzId);
+        expect(mockRequestOptions.path.linked_dnszone_id).toEqual(linkedDnszoneId);
       }
 
       test('should pass the right params to createRequest with enable and disable retries', () => {
@@ -5544,12 +5259,12 @@ describe('DnsSvcsV1', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const deleteLinkedZoneParams = {
           instanceId,
-          lzId,
+          linkedDnszoneId,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
@@ -5602,7 +5317,9 @@ describe('DnsSvcsV1', () => {
           limit: limit,
         };
 
-        const listDnszoneAccessRequestsResult = dnsSvcsService.listDnszoneAccessRequests(listDnszoneAccessRequestsParams);
+        const listDnszoneAccessRequestsResult = dnsSvcsService.listDnszoneAccessRequests(
+          listDnszoneAccessRequestsParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(listDnszoneAccessRequestsResult);
@@ -5612,7 +5329,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5697,7 +5418,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const getDnszoneAccessRequestResult = dnsSvcsService.getDnszoneAccessRequest(getDnszoneAccessRequestParams);
+        const getDnszoneAccessRequestResult = dnsSvcsService.getDnszoneAccessRequest(
+          getDnszoneAccessRequestParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getDnszoneAccessRequestResult);
@@ -5707,7 +5430,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests/{request_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests/{request_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5795,7 +5522,9 @@ describe('DnsSvcsV1', () => {
           xCorrelationId: xCorrelationId,
         };
 
-        const updateDnszoneAccessRequestResult = dnsSvcsService.updateDnszoneAccessRequest(updateDnszoneAccessRequestParams);
+        const updateDnszoneAccessRequestResult = dnsSvcsService.updateDnszoneAccessRequest(
+          updateDnszoneAccessRequestParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(updateDnszoneAccessRequestResult);
@@ -5805,7 +5534,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests/{request_id}', 'PATCH');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests/{request_id}',
+          'PATCH'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5882,15 +5615,17 @@ describe('DnsSvcsV1', () => {
       function __listLinkedPermittedNetworksTest() {
         // Construct the params object for operation listLinkedPermittedNetworks
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const xCorrelationId = 'testString';
         const listLinkedPermittedNetworksParams = {
           instanceId: instanceId,
-          lzId: lzId,
+          linkedDnszoneId: linkedDnszoneId,
           xCorrelationId: xCorrelationId,
         };
 
-        const listLinkedPermittedNetworksResult = dnsSvcsService.listLinkedPermittedNetworks(listLinkedPermittedNetworksParams);
+        const listLinkedPermittedNetworksResult = dnsSvcsService.listLinkedPermittedNetworks(
+          listLinkedPermittedNetworksParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(listLinkedPermittedNetworksResult);
@@ -5900,13 +5635,17 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}/permitted_networks',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.lz_id).toEqual(lzId);
+        expect(mockRequestOptions.path.linked_dnszone_id).toEqual(linkedDnszoneId);
       }
 
       test('should pass the right params to createRequest with enable and disable retries', () => {
@@ -5927,12 +5666,12 @@ describe('DnsSvcsV1', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const listLinkedPermittedNetworksParams = {
           instanceId,
-          lzId,
+          linkedDnszoneId,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
@@ -5974,25 +5713,28 @@ describe('DnsSvcsV1', () => {
 
       // PermittedNetworkVpc
       const permittedNetworkVpcModel = {
-        vpc_crn: 'crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6',
+        vpc_crn:
+          'crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6',
       };
 
       function __createLzPermittedNetworkTest() {
         // Construct the params object for operation createLzPermittedNetwork
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const type = 'vpc';
         const permittedNetwork = permittedNetworkVpcModel;
         const xCorrelationId = 'testString';
         const createLzPermittedNetworkParams = {
           instanceId: instanceId,
-          lzId: lzId,
+          linkedDnszoneId: linkedDnszoneId,
           type: type,
           permittedNetwork: permittedNetwork,
           xCorrelationId: xCorrelationId,
         };
 
-        const createLzPermittedNetworkResult = dnsSvcsService.createLzPermittedNetwork(createLzPermittedNetworkParams);
+        const createLzPermittedNetworkResult = dnsSvcsService.createLzPermittedNetwork(
+          createLzPermittedNetworkParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(createLzPermittedNetworkResult);
@@ -6002,7 +5744,11 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks', 'POST');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}/permitted_networks',
+          'POST'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -6010,7 +5756,7 @@ describe('DnsSvcsV1', () => {
         expect(mockRequestOptions.body.type).toEqual(type);
         expect(mockRequestOptions.body.permitted_network).toEqual(permittedNetwork);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.lz_id).toEqual(lzId);
+        expect(mockRequestOptions.path.linked_dnszone_id).toEqual(linkedDnszoneId);
       }
 
       test('should pass the right params to createRequest with enable and disable retries', () => {
@@ -6031,12 +5777,12 @@ describe('DnsSvcsV1', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const createLzPermittedNetworkParams = {
           instanceId,
-          lzId,
+          linkedDnszoneId,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
@@ -6077,17 +5823,19 @@ describe('DnsSvcsV1', () => {
       function __deleteLzPermittedNetworkTest() {
         // Construct the params object for operation deleteLzPermittedNetwork
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const permittedNetworkId = 'testString';
         const xCorrelationId = 'testString';
         const deleteLzPermittedNetworkParams = {
           instanceId: instanceId,
-          lzId: lzId,
+          linkedDnszoneId: linkedDnszoneId,
           permittedNetworkId: permittedNetworkId,
           xCorrelationId: xCorrelationId,
         };
 
-        const deleteLzPermittedNetworkResult = dnsSvcsService.deleteLzPermittedNetwork(deleteLzPermittedNetworkParams);
+        const deleteLzPermittedNetworkResult = dnsSvcsService.deleteLzPermittedNetwork(
+          deleteLzPermittedNetworkParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(deleteLzPermittedNetworkResult);
@@ -6097,13 +5845,17 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks/{permitted_network_id}', 'DELETE');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}/permitted_networks/{permitted_network_id}',
+          'DELETE'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.lz_id).toEqual(lzId);
+        expect(mockRequestOptions.path.linked_dnszone_id).toEqual(linkedDnszoneId);
         expect(mockRequestOptions.path.permitted_network_id).toEqual(permittedNetworkId);
       }
 
@@ -6125,13 +5877,13 @@ describe('DnsSvcsV1', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const permittedNetworkId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const deleteLzPermittedNetworkParams = {
           instanceId,
-          lzId,
+          linkedDnszoneId,
           permittedNetworkId,
           headers: {
             Accept: userAccept,
@@ -6173,17 +5925,19 @@ describe('DnsSvcsV1', () => {
       function __getLinkedPermittedNetworkTest() {
         // Construct the params object for operation getLinkedPermittedNetwork
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const permittedNetworkId = 'testString';
         const xCorrelationId = 'testString';
         const getLinkedPermittedNetworkParams = {
           instanceId: instanceId,
-          lzId: lzId,
+          linkedDnszoneId: linkedDnszoneId,
           permittedNetworkId: permittedNetworkId,
           xCorrelationId: xCorrelationId,
         };
 
-        const getLinkedPermittedNetworkResult = dnsSvcsService.getLinkedPermittedNetwork(getLinkedPermittedNetworkParams);
+        const getLinkedPermittedNetworkResult = dnsSvcsService.getLinkedPermittedNetwork(
+          getLinkedPermittedNetworkParams
+        );
 
         // all methods should return a Promise
         expectToBePromise(getLinkedPermittedNetworkResult);
@@ -6193,13 +5947,17 @@ describe('DnsSvcsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks/{permitted_network_id}', 'GET');
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/linked_dnszones/{linked_dnszone_id}/permitted_networks/{permitted_network_id}',
+          'GET'
+        );
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.lz_id).toEqual(lzId);
+        expect(mockRequestOptions.path.linked_dnszone_id).toEqual(linkedDnszoneId);
         expect(mockRequestOptions.path.permitted_network_id).toEqual(permittedNetworkId);
       }
 
@@ -6221,13 +5979,13 @@ describe('DnsSvcsV1', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const instanceId = 'testString';
-        const lzId = 'testString';
+        const linkedDnszoneId = 'testString';
         const permittedNetworkId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const getLinkedPermittedNetworkParams = {
           instanceId,
-          lzId,
+          linkedDnszoneId,
           permittedNetworkId,
           headers: {
             Accept: userAccept,
