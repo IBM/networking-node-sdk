@@ -3004,6 +3004,328 @@ class DnsSvcsV1 extends BaseService {
     return this.createRequest(parameters);
   }
   /*************************
+   * secondaryZones
+   ************************/
+
+  /**
+   * Create a secondary zone.
+   *
+   * Create a secondary zone for the custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.zone] - zone name.
+   * @param {string[]} [params.transferFrom] - The addresses of DNS servers where the secondary zone data should be
+   * transferred from.
+   * @param {string} [params.description] - Descriptive text of the secondary zone.
+   * @param {boolean} [params.enabled] - Enable/Disable the secondary zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>>}
+   */
+  public createSecondaryZone(
+    params: DnsSvcsV1.CreateSecondaryZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'zone', 'transferFrom', 'description', 'enabled', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'zone': _params.zone,
+      'transfer_from': _params.transferFrom,
+      'description': _params.description,
+      'enabled': _params.enabled,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createSecondaryZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * List secondary zones.
+   *
+   * List secondary zones for the custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
+   * @param {number} [params.limit] - Specify maximum resources might be returned.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZoneList>>}
+   */
+  public listSecondaryZones(
+    params: DnsSvcsV1.ListSecondaryZonesParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZoneList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'xCorrelationId', 'offset', 'limit', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'offset': _params.offset,
+      'limit': _params.limit,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listSecondaryZones'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get a secondary zone.
+   *
+   * Get details of a secondary zone for the custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.secondaryZoneId - The unique identifier of a secondary zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>>}
+   */
+  public getSecondaryZone(
+    params: DnsSvcsV1.GetSecondaryZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId', 'secondaryZoneId'];
+    const _validParams = ['instanceId', 'resolverId', 'secondaryZoneId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'secondary_zone_id': _params.secondaryZoneId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getSecondaryZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update a secondary zone.
+   *
+   * Update a secondary zone for the custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.secondaryZoneId - The unique identifier of a secondary zone.
+   * @param {string} [params.description] - Descriptive text of the secondary zone.
+   * @param {boolean} [params.enabled] - Enable/Disable the secondary zone.
+   * @param {string[]} [params.transferFrom] - The addresses of DNS servers where the secondary zone data should be
+   * transferred from.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>>}
+   */
+  public updateSecondaryZone(
+    params: DnsSvcsV1.UpdateSecondaryZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.SecondaryZone>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId', 'secondaryZoneId'];
+    const _validParams = ['instanceId', 'resolverId', 'secondaryZoneId', 'description', 'enabled', 'transferFrom', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'description': _params.description,
+      'enabled': _params.enabled,
+      'transfer_from': _params.transferFrom,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'secondary_zone_id': _params.secondaryZoneId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateSecondaryZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Delete a secondary zone.
+   *
+   * Delete a secondary zone for the custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.secondaryZoneId - The unique identifier of a secondary zone.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>>}
+   */
+  public deleteSecondaryZone(
+    params: DnsSvcsV1.DeleteSecondaryZoneParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.Empty>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId', 'secondaryZoneId'];
+    const _validParams = ['instanceId', 'resolverId', 'secondaryZoneId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'secondary_zone_id': _params.secondaryZoneId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteSecondaryZone'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}',
+        method: 'DELETE',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
    * linkedZones
    ************************/
 
@@ -4616,6 +4938,85 @@ namespace DnsSvcsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `createSecondaryZone` operation. */
+  export interface CreateSecondaryZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** zone name. */
+    zone?: string;
+    /** The addresses of DNS servers where the secondary zone data should be transferred from. */
+    transferFrom?: string[];
+    /** Descriptive text of the secondary zone. */
+    description?: string;
+    /** Enable/Disable the secondary zone. */
+    enabled?: boolean;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `listSecondaryZones` operation. */
+  export interface ListSecondaryZonesParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    /** Specify how many resources to skip over, the default value is 0. */
+    offset?: number;
+    /** Specify maximum resources might be returned. */
+    limit?: number;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getSecondaryZone` operation. */
+  export interface GetSecondaryZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** The unique identifier of a secondary zone. */
+    secondaryZoneId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateSecondaryZone` operation. */
+  export interface UpdateSecondaryZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** The unique identifier of a secondary zone. */
+    secondaryZoneId: string;
+    /** Descriptive text of the secondary zone. */
+    description?: string;
+    /** Enable/Disable the secondary zone. */
+    enabled?: boolean;
+    /** The addresses of DNS servers where the secondary zone data should be transferred from. */
+    transferFrom?: string[];
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `deleteSecondaryZone` operation. */
+  export interface DeleteSecondaryZoneParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** The unique identifier of a secondary zone. */
+    secondaryZoneId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `listLinkedZones` operation. */
   export interface ListLinkedZonesParams {
     /** The unique identifier of a service instance. */
@@ -5401,6 +5802,46 @@ namespace DnsSvcsV1 {
     service?: string;
     /** Only used for SRV record. */
     protocol?: string;
+  }
+
+  /** Secondary zone details. */
+  export interface SecondaryZone {
+    /** Identifier of the secondary zone. */
+    id: string;
+    /** Descriptive text of the secondary zone. */
+    description?: string;
+    /** zone name. */
+    zone: string;
+    /** Enable/Disable the secondary zone. */
+    enabled: boolean;
+    /** The addresses of DNS servers where the secondary zone data should be transferred from. */
+    transfer_from: string[];
+    /** The time when a secondary zone is created. */
+    created_on?: string;
+    /** The recent time when a secondary zone is modified. */
+    modified_on?: string;
+  }
+
+  /** List of secondary zones. */
+  export interface SecondaryZoneList {
+    /** Secondary zones. */
+    secondary_zones: SecondaryZone[];
+    /** The number of resources to skip over. */
+    offset: number;
+    /** The maximum number of resources might be returned. */
+    limit: number;
+    /** The number of resources are returned. */
+    count: number;
+    /** Total number of resources. */
+    total_count: number;
+    /** href. */
+    first?: PaginationRef;
+    /** href. */
+    last?: PaginationRef;
+    /** href. */
+    previous?: PaginationRef;
+    /** href. */
+    next?: PaginationRef;
   }
 
   /** The content of type-A resource record. */

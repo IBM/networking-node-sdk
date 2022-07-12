@@ -4819,6 +4819,531 @@ describe('DnsSvcsV1', () => {
       });
     });
   });
+  describe('createSecondaryZone', () => {
+    describe('positive tests', () => {
+      function __createSecondaryZoneTest() {
+        // Construct the params object for operation createSecondaryZone
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const zone = 'example.com';
+        const transferFrom = ['10.0.0.7'];
+        const description = 'secondary zone';
+        const enabled = false;
+        const xCorrelationId = 'testString';
+        const createSecondaryZoneParams = {
+          instanceId: instanceId,
+          resolverId: resolverId,
+          zone: zone,
+          transferFrom: transferFrom,
+          description: description,
+          enabled: enabled,
+          xCorrelationId: xCorrelationId,
+        };
+
+        const createSecondaryZoneResult = dnsSvcsService.createSecondaryZone(
+          createSecondaryZoneParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(createSecondaryZoneResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones',
+          'POST'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
+        expect(mockRequestOptions.body.zone).toEqual(zone);
+        expect(mockRequestOptions.body.transfer_from).toEqual(transferFrom);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createSecondaryZoneTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.enableRetries();
+        __createSecondaryZoneTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.disableRetries();
+        __createSecondaryZoneTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createSecondaryZoneParams = {
+          instanceId,
+          resolverId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dnsSvcsService.createSecondaryZone(createSecondaryZoneParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dnsSvcsService.createSecondaryZone({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dnsSvcsService.createSecondaryZone();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('listSecondaryZones', () => {
+    describe('positive tests', () => {
+      function __listSecondaryZonesTest() {
+        // Construct the params object for operation listSecondaryZones
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const xCorrelationId = 'testString';
+        const offset = 38;
+        const limit = 200;
+        const listSecondaryZonesParams = {
+          instanceId: instanceId,
+          resolverId: resolverId,
+          xCorrelationId: xCorrelationId,
+          offset: offset,
+          limit: limit,
+        };
+
+        const listSecondaryZonesResult = dnsSvcsService.listSecondaryZones(
+          listSecondaryZonesParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(listSecondaryZonesResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
+        expect(mockRequestOptions.qs.offset).toEqual(offset);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listSecondaryZonesTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.enableRetries();
+        __listSecondaryZonesTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.disableRetries();
+        __listSecondaryZonesTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listSecondaryZonesParams = {
+          instanceId,
+          resolverId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dnsSvcsService.listSecondaryZones(listSecondaryZonesParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dnsSvcsService.listSecondaryZones({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dnsSvcsService.listSecondaryZones();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('getSecondaryZone', () => {
+    describe('positive tests', () => {
+      function __getSecondaryZoneTest() {
+        // Construct the params object for operation getSecondaryZone
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const secondaryZoneId = 'testString';
+        const xCorrelationId = 'testString';
+        const getSecondaryZoneParams = {
+          instanceId: instanceId,
+          resolverId: resolverId,
+          secondaryZoneId: secondaryZoneId,
+          xCorrelationId: xCorrelationId,
+        };
+
+        const getSecondaryZoneResult = dnsSvcsService.getSecondaryZone(getSecondaryZoneParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getSecondaryZoneResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+        expect(mockRequestOptions.path.secondary_zone_id).toEqual(secondaryZoneId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getSecondaryZoneTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.enableRetries();
+        __getSecondaryZoneTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.disableRetries();
+        __getSecondaryZoneTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const secondaryZoneId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getSecondaryZoneParams = {
+          instanceId,
+          resolverId,
+          secondaryZoneId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dnsSvcsService.getSecondaryZone(getSecondaryZoneParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dnsSvcsService.getSecondaryZone({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dnsSvcsService.getSecondaryZone();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('updateSecondaryZone', () => {
+    describe('positive tests', () => {
+      function __updateSecondaryZoneTest() {
+        // Construct the params object for operation updateSecondaryZone
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const secondaryZoneId = 'testString';
+        const description = 'secondary zone';
+        const enabled = false;
+        const transferFrom = ['10.0.0.7'];
+        const xCorrelationId = 'testString';
+        const updateSecondaryZoneParams = {
+          instanceId: instanceId,
+          resolverId: resolverId,
+          secondaryZoneId: secondaryZoneId,
+          description: description,
+          enabled: enabled,
+          transferFrom: transferFrom,
+          xCorrelationId: xCorrelationId,
+        };
+
+        const updateSecondaryZoneResult = dnsSvcsService.updateSecondaryZone(
+          updateSecondaryZoneParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(updateSecondaryZoneResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.body.transfer_from).toEqual(transferFrom);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+        expect(mockRequestOptions.path.secondary_zone_id).toEqual(secondaryZoneId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateSecondaryZoneTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.enableRetries();
+        __updateSecondaryZoneTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.disableRetries();
+        __updateSecondaryZoneTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const secondaryZoneId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateSecondaryZoneParams = {
+          instanceId,
+          resolverId,
+          secondaryZoneId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dnsSvcsService.updateSecondaryZone(updateSecondaryZoneParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dnsSvcsService.updateSecondaryZone({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dnsSvcsService.updateSecondaryZone();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('deleteSecondaryZone', () => {
+    describe('positive tests', () => {
+      function __deleteSecondaryZoneTest() {
+        // Construct the params object for operation deleteSecondaryZone
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const secondaryZoneId = 'testString';
+        const xCorrelationId = 'testString';
+        const deleteSecondaryZoneParams = {
+          instanceId: instanceId,
+          resolverId: resolverId,
+          secondaryZoneId: secondaryZoneId,
+          xCorrelationId: xCorrelationId,
+        };
+
+        const deleteSecondaryZoneResult = dnsSvcsService.deleteSecondaryZone(
+          deleteSecondaryZoneParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(deleteSecondaryZoneResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}',
+          'DELETE'
+        );
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+        expect(mockRequestOptions.path.secondary_zone_id).toEqual(secondaryZoneId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteSecondaryZoneTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.enableRetries();
+        __deleteSecondaryZoneTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.disableRetries();
+        __deleteSecondaryZoneTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const secondaryZoneId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteSecondaryZoneParams = {
+          instanceId,
+          resolverId,
+          secondaryZoneId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dnsSvcsService.deleteSecondaryZone(deleteSecondaryZoneParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dnsSvcsService.deleteSecondaryZone({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dnsSvcsService.deleteSecondaryZone();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
   describe('listLinkedZones', () => {
     describe('positive tests', () => {
       function __listLinkedZonesTest() {
