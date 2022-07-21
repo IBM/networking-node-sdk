@@ -1,3 +1,11 @@
+# [0.23.0](https://github.com/IBM/networking-node-sdk/compare/v0.22.1...v0.23.0) (2022-07-21)
+
+
+### Features
+
+* Add support for cross account feature ([96ecf1a](https://github.com/IBM/networking-node-sdk/commit/96ecf1ad129f38628dbe793c13577eb89aaf4a13))
+* **secondary zone:** added secondary zone ([36d59ce](https://github.com/IBM/networking-node-sdk/commit/36d59ceb16a03103adbcaa60f8e0d8032eda798f))
+
 ## [0.22.1](https://github.com/IBM/networking-node-sdk/compare/v0.22.0...v0.22.1) (2022-06-07)
 
 
