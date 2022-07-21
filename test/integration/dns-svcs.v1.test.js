@@ -85,6 +85,7 @@ let request_id;
 let permitted_network_id;
 let customResolverLocation;
 let forwardingRule;
+let secondaryZone;
 
 describe('DNSSVCSApisV1', () => {
   jest.setTimeout(timeout);
@@ -1399,6 +1400,156 @@ describe('DNSSVCSApisV1', () => {
           expect(localForwardingRule).toBeDefined();
           expect(localForwardingRule.id).toEqual(params.ruleId);
           expect(localForwardingRule.description).toEqual(params.description);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+  // Create secondary zone on the given custom resolver.
+  describe('Create secondary zone on the given custom resolver', () => {
+    test('should successfully Create secondary zone on the given custom resolver', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          resolverId: customResolver.id,
+          zone: 'testexample.com',
+          transferFrom: ['10.0.0.7'],
+          enabled: false,
+          description: 'secondary zone',
+          xCorrelationId: 'abc123',
+        };
+
+        const response = await dnsSvcsApisV1.createSecondaryZone(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          secondaryZone = result;
+          expect(secondaryZone).toBeDefined();
+          expect(secondaryZone.zone).toEqual(params.zone);
+          expect(secondaryZone.enabled).toEqual(params.enabled);
+          expect(secondaryZone.description).toEqual(params.description);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+  // List secondary zone on the given custom resolver.
+  describe('List secondary zone on the given custom resolver', () => {
+    test('should successfully list secondary zone on the given custom resolver', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          resolverId: customResolver.id,
+          offset: 0,
+          limit: 200,
+          xCorrelationId: 'abc123',
+        };
+
+        const response = await dnsSvcsApisV1.listSecondaryZones(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+          expect(result.offset).toEqual(params.offset);
+          expect(result.limit).toEqual(params.limit);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+  // Get secondary zone on the given custom resolver.
+  describe('Get secondary zone on the given custom resolver', () => {
+    test('should successfully get secondary zone on the given custom resolver', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          resolverId: customResolver.id,
+          secondaryZoneId: secondaryZone.id,
+          xCorrelationId: 'abc123',
+        };
+
+        const response = await dnsSvcsApisV1.getSecondaryZone(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+          expect(result.id).toEqual(params.secondaryZoneId);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+  // Update secondary zone on the given custom resolver.
+  describe('Update secondary zone on the given custom resolver', () => {
+    test('should successfully update secondary zone on the given custom resolver', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          resolverId: customResolver.id,
+          secondaryZoneId: secondaryZone.id,
+          transferFrom: ['10.0.0.8'],
+          enabled: false,
+          description: 'update secondary zone',
+          xCorrelationId: 'abc123',
+        };
+
+        const response = await dnsSvcsApisV1.updateSecondaryZone(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result) {
+          const secondaryZone = result;
+          expect(secondaryZone).toBeDefined();
+          expect(secondaryZone.enabled).toEqual(params.enabled);
+          expect(secondaryZone.description).toEqual(params.description);
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+  // Delete secondary zone on the given custom resolver.
+  describe('Delete secondary zone on the given custom resolver', () => {
+    test('should successfully delete secondary zone on the given custom resolver', async done => {
+      try {
+        const params = {
+          instanceId: config.DNS_SVCS_INSTANCE_ID,
+          resolverId: customResolver.id,
+          secondaryZoneId: secondaryZone.id,
+          xCorrelationId: 'abc123',
+        };
+
+        const response = await dnsSvcsApisV1.deleteSecondaryZone(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(204);
+
+        const { result } = response || {};
+        expect(result).toBeDefined();
+        if (result) {
+          expect(result).toBeDefined();
+          expect(result.id).toEqual(params.secondaryZoneId);
         }
         done();
       } catch (err) {
