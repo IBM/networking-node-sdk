@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021, 2022
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -124,6 +124,352 @@ describe('DirectLinkV1', () => {
       });
     });
   });
+  describe('listGatewayRouteReports', () => {
+    describe('positive tests', () => {
+      function __listGatewayRouteReportsTest() {
+        // Construct the params object for operation listGatewayRouteReports
+        const gatewayId = 'testString';
+        const params = {
+          gatewayId: gatewayId,
+        };
+
+        const listGatewayRouteReportsResult = directLinkService.listGatewayRouteReports(params);
+
+        // all methods should return a Promise
+        expectToBePromise(listGatewayRouteReportsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/route_reports', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.gateway_id).toEqual(gatewayId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listGatewayRouteReportsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __listGatewayRouteReportsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __listGatewayRouteReportsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const gatewayId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          gatewayId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.listGatewayRouteReports(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async (done) => {
+        let err;
+        try {
+          await directLinkService.listGatewayRouteReports({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+        done();
+      });
+
+      test('should reject promise when required params are not given', (done) => {
+        const listGatewayRouteReportsPromise = directLinkService.listGatewayRouteReports();
+        expectToBePromise(listGatewayRouteReportsPromise);
+
+        listGatewayRouteReportsPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
+      });
+    });
+  });
+  describe('createGatewayRouteReport', () => {
+    describe('positive tests', () => {
+      function __createGatewayRouteReportTest() {
+        // Construct the params object for operation createGatewayRouteReport
+        const gatewayId = 'testString';
+        const params = {
+          gatewayId: gatewayId,
+        };
+
+        const createGatewayRouteReportResult = directLinkService.createGatewayRouteReport(params);
+
+        // all methods should return a Promise
+        expectToBePromise(createGatewayRouteReportResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/route_reports', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.gateway_id).toEqual(gatewayId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createGatewayRouteReportTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __createGatewayRouteReportTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __createGatewayRouteReportTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const gatewayId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          gatewayId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.createGatewayRouteReport(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async (done) => {
+        let err;
+        try {
+          await directLinkService.createGatewayRouteReport({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+        done();
+      });
+
+      test('should reject promise when required params are not given', (done) => {
+        const createGatewayRouteReportPromise = directLinkService.createGatewayRouteReport();
+        expectToBePromise(createGatewayRouteReportPromise);
+
+        createGatewayRouteReportPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
+      });
+    });
+  });
+  describe('deleteGatewayRouteReport', () => {
+    describe('positive tests', () => {
+      function __deleteGatewayRouteReportTest() {
+        // Construct the params object for operation deleteGatewayRouteReport
+        const gatewayId = 'testString';
+        const id = 'testString';
+        const params = {
+          gatewayId: gatewayId,
+          id: id,
+        };
+
+        const deleteGatewayRouteReportResult = directLinkService.deleteGatewayRouteReport(params);
+
+        // all methods should return a Promise
+        expectToBePromise(deleteGatewayRouteReportResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/route_reports/{id}', 'DELETE');
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.gateway_id).toEqual(gatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteGatewayRouteReportTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __deleteGatewayRouteReportTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __deleteGatewayRouteReportTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const gatewayId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          gatewayId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.deleteGatewayRouteReport(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async (done) => {
+        let err;
+        try {
+          await directLinkService.deleteGatewayRouteReport({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+        done();
+      });
+
+      test('should reject promise when required params are not given', (done) => {
+        const deleteGatewayRouteReportPromise = directLinkService.deleteGatewayRouteReport();
+        expectToBePromise(deleteGatewayRouteReportPromise);
+
+        deleteGatewayRouteReportPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
+      });
+    });
+  });
+  describe('getGatewayRouteReport', () => {
+    describe('positive tests', () => {
+      function __getGatewayRouteReportTest() {
+        // Construct the params object for operation getGatewayRouteReport
+        const gatewayId = 'testString';
+        const id = 'testString';
+        const params = {
+          gatewayId: gatewayId,
+          id: id,
+        };
+
+        const getGatewayRouteReportResult = directLinkService.getGatewayRouteReport(params);
+
+        // all methods should return a Promise
+        expectToBePromise(getGatewayRouteReportResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/route_reports/{id}', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.gateway_id).toEqual(gatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getGatewayRouteReportTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __getGatewayRouteReportTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __getGatewayRouteReportTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const gatewayId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const params = {
+          gatewayId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.getGatewayRouteReport(params);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async (done) => {
+        let err;
+        try {
+          await directLinkService.getGatewayRouteReport({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+        done();
+      });
+
+      test('should reject promise when required params are not given', (done) => {
+        const getGatewayRouteReportPromise = directLinkService.getGatewayRouteReport();
+        expectToBePromise(getGatewayRouteReportPromise);
+
+        getGatewayRouteReportPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
+      });
+    });
+  });
   describe('listGateways', () => {
     describe('positive tests', () => {
       function __listGatewaysTest() {
@@ -188,10 +534,16 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // AsPrependTemplate
+      const asPrependTemplateModel = {
+        length: 4,
+        policy: 'import',
+        prefix: '172.17.0.0/16',
+      };
+
       // GatewayTemplateAuthenticationKey
       const gatewayTemplateAuthenticationKeyModel = {
-        crn:
-          'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
+        crn: 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
       };
 
       // GatewayBfdConfigTemplate
@@ -207,14 +559,12 @@ describe('DirectLinkV1', () => {
 
       // GatewayMacsecConfigTemplateFallbackCak
       const gatewayMacsecConfigTemplateFallbackCakModel = {
-        crn:
-          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecConfigTemplatePrimaryCak
       const gatewayMacsecConfigTemplatePrimaryCakModel = {
-        crn:
-          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecConfigTemplate
@@ -227,6 +577,7 @@ describe('DirectLinkV1', () => {
 
       // GatewayTemplateGatewayTypeDedicatedTemplate
       const gatewayTemplateModel = {
+        as_prepends: [asPrependTemplateModel],
         authentication_key: gatewayTemplateAuthenticationKeyModel,
         bfd_config: gatewayBfdConfigTemplateModel,
         bgp_asn: 64999,
@@ -307,7 +658,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.createGateway({});
@@ -316,17 +667,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.createGateway();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const createGatewayPromise = directLinkService.createGateway();
+        expectToBePromise(createGatewayPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        createGatewayPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -391,7 +742,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.deleteGateway({});
@@ -400,17 +751,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.deleteGateway();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const deleteGatewayPromise = directLinkService.deleteGateway();
+        expectToBePromise(deleteGatewayPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        deleteGatewayPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -475,7 +826,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.getGateway({});
@@ -484,17 +835,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.getGateway();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const getGatewayPromise = directLinkService.getGateway();
+        expectToBePromise(getGatewayPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        getGatewayPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -504,8 +855,7 @@ describe('DirectLinkV1', () => {
 
       // GatewayPatchTemplateAuthenticationKey
       const gatewayPatchTemplateAuthenticationKeyModel = {
-        crn:
-          'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
+        crn: 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
       };
 
       // GatewayBfdPatchTemplate
@@ -516,14 +866,12 @@ describe('DirectLinkV1', () => {
 
       // GatewayMacsecConfigPatchTemplateFallbackCak
       const gatewayMacsecConfigPatchTemplateFallbackCakModel = {
-        crn:
-          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecConfigPatchTemplatePrimaryCak
       const gatewayMacsecConfigPatchTemplatePrimaryCakModel = {
-        crn:
-          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecConfigPatchTemplate
@@ -595,9 +943,7 @@ describe('DirectLinkV1', () => {
         expect(mockRequestOptions.body.metered).toEqual(metered);
         expect(mockRequestOptions.body.name).toEqual(name);
         expect(mockRequestOptions.body.operational_status).toEqual(operationalStatus);
-        expect(mockRequestOptions.body.patch_panel_completion_notice).toEqual(
-          patchPanelCompletionNotice
-        );
+        expect(mockRequestOptions.body.patch_panel_completion_notice).toEqual(patchPanelCompletionNotice);
         expect(mockRequestOptions.body.speed_mbps).toEqual(speedMbps);
         expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
         expect(mockRequestOptions.path.id).toEqual(id);
@@ -637,7 +983,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.updateGateway({});
@@ -646,17 +992,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.updateGateway();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const updateGatewayPromise = directLinkService.updateGateway();
+        expectToBePromise(updateGatewayPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        updateGatewayPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -664,10 +1010,16 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // AsPrependTemplate
+      const asPrependTemplateModel = {
+        length: 4,
+        policy: 'import',
+        prefix: '172.17.0.0/16',
+      };
+
       // GatewayActionTemplateAuthenticationKey
       const gatewayActionTemplateAuthenticationKeyModel = {
-        crn:
-          'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
+        crn: 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
       };
 
       // GatewayBfdConfigActionTemplate
@@ -690,6 +1042,7 @@ describe('DirectLinkV1', () => {
         // Construct the params object for operation createGatewayAction
         const id = 'testString';
         const action = 'create_gateway_approve';
+        const asPrepends = [asPrependTemplateModel];
         const authenticationKey = gatewayActionTemplateAuthenticationKeyModel;
         const bfdConfig = gatewayBfdConfigActionTemplateModel;
         const connectionMode = 'transit';
@@ -700,6 +1053,7 @@ describe('DirectLinkV1', () => {
         const params = {
           id: id,
           action: action,
+          asPrepends: asPrepends,
           authenticationKey: authenticationKey,
           bfdConfig: bfdConfig,
           connectionMode: connectionMode,
@@ -724,6 +1078,7 @@ describe('DirectLinkV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.body.action).toEqual(action);
+        expect(mockRequestOptions.body.as_prepends).toEqual(asPrepends);
         expect(mockRequestOptions.body.authentication_key).toEqual(authenticationKey);
         expect(mockRequestOptions.body.bfd_config).toEqual(bfdConfig);
         expect(mockRequestOptions.body.connection_mode).toEqual(connectionMode);
@@ -771,7 +1126,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.createGatewayAction({});
@@ -780,17 +1135,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.createGatewayAction();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const createGatewayActionPromise = directLinkService.createGatewayAction();
+        expectToBePromise(createGatewayActionPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        createGatewayActionPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -803,9 +1158,7 @@ describe('DirectLinkV1', () => {
           id: id,
         };
 
-        const listGatewayCompletionNoticeResult = directLinkService.listGatewayCompletionNotice(
-          params
-        );
+        const listGatewayCompletionNoticeResult = directLinkService.listGatewayCompletionNotice(params);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayCompletionNoticeResult);
@@ -858,7 +1211,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.listGatewayCompletionNotice({});
@@ -867,17 +1220,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.listGatewayCompletionNotice();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const listGatewayCompletionNoticePromise = directLinkService.listGatewayCompletionNotice();
+        expectToBePromise(listGatewayCompletionNoticePromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        listGatewayCompletionNoticePromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -894,9 +1247,7 @@ describe('DirectLinkV1', () => {
           uploadContentType: uploadContentType,
         };
 
-        const createGatewayCompletionNoticeResult = directLinkService.createGatewayCompletionNotice(
-          params
-        );
+        const createGatewayCompletionNoticeResult = directLinkService.createGatewayCompletionNotice(params);
 
         // all methods should return a Promise
         expectToBePromise(createGatewayCompletionNoticeResult);
@@ -950,7 +1301,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.createGatewayCompletionNotice({});
@@ -959,17 +1310,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.createGatewayCompletionNotice();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const createGatewayCompletionNoticePromise = directLinkService.createGatewayCompletionNotice();
+        expectToBePromise(createGatewayCompletionNoticePromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        createGatewayCompletionNoticePromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -982,9 +1333,7 @@ describe('DirectLinkV1', () => {
           id: id,
         };
 
-        const listGatewayLetterOfAuthorizationResult = directLinkService.listGatewayLetterOfAuthorization(
-          params
-        );
+        const listGatewayLetterOfAuthorizationResult = directLinkService.listGatewayLetterOfAuthorization(params);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayLetterOfAuthorizationResult);
@@ -1037,7 +1386,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.listGatewayLetterOfAuthorization({});
@@ -1046,17 +1395,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.listGatewayLetterOfAuthorization();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const listGatewayLetterOfAuthorizationPromise = directLinkService.listGatewayLetterOfAuthorization();
+        expectToBePromise(listGatewayLetterOfAuthorizationPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        listGatewayLetterOfAuthorizationPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1126,7 +1475,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.getGatewayStatistics({});
@@ -1135,17 +1484,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.getGatewayStatistics();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const getGatewayStatisticsPromise = directLinkService.getGatewayStatistics();
+        expectToBePromise(getGatewayStatisticsPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        getGatewayStatisticsPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1213,7 +1562,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.getGatewayStatus({});
@@ -1222,17 +1571,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.getGatewayStatus();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const getGatewayStatusPromise = directLinkService.getGatewayStatus();
+        expectToBePromise(getGatewayStatusPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        getGatewayStatusPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1297,7 +1646,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.listOfferingTypeLocations({});
@@ -1306,17 +1655,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.listOfferingTypeLocations();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const listOfferingTypeLocationsPromise = directLinkService.listOfferingTypeLocations();
+        expectToBePromise(listOfferingTypeLocationsPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        listOfferingTypeLocationsPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1331,9 +1680,7 @@ describe('DirectLinkV1', () => {
           locationName: locationName,
         };
 
-        const listOfferingTypeLocationCrossConnectRoutersResult = directLinkService.listOfferingTypeLocationCrossConnectRouters(
-          params
-        );
+        const listOfferingTypeLocationCrossConnectRoutersResult = directLinkService.listOfferingTypeLocationCrossConnectRouters(params);
 
         // all methods should return a Promise
         expectToBePromise(listOfferingTypeLocationCrossConnectRoutersResult);
@@ -1343,11 +1690,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/offering_types/{offering_type}/locations/{location_name}/cross_connect_routers',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/offering_types/{offering_type}/locations/{location_name}/cross_connect_routers', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1392,7 +1735,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.listOfferingTypeLocationCrossConnectRouters({});
@@ -1401,17 +1744,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.listOfferingTypeLocationCrossConnectRouters();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const listOfferingTypeLocationCrossConnectRoutersPromise = directLinkService.listOfferingTypeLocationCrossConnectRouters();
+        expectToBePromise(listOfferingTypeLocationCrossConnectRoutersPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        listOfferingTypeLocationCrossConnectRoutersPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1476,7 +1819,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.listOfferingTypeSpeeds({});
@@ -1485,17 +1828,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.listOfferingTypeSpeeds();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const listOfferingTypeSpeedsPromise = directLinkService.listOfferingTypeSpeeds();
+        expectToBePromise(listOfferingTypeSpeedsPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        listOfferingTypeSpeedsPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1630,7 +1973,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.getPort({});
@@ -1639,17 +1982,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.getPort();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const getPortPromise = directLinkService.getPort();
+        expectToBePromise(getPortPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        getPortPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1662,9 +2005,7 @@ describe('DirectLinkV1', () => {
           gatewayId: gatewayId,
         };
 
-        const listGatewayVirtualConnectionsResult = directLinkService.listGatewayVirtualConnections(
-          params
-        );
+        const listGatewayVirtualConnectionsResult = directLinkService.listGatewayVirtualConnections(params);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayVirtualConnectionsResult);
@@ -1716,7 +2057,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.listGatewayVirtualConnections({});
@@ -1725,17 +2066,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.listGatewayVirtualConnections();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const listGatewayVirtualConnectionsPromise = directLinkService.listGatewayVirtualConnections();
+        expectToBePromise(listGatewayVirtualConnectionsPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        listGatewayVirtualConnectionsPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1746,8 +2087,7 @@ describe('DirectLinkV1', () => {
         const gatewayId = 'testString';
         const name = 'newVC';
         const type = 'vpc';
-        const networkId =
-          'crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb';
+        const networkId = 'crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb';
         const params = {
           gatewayId: gatewayId,
           name: name,
@@ -1755,9 +2095,7 @@ describe('DirectLinkV1', () => {
           networkId: networkId,
         };
 
-        const createGatewayVirtualConnectionResult = directLinkService.createGatewayVirtualConnection(
-          params
-        );
+        const createGatewayVirtualConnectionResult = directLinkService.createGatewayVirtualConnection(params);
 
         // all methods should return a Promise
         expectToBePromise(createGatewayVirtualConnectionResult);
@@ -1816,7 +2154,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.createGatewayVirtualConnection({});
@@ -1825,17 +2163,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.createGatewayVirtualConnection();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const createGatewayVirtualConnectionPromise = directLinkService.createGatewayVirtualConnection();
+        expectToBePromise(createGatewayVirtualConnectionPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        createGatewayVirtualConnectionPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1850,9 +2188,7 @@ describe('DirectLinkV1', () => {
           id: id,
         };
 
-        const deleteGatewayVirtualConnectionResult = directLinkService.deleteGatewayVirtualConnection(
-          params
-        );
+        const deleteGatewayVirtualConnectionResult = directLinkService.deleteGatewayVirtualConnection(params);
 
         // all methods should return a Promise
         expectToBePromise(deleteGatewayVirtualConnectionResult);
@@ -1862,11 +2198,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/virtual_connections/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/virtual_connections/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1911,7 +2243,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.deleteGatewayVirtualConnection({});
@@ -1920,17 +2252,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.deleteGatewayVirtualConnection();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const deleteGatewayVirtualConnectionPromise = directLinkService.deleteGatewayVirtualConnection();
+        expectToBePromise(deleteGatewayVirtualConnectionPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        deleteGatewayVirtualConnectionPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -1945,9 +2277,7 @@ describe('DirectLinkV1', () => {
           id: id,
         };
 
-        const getGatewayVirtualConnectionResult = directLinkService.getGatewayVirtualConnection(
-          params
-        );
+        const getGatewayVirtualConnectionResult = directLinkService.getGatewayVirtualConnection(params);
 
         // all methods should return a Promise
         expectToBePromise(getGatewayVirtualConnectionResult);
@@ -1957,11 +2287,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/virtual_connections/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/virtual_connections/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2006,7 +2332,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.getGatewayVirtualConnection({});
@@ -2015,17 +2341,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.getGatewayVirtualConnection();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const getGatewayVirtualConnectionPromise = directLinkService.getGatewayVirtualConnection();
+        expectToBePromise(getGatewayVirtualConnectionPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        getGatewayVirtualConnectionPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });
@@ -2044,9 +2370,7 @@ describe('DirectLinkV1', () => {
           status: status,
         };
 
-        const updateGatewayVirtualConnectionResult = directLinkService.updateGatewayVirtualConnection(
-          params
-        );
+        const updateGatewayVirtualConnectionResult = directLinkService.updateGatewayVirtualConnection(params);
 
         // all methods should return a Promise
         expectToBePromise(updateGatewayVirtualConnectionResult);
@@ -2056,11 +2380,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/virtual_connections/{id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/virtual_connections/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2107,7 +2427,7 @@ describe('DirectLinkV1', () => {
     });
 
     describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
+      test('should enforce required parameters', async (done) => {
         let err;
         try {
           await directLinkService.updateGatewayVirtualConnection({});
@@ -2116,17 +2436,17 @@ describe('DirectLinkV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
+        done();
       });
 
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.updateGatewayVirtualConnection();
-        } catch (e) {
-          err = e;
-        }
+      test('should reject promise when required params are not given', (done) => {
+        const updateGatewayVirtualConnectionPromise = directLinkService.updateGatewayVirtualConnection();
+        expectToBePromise(updateGatewayVirtualConnectionPromise);
 
-        expect(err.message).toMatch(/Missing required parameters/);
+        updateGatewayVirtualConnectionPromise.catch((err) => {
+          expect(err.message).toMatch(/Missing required parameters/);
+          done();
+        });
       });
     });
   });

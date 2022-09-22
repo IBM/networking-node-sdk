@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021, 2022.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.43.0-49eab5c7-20211117-152138
+ * IBM OpenAPI SDK Code Generator Version: 3.40.0-910cf8c2-20211006-154754
  */
 
 import * as extend from 'extend';
@@ -105,6 +105,244 @@ class DirectLinkV1 extends BaseService {
     this.version = options.version;
   }
 
+  /*************************
+   * gatewayRouteReports
+   ************************/
+
+  /**
+   * List route reports.
+   *
+   * Retrieve all route reports for the specified Direct Link gateway.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteReportCollection>>}
+   */
+  public listGatewayRouteReports(
+    params: DirectLinkV1.ListGatewayRouteReportsParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteReportCollection>> {
+    const _params = { ...params };
+    const requiredParams = ['gatewayId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listGatewayRouteReports'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/route_reports',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Request a route report.
+   *
+   * Request route report generation.  While report generation is in progress, additional requests to generate a report
+   * are ignored and return the current pending report. While `status` is `pending`, `gateway_routes`, `on_prem_routes`,
+   * `virtual_connection_routes`, and `overlapping_routes` will be empty arrays. These fields will be filled when the
+   * `status` enters the `completed` status.  Call `get_gateway_route_report` with the pending route report's `id` to
+   * check on the current status of the report.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteReport>>}
+   */
+  public createGatewayRouteReport(
+    params: DirectLinkV1.CreateGatewayRouteReportParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteReport>> {
+    const _params = { ...params };
+    const requiredParams = ['gatewayId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createGatewayRouteReport'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/route_reports',
+        method: 'POST',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Delete route report.
+   *
+   * Delete a route report.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.id - Route report identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Empty>>}
+   */
+  public deleteGatewayRouteReport(
+    params: DirectLinkV1.DeleteGatewayRouteReportParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.Empty>> {
+    const _params = { ...params };
+    const requiredParams = ['gatewayId', 'id'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteGatewayRouteReport'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/route_reports/{id}',
+        method: 'DELETE',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Retrieve route report.
+   *
+   * Retrieve a route report.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.id - Route report identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteReport>>}
+   */
+  public getGatewayRouteReport(
+    params: DirectLinkV1.GetGatewayRouteReportParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteReport>> {
+    const _params = { ...params };
+    const requiredParams = ['gatewayId', 'id'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getGatewayRouteReport'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/route_reports/{id}',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
   /*************************
    * gateways
    ************************/
@@ -459,6 +697,8 @@ class DirectLinkV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link Connect gateway identifier.
    * @param {string} params.action - Action request.
+   * @param {AsPrependTemplate[]} [params.asPrepends] - Applicable for create_gateway_approve requests to create AS
+   * Prepends. Contains an array of AS Prepend configuration information.
    * @param {GatewayActionTemplateAuthenticationKey} [params.authenticationKey] - Applicable for create_gateway_approve
    * requests to select the gateway's BGP MD5 authentication key.
    * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
@@ -498,6 +738,7 @@ class DirectLinkV1 extends BaseService {
 
     const body = {
       'action': _params.action,
+      'as_prepends': _params.asPrepends,
       'authentication_key': _params.authenticationKey,
       'bfd_config': _params.bfdConfig,
       'connection_mode': _params.connectionMode,
@@ -1496,6 +1737,38 @@ namespace DirectLinkV1 {
    * request interfaces
    ************************/
 
+  /** Parameters for the `listGatewayRouteReports` operation. */
+  export interface ListGatewayRouteReportsParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createGatewayRouteReport` operation. */
+  export interface CreateGatewayRouteReportParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `deleteGatewayRouteReport` operation. */
+  export interface DeleteGatewayRouteReportParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Route report identifier. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getGatewayRouteReport` operation. */
+  export interface GetGatewayRouteReportParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Route report identifier. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `listGateways` operation. */
   export interface ListGatewaysParams {
     headers?: OutgoingHttpHeaders;
@@ -1617,6 +1890,10 @@ namespace DirectLinkV1 {
     id: string;
     /** Action request. */
     action: CreateGatewayActionConstants.Action | string;
+    /** Applicable for create_gateway_approve requests to create AS Prepends. Contains an array of AS Prepend
+     *  configuration information.
+     */
+    asPrepends?: AsPrependTemplate[];
     /** Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key.
      *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
      *  characters in length.
@@ -1884,6 +2161,34 @@ namespace DirectLinkV1 {
    * model interfaces
    ************************/
 
+  /** AS Prepend. */
+  export interface AsPrepend {
+    /** The date and time resource was created. */
+    created_at?: string;
+    /** The unique identifier for this AS Prepend. */
+    id?: string;
+    /** Number of times the ASN to appended to the AS Path. */
+    length?: number;
+    /** Route type this AS Prepend applies to. */
+    policy?: string;
+    /** Comma separated list of prefixes this AS Prepend applies to.  If empty, this applies to all prefixes. */
+    prefix?: string;
+    /** The date and time resource was last updated. */
+    updated_at?: string;
+  }
+
+  /** Create AS Prepend Configuration template. */
+  export interface AsPrependTemplate {
+    /** Number of times the ASN to appended to the AS Path. */
+    length: number;
+    /** Route type this AS Prepend applies to. */
+    policy: string;
+    /** Comma separated list of prefixes this AS Prepend applies to.  Maximum of 10 prefixes.  If not specified,
+     *  this AS Prepend applies to all prefixes.
+     */
+    prefix?: string;
+  }
+
   /** Cross Connect Router details. */
   export interface CrossConnectRouter {
     /** Array of capabilities for this router. */
@@ -1896,6 +2201,8 @@ namespace DirectLinkV1 {
 
   /** gateway. */
   export interface Gateway {
+    /** array of AS Prepend information. */
+    as_prepends?: AsPrepend[];
     /** The identity of the standard key to use for BGP MD5 authentication key.
      *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
      *  characters in length.
@@ -2268,11 +2575,14 @@ namespace DirectLinkV1 {
 
   /** gateway status. */
   export interface GatewayStatusCollection {
+    /** array of status. */
     status?: GatewayStatus[];
   }
 
   /** Create gateway template. */
   export interface GatewayTemplate {
+    /** array of AS Prepend configuration information. */
+    as_prepends?: AsPrependTemplate[];
     /** The identity of the standard key to use for BGP MD5 authentication key.
      *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
      *  characters in length.
@@ -2504,6 +2814,70 @@ namespace DirectLinkV1 {
     id: string;
   }
 
+  /** route report. */
+  export interface RouteReport {
+    /** Date and time route report was requested. */
+    created_at: string;
+    /** Array of local/direct routes. */
+    gateway_routes: RouteReportRoute[];
+    /** Report identifier. */
+    id: string;
+    /** Array of on premises routes. */
+    on_prem_routes: RouteReportOnPremRoute[];
+    /** Array of overlapping routes. */
+    overlapping_routes: RouteReportOverlappingRouteGroup[];
+    /** Route report status. The list of enumerated values for this property may expand in the future. Code and
+     *  processes using this field must tolerate unexpected values.
+     */
+    status: string;
+    /** Date and time route report was last modified. */
+    updated_at?: string;
+    /** Array of routes on virtual connections. */
+    virtual_connection_routes: RouteReportConnection[];
+  }
+
+  /** route reports. */
+  export interface RouteReportCollection {
+    /** Array of route reports. */
+    route_reports: RouteReport[];
+  }
+
+  /** Routes of a virtual connection. */
+  export interface RouteReportConnection {
+    /** Array of virtual connection's routes. */
+    routes: RouteReportRoute[];
+    /** ID of virtual connection. */
+    virtual_connection_id?: string;
+    /** name of virtual connection. */
+    virtual_connection_name?: string;
+    /** type of virtual connection. */
+    virtual_connection_type?: string;
+  }
+
+  /** on-prem route. */
+  export interface RouteReportOnPremRoute {
+    /** Next hop address. */
+    next_hop?: string;
+    /** prefix. */
+    prefix?: string;
+  }
+
+  /** overlapping route details. */
+  export interface RouteReportOverlappingRoute {
+  }
+
+  /** Collection of overlapping route. */
+  export interface RouteReportOverlappingRouteGroup {
+    /** Array of overlapping connection/prefix pairs. */
+    routes?: RouteReportOverlappingRoute[];
+  }
+
+  /** route. */
+  export interface RouteReportRoute {
+    /** prefix. */
+    prefix?: string;
+  }
+
   /** The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL 2.0 gateway. */
   export interface GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate extends GatewayActionTemplateUpdatesItem {
     /** New gateway BGP ASN. */
@@ -2654,6 +3028,24 @@ namespace DirectLinkV1 {
     location_name: string;
     /** MACsec configuration information.  Contact IBM support for access to MACsec. */
     macsec_config?: GatewayMacsecConfigTemplate;
+  }
+
+  /** overlapping route details. */
+  export interface RouteReportOverlappingRouteForConnection extends RouteReportOverlappingRoute {
+    /** overlapping prefix. */
+    prefix: string;
+    /** type of the route. */
+    type: string;
+    /** virtual connection ID. */
+    virtual_connection_id: string;
+  }
+
+  /** overlapping route details. */
+  export interface RouteReportOverlappingRouteForOthers extends RouteReportOverlappingRoute {
+    /** overlapping prefix. */
+    prefix: string;
+    /** type of the route. */
+    type: string;
   }
 }
 
