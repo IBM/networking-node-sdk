@@ -346,11 +346,11 @@ class DirectLinkV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link gateway identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Empty>>}
    */
   public deleteGateway(
     params: DirectLinkV1.DeleteGatewayParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.Empty>> {
     const _params = { ...params };
     const requiredParams = ['id'];
 
@@ -744,11 +744,11 @@ class DirectLinkV1 extends BaseService {
    * @param {NodeJS.ReadableStream | Buffer} [params.upload] - Completion notice PDF file.
    * @param {string} [params.uploadContentType] - The content type of upload.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Empty>>}
    */
   public createGatewayCompletionNotice(
     params: DirectLinkV1.CreateGatewayCompletionNoticeParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.Empty>> {
     const _params = { ...params };
     const requiredParams = ['id'];
 
@@ -1410,11 +1410,11 @@ class DirectLinkV1 extends BaseService {
    * @param {string} params.gatewayId - Direct Link gateway identifier.
    * @param {string} params.id - The virtual connection identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Empty>>}
    */
   public deleteGatewayVirtualConnection(
     params: DirectLinkV1.DeleteGatewayVirtualConnectionParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.Empty>> {
     const _params = { ...params };
     const requiredParams = ['gatewayId', 'id'];
 
@@ -1616,7 +1616,7 @@ namespace DirectLinkV1 {
   export type Callback<T> = (error: any, response?: Response<T>) => void;
 
   /** The body of a service request that returns no response data. */
-  export interface EmptyObject {}
+  export interface Empty {}
 
   /** A standard JS object, defined to avoid the limitations of `Object` and `object` */
   export interface JsonObject {
