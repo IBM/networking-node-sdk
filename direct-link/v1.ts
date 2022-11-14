@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021, 2022.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.43.0-49eab5c7-20211117-152138
+ * IBM OpenAPI SDK Code Generator Version: 3.60.2-95dc7721-20221102-203229
  */
 
 import * as extend from 'extend';
@@ -105,6 +105,134 @@ class DirectLinkV1 extends BaseService {
     this.version = options.version;
   }
 
+  /*************************
+   * gatewayASPrepends
+   ************************/
+
+  /**
+   * List AS Prepends.
+   *
+   * Retrieve all AS Prepends for the specified Direct Link gateway.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>>}
+   */
+  public listGatewayAsPrepends(
+    params: DirectLinkV1.ListGatewayAsPrependsParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
+    const _params = { ...params };
+    const requiredParams = ['gatewayId'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listGatewayAsPrepends'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/as_prepends',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Replace existing AS Prepends.
+   *
+   * Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the
+   * individual AS Prepend item is unchanged.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.ifMatch - If present, the request will fail if the specified ETag value does not match the
+   * resource's current ETag value.
+   * @param {AsPrependPrefixArrayTemplate[]} [params.asPrepends] - array of AS Prepend configuration information.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>>}
+   */
+  public replaceGatewayAsPrepends(
+    params: DirectLinkV1.ReplaceGatewayAsPrependsParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
+    const _params = { ...params };
+    const requiredParams = ['gatewayId', 'ifMatch'];
+
+    const missingParams = getMissingParams(_params, requiredParams);
+    if (missingParams) {
+      return Promise.reject(missingParams);
+    }
+
+    const body = {
+      'as_prepends': _params.asPrepends,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'replaceGatewayAsPrepends'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/as_prepends',
+        method: 'PUT',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'If-Match': _params.ifMatch,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
   /*************************
    * gateways
    ************************/
@@ -218,11 +346,11 @@ class DirectLinkV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link gateway identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Empty>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
    */
   public deleteGateway(
     params: DirectLinkV1.DeleteGatewayParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.Empty>> {
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
     const requiredParams = ['id'];
 
@@ -459,6 +587,8 @@ class DirectLinkV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link Connect gateway identifier.
    * @param {string} params.action - Action request.
+   * @param {AsPrependTemplate[]} [params.asPrepends] - Applicable for create_gateway_approve requests to create AS
+   * Prepends. Contains an array of AS Prepend configuration information.
    * @param {GatewayActionTemplateAuthenticationKey} [params.authenticationKey] - Applicable for create_gateway_approve
    * requests to select the gateway's BGP MD5 authentication key.
    * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
@@ -498,6 +628,7 @@ class DirectLinkV1 extends BaseService {
 
     const body = {
       'action': _params.action,
+      'as_prepends': _params.asPrepends,
       'authentication_key': _params.authenticationKey,
       'bfd_config': _params.bfdConfig,
       'connection_mode': _params.connectionMode,
@@ -613,11 +744,11 @@ class DirectLinkV1 extends BaseService {
    * @param {NodeJS.ReadableStream | Buffer} [params.upload] - Completion notice PDF file.
    * @param {string} [params.uploadContentType] - The content type of upload.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Empty>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
    */
   public createGatewayCompletionNotice(
     params: DirectLinkV1.CreateGatewayCompletionNoticeParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.Empty>> {
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
     const requiredParams = ['id'];
 
@@ -1279,11 +1410,11 @@ class DirectLinkV1 extends BaseService {
    * @param {string} params.gatewayId - Direct Link gateway identifier.
    * @param {string} params.id - The virtual connection identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Empty>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
    */
   public deleteGatewayVirtualConnection(
     params: DirectLinkV1.DeleteGatewayVirtualConnectionParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.Empty>> {
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
     const requiredParams = ['gatewayId', 'id'];
 
@@ -1485,7 +1616,7 @@ namespace DirectLinkV1 {
   export type Callback<T> = (error: any, response?: Response<T>) => void;
 
   /** The body of a service request that returns no response data. */
-  export interface Empty {}
+  export interface EmptyObject {}
 
   /** A standard JS object, defined to avoid the limitations of `Object` and `object` */
   export interface JsonObject {
@@ -1495,6 +1626,26 @@ namespace DirectLinkV1 {
   /*************************
    * request interfaces
    ************************/
+
+  /** Parameters for the `listGatewayAsPrepends` operation. */
+  export interface ListGatewayAsPrependsParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `replaceGatewayAsPrepends` operation. */
+  export interface ReplaceGatewayAsPrependsParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** If present, the request will fail if the specified ETag value does not match the resource's current ETag
+     *  value.
+     */
+    ifMatch: string;
+    /** array of AS Prepend configuration information. */
+    asPrepends?: AsPrependPrefixArrayTemplate[];
+    headers?: OutgoingHttpHeaders;
+  }
 
   /** Parameters for the `listGateways` operation. */
   export interface ListGatewaysParams {
@@ -1617,6 +1768,10 @@ namespace DirectLinkV1 {
     id: string;
     /** Action request. */
     action: CreateGatewayActionConstants.Action | string;
+    /** Applicable for create_gateway_approve requests to create AS Prepends. Contains an array of AS Prepend
+     *  configuration information.
+     */
+    asPrepends?: AsPrependTemplate[];
     /** Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key.
      *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
      *  characters in length.
@@ -1884,6 +2039,80 @@ namespace DirectLinkV1 {
    * model interfaces
    ************************/
 
+  /** Gateway AS Prepend object. */
+  export interface AsPrepend {
+    /** The date and time resource was created. */
+    created_at?: string;
+    /** The unique identifier for this AS Prepend. */
+    id?: string;
+    /** Number of times the ASN to appended to the AS Path. */
+    length?: number;
+    /** Route type this AS Prepend applies to. */
+    policy?: string;
+    /** Deprecated: Comma separated list of prefixes this AS Prepend applies to.  If empty, this applies to all
+     *  prefixes.
+     */
+    prefix?: string;
+    /** Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
+     *  prefixes.  Note that ordering is not significant and may differ from request order.
+     */
+    specific_prefixes?: string[];
+    /** The date and time resource was last updated. */
+    updated_at?: string;
+  }
+
+  /** array of AS Prepends. */
+  export interface AsPrependCollection {
+    /** array of AS Prepend information. */
+    as_prepends?: AsPrependEntry[];
+  }
+
+  /** AS Prepends API object. */
+  export interface AsPrependEntry {
+    /** The date and time resource was created. */
+    created_at?: string;
+    /** The unique identifier for this AS Prepend. */
+    id?: string;
+    /** Number of times the ASN to appended to the AS Path. */
+    length?: number;
+    /** Route type this AS Prepend applies to. */
+    policy?: string;
+    /** Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
+     *  prefixes.  Note that ordering is not significant and may differ from request order.
+     */
+    specific_prefixes?: string[];
+    /** The date and time resource was last updated. */
+    updated_at?: string;
+  }
+
+  /** Create AS Prepend Configuration template. */
+  export interface AsPrependPrefixArrayTemplate {
+    /** Number of times the ASN to be prepended to the AS Path. */
+    length: number;
+    /** Route type this AS Prepend applies to. */
+    policy: string;
+    /** Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all
+     *  prefixes.  Note that ordering is not significant and may differ from request order.
+     */
+    specific_prefixes?: string[];
+  }
+
+  /** Create AS Prepend Configuration template. */
+  export interface AsPrependTemplate {
+    /** Number of times the ASN to be prepended to the AS Path. */
+    length: number;
+    /** Route type this AS Prepend applies to. */
+    policy: string;
+    /** Deprecated: Comma separated list of prefixes this AS Prepend applies to.  Maximum of 10 prefixes.  If not
+     *  specified, this AS Prepend applies to all prefixes.
+     */
+    prefix?: string;
+    /** Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all
+     *  prefixes.
+     */
+    specific_prefixes?: string[];
+  }
+
   /** Cross Connect Router details. */
   export interface CrossConnectRouter {
     /** Array of capabilities for this router. */
@@ -1896,6 +2125,8 @@ namespace DirectLinkV1 {
 
   /** gateway. */
   export interface Gateway {
+    /** array of AS Prepend information. */
+    as_prepends?: AsPrepend[];
     /** The identity of the standard key to use for BGP MD5 authentication key.
      *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
      *  characters in length.
@@ -2268,11 +2499,14 @@ namespace DirectLinkV1 {
 
   /** gateway status. */
   export interface GatewayStatusCollection {
+    /** array of status. */
     status?: GatewayStatus[];
   }
 
   /** Create gateway template. */
   export interface GatewayTemplate {
+    /** array of AS Prepend configuration information. */
+    as_prepends?: AsPrependTemplate[];
     /** The identity of the standard key to use for BGP MD5 authentication key.
      *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
      *  characters in length.

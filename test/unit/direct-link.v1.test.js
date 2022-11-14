@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021, 2022
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ const {
   checkUrlAndMethod,
   checkMediaHeaders,
   expectToBePromise,
+  checkUserHeader,
   checkForSuccessfulExecution,
 } = unitTestUtils;
 
@@ -124,6 +125,195 @@ describe('DirectLinkV1', () => {
       });
     });
   });
+  describe('listGatewayAsPrepends', () => {
+    describe('positive tests', () => {
+      function __listGatewayAsPrependsTest() {
+        // Construct the params object for operation listGatewayAsPrepends
+        const gatewayId = 'testString';
+        const listGatewayAsPrependsParams = {
+          gatewayId,
+        };
+
+        const listGatewayAsPrependsResult = directLinkService.listGatewayAsPrepends(
+          listGatewayAsPrependsParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(listGatewayAsPrependsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/as_prepends', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.gateway_id).toEqual(gatewayId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listGatewayAsPrependsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __listGatewayAsPrependsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __listGatewayAsPrependsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const gatewayId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listGatewayAsPrependsParams = {
+          gatewayId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.listGatewayAsPrepends(listGatewayAsPrependsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.listGatewayAsPrepends({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.listGatewayAsPrepends();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('replaceGatewayAsPrepends', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // AsPrependPrefixArrayTemplate
+      const asPrependPrefixArrayTemplateModel = {
+        length: 4,
+        policy: 'import',
+        specific_prefixes: ['192.168.3.0/24'],
+      };
+
+      function __replaceGatewayAsPrependsTest() {
+        // Construct the params object for operation replaceGatewayAsPrepends
+        const gatewayId = 'testString';
+        const ifMatch = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"';
+        const asPrepends = [asPrependPrefixArrayTemplateModel];
+        const replaceGatewayAsPrependsParams = {
+          gatewayId,
+          ifMatch,
+          asPrepends,
+        };
+
+        const replaceGatewayAsPrependsResult = directLinkService.replaceGatewayAsPrepends(
+          replaceGatewayAsPrependsParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(replaceGatewayAsPrependsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/as_prepends', 'PUT');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'If-Match', ifMatch);
+        expect(mockRequestOptions.body.as_prepends).toEqual(asPrepends);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.gateway_id).toEqual(gatewayId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __replaceGatewayAsPrependsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __replaceGatewayAsPrependsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __replaceGatewayAsPrependsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const gatewayId = 'testString';
+        const ifMatch = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const replaceGatewayAsPrependsParams = {
+          gatewayId,
+          ifMatch,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.replaceGatewayAsPrepends(replaceGatewayAsPrependsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.replaceGatewayAsPrepends({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.replaceGatewayAsPrepends();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
   describe('listGateways', () => {
     describe('positive tests', () => {
       function __listGatewaysTest() {
@@ -188,6 +378,14 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // AsPrependTemplate
+      const asPrependTemplateModel = {
+        length: 4,
+        policy: 'import',
+        prefix: '172.17.0.0/16',
+        specific_prefixes: ['192.168.3.0/24'],
+      };
+
       // GatewayTemplateAuthenticationKey
       const gatewayTemplateAuthenticationKeyModel = {
         crn:
@@ -227,6 +425,7 @@ describe('DirectLinkV1', () => {
 
       // GatewayTemplateGatewayTypeDedicatedTemplate
       const gatewayTemplateModel = {
+        as_prepends: [asPrependTemplateModel],
         authentication_key: gatewayTemplateAuthenticationKeyModel,
         bfd_config: gatewayBfdConfigTemplateModel,
         bgp_asn: 64999,
@@ -664,6 +863,14 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // AsPrependTemplate
+      const asPrependTemplateModel = {
+        length: 4,
+        policy: 'import',
+        prefix: '172.17.0.0/16',
+        specific_prefixes: ['192.168.3.0/24'],
+      };
+
       // GatewayActionTemplateAuthenticationKey
       const gatewayActionTemplateAuthenticationKeyModel = {
         crn:
@@ -690,6 +897,7 @@ describe('DirectLinkV1', () => {
         // Construct the params object for operation createGatewayAction
         const id = 'testString';
         const action = 'create_gateway_approve';
+        const asPrepends = [asPrependTemplateModel];
         const authenticationKey = gatewayActionTemplateAuthenticationKeyModel;
         const bfdConfig = gatewayBfdConfigActionTemplateModel;
         const connectionMode = 'transit';
@@ -700,6 +908,7 @@ describe('DirectLinkV1', () => {
         const params = {
           id: id,
           action: action,
+          asPrepends: asPrepends,
           authenticationKey: authenticationKey,
           bfdConfig: bfdConfig,
           connectionMode: connectionMode,
@@ -724,6 +933,7 @@ describe('DirectLinkV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.body.action).toEqual(action);
+        expect(mockRequestOptions.body.as_prepends).toEqual(asPrepends);
         expect(mockRequestOptions.body.authentication_key).toEqual(authenticationKey);
         expect(mockRequestOptions.body.bfd_config).toEqual(bfdConfig);
         expect(mockRequestOptions.body.connection_mode).toEqual(connectionMode);
