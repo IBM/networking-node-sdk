@@ -1,3 +1,10 @@
+# [0.24.0](https://github.com/IBM/networking-node-sdk/compare/v0.23.0...v0.24.0) (2022-11-18)
+
+
+### Features
+
+* AS-Prepends added to direct link ([bbbae23](https://github.com/IBM/networking-node-sdk/commit/bbbae23ff9707c3968d30881f9a0894aed0a2f20))
+
 # [0.23.0](https://github.com/IBM/networking-node-sdk/compare/v0.22.1...v0.23.0) (2022-07-21)
 
 
