@@ -465,6 +465,109 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
+  describe('Gateway AS Prepends', () => {
+    jest.setTimeout(timeout);
+
+    // AsPrependTemplate
+    const asPrependTemplate = {
+      length: 4,
+      policy: 'import',
+      prefix: '172.17.0.0/16',
+    };
+
+    // AsPrependPrefixArrayTemplate
+    const asPrependPrefixArrayTemplate = {
+      length: 4,
+      policy: 'import',
+      specific_prefixes: ['192.168.3.0/24'],
+    };
+
+    // GatewayTemplate for dedicated gateway
+    const gatewayTemplate = {
+      as_prepends: [asPrependTemplate],
+      name: 'NODE-INT-SDK-DEDICATED-ASP' + timestamp,
+      type: 'dedicated',
+      speed_mbps: 1000,
+      global: true,
+      bgp_asn: 64999,
+      bgp_base_cidr: '169.254.0.0/16',
+      metered: false,
+      carrier_name: 'myCarrierName',
+      customer_name: 'newCustomerName',
+      cross_connect_router: 'LAB-xcr01.dal09',
+      location_name: config.LOCATION_NAME,
+    };
+
+    // Save the ID for list as_prepends and deletion
+    let gatewayId = '';
+
+    // create a dedicated gateway and verify the results
+    it('Successfully create a dedicated gateway', done => {
+      const params = {
+        gatewayTemplate: gatewayTemplate,
+      };
+      try {
+        dlService.createGateway(params).then(response => {
+          expect(response.status).toBe(201);
+          expect(response.result.id).toBeDefined();
+          if (null != response && null != response.result && null != response.result.id) {
+            gatewayId = response.result.id;
+          }
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('Successfully get the list of AS prepends for the gateway', done => {
+      try {
+        dlService.listGatewayAsPrepends({ gatewayId }).then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(200);
+          // two virtual connectins were created for the gateway, make sure the list has two
+          expect(Object.keys(response.result.as_prepends).length).toBe(1);
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    const ifMatch = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"';
+    const asPrepends = [asPrependPrefixArrayTemplate];
+
+    it('Successfully replace the given set of AS prepends on the gateway', done => {
+      try {
+        dlService
+          .replaceGatewayAsPrepends({
+            gatewayId,
+            ifMatch,
+            asPrepends,
+          })
+          .then(response => {
+            expect(response).toBeDefined();
+            expect(response.status).toBe(200);
+            done();
+          });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    // delete the gateway
+    it('Successfully delete the gateway', done => {
+      try {
+        dlService.deleteGateway({ id: gatewayId }).then(response => {
+          expect(response.status).toBe(204);
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
   describe('DirectLink virtual connections', () => {
     jest.setTimeout(timeout);
 
