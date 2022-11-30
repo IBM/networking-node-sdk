@@ -1,3 +1,10 @@
+# [0.25.0](https://github.com/IBM/networking-node-sdk/compare/v0.24.0...v0.25.0) (2022-11-30)
+
+
+### Features
+
+* adding unbound GRE related changes ([#89](https://github.com/IBM/networking-node-sdk/issues/89)) ([f6f7735](https://github.com/IBM/networking-node-sdk/commit/f6f7735fa7120f82ddce4618f2d95ea4a5c808ab))
+
 # [0.24.0](https://github.com/IBM/networking-node-sdk/compare/v0.23.0...v0.24.0) (2022-11-18)
 
 
