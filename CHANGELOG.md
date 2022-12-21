@@ -1,3 +1,10 @@
+# [0.26.0](https://github.com/IBM/networking-node-sdk/compare/v0.25.0...v0.26.0) (2022-12-21)
+
+
+### Features
+
+* **authOriginPull:** adding authenticated origin pull ([a3122ba](https://github.com/IBM/networking-node-sdk/commit/a3122baf8fdd5f40ea71b6917ae1073be0c4d653))
+
 # [0.25.0](https://github.com/IBM/networking-node-sdk/compare/v0.24.0...v0.25.0) (2022-11-30)
 
 
