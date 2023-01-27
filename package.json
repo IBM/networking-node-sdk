@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@types/extend": "^3.0.0",
-    "@types/node": "^12.0.8",
+    "@types/node": "^18.11.18",
     "extend": "^3.0.2",
     "ibm-cloud-sdk-core": "^4.0.3"
   },
