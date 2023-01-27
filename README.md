@@ -63,6 +63,14 @@ Service Name | Import Path
 npm install ibm-networking-services
 ```
 
+## Update a Package
+```sh
+npm update -g <package-name>
+```
+
+Example: npm update -g ibm-cloud-sdk-core   
+
+
 ## Using the SDK
 For general SDK usage information, please see
 [this link](https://github.com/IBM/ibm-cloud-sdk-common/blob/master/README.md)
