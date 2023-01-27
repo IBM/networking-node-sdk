@@ -64,12 +64,19 @@ npm install ibm-networking-services
 ```
 
 ## Update a Package
+Check what packages are outdated:
 ```sh
-npm update -g <package-name>
+npm outdated
 ```
 
-Example: npm update -g ibm-cloud-sdk-core   
+```sh
+npm update -location=global <package-name>
+```
 
+Example: 
+```sh
+npm update -location=global ibm-cloud-sdk-core   
+```
 
 ## Using the SDK
 For general SDK usage information, please see
