@@ -1,3 +1,15 @@
+# [0.27.0](https://github.com/IBM/networking-node-sdk/compare/v0.26.0...v0.27.0) (2023-01-13)
+
+
+### Bug Fixes
+
+* addrssing the vulnerability that came through where jsonwebtoken… ([#93](https://github.com/IBM/networking-node-sdk/issues/93)) ([567a9c9](https://github.com/IBM/networking-node-sdk/commit/567a9c985ba13f249ed1273c96e8a2de16d4d645))
+
+
+### Features
+
+* **mtls:** adding Mtls ([da5aea8](https://github.com/IBM/networking-node-sdk/commit/da5aea8cd7ab0af53c8cffe17321213a0ae05a81))
+
 # [0.26.0](https://github.com/IBM/networking-node-sdk/compare/v0.25.0...v0.26.0) (2022-12-21)
 
 
