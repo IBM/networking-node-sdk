@@ -1,3 +1,12 @@
+## [0.27.2](https://github.com/IBM/networking-node-sdk/compare/v0.27.1...v0.27.2) (2023-02-01)
+
+
+### Bug Fixes
+
+* **node16-18:** add node 16 and 18 like platform node sdk repo ([ca63c1d](https://github.com/IBM/networking-node-sdk/commit/ca63c1d272530493d77b2f8e934d40fe3fca041b))
+* **node16-18:** explicitly install npm 8 before install ([b4e3b86](https://github.com/IBM/networking-node-sdk/commit/b4e3b86a13cc371aac1395f9a21486ad6d0bdd7d))
+* **node16-18:** rm npm v8 install before_install; use jammy dist ([21eca4a](https://github.com/IBM/networking-node-sdk/commit/21eca4a06bdf083561b99046dedee66e47e84aef))
+
 ## [0.27.1](https://github.com/IBM/networking-node-sdk/compare/v0.27.0...v0.27.1) (2023-02-01)
 
 
