@@ -4,6 +4,8 @@ sudo: false
 
 node_js:
 - 14
+- 16
+- 18
 
 before_install:
 - echo -e "machine github.ibm.com\n  login $GH_TOKEN" > ~/.netrc
