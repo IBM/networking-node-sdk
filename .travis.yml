@@ -1,3 +1,5 @@
+dist: jammy
+
 language: node_js
 
 sudo: false
@@ -14,8 +16,6 @@ before_install:
 - '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_fc092b9428d6_key -iv $encrypted_fc092b9428d6_iv -in cis.env.enc -out cis.env -d || true'
 - '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_fb1b85a9795b_key -iv $encrypted_fb1b85a9795b_iv -in cislog.env.enc -out cislog.env -d || true'
 - '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_89a9eb4f9417_key -iv $encrypted_89a9eb4f9417_iv -in dns.env.enc -out dns.env -d || true'
-- npm i -g npm@8
-- npm --version
 
 script:
 - npm run build
