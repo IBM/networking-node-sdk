@@ -1,3 +1,13 @@
+## [0.27.1](https://github.com/IBM/networking-node-sdk/compare/v0.27.0...v0.27.1) (2023-02-01)
+
+
+### Bug Fixes
+
+* **upgrade-node-core-signoff:** only install node_js 14 ([0d98780](https://github.com/IBM/networking-node-sdk/commit/0d98780f1d3a699e91f9220e762399d550fc072b))
+* **upgrade-node-core-signoff:** update node engine from 10 to 14 ([dd7cd4e](https://github.com/IBM/networking-node-sdk/commit/dd7cd4e1ad6396af6266def06dcc657a0953bc76))
+* **upgrade-node-core-signoff:** upgrade ibm-cloud-sdk-core to v4 ([f07cfc7](https://github.com/IBM/networking-node-sdk/commit/f07cfc7aecf8eab04888fb1f4ee5df45f404d2f9))
+* **upgrade-node-core-signoff:** upgrade jest to v29 and typescript to v4 ([5b95bf9](https://github.com/IBM/networking-node-sdk/commit/5b95bf9894c6fb3514862cbae3610d4c20e46f53))
+
 # [0.27.0](https://github.com/IBM/networking-node-sdk/compare/v0.26.0...v0.27.0) (2023-01-13)
 
 
