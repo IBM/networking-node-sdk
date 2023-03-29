@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,17 @@
  * IBM OpenAPI SDK Code Generator Version: 3.60.2-95dc7721-20221102-203229
  */
 
+/* eslint-disable max-classes-per-file */
+/* eslint-disable no-await-in-loop */
+
 import * as extend from 'extend';
 import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import {
   Authenticator,
   BaseService,
   getAuthenticatorFromEnvironment,
-  getMissingParams,
   UserOptions,
+  validateParams,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
 
@@ -91,10 +94,10 @@ class DirectLinkV1 extends BaseService {
   constructor(options: UserOptions) {
     options = options || {};
 
-    const requiredParams = ['version'];
-    const missingParams = getMissingParams(options, requiredParams);
-    if (missingParams) {
-      throw missingParams;
+    const _requiredParams = ['version'];
+    const _validationErrors = validateParams(options, _requiredParams, null);
+    if (_validationErrors) {
+      throw _validationErrors;
     }
     super(options);
     if (options.serviceUrl) {
@@ -105,134 +108,6 @@ class DirectLinkV1 extends BaseService {
     this.version = options.version;
   }
 
-  /*************************
-   * gatewayASPrepends
-   ************************/
-
-  /**
-   * List AS Prepends.
-   *
-   * Retrieve all AS Prepends for the specified Direct Link gateway.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.gatewayId - Direct Link gateway identifier.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>>}
-   */
-  public listGatewayAsPrepends(
-    params: DirectLinkV1.ListGatewayAsPrependsParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
-    const _params = { ...params };
-    const requiredParams = ['gatewayId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
-    }
-
-    const query = {
-      'version': this.version,
-    };
-
-    const path = {
-      'gateway_id': _params.gatewayId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listGatewayAsPrepends'
-    );
-
-    const parameters = {
-      options: {
-        url: '/gateways/{gateway_id}/as_prepends',
-        method: 'GET',
-        qs: query,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Replace existing AS Prepends.
-   *
-   * Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the
-   * individual AS Prepend item is unchanged.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.gatewayId - Direct Link gateway identifier.
-   * @param {string} params.ifMatch - If present, the request will fail if the specified ETag value does not match the
-   * resource's current ETag value.
-   * @param {AsPrependPrefixArrayTemplate[]} [params.asPrepends] - array of AS Prepend configuration information.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>>}
-   */
-  public replaceGatewayAsPrepends(
-    params: DirectLinkV1.ReplaceGatewayAsPrependsParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
-    const _params = { ...params };
-    const requiredParams = ['gatewayId', 'ifMatch'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
-    }
-
-    const body = {
-      'as_prepends': _params.asPrepends,
-    };
-
-    const query = {
-      'version': this.version,
-    };
-
-    const path = {
-      'gateway_id': _params.gatewayId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'replaceGatewayAsPrepends'
-    );
-
-    const parameters = {
-      options: {
-        url: '/gateways/{gateway_id}/as_prepends',
-        method: 'PUT',
-        body,
-        qs: query,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'If-Match': _params.ifMatch,
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
   /*************************
    * gateways
    ************************/
@@ -251,6 +126,12 @@ class DirectLinkV1 extends BaseService {
     params?: DirectLinkV1.ListGatewaysParams
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayCollection>> {
     const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const query = {
       'version': this.version,
@@ -297,11 +178,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.CreateGatewayParams
   ): Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>> {
     const _params = { ...params };
-    const requiredParams = ['gatewayTemplate'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['gatewayTemplate'];
+    const _validParams = ['gatewayTemplate', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = _params.gatewayTemplate;
@@ -346,17 +227,17 @@ class DirectLinkV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link gateway identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Empty>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
    */
   public deleteGateway(
     params: DirectLinkV1.DeleteGatewayParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.Empty>> {
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -408,11 +289,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.GetGatewayParams
   ): Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -484,6 +365,10 @@ class DirectLinkV1 extends BaseService {
    * Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or
    * classic connection. The list of enumerated values for this property may expand in the future. Code and processes
    * using this field  must tolerate unexpected values.
+   * @param {string} [params.defaultExportRouteFilter] - The default directional route filter action that applies to
+   * routes that do not match any directional route filters.
+   * @param {string} [params.defaultImportRouteFilter] - The default directional route filter action that applies to
+   * routes that do not match any directional route filters.
    * @param {boolean} [params.global] - Gateways with global routing (`true`) can connect to networks outside of their
    * associated region.
    * @param {string} [params.loaRejectReason] - Use this field during LOA rejection to provide the reason for the
@@ -514,11 +399,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.UpdateGatewayParams
   ): Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'authenticationKey', 'bfdConfig', 'bgpAsn', 'bgpCerCidr', 'bgpIbmCidr', 'connectionMode', 'defaultExportRouteFilter', 'defaultImportRouteFilter', 'global', 'loaRejectReason', 'macsecConfig', 'metered', 'name', 'operationalStatus', 'patchPanelCompletionNotice', 'speedMbps', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -528,6 +413,8 @@ class DirectLinkV1 extends BaseService {
       'bgp_cer_cidr': _params.bgpCerCidr,
       'bgp_ibm_cidr': _params.bgpIbmCidr,
       'connection_mode': _params.connectionMode,
+      'default_export_route_filter': _params.defaultExportRouteFilter,
+      'default_import_route_filter': _params.defaultImportRouteFilter,
       'global': _params.global,
       'loa_reject_reason': _params.loaRejectReason,
       'macsec_config': _params.macsecConfig,
@@ -586,7 +473,7 @@ class DirectLinkV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link Connect gateway identifier.
-   * @param {string} params.action - Action request.
+   * @param {string} [params.action] - Action request.
    * @param {AsPrependTemplate[]} [params.asPrepends] - Applicable for create_gateway_approve requests to create AS
    * Prepends. Contains an array of AS Prepend configuration information.
    * @param {GatewayActionTemplateAuthenticationKey} [params.authenticationKey] - Applicable for create_gateway_approve
@@ -601,8 +488,18 @@ class DirectLinkV1 extends BaseService {
    * Service and direct means this gateway will be attached to vpc or classic connection. If unspecified on
    * create_gateway_approve, default value direct is used. The list of enumerated values for this property may expand in
    * the future. Code and processes using this field must tolerate unexpected values.
+   * @param {string} [params.defaultExportRouteFilter] - The default directional route filter action that applies to
+   * routes that do not match any directional route filters.
+   * @param {string} [params.defaultImportRouteFilter] - The default directional route filter action that applies to
+   * routes that do not match any directional route filters.
+   * @param {GatewayTemplateRouteFilter[]} [params.exportRouteFilters] - Array of directional route filters for a Direct
+   * Link gateway. When creating a gateway or replacing existing route filters, the order of the items in the array will
+   * set the ordering of the list of route filters.
    * @param {boolean} [params.global] - Applicable for create_gateway_approve requests to select the gateway's routing
    * option. Gateways with global routing (`true`) can connect to networks outside of their associated region.
+   * @param {GatewayTemplateRouteFilter[]} [params.importRouteFilters] - Array of directional route filters for a Direct
+   * Link gateway. When creating a gateway or replacing existing route filters, the order of the items in the array will
+   * set the ordering of the list of route filters.
    * @param {boolean} [params.metered] - Applicable for create_gateway_approve requests to select the gateway's metered
    * billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte usage
    * charge, instead a flat rate is charged for the gateway.
@@ -619,11 +516,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.CreateGatewayActionParams
   ): Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>> {
     const _params = { ...params };
-    const requiredParams = ['id', 'action'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'action', 'asPrepends', 'authenticationKey', 'bfdConfig', 'connectionMode', 'defaultExportRouteFilter', 'defaultImportRouteFilter', 'exportRouteFilters', 'global', 'importRouteFilters', 'metered', 'resourceGroup', 'updates', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -632,7 +529,11 @@ class DirectLinkV1 extends BaseService {
       'authentication_key': _params.authenticationKey,
       'bfd_config': _params.bfdConfig,
       'connection_mode': _params.connectionMode,
+      'default_export_route_filter': _params.defaultExportRouteFilter,
+      'default_import_route_filter': _params.defaultImportRouteFilter,
+      'export_route_filters': _params.exportRouteFilters,
       'global': _params.global,
+      'import_route_filters': _params.importRouteFilters,
       'metered': _params.metered,
       'resource_group': _params.resourceGroup,
       'updates': _params.updates,
@@ -690,11 +591,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.ListGatewayCompletionNoticeParams
   ): Promise<DirectLinkV1.Response<NodeJS.ReadableStream>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -744,17 +645,17 @@ class DirectLinkV1 extends BaseService {
    * @param {NodeJS.ReadableStream | Buffer} [params.upload] - Completion notice PDF file.
    * @param {string} [params.uploadContentType] - The content type of upload.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Empty>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
    */
   public createGatewayCompletionNotice(
     params: DirectLinkV1.CreateGatewayCompletionNoticeParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.Empty>> {
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'upload', 'uploadContentType', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const formData = {
@@ -815,11 +716,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.ListGatewayLetterOfAuthorizationParams
   ): Promise<DirectLinkV1.Response<NodeJS.ReadableStream>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -875,11 +776,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.GetGatewayStatisticsParams
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayStatisticCollection>> {
     const _params = { ...params };
-    const requiredParams = ['id', 'type'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id', 'type'];
+    const _validParams = ['id', 'type', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -934,11 +835,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.GetGatewayStatusParams
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayStatusCollection>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'type', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -978,29 +879,35 @@ class DirectLinkV1 extends BaseService {
     return this.createRequest(parameters);
   }
   /*************************
-   * offeringInformation
+   * gatewayExportRouteFilters
    ************************/
 
   /**
-   * List available locations.
+   * List export route filters.
    *
-   * Retrieve the list of valid locations for the specified Direct Link offering.
+   * List all export route filters that influence the export routes advertised to the on premises network and learned
+   * from attached virtual connections of the Direct Link gateway.
+   *
+   * The first export route filter an export route matches will determine whether the route is permitted or denied to be
+   * advertised by the Direct Link gateway. Route filter order is determined by the filter's `before` field.
+   *
+   * If an export route does not match any of the export route filters, the route is subject to the
+   * `default_export_route_filter` of the direct link.
    *
    * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.offeringType - The Direct Link offering type.  Current supported values are `"dedicated"`
-   * and `"connect"`.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.LocationCollection>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.ExportRouteFilterCollection>>}
    */
-  public listOfferingTypeLocations(
-    params: DirectLinkV1.ListOfferingTypeLocationsParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.LocationCollection>> {
+  public listGatewayExportRouteFilters(
+    params: DirectLinkV1.ListGatewayExportRouteFiltersParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.ExportRouteFilterCollection>> {
     const _params = { ...params };
-    const requiredParams = ['offeringType'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['gatewayId'];
+    const _validParams = ['gatewayId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -1008,18 +915,18 @@ class DirectLinkV1 extends BaseService {
     };
 
     const path = {
-      'offering_type': _params.offeringType,
+      'gateway_id': _params.gatewayId,
     };
 
     const sdkHeaders = getSdkHeaders(
       DirectLinkV1.DEFAULT_SERVICE_NAME,
       'v1',
-      'listOfferingTypeLocations'
+      'listGatewayExportRouteFilters'
     );
 
     const parameters = {
       options: {
-        url: '/offering_types/{offering_type}/locations',
+        url: '/gateways/{gateway_id}/export_route_filters',
         method: 'GET',
         qs: query,
         path,
@@ -1040,26 +947,190 @@ class DirectLinkV1 extends BaseService {
   }
 
   /**
-   * List routers.
+   * Create an export route filter.
    *
-   * Retrieve location specific cross connect router information.  Only valid for offering_type=dedicated locations.
+   * Create a new export route filter to be configured on the Direct Link gateway.
+   *
+   * This call can result in an implicit update to another route filter's `before` field.
+   *
+   * If the request's route filter template does not contain a `before` field, the created filter will be added to the
+   * end of of the list. The filter previously at the end of the list will have it's `before` field set to the created
+   * route filter.
+   *
+   * If the request's route filter template contains a `before` field, the created filter will be added directly before
+   * that specified route filter. If the specified route filter has a preceding route filter, that filter's `before`
+   * field is updated to the created route filter.
    *
    * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.offeringType - The Direct Link offering type.  Only value `"dedicated"` is supported for
-   * this API.
-   * @param {string} params.locationName - The name of the Direct Link location.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.action - Determines whether routes that match the prefix-set will be allowed (permit) or
+   * rejected (deny) through the filter.
+   * @param {string} params.prefix - IP prefix representing an address and mask length of the prefix-set.
+   * @param {string} [params.before] - Identifier of the next route filter considered if a route does not match the
+   * current filter. This property builds the ordering among route filters and follows semantics:
+   * - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+   * attempt to match on the current filter before preceding to the filter referenced in this property.
+   * - When a filter is created with before that matches another filter in the same collection, the existing filter will
+   * take precedence. The before of the existing filter will be updated to refer to the newly created filter. The newly
+   * created filter will refer to the route filter identified by the provided before.
+   * - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+   * precedence will be updated to refer to the newly created filter.
+   * @param {number} [params.ge] - The minimum matching length of the prefix-set (mnemonic for greater than or equal
+   * to).
+   * @param {number} [params.le] - The maximum matching length of the prefix-set (mnemonic for less than or equal to).
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.LocationCrossConnectRouterCollection>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>>}
    */
-  public listOfferingTypeLocationCrossConnectRouters(
-    params: DirectLinkV1.ListOfferingTypeLocationCrossConnectRoutersParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.LocationCrossConnectRouterCollection>> {
+  public createGatewayExportRouteFilter(
+    params: DirectLinkV1.CreateGatewayExportRouteFilterParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
     const _params = { ...params };
-    const requiredParams = ['offeringType', 'locationName'];
+    const _requiredParams = ['gatewayId', 'action', 'prefix'];
+    const _validParams = ['gatewayId', 'action', 'prefix', 'before', 'ge', 'le', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const body = {
+      'action': _params.action,
+      'prefix': _params.prefix,
+      'before': _params.before,
+      'ge': _params.ge,
+      'le': _params.le,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createGatewayExportRouteFilter'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/export_route_filters',
+        method: 'POST',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Replace existing export route filters.
+   *
+   * Replace all existing export route filters configured on the Direct Link gateway.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.ifMatch - If present, the request will fail if the specified ETag value does not match the
+   * resource's current ETag value.
+   * @param {GatewayTemplateRouteFilter[]} [params.exportRouteFilters] - Array of directional route filters for a Direct
+   * Link gateway. When creating a gateway or replacing existing route filters, the order of the items in the array will
+   * set the ordering of the list of route filters.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.ExportRouteFilterCollection>>}
+   */
+  public replaceGatewayExportRouteFilters(
+    params: DirectLinkV1.ReplaceGatewayExportRouteFiltersParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.ExportRouteFilterCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId', 'ifMatch'];
+    const _validParams = ['gatewayId', 'ifMatch', 'exportRouteFilters', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'export_route_filters': _params.exportRouteFilters,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'replaceGatewayExportRouteFilters'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/export_route_filters',
+        method: 'PUT',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'If-Match': _params.ifMatch,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Remove export route filter from Direct Link gateway.
+   *
+   * Delete an export route filter.
+   *
+   * Deleting an export route filter will implicitly update the preceding filter's `before` field to the filter that
+   * follows the deleted filter. The preceding filter will result with an empty `before` field if there is no filter
+   * following the deleted route filter.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.id - Identifier of an import route filter.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
+   */
+  public deleteGatewayExportRouteFilter(
+    params: DirectLinkV1.DeleteGatewayExportRouteFilterParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId', 'id'];
+    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -1067,19 +1138,77 @@ class DirectLinkV1 extends BaseService {
     };
 
     const path = {
-      'offering_type': _params.offeringType,
-      'location_name': _params.locationName,
+      'gateway_id': _params.gatewayId,
+      'id': _params.id,
     };
 
     const sdkHeaders = getSdkHeaders(
       DirectLinkV1.DEFAULT_SERVICE_NAME,
       'v1',
-      'listOfferingTypeLocationCrossConnectRouters'
+      'deleteGatewayExportRouteFilter'
     );
 
     const parameters = {
       options: {
-        url: '/offering_types/{offering_type}/locations/{location_name}/cross_connect_routers',
+        url: '/gateways/{gateway_id}/export_route_filters/{id}',
+        method: 'DELETE',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Retrieves the specified Direct Link gateway export route filter.
+   *
+   * Retrieve an export route filter from the Direct Link gateway.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.id - Identifier of an import route filter.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>>}
+   */
+  public getGatewayExportRouteFilter(
+    params: DirectLinkV1.GetGatewayExportRouteFilterParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId', 'id'];
+    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getGatewayExportRouteFilter'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/export_route_filters/{id}',
         method: 'GET',
         qs: query,
         path,
@@ -1100,45 +1229,82 @@ class DirectLinkV1 extends BaseService {
   }
 
   /**
-   * List speed options.
+   * Updates the specified Direct Link gateway export route filter.
    *
-   * List the available Direct Link speeds.
+   * Update an export route filter from the Direct Link gateway.
+   *
+   * Updating a route filter's `before` field will result in implicit updates to other route filters' `before` fields.
+   *
+   * Considering the updated filter prior to the update, the preceding route filter's `before` field will be set to the
+   * filter following the updating route filter, if present. Otherwise it is set to empty.
+   *
+   * Considering the updated filter after the update, if the new filter following the updated filter has an existing
+   * filter preceding it, that preceding filter's `before` field will be set to the updated filter.
    *
    * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.offeringType - The Direct Link offering type.  Current supported values are `"dedicated"`
-   * and `"connect"`.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.id - Identifier of an import route filter.
+   * @param {string} [params.action] - Determines whether routes that match the prefix-set will be allowed (permit) or
+   * rejected (deny) through the filter.
+   * @param {string} [params.before] - Identifier of the next route filter considered if a route does not match the
+   * current filter. This property builds the ordering among route filters and follows semantics:
+   * - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+   * attempt to match on the current filter before preceding to the filter referenced in this property.
+   * - When a filter is created with before that matches another filter in the same collection, the existing filter will
+   * take precedence. The before of the existing filter will be updated to refer to the newly created filter. The newly
+   * created filter will refer to the route filter identified by the provided before.
+   * - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+   * precedence will be updated to refer to the newly created filter.
+   * @param {number} [params.ge] - The minimum matching length of the prefix-set (mnemonic for greater than or equal
+   * to).
+   *
+   * To clear the minimum matching length of the filter, patch the value to `0`.
+   * @param {number} [params.le] - The maximum matching length of the prefix-set (mnemonic for less than or equal to).
+   *
+   * To clear the maximum matching length of the filter, patch the value to `0`.
+   * @param {string} [params.prefix] - IP prefix representing an address and mask length of the prefix-set.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.OfferingSpeedCollection>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>>}
    */
-  public listOfferingTypeSpeeds(
-    params: DirectLinkV1.ListOfferingTypeSpeedsParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.OfferingSpeedCollection>> {
+  public updateGatewayExportRouteFilter(
+    params: DirectLinkV1.UpdateGatewayExportRouteFilterParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
     const _params = { ...params };
-    const requiredParams = ['offeringType'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['gatewayId', 'id'];
+    const _validParams = ['gatewayId', 'id', 'action', 'before', 'ge', 'le', 'prefix', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
+
+    const body = {
+      'action': _params.action,
+      'before': _params.before,
+      'ge': _params.ge,
+      'le': _params.le,
+      'prefix': _params.prefix,
+    };
 
     const query = {
       'version': this.version,
     };
 
     const path = {
-      'offering_type': _params.offeringType,
+      'gateway_id': _params.gatewayId,
+      'id': _params.id,
     };
 
     const sdkHeaders = getSdkHeaders(
       DirectLinkV1.DEFAULT_SERVICE_NAME,
       'v1',
-      'listOfferingTypeSpeeds'
+      'updateGatewayExportRouteFilter'
     );
 
     const parameters = {
       options: {
-        url: '/offering_types/{offering_type}/speeds',
-        method: 'GET',
+        url: '/gateways/{gateway_id}/export_route_filters/{id}',
+        method: 'PATCH',
+        body,
         qs: query,
         path,
       },
@@ -1148,6 +1314,7 @@ class DirectLinkV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
+            'Content-Type': 'application/merge-patch+json',
           },
           _params.headers
         ),
@@ -1157,45 +1324,56 @@ class DirectLinkV1 extends BaseService {
     return this.createRequest(parameters);
   }
   /*************************
-   * ports
+   * gatewayImportRouteFilters
    ************************/
 
   /**
-   * List ports.
+   * List import route filters.
    *
-   * Retrieve list of available Direct Link connect ports.  These ports can be used to create Direct Link connect
-   * gateways.
+   * List all import route filters that influence the import routes learned from the on premises network.
    *
-   * @param {Object} [params] - The parameters to send to the service.
-   * @param {string} [params.start] - A server-supplied token determining which resource to start the page on.
-   * @param {number} [params.limit] - The number of resources to return on a page.
-   * @param {string} [params.locationName] - Direct Link location short name.
+   * The first import route filter an import route matches will determine whether the route is permitted or denied to be
+   * learned by the Direct Link gateway. Route filter order is determined by the filter's `before` field.
+   *
+   * If an import route does not match any of the import route filters, the route is subject to the
+   * `default_import_route_filter` of the direct link.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.PortCollection>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.ImportRouteFilterCollection>>}
    */
-  public listPorts(
-    params?: DirectLinkV1.ListPortsParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.PortCollection>> {
+  public listGatewayImportRouteFilters(
+    params: DirectLinkV1.ListGatewayImportRouteFiltersParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.ImportRouteFilterCollection>> {
     const _params = { ...params };
+    const _requiredParams = ['gatewayId'];
+    const _validParams = ['gatewayId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const query = {
       'version': this.version,
-      'start': _params.start,
-      'limit': _params.limit,
-      'location_name': _params.locationName,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
     };
 
     const sdkHeaders = getSdkHeaders(
       DirectLinkV1.DEFAULT_SERVICE_NAME,
       'v1',
-      'listPorts'
+      'listGatewayImportRouteFilters'
     );
 
     const parameters = {
       options: {
-        url: '/ports',
+        url: '/gateways/{gateway_id}/import_route_filters',
         method: 'GET',
         qs: query,
+        path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(
@@ -1213,24 +1391,190 @@ class DirectLinkV1 extends BaseService {
   }
 
   /**
-   * Get port.
+   * Create an import route filter.
    *
-   * Retrieve Direct Link Connect provider port.
+   * Create a new import route filter to be configured on the Direct Link gateway.
+   *
+   * This call can result in an implicit update to another route filter's `before` field.
+   *
+   * If the request's route filter template does not contain a `before` field, the created filter will be added to the
+   * end of of the list. The filter previously at the end of the list will have it's `before` field set to the created
+   * route filter.
+   *
+   * If the request's route filter template contains a `before` field, the created filter will be added directly before
+   * that specified route filter. If the specified route filter has a preceding route filter, that filter's `before`
+   * field is updated to the created route filter.
    *
    * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.id - The port identifier.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.action - Determines whether routes that match the prefix-set will be allowed (permit) or
+   * rejected (deny) through the filter.
+   * @param {string} params.prefix - IP prefix representing an address and mask length of the prefix-set.
+   * @param {string} [params.before] - Identifier of the next route filter considered if a route does not match the
+   * current filter. This property builds the ordering among route filters and follows semantics:
+   * - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+   * attempt to match on the current filter before preceding to the filter referenced in this property.
+   * - When a filter is created with before that matches another filter in the same collection, the existing filter will
+   * take precedence. The before of the existing filter will be updated to refer to the newly created filter. The newly
+   * created filter will refer to the route filter identified by the provided before.
+   * - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+   * precedence will be updated to refer to the newly created filter.
+   * @param {number} [params.ge] - The minimum matching length of the prefix-set (mnemonic for greater than or equal
+   * to).
+   * @param {number} [params.le] - The maximum matching length of the prefix-set (mnemonic for less than or equal to).
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Port>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>>}
    */
-  public getPort(
-    params: DirectLinkV1.GetPortParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.Port>> {
+  public createGatewayImportRouteFilter(
+    params: DirectLinkV1.CreateGatewayImportRouteFilterParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
+    const _requiredParams = ['gatewayId', 'action', 'prefix'];
+    const _validParams = ['gatewayId', 'action', 'prefix', 'before', 'ge', 'le', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const body = {
+      'action': _params.action,
+      'prefix': _params.prefix,
+      'before': _params.before,
+      'ge': _params.ge,
+      'le': _params.le,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createGatewayImportRouteFilter'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/import_route_filters',
+        method: 'POST',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Replace existing import route filters.
+   *
+   * Replace all existing import route filters configured on the Direct Link gateway.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.ifMatch - If present, the request will fail if the specified ETag value does not match the
+   * resource's current ETag value.
+   * @param {GatewayTemplateRouteFilter[]} [params.importRouteFilters] - Array of directional route filters for a Direct
+   * Link gateway. When creating a gateway or replacing existing route filters, the order of the items in the array will
+   * set the ordering of the list of route filters.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.ImportRouteFilterCollection>>}
+   */
+  public replaceGatewayImportRouteFilters(
+    params: DirectLinkV1.ReplaceGatewayImportRouteFiltersParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.ImportRouteFilterCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId', 'ifMatch'];
+    const _validParams = ['gatewayId', 'ifMatch', 'importRouteFilters', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'import_route_filters': _params.importRouteFilters,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'replaceGatewayImportRouteFilters'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/import_route_filters',
+        method: 'PUT',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'If-Match': _params.ifMatch,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Remove import route filter from Direct Link gateway.
+   *
+   * Delete an import route filter.
+   *
+   * Deleting an import route filter will implicitly update the preceding filter's `before` field to the filter that
+   * follows the deleted filter. The preceding filter will result with an empty `before` field if there is no filter
+   * following the deleted route filter.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.id - Identifier of an import route filter.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
+   */
+  public deleteGatewayImportRouteFilter(
+    params: DirectLinkV1.DeleteGatewayImportRouteFilterParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId', 'id'];
+    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -1238,18 +1582,411 @@ class DirectLinkV1 extends BaseService {
     };
 
     const path = {
+      'gateway_id': _params.gatewayId,
       'id': _params.id,
     };
 
     const sdkHeaders = getSdkHeaders(
       DirectLinkV1.DEFAULT_SERVICE_NAME,
       'v1',
-      'getPort'
+      'deleteGatewayImportRouteFilter'
     );
 
     const parameters = {
       options: {
-        url: '/ports/{id}',
+        url: '/gateways/{gateway_id}/import_route_filters/{id}',
+        method: 'DELETE',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Retrieves the specified Direct Link gateway import route filter.
+   *
+   * Retrieve an import route filter from the Direct Link gateway.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.id - Identifier of an import route filter.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>>}
+   */
+  public getGatewayImportRouteFilter(
+    params: DirectLinkV1.GetGatewayImportRouteFilterParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId', 'id'];
+    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getGatewayImportRouteFilter'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/import_route_filters/{id}',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Updates the specified Direct Link gateway import route filter.
+   *
+   * Update an import route filter from the Direct Link gateway.
+   *
+   * Updating a route filter's `before` field will result in implicit updates to other route filters' `before` fields.
+   *
+   * Considering the updated filter prior to the update, the preceding route filter's `before` field will be set to the
+   * filter following the updating route filter, if present. Otherwise it is set to empty.
+   *
+   * Considering the updated filter after the update, if the new filter following the updated filter has an existing
+   * filter preceding it, that preceding filter's `before` field will be set to the updated filter.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.id - Identifier of an import route filter.
+   * @param {string} [params.action] - Determines whether routes that match the prefix-set will be allowed (permit) or
+   * rejected (deny) through the filter.
+   * @param {string} [params.before] - Identifier of the next route filter considered if a route does not match the
+   * current filter. This property builds the ordering among route filters and follows semantics:
+   * - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+   * attempt to match on the current filter before preceding to the filter referenced in this property.
+   * - When a filter is created with before that matches another filter in the same collection, the existing filter will
+   * take precedence. The before of the existing filter will be updated to refer to the newly created filter. The newly
+   * created filter will refer to the route filter identified by the provided before.
+   * - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+   * precedence will be updated to refer to the newly created filter.
+   * @param {number} [params.ge] - The minimum matching length of the prefix-set (mnemonic for greater than or equal
+   * to).
+   *
+   * To clear the minimum matching length of the filter, patch the value to `0`.
+   * @param {number} [params.le] - The maximum matching length of the prefix-set (mnemonic for less than or equal to).
+   *
+   * To clear the maximum matching length of the filter, patch the value to `0`.
+   * @param {string} [params.prefix] - IP prefix representing an address and mask length of the prefix-set.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>>}
+   */
+  public updateGatewayImportRouteFilter(
+    params: DirectLinkV1.UpdateGatewayImportRouteFilterParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId', 'id'];
+    const _validParams = ['gatewayId', 'id', 'action', 'before', 'ge', 'le', 'prefix', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'action': _params.action,
+      'before': _params.before,
+      'ge': _params.ge,
+      'le': _params.le,
+      'prefix': _params.prefix,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateGatewayImportRouteFilter'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/import_route_filters/{id}',
+        method: 'PATCH',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/merge-patch+json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
+   * gatewayRouteReports
+   ************************/
+
+  /**
+   * List route reports.
+   *
+   * Retrieve all route reports for the specified Direct Link gateway.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteReportCollection>>}
+   */
+  public listGatewayRouteReports(
+    params: DirectLinkV1.ListGatewayRouteReportsParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteReportCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId'];
+    const _validParams = ['gatewayId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listGatewayRouteReports'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/route_reports',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Request a route report.
+   *
+   * Request route report generation.  While report generation is in progress, additional requests to generate a report
+   * are ignored and return the current pending report. While `status` is `pending`, `gateway_routes`, `on_prem_routes`,
+   * `virtual_connection_routes`, and `overlapping_routes` will be empty arrays. These fields will be filled when the
+   * `status` enters the `complete` status.  Call `get_gateway_route_report` with the pending route report's `id` to
+   * check on the current status of the report.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteReport>>}
+   */
+  public createGatewayRouteReport(
+    params: DirectLinkV1.CreateGatewayRouteReportParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteReport>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId'];
+    const _validParams = ['gatewayId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createGatewayRouteReport'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/route_reports',
+        method: 'POST',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Delete route report.
+   *
+   * Delete a route report.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.id - Route report identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
+   */
+  public deleteGatewayRouteReport(
+    params: DirectLinkV1.DeleteGatewayRouteReportParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId', 'id'];
+    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteGatewayRouteReport'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/route_reports/{id}',
+        method: 'DELETE',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Retrieve route report.
+   *
+   * Retrieve a route report.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.id - Route report identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.RouteReport>>}
+   */
+  public getGatewayRouteReport(
+    params: DirectLinkV1.GetGatewayRouteReportParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteReport>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId', 'id'];
+    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getGatewayRouteReport'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/route_reports/{id}',
         method: 'GET',
         qs: query,
         path,
@@ -1287,11 +2024,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.ListGatewayVirtualConnectionsParams
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayVirtualConnectionCollection>> {
     const _params = { ...params };
-    const requiredParams = ['gatewayId'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['gatewayId'];
+    const _validParams = ['gatewayId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -1350,11 +2087,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.CreateGatewayVirtualConnectionParams
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayVirtualConnection>> {
     const _params = { ...params };
-    const requiredParams = ['gatewayId', 'name', 'type'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['gatewayId', 'name', 'type'];
+    const _validParams = ['gatewayId', 'name', 'type', 'networkId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -1410,17 +2147,17 @@ class DirectLinkV1 extends BaseService {
    * @param {string} params.gatewayId - Direct Link gateway identifier.
    * @param {string} params.id - The virtual connection identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Empty>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
    */
   public deleteGatewayVirtualConnection(
     params: DirectLinkV1.DeleteGatewayVirtualConnectionParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.Empty>> {
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
-    const requiredParams = ['gatewayId', 'id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['gatewayId', 'id'];
+    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -1474,11 +2211,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.GetGatewayVirtualConnectionParams
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayVirtualConnection>> {
     const _params = { ...params };
-    const requiredParams = ['gatewayId', 'id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['gatewayId', 'id'];
+    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -1539,11 +2276,11 @@ class DirectLinkV1 extends BaseService {
     params: DirectLinkV1.UpdateGatewayVirtualConnectionParams
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayVirtualConnection>> {
     const _params = { ...params };
-    const requiredParams = ['gatewayId', 'id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['gatewayId', 'id'];
+    const _validParams = ['gatewayId', 'id', 'name', 'status', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -1589,6 +2326,431 @@ class DirectLinkV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
+  /*************************
+   * offeringInformation
+   ************************/
+
+  /**
+   * List available locations.
+   *
+   * Retrieve the list of valid locations for the specified Direct Link offering.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.offeringType - The Direct Link offering type.  Current supported values are `"dedicated"`
+   * and `"connect"`.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.LocationCollection>>}
+   */
+  public listOfferingTypeLocations(
+    params: DirectLinkV1.ListOfferingTypeLocationsParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.LocationCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['offeringType'];
+    const _validParams = ['offeringType', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'offering_type': _params.offeringType,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listOfferingTypeLocations'
+    );
+
+    const parameters = {
+      options: {
+        url: '/offering_types/{offering_type}/locations',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * List routers.
+   *
+   * Retrieve location specific cross connect router information.  Only valid for offering_type=dedicated locations.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.offeringType - The Direct Link offering type.  Current supported values are `"dedicated"`
+   * and `"connect"`.
+   * @param {string} params.locationName - The name of the Direct Link location.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.LocationCrossConnectRouterCollection>>}
+   */
+  public listOfferingTypeLocationCrossConnectRouters(
+    params: DirectLinkV1.ListOfferingTypeLocationCrossConnectRoutersParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.LocationCrossConnectRouterCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['offeringType', 'locationName'];
+    const _validParams = ['offeringType', 'locationName', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'offering_type': _params.offeringType,
+      'location_name': _params.locationName,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listOfferingTypeLocationCrossConnectRouters'
+    );
+
+    const parameters = {
+      options: {
+        url: '/offering_types/{offering_type}/locations/{location_name}/cross_connect_routers',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * List speed options.
+   *
+   * List the available Direct Link speeds.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.offeringType - The Direct Link offering type.  Current supported values are `"dedicated"`
+   * and `"connect"`.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.OfferingSpeedCollection>>}
+   */
+  public listOfferingTypeSpeeds(
+    params: DirectLinkV1.ListOfferingTypeSpeedsParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.OfferingSpeedCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['offeringType'];
+    const _validParams = ['offeringType', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'offering_type': _params.offeringType,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listOfferingTypeSpeeds'
+    );
+
+    const parameters = {
+      options: {
+        url: '/offering_types/{offering_type}/speeds',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
+   * ports
+   ************************/
+
+  /**
+   * List ports.
+   *
+   * Retrieve list of available Direct Link connect ports.  These ports can be used to create Direct Link connect
+   * gateways.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.start] - A server-supplied token determining which resource to start the page on.
+   * @param {number} [params.limit] - The number of resources to return on a page.
+   * @param {string} [params.locationName] - Direct Link location short name.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.PortCollection>>}
+   */
+  public listPorts(
+    params?: DirectLinkV1.ListPortsParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.PortCollection>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['start', 'limit', 'locationName', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+      'start': _params.start,
+      'limit': _params.limit,
+      'location_name': _params.locationName,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listPorts'
+    );
+
+    const parameters = {
+      options: {
+        url: '/ports',
+        method: 'GET',
+        qs: query,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get port.
+   *
+   * Retrieve Direct Link Connect provider port.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - The port identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Port>>}
+   */
+  public getPort(
+    params: DirectLinkV1.GetPortParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.Port>> {
+    const _params = { ...params };
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getPort'
+    );
+
+    const parameters = {
+      options: {
+        url: '/ports/{id}',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
+   * gatewayASPrepends
+   ************************/
+
+  /**
+   * List AS Prepends.
+   *
+   * Retrieve all AS Prepends for the specified Direct Link gateway.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>>}
+   */
+  public listGatewayAsPrepends(
+    params: DirectLinkV1.ListGatewayAsPrependsParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId'];
+    const _validParams = ['gatewayId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listGatewayAsPrepends'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/as_prepends',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Replace existing AS Prepends.
+   *
+   * Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the
+   * individual AS Prepend item is unchanged.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.ifMatch - If present, the request will fail if the specified ETag value does not match the
+   * resource's current ETag value.
+   * @param {AsPrependPrefixArrayTemplate[]} [params.asPrepends] - array of AS Prepend configuration information.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>>}
+   */
+  public replaceGatewayAsPrepends(
+    params: DirectLinkV1.ReplaceGatewayAsPrependsParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId', 'ifMatch'];
+    const _validParams = ['gatewayId', 'ifMatch', 'asPrepends', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'as_prepends': _params.asPrepends,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DirectLinkV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'replaceGatewayAsPrepends'
+    );
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/as_prepends',
+        method: 'PUT',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'If-Match': _params.ifMatch,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
 }
 
 /*************************
@@ -1616,7 +2778,7 @@ namespace DirectLinkV1 {
   export type Callback<T> = (error: any, response?: Response<T>) => void;
 
   /** The body of a service request that returns no response data. */
-  export interface Empty {}
+  export interface EmptyObject {}
 
   /** A standard JS object, defined to avoid the limitations of `Object` and `object` */
   export interface JsonObject {
@@ -1626,26 +2788,6 @@ namespace DirectLinkV1 {
   /*************************
    * request interfaces
    ************************/
-
-  /** Parameters for the `listGatewayAsPrepends` operation. */
-  export interface ListGatewayAsPrependsParams {
-    /** Direct Link gateway identifier. */
-    gatewayId: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `replaceGatewayAsPrepends` operation. */
-  export interface ReplaceGatewayAsPrependsParams {
-    /** Direct Link gateway identifier. */
-    gatewayId: string;
-    /** If present, the request will fail if the specified ETag value does not match the resource's current ETag
-     *  value.
-     */
-    ifMatch: string;
-    /** array of AS Prepend configuration information. */
-    asPrepends?: AsPrependPrefixArrayTemplate[];
-    headers?: OutgoingHttpHeaders;
-  }
 
   /** Parameters for the `listGateways` operation. */
   export interface ListGatewaysParams {
@@ -1714,6 +2856,14 @@ namespace DirectLinkV1 {
      *  unexpected values.
      */
     connectionMode?: UpdateGatewayConstants.ConnectionMode | string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    defaultExportRouteFilter?: UpdateGatewayConstants.DefaultExportRouteFilter | string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    defaultImportRouteFilter?: UpdateGatewayConstants.DefaultImportRouteFilter | string;
     /** Gateways with global routing (`true`) can connect to networks outside of their associated region. */
     global?: boolean;
     /** Use this field during LOA rejection to provide the reason for the rejection.
@@ -1755,6 +2905,16 @@ namespace DirectLinkV1 {
       DIRECT = 'direct',
       TRANSIT = 'transit',
     }
+    /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+    export enum DefaultExportRouteFilter {
+      PERMIT = 'permit',
+      DENY = 'deny',
+    }
+    /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+    export enum DefaultImportRouteFilter {
+      PERMIT = 'permit',
+      DENY = 'deny',
+    }
     /** Gateway operational status. For gateways pending LOA approval, patch operational_status to the appropriate value to approve or reject its LOA.  When rejecting an LOA, provide reject reasoning in `loa_reject_reason`. Only allowed for type=dedicated gateways. */
     export enum OperationalStatus {
       LOA_ACCEPTED = 'loa_accepted',
@@ -1767,7 +2927,7 @@ namespace DirectLinkV1 {
     /** Direct Link Connect gateway identifier. */
     id: string;
     /** Action request. */
-    action: CreateGatewayActionConstants.Action | string;
+    action?: CreateGatewayActionConstants.Action | string;
     /** Applicable for create_gateway_approve requests to create AS Prepends. Contains an array of AS Prepend
      *  configuration information.
      */
@@ -1787,10 +2947,26 @@ namespace DirectLinkV1 {
      *  field must tolerate unexpected values.
      */
     connectionMode?: CreateGatewayActionConstants.ConnectionMode | string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    defaultExportRouteFilter?: CreateGatewayActionConstants.DefaultExportRouteFilter | string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    defaultImportRouteFilter?: CreateGatewayActionConstants.DefaultImportRouteFilter | string;
+    /** Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing
+     *  route filters, the order of the items in the array will set the ordering of the list of route filters.
+     */
+    exportRouteFilters?: GatewayTemplateRouteFilter[];
     /** Applicable for create_gateway_approve requests to select the gateway's routing option. Gateways with global
      *  routing (`true`) can connect to networks outside of their associated region.
      */
     global?: boolean;
+    /** Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing
+     *  route filters, the order of the items in the array will set the ordering of the list of route filters.
+     */
+    importRouteFilters?: GatewayTemplateRouteFilter[];
     /** Applicable for create_gateway_approve requests to select the gateway's metered billing option.  When `true`
      *  gateway usage is billed per gigabyte.  When `false` there is no per gigabyte usage charge, instead a flat rate
      *  is charged for the gateway.
@@ -1823,6 +2999,16 @@ namespace DirectLinkV1 {
     export enum ConnectionMode {
       DIRECT = 'direct',
       TRANSIT = 'transit',
+    }
+    /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+    export enum DefaultExportRouteFilter {
+      PERMIT = 'permit',
+      DENY = 'deny',
+    }
+    /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+    export enum DefaultImportRouteFilter {
+      PERMIT = 'permit',
+      DENY = 'deny',
     }
   }
 
@@ -1890,69 +3076,278 @@ namespace DirectLinkV1 {
     }
   }
 
-  /** Parameters for the `listOfferingTypeLocations` operation. */
-  export interface ListOfferingTypeLocationsParams {
-    /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
-    offeringType: ListOfferingTypeLocationsConstants.OfferingType | string;
+  /** Parameters for the `listGatewayExportRouteFilters` operation. */
+  export interface ListGatewayExportRouteFiltersParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Constants for the `listOfferingTypeLocations` operation. */
-  export namespace ListOfferingTypeLocationsConstants {
-    /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
-    export enum OfferingType {
-      DEDICATED = 'dedicated',
-      CONNECT = 'connect',
+  /** Parameters for the `createGatewayExportRouteFilter` operation. */
+  export interface CreateGatewayExportRouteFilterParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the
+     *  filter.
+     */
+    action: CreateGatewayExportRouteFilterConstants.Action | string;
+    /** IP prefix representing an address and mask length of the prefix-set. */
+    prefix: string;
+    /** Identifier of the next route filter considered if a route does not match the current filter. This property
+     *  builds the ordering among route filters and follows semantics:
+     *  - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+     *  attempt to match on the current filter before preceding to the filter referenced in this property.
+     *  - When a filter is created with before that matches another filter in the same collection, the existing filter
+     *  will take precedence. The before of the existing filter will be updated to refer to the newly created filter.
+     *  The newly created filter will refer to the route filter identified by the provided before.
+     *  - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+     *  precedence will be updated to refer to the newly created filter.
+     */
+    before?: string;
+    /** The minimum matching length of the prefix-set (mnemonic for greater than or equal to). */
+    ge?: number;
+    /** The maximum matching length of the prefix-set (mnemonic for less than or equal to). */
+    le?: number;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `createGatewayExportRouteFilter` operation. */
+  export namespace CreateGatewayExportRouteFilterConstants {
+    /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter. */
+    export enum Action {
+      PERMIT = 'permit',
+      DENY = 'deny',
     }
   }
 
-  /** Parameters for the `listOfferingTypeLocationCrossConnectRouters` operation. */
-  export interface ListOfferingTypeLocationCrossConnectRoutersParams {
-    /** The Direct Link offering type.  Only value `"dedicated"` is supported for this API. */
-    offeringType: ListOfferingTypeLocationCrossConnectRoutersConstants.OfferingType | string;
-    /** The name of the Direct Link location. */
-    locationName: string;
+  /** Parameters for the `replaceGatewayExportRouteFilters` operation. */
+  export interface ReplaceGatewayExportRouteFiltersParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** If present, the request will fail if the specified ETag value does not match the resource's current ETag
+     *  value.
+     */
+    ifMatch: string;
+    /** Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing
+     *  route filters, the order of the items in the array will set the ordering of the list of route filters.
+     */
+    exportRouteFilters?: GatewayTemplateRouteFilter[];
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Constants for the `listOfferingTypeLocationCrossConnectRouters` operation. */
-  export namespace ListOfferingTypeLocationCrossConnectRoutersConstants {
-    /** The Direct Link offering type.  Only value `"dedicated"` is supported for this API. */
-    export enum OfferingType {
-      DEDICATED = 'dedicated',
+  /** Parameters for the `deleteGatewayExportRouteFilter` operation. */
+  export interface DeleteGatewayExportRouteFilterParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Identifier of an import route filter. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getGatewayExportRouteFilter` operation. */
+  export interface GetGatewayExportRouteFilterParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Identifier of an import route filter. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateGatewayExportRouteFilter` operation. */
+  export interface UpdateGatewayExportRouteFilterParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Identifier of an import route filter. */
+    id: string;
+    /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the
+     *  filter.
+     */
+    action?: UpdateGatewayExportRouteFilterConstants.Action | string;
+    /** Identifier of the next route filter considered if a route does not match the current filter. This property
+     *  builds the ordering among route filters and follows semantics:
+     *  - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+     *  attempt to match on the current filter before preceding to the filter referenced in this property.
+     *  - When a filter is created with before that matches another filter in the same collection, the existing filter
+     *  will take precedence. The before of the existing filter will be updated to refer to the newly created filter.
+     *  The newly created filter will refer to the route filter identified by the provided before.
+     *  - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+     *  precedence will be updated to refer to the newly created filter.
+     */
+    before?: string;
+    /** The minimum matching length of the prefix-set (mnemonic for greater than or equal to).
+     *
+     *  To clear the minimum matching length of the filter, patch the value to `0`.
+     */
+    ge?: number;
+    /** The maximum matching length of the prefix-set (mnemonic for less than or equal to).
+     *
+     *  To clear the maximum matching length of the filter, patch the value to `0`.
+     */
+    le?: number;
+    /** IP prefix representing an address and mask length of the prefix-set. */
+    prefix?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `updateGatewayExportRouteFilter` operation. */
+  export namespace UpdateGatewayExportRouteFilterConstants {
+    /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter. */
+    export enum Action {
+      PERMIT = 'permit',
+      DENY = 'deny',
     }
   }
 
-  /** Parameters for the `listOfferingTypeSpeeds` operation. */
-  export interface ListOfferingTypeSpeedsParams {
-    /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
-    offeringType: ListOfferingTypeSpeedsConstants.OfferingType | string;
+  /** Parameters for the `listGatewayImportRouteFilters` operation. */
+  export interface ListGatewayImportRouteFiltersParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Constants for the `listOfferingTypeSpeeds` operation. */
-  export namespace ListOfferingTypeSpeedsConstants {
-    /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
-    export enum OfferingType {
-      DEDICATED = 'dedicated',
-      CONNECT = 'connect',
+  /** Parameters for the `createGatewayImportRouteFilter` operation. */
+  export interface CreateGatewayImportRouteFilterParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the
+     *  filter.
+     */
+    action: CreateGatewayImportRouteFilterConstants.Action | string;
+    /** IP prefix representing an address and mask length of the prefix-set. */
+    prefix: string;
+    /** Identifier of the next route filter considered if a route does not match the current filter. This property
+     *  builds the ordering among route filters and follows semantics:
+     *  - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+     *  attempt to match on the current filter before preceding to the filter referenced in this property.
+     *  - When a filter is created with before that matches another filter in the same collection, the existing filter
+     *  will take precedence. The before of the existing filter will be updated to refer to the newly created filter.
+     *  The newly created filter will refer to the route filter identified by the provided before.
+     *  - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+     *  precedence will be updated to refer to the newly created filter.
+     */
+    before?: string;
+    /** The minimum matching length of the prefix-set (mnemonic for greater than or equal to). */
+    ge?: number;
+    /** The maximum matching length of the prefix-set (mnemonic for less than or equal to). */
+    le?: number;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `createGatewayImportRouteFilter` operation. */
+  export namespace CreateGatewayImportRouteFilterConstants {
+    /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter. */
+    export enum Action {
+      PERMIT = 'permit',
+      DENY = 'deny',
     }
   }
 
-  /** Parameters for the `listPorts` operation. */
-  export interface ListPortsParams {
-    /** A server-supplied token determining which resource to start the page on. */
-    start?: string;
-    /** The number of resources to return on a page. */
-    limit?: number;
-    /** Direct Link location short name. */
-    locationName?: string;
+  /** Parameters for the `replaceGatewayImportRouteFilters` operation. */
+  export interface ReplaceGatewayImportRouteFiltersParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** If present, the request will fail if the specified ETag value does not match the resource's current ETag
+     *  value.
+     */
+    ifMatch: string;
+    /** Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing
+     *  route filters, the order of the items in the array will set the ordering of the list of route filters.
+     */
+    importRouteFilters?: GatewayTemplateRouteFilter[];
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Parameters for the `getPort` operation. */
-  export interface GetPortParams {
-    /** The port identifier. */
+  /** Parameters for the `deleteGatewayImportRouteFilter` operation. */
+  export interface DeleteGatewayImportRouteFilterParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Identifier of an import route filter. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getGatewayImportRouteFilter` operation. */
+  export interface GetGatewayImportRouteFilterParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Identifier of an import route filter. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateGatewayImportRouteFilter` operation. */
+  export interface UpdateGatewayImportRouteFilterParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Identifier of an import route filter. */
+    id: string;
+    /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the
+     *  filter.
+     */
+    action?: UpdateGatewayImportRouteFilterConstants.Action | string;
+    /** Identifier of the next route filter considered if a route does not match the current filter. This property
+     *  builds the ordering among route filters and follows semantics:
+     *  - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+     *  attempt to match on the current filter before preceding to the filter referenced in this property.
+     *  - When a filter is created with before that matches another filter in the same collection, the existing filter
+     *  will take precedence. The before of the existing filter will be updated to refer to the newly created filter.
+     *  The newly created filter will refer to the route filter identified by the provided before.
+     *  - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+     *  precedence will be updated to refer to the newly created filter.
+     */
+    before?: string;
+    /** The minimum matching length of the prefix-set (mnemonic for greater than or equal to).
+     *
+     *  To clear the minimum matching length of the filter, patch the value to `0`.
+     */
+    ge?: number;
+    /** The maximum matching length of the prefix-set (mnemonic for less than or equal to).
+     *
+     *  To clear the maximum matching length of the filter, patch the value to `0`.
+     */
+    le?: number;
+    /** IP prefix representing an address and mask length of the prefix-set. */
+    prefix?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `updateGatewayImportRouteFilter` operation. */
+  export namespace UpdateGatewayImportRouteFilterConstants {
+    /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter. */
+    export enum Action {
+      PERMIT = 'permit',
+      DENY = 'deny',
+    }
+  }
+
+  /** Parameters for the `listGatewayRouteReports` operation. */
+  export interface ListGatewayRouteReportsParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createGatewayRouteReport` operation. */
+  export interface CreateGatewayRouteReportParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `deleteGatewayRouteReport` operation. */
+  export interface DeleteGatewayRouteReportParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Route report identifier. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getGatewayRouteReport` operation. */
+  export interface GetGatewayRouteReportParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** Route report identifier. */
     id: string;
     headers?: OutgoingHttpHeaders;
   }
@@ -2033,6 +3428,94 @@ namespace DirectLinkV1 {
       ATTACHED = 'attached',
       REJECTED = 'rejected',
     }
+  }
+
+  /** Parameters for the `listOfferingTypeLocations` operation. */
+  export interface ListOfferingTypeLocationsParams {
+    /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
+    offeringType: ListOfferingTypeLocationsConstants.OfferingType | string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `listOfferingTypeLocations` operation. */
+  export namespace ListOfferingTypeLocationsConstants {
+    /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
+    export enum OfferingType {
+      DEDICATED = 'dedicated',
+      CONNECT = 'connect',
+    }
+  }
+
+  /** Parameters for the `listOfferingTypeLocationCrossConnectRouters` operation. */
+  export interface ListOfferingTypeLocationCrossConnectRoutersParams {
+    /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
+    offeringType: ListOfferingTypeLocationCrossConnectRoutersConstants.OfferingType | string;
+    /** The name of the Direct Link location. */
+    locationName: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `listOfferingTypeLocationCrossConnectRouters` operation. */
+  export namespace ListOfferingTypeLocationCrossConnectRoutersConstants {
+    /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
+    export enum OfferingType {
+      DEDICATED = 'dedicated',
+      CONNECT = 'connect',
+    }
+  }
+
+  /** Parameters for the `listOfferingTypeSpeeds` operation. */
+  export interface ListOfferingTypeSpeedsParams {
+    /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
+    offeringType: ListOfferingTypeSpeedsConstants.OfferingType | string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `listOfferingTypeSpeeds` operation. */
+  export namespace ListOfferingTypeSpeedsConstants {
+    /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
+    export enum OfferingType {
+      DEDICATED = 'dedicated',
+      CONNECT = 'connect',
+    }
+  }
+
+  /** Parameters for the `listPorts` operation. */
+  export interface ListPortsParams {
+    /** A server-supplied token determining which resource to start the page on. */
+    start?: string;
+    /** The number of resources to return on a page. */
+    limit?: number;
+    /** Direct Link location short name. */
+    locationName?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getPort` operation. */
+  export interface GetPortParams {
+    /** The port identifier. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `listGatewayAsPrepends` operation. */
+  export interface ListGatewayAsPrependsParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `replaceGatewayAsPrepends` operation. */
+  export interface ReplaceGatewayAsPrependsParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** If present, the request will fail if the specified ETag value does not match the resource's current ETag
+     *  value.
+     */
+    ifMatch: string;
+    /** array of AS Prepend configuration information. */
+    asPrepends?: AsPrependPrefixArrayTemplate[];
+    headers?: OutgoingHttpHeaders;
   }
 
   /*************************
@@ -2123,6 +3606,12 @@ namespace DirectLinkV1 {
     total_connections?: number;
   }
 
+  /** Collection of export route filters. */
+  export interface ExportRouteFilterCollection {
+    /** Array of export route filters. */
+    export_route_filters: RouteFilter[];
+  }
+
   /** gateway. */
   export interface Gateway {
     /** array of AS Prepend information. */
@@ -2178,6 +3667,14 @@ namespace DirectLinkV1 {
     cross_connect_router?: string;
     /** Customer name.  Only set for type=dedicated gateways. */
     customer_name?: string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    default_export_route_filter: string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    default_import_route_filter: string;
     /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
     global: boolean;
     /** The unique identifier of this gateway. */
@@ -2310,7 +3807,7 @@ namespace DirectLinkV1 {
   export interface GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem {
   }
 
-  /** GatewayCollection. */
+  /** List of gateways. */
   export interface GatewayCollection {
     /** Collection of Direct Link gateways. */
     gateways: Gateway[];
@@ -2551,8 +4048,24 @@ namespace DirectLinkV1 {
      *  unexpected values.
      */
     connection_mode?: string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    default_export_route_filter?: string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    default_import_route_filter?: string;
+    /** Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing
+     *  route filters, the order of the items in the array will set the ordering of the list of route filters.
+     */
+    export_route_filters?: GatewayTemplateRouteFilter[];
     /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
     global: boolean;
+    /** Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing
+     *  route filters, the order of the items in the array will set the ordering of the list of route filters.
+     */
+    import_route_filters?: GatewayTemplateRouteFilter[];
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
      *  gigabyte usage charge, instead a flat rate is charged for the gateway.
      */
@@ -2578,6 +4091,20 @@ namespace DirectLinkV1 {
      *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
      */
     crn: string;
+  }
+
+  /** The route filter create template within the Direct Link gateway create template. */
+  export interface GatewayTemplateRouteFilter {
+    /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the
+     *  filter.
+     */
+    action: string;
+    /** The minimum matching length of the prefix-set (mnemonic for greater than or equal to). */
+    ge?: number;
+    /** The maximum matching length of the prefix-set (mnemonic for less than or equal to). */
+    le?: number;
+    /** IP prefix representing an address and mask length of the prefix-set. */
+    prefix: string;
   }
 
   /** Virtual connection. */
@@ -2616,6 +4143,12 @@ namespace DirectLinkV1 {
   export interface GatewayVirtualConnectionCollection {
     /** virtual connection array. */
     virtual_connections: GatewayVirtualConnection[];
+  }
+
+  /** Collection of import route filters. */
+  export interface ImportRouteFilterCollection {
+    /** Array of import route filters. */
+    import_route_filters: RouteFilter[];
   }
 
   /** location collection. */
@@ -2674,7 +4207,7 @@ namespace DirectLinkV1 {
     macsec_enabled?: boolean;
   }
 
-  /** OfferingSpeedCollection. */
+  /** List of speeds. */
   export interface OfferingSpeedCollection {
     /** speed list. */
     speeds: OfferingSpeed[];
@@ -2736,6 +4269,101 @@ namespace DirectLinkV1 {
   export interface ResourceGroupReference {
     /** Resource group identifier. */
     id: string;
+  }
+
+  /** Route filter. */
+  export interface RouteFilter {
+    /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the
+     *  filter.
+     */
+    action: string;
+    /** Identifier of the next route filter considered if a route does not match the current filter. This property
+     *  builds the ordering among route filters and follows semantics:
+     *  - When before is an identifier of a route filter that exists and is in the same collection, a route will first
+     *  attempt to match on the current filter before preceding to the filter referenced in this property.
+     *  - When a filter is created with before that matches another filter in the same collection, the existing filter
+     *  will take precedence. The before of the existing filter will be updated to refer to the newly created filter.
+     *  The newly created filter will refer to the route filter identified by the provided before.
+     *  - When a filter is created without a before, it takes the lowest precedence. The existing filter of lowest
+     *  precedence will be updated to refer to the newly created filter.
+     */
+    before?: string;
+    /** The date and time the route filter was created in ISO 8601 format. */
+    created_at: string;
+    /** The minimum matching length of the prefix-set (mnemonic for greater than or equal to). */
+    ge?: number;
+    /** The identifier of a route filter. */
+    id: string;
+    /** The maximum matching length of the prefix-set (mnemonic for less than or equal to). */
+    le?: number;
+    /** IP prefix representing an address and mask length of the prefix-set. */
+    prefix: string;
+    /** The date and time the route filter was last updated. */
+    updated_at: string;
+  }
+
+  /** route report. */
+  export interface RouteReport {
+    /** Date and time route report was requested. */
+    created_at: string;
+    /** Array of local/direct routes. */
+    gateway_routes: RouteReportRoute[];
+    /** Report identifier. */
+    id: string;
+    /** Array of on premises routes. */
+    on_prem_routes: RouteReportOnPremRoute[];
+    /** Array of overlapping routes. */
+    overlapping_routes: RouteReportOverlappingRouteGroup[];
+    /** Route report status. The list of enumerated values for this property may expand in the future. Code and
+     *  processes using this field must tolerate unexpected values.
+     */
+    status: string;
+    /** Date and time route report was last modified. */
+    updated_at?: string;
+    /** Array of routes on virtual connections. */
+    virtual_connection_routes: RouteReportConnection[];
+  }
+
+  /** route reports. */
+  export interface RouteReportCollection {
+    /** Array of route reports. */
+    route_reports: RouteReport[];
+  }
+
+  /** Routes of a virtual connection. */
+  export interface RouteReportConnection {
+    /** Array of virtual connection's routes. */
+    routes: RouteReportRoute[];
+    /** ID of virtual connection. */
+    virtual_connection_id?: string;
+    /** name of virtual connection. */
+    virtual_connection_name?: string;
+    /** type of virtual connection. */
+    virtual_connection_type?: string;
+  }
+
+  /** on-prem route. */
+  export interface RouteReportOnPremRoute {
+    /** Next hop address. */
+    next_hop?: string;
+    /** prefix. */
+    prefix?: string;
+  }
+
+  /** overlapping route details. */
+  export interface RouteReportOverlappingRoute {
+  }
+
+  /** Collection of overlapping route. */
+  export interface RouteReportOverlappingRouteGroup {
+    /** Array of overlapping connection/prefix pairs. */
+    routes?: RouteReportOverlappingRoute[];
+  }
+
+  /** route. */
+  export interface RouteReportRoute {
+    /** prefix. */
+    prefix?: string;
   }
 
   /** The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL 2.0 gateway. */
@@ -2888,6 +4516,24 @@ namespace DirectLinkV1 {
     location_name: string;
     /** MACsec configuration information.  Contact IBM support for access to MACsec. */
     macsec_config?: GatewayMacsecConfigTemplate;
+  }
+
+  /** overlapping route details. */
+  export interface RouteReportOverlappingRouteForConnection extends RouteReportOverlappingRoute {
+    /** overlapping prefix. */
+    prefix: string;
+    /** type of the route. */
+    type: string;
+    /** virtual connection ID. */
+    virtual_connection_id: string;
+  }
+
+  /** overlapping route details. */
+  export interface RouteReportOverlappingRouteForOthers extends RouteReportOverlappingRoute {
+    /** overlapping prefix. */
+    prefix: string;
+    /** type of the route. */
+    type: string;
   }
 }
 

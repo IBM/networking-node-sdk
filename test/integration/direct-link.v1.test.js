@@ -2039,4 +2039,436 @@ describe.skip('DirectLinkV1', () => {
       });
     });
   });
+
+  describe('Gateway Export Route Filters', () => {
+    jest.setTimeout(timeout);
+
+    const gatewayTemplateModel = {
+      bgp_asn: 64999,
+      global: true,
+      metered: false,
+      name: 'NODE-SDK-IT-ERF-' + timestamp,
+      speed_mbps: 1000,
+      type: 'connect',
+      port: { id: 'dc7fdcf4-7d0e-461f-ba48-b67c174034be' },
+    };
+
+    let gatewayId = '';
+
+    // create a connect gateway and verify the results
+    it('Successfully create a connect gateway', done => {
+      const gatewayTemplate = gatewayTemplateModel;
+      const params = {
+        gatewayTemplate,
+      };
+      try {
+        dlService.createGateway(params).then(response => {
+          expect(response.status).toBe(201);
+          expect(response.result.id).toBeDefined();
+          if (null != response && null != response.result && null != response.result.id) {
+            gatewayId = response.result.id;
+          }
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully wait for gateway to be provisioned', done => {
+      try {
+        poll(
+          () => dlService.getGateway({ id: gatewayId }),
+          result => result.operational_status === 'provisioned',
+          30
+        ).then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('Successfully create Export Route Filter for the gateway', done => {
+      jest.setTimeout(timeout);
+      const action = 'permit';
+      const prefix = '192.168.100.0/24';
+      const createGatewayExportRouteFilterParams = {
+        gatewayId,
+        action,
+        prefix,
+      };
+      try {
+        dlService
+          .createGatewayExportRouteFilter(createGatewayExportRouteFilterParams)
+          .then(response => {
+            expect(response).toBeDefined();
+            expect(response.status).toBe(201);
+            expect(response.result).toBeDefined();
+            done();
+          });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    let gatewayExportRouterFilterId = '';
+    let eTag = '';
+
+    it('Successfully get the list of Export Route Filters for the gateway', done => {
+      try {
+        dlService.listGatewayExportRouteFilters({ gatewayId }).then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(200);
+          expect(Object.keys(response.result.export_route_filters).length).toBe(1);
+          gatewayExportRouterFilterId = response.result.export_route_filters[0].id;
+          eTag = response.headers['etag'];
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('Successfully get Export Route Filter for the gateway using its id', done => {
+      try {
+        dlService
+          .getGatewayExportRouteFilter({ gatewayId, id: gatewayExportRouterFilterId })
+          .then(response => {
+            expect(response).toBeDefined();
+            expect(response.status).toBe(200);
+            expect(response.result).toBeDefined();
+            done();
+          });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully wait for gateway to be provisioned', done => {
+      try {
+        poll(
+          () => dlService.getGateway({ id: gatewayId }),
+          result => result.operational_status === 'provisioned',
+          20
+        ).then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('Successfully replace Export Route Filter for the gateway', done => {
+      const exportRouteFilters = [
+        {
+          action: 'permit',
+          ge: 25,
+          le: 30,
+          prefix: '192.168.100.0/24',
+        },
+      ];
+      try {
+        dlService
+          .replaceGatewayExportRouteFilters({ gatewayId, ifMatch: eTag, exportRouteFilters })
+          .then(response => {
+            expect(response).toBeDefined();
+            expect(response.status).toBe(201);
+            expect(Object.keys(response.result.export_route_filters).length).toBe(1);
+            gatewayExportRouterFilterId = response.result.export_route_filters[0].id;
+            eTag = response.headers['etag'];
+            done();
+          });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully wait for gateway to be provisioned', done => {
+      try {
+        poll(
+          () => dlService.getGateway({ id: gatewayId }),
+          result => result.operational_status === 'provisioned',
+          20
+        ).then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('Successfully update Export Route Filter for the gateway using its id', done => {
+      try {
+        const updateGatewayExportRouteFilterParams = {
+          gatewayId,
+          id: gatewayExportRouterFilterId,
+          action: 'permit',
+          ge: 25,
+          le: 30,
+          prefix: '192.168.100.0/25',
+        };
+        dlService
+          .updateGatewayExportRouteFilter(updateGatewayExportRouteFilterParams)
+          .then(response => {
+            expect(response).toBeDefined();
+            expect(response.status).toBe(200);
+            expect(response.result).toBeDefined();
+            done();
+          });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully wait for gateway to be provisioned', done => {
+      try {
+        poll(
+          () => dlService.getGateway({ id: gatewayId }),
+          result => result.operational_status === 'provisioned',
+          20
+        ).then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    // delete the gateway
+    it('Successfully delete the gateway', done => {
+      try {
+        dlService.deleteGateway({ id: gatewayId }).then(response => {
+          expect(response.status).toBe(204);
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe('Gateway Import Route Filters', () => {
+    jest.setTimeout(timeout);
+
+    const gatewayTemplateModel = {
+      bgp_asn: 64999,
+      global: true,
+      metered: false,
+      name: 'NODE-SDK-IT-IRF-' + timestamp,
+      speed_mbps: 1000,
+      type: 'connect',
+      port: { id: 'dc7fdcf4-7d0e-461f-ba48-b67c174034be' },
+    };
+
+    let gatewayId = '';
+
+    // create a connect gateway and verify the results
+    it('Successfully create a connect gateway', done => {
+      const gatewayTemplate = gatewayTemplateModel;
+      const params = {
+        gatewayTemplate,
+      };
+      try {
+        dlService.createGateway(params).then(response => {
+          expect(response.status).toBe(201);
+          expect(response.result.id).toBeDefined();
+          if (null != response && null != response.result && null != response.result.id) {
+            gatewayId = response.result.id;
+          }
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully wait for gateway to be provisioned', done => {
+      try {
+        poll(
+          () => dlService.getGateway({ id: gatewayId }),
+          result => result.operational_status === 'provisioned',
+          30
+        ).then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('Successfully create Import Route Filter for the gateway', done => {
+      jest.setTimeout(timeout);
+      const action = 'permit';
+      const prefix = '192.168.100.0/24';
+      const createGatewayImportRouteFilterParams = {
+        gatewayId,
+        action,
+        prefix,
+      };
+      try {
+        dlService
+          .createGatewayImportRouteFilter(createGatewayImportRouteFilterParams)
+          .then(response => {
+            expect(response).toBeDefined();
+            expect(response.status).toBe(201);
+            expect(response.result).toBeDefined();
+            done();
+          });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    let gatewayImportRouterFilterId = '';
+    let eTag = '';
+
+    it('Successfully get the list of Import Route Filters for the gateway', done => {
+      try {
+        dlService.listGatewayImportRouteFilters({ gatewayId }).then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(200);
+          expect(Object.keys(response.result.import_route_filters).length).toBe(1);
+          gatewayImportRouterFilterId = response.result.import_route_filters[0].id;
+          eTag = response.headers['etag'];
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('Successfully get Import Route Filter for the gateway using its id', done => {
+      try {
+        dlService
+          .getGatewayImportRouteFilter({ gatewayId, id: gatewayImportRouterFilterId })
+          .then(response => {
+            expect(response).toBeDefined();
+            expect(response.status).toBe(200);
+            expect(response.result).toBeDefined();
+            done();
+          });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully wait for gateway to be provisioned', done => {
+      try {
+        poll(
+          () => dlService.getGateway({ id: gatewayId }),
+          result => result.operational_status === 'provisioned',
+          20
+        ).then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('Successfully replace Import Route Filter for the gateway', done => {
+      const importRouteFilters = [
+        {
+          action: 'permit',
+          ge: 25,
+          le: 30,
+          prefix: '192.168.100.0/24',
+        },
+      ];
+      try {
+        dlService
+          .replaceGatewayImportRouteFilters({ gatewayId, ifMatch: eTag, importRouteFilters })
+          .then(response => {
+            expect(response).toBeDefined();
+            expect(response.status).toBe(201);
+            expect(Object.keys(response.result.import_route_filters).length).toBe(1);
+            gatewayImportRouterFilterId = response.result.import_route_filters[0].id;
+            eTag = response.headers['etag'];
+            done();
+          });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully wait for gateway to be provisioned', done => {
+      try {
+        poll(
+          () => dlService.getGateway({ id: gatewayId }),
+          result => result.operational_status === 'provisioned',
+          20
+        ).then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('Successfully update Import Route Filter for the gateway using its id', done => {
+      try {
+        const updateGatewayImportRouteFilterParams = {
+          gatewayId,
+          id: gatewayImportRouterFilterId,
+          action: 'permit',
+          ge: 25,
+          le: 30,
+          prefix: '192.168.100.0/25',
+        };
+        dlService
+          .updateGatewayImportRouteFilter(updateGatewayImportRouteFilterParams)
+          .then(response => {
+            expect(response).toBeDefined();
+            expect(response.status).toBe(200);
+            expect(response.result).toBeDefined();
+            done();
+          });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully wait for gateway to be provisioned', done => {
+      try {
+        poll(
+          () => dlService.getGateway({ id: gatewayId }),
+          result => result.operational_status === 'provisioned',
+          20
+        ).then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    // delete the gateway
+    it('Successfully delete the gateway', done => {
+      try {
+        dlService.deleteGateway({ id: gatewayId }).then(response => {
+          expect(response.status).toBe(204);
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
 });
