@@ -1,3 +1,10 @@
+# [0.28.0](https://github.com/IBM/networking-node-sdk/compare/v0.27.2...v0.28.0) (2023-03-29)
+
+
+### Features
+
+* added DL BGP Route Filtering ([ca977d7](https://github.com/IBM/networking-node-sdk/commit/ca977d797eabc25cb4c29ee0a6ad8d6d06447691))
+
 ## [0.27.2](https://github.com/IBM/networking-node-sdk/compare/v0.27.1...v0.27.2) (2023-02-01)
 
 
