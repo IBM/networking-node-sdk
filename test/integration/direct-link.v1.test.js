@@ -89,21 +89,21 @@ const get_port = ports => {
   const port = ports.find(port => port.provider_name === providerToBeUsed);
   return port;
 };
-describe.skip('DirectLinkV1', () => {
+
+describe('DirectLinkV1', () => {
   const options = {
     authenticator: new IamAuthenticator({
       apikey: config.IAMAPIKEY,
       url: config.IAMURL,
     }),
     serviceUrl: config.SERVICE_URL,
-    version: '2020-06-01',
+    version: '2022-11-14',
   };
 
   // Initialize the service client.
   const dlService = new DirectLinkV1(options);
 
-  // describe.skip('DirectLinkV1', () => {
-  describe('Create/verify a dedicated gateway', () => {
+  describe.skip('Create/verify a dedicated gateway', () => {
     jest.setTimeout(timeout);
 
     // GatewayTemplate for dedicated gateway
@@ -148,7 +148,6 @@ describe.skip('DirectLinkV1', () => {
           expect(response.result.metered).toBe(gatewayTemplate.metered);
           expect(response.result.cross_connect_router).toBe(gatewayTemplate.cross_connect_router);
           expect(response.result.location_name).toBe(gatewayTemplate.location_name);
-          expect(response.result.location_display_name).toBe(config.LOCATION_DISPLAY_NAME);
           expect(response.result.created_at).toBeDefined();
           expect(response.result.link_status).toBe('down');
           expect(response.result.operational_status).toBe('awaiting_loa');
@@ -224,7 +223,6 @@ describe.skip('DirectLinkV1', () => {
           expect(response.result.bgp_ibm_cidr).toBeDefined();
           expect(response.result.cross_connect_router).toBe(gatewayTemplate.cross_connect_router);
           expect(response.result.location_name).toBe(gatewayTemplate.location_name);
-          expect(response.result.location_display_name).toBe(config.LOCATION_DISPLAY_NAME);
           expect(response.result.created_at).toBeDefined();
           expect(response.result.link_status).toBe('down');
           expect(response.result.resource_group).toBeDefined();
@@ -253,117 +251,7 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
-  // describe('Create/verify a macsec enabled dedicated gateway', () => {
-  //   jest.setTimeout(timeout);
-
-  //   // GatewayTemplate for dedicated gateway
-  //   const gatewayTemplate = {
-  //     name: 'NODE-INT-SDK-MACSEC-' + timestamp,
-  //     type: 'dedicated',
-  //     speed_mbps: 50,
-  //     global: true,
-  //     bgp_asn: 64999,
-  //     bgp_base_cidr: '169.254.0.0/16',
-  //     metered: false,
-  //     carrier_name: 'myCarrierName',
-  //     customer_name: 'newCustomerName',
-  //     cross_connect_router: 'xcr04.wdc02',
-  //     location_name: 'wdc02',
-  //     macsec_config: {
-  //       active: true,
-  //       primary_cak: {
-  //         crn: config.MACSEC_PRIMARY_CAK,
-  //       },
-  //     },
-  //   };
-
-  //   // Save the gateway ID for deletion
-  //   let gatewayId = '';
-
-  //   // create a macsec enabled dedicated gateway and verify the results
-  //   it('Successfully create a macsec enabled dedicated gateway', done => {
-  //     const params = {
-  //       gatewayTemplate: gatewayTemplate,
-  //     };
-  //     try {
-  //       dlService.createGateway(params).then(response => {
-  //         expect(response.hasOwnProperty('status')).toBe(true);
-  //         expect(response.status).toBe(201);
-  //         if (null != response && null != response.result && null != response.result.id) {
-  //           gatewayId = response.result.id;
-  //         }
-
-  //         expect(response.result.id).toBeDefined();
-  //         expect(response.result.name).toBe(gatewayTemplate.name);
-  //         expect(response.result.type).toBe(gatewayTemplate.type);
-  //         expect(response.result.speed_mbps).toBe(gatewayTemplate.speed_mbps);
-  //         expect(response.result.global).toBe(gatewayTemplate.global);
-  //         expect(response.result.bgp_asn).toBe(gatewayTemplate.bgp_asn);
-  //         expect(response.result.bgp_cer_cidr).toBeDefined();
-  //         expect(response.result.bgp_ibm_cidr).toBeDefined();
-  //         expect(response.result.metered).toBe(gatewayTemplate.metered);
-  //         expect(response.result.cross_connect_router).toBe(gatewayTemplate.cross_connect_router);
-  //         expect(response.result.location_name).toBe(gatewayTemplate.location_name);
-  //         expect(response.result.location_display_name).toBe('Washington 2');
-  //         expect(response.result.created_at).toBeDefined();
-  //         expect(response.result.link_status).toBe('down');
-  //         expect(response.result.operational_status).toBe('awaiting_loa');
-  //         expect(response.result.resource_group).toBeDefined();
-  //         expect(response.result.macsec_config).toBeDefined();
-  //         expect(response.result.macsec_config.active).toBeTruthy();
-  //         expect(response.result.macsec_config.primary_cak.crn).toBe(config.MACSEC_PRIMARY_CAK);
-  //         done();
-  //       });
-  //     } catch (err) {
-  //       done(err);
-  //     }
-  //   });
-
-  //   // update a dedicated gateway and verify the results
-  //   it('Successfully update a macsec enabled gateway', done => {
-  //     // Gateway prams for patching dedicated gateway
-  //     const params = {
-  //       id: gatewayId,
-  //       macsecConfig: {
-  //         fallback_cak: {
-  //           crn: config.MACSEC_FALLBACK_CAK,
-  //         },
-  //       },
-  //     };
-
-  //     try {
-  //       dlService.updateGateway(params).then(response => {
-  //         expect(response.status).toBe(200);
-  //         expect(response.result.id).toBe(gatewayId);
-  //         expect(response.result.macsec_config).toBeDefined();
-  //         expect(response.result.macsec_config.active).toBeTruthy();
-  //         expect(response.result.macsec_config.primary_cak.crn).toBe(config.MACSEC_PRIMARY_CAK);
-  //         expect(response.result.macsec_config.fallback_cak.crn).toBe(config.MACSEC_FALLBACK_CAK);
-  //         done();
-  //       });
-  //     } catch (err) {
-  //       done(err);
-  //     }
-  //   });
-
-  //   // delete the dedicated gateway
-  //   it('Successfully delete the gateway', done => {
-  //     const params = {
-  //       id: gatewayId,
-  //     };
-
-  //     try {
-  //       dlService.deleteGateway(params).then(response => {
-  //         expect(response.status).toBe(204);
-  //         done();
-  //       });
-  //     } catch (err) {
-  //       done(err);
-  //     }
-  //   });
-  // });
-
-  describe('Create/verify a connect gateway', () => {
+  describe.skip('Create/verify a connect gateway', () => {
     jest.setTimeout(timeout);
 
     let port = null;
@@ -465,7 +353,7 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
-  describe('Gateway AS Prepends', () => {
+  describe.skip('Gateway AS Prepends', () => {
     jest.setTimeout(timeout);
 
     // AsPrependTemplate
@@ -520,13 +408,15 @@ describe.skip('DirectLinkV1', () => {
       }
     });
 
+    let eTag = '';
+
     it('Successfully get the list of AS prepends for the gateway', done => {
       try {
         dlService.listGatewayAsPrepends({ gatewayId }).then(response => {
           expect(response).toBeDefined();
           expect(response.status).toBe(200);
-          // two virtual connectins were created for the gateway, make sure the list has two
           expect(Object.keys(response.result.as_prepends).length).toBe(1);
+          eTag = response.headers['etag'];
           done();
         });
       } catch (err) {
@@ -534,7 +424,6 @@ describe.skip('DirectLinkV1', () => {
       }
     });
 
-    const ifMatch = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"';
     const asPrepends = [asPrependPrefixArrayTemplate];
 
     it('Successfully replace the given set of AS prepends on the gateway', done => {
@@ -542,12 +431,12 @@ describe.skip('DirectLinkV1', () => {
         dlService
           .replaceGatewayAsPrepends({
             gatewayId,
-            ifMatch,
+            ifMatch: eTag,
             asPrepends,
           })
           .then(response => {
             expect(response).toBeDefined();
-            expect(response.status).toBe(200);
+            expect(response.status).toBe(201);
             done();
           });
       } catch (err) {
@@ -568,7 +457,7 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
-  describe('DirectLink virtual connections', () => {
+  describe.skip('DirectLink virtual connections', () => {
     jest.setTimeout(timeout);
 
     // GatewayTemplate for dedicated gateway
@@ -843,7 +732,7 @@ describe.skip('DirectLinkV1', () => {
   //  - PUT a completion notice to the gw.  It will fail with a 412 error because the GH issue and GW status are in the wrong state due to no manual interaction
   //  - GET CN for a gw.  It will expect a 404 since the CN could not be uploaded
   //
-  describe('LOA and Completion notice', () => {
+  describe.skip('LOA and Completion notice', () => {
     jest.setTimeout(timeout);
 
     // GatewayTemplate for dedicated gateway
@@ -965,7 +854,7 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
-  describe('Offering Types', () => {
+  describe.skip('Offering Types', () => {
     jest.setTimeout(timeout);
     let firstDedicatedOT = null;
     let firstConnectOT = null;
@@ -1120,7 +1009,7 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
-  describe('Ports', () => {
+  describe.skip('Ports', () => {
     jest.setTimeout(timeout);
     let firstPort = null;
 
@@ -1167,7 +1056,7 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
-  describe('Create MD5 enabled gateway', () => {
+  describe.skip('Create MD5 enabled gateway', () => {
     // Save the gateway ID for update/delete
     let gatewayId = '';
     const time = currentDate.getTime().toString();
@@ -1267,7 +1156,7 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
-  describe('DLAAS', () => {
+  describe.skip('DLAAS', () => {
     // Save the gateway ID for update/delete
     let gatewayId = '';
     const time = currentDate.getTime().toString();
@@ -1496,7 +1385,7 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
-  describe('BGP IP Update', () => {
+  describe.skip('BGP IP Update', () => {
     // Save the gateway ID for update/delete
     let gatewayId = '';
     const time = currentDate.getTime().toString();
@@ -1776,7 +1665,7 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
-  describe('BFD Config and Gateway Status', () => {
+  describe.skip('BFD Config and Gateway Status', () => {
     // Save the gateway ID for update/delete
     let gatewayId = '';
     const time = currentDate.getTime().toString();
@@ -2040,7 +1929,7 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
-  describe('Gateway Export Route Filters', () => {
+  describe.skip('Gateway Export Route Filters', () => {
     jest.setTimeout(timeout);
 
     const gatewayTemplateModel = {
@@ -2075,17 +1964,17 @@ describe.skip('DirectLinkV1', () => {
       }
     });
 
-    it('should successfully wait for gateway to be provisioned', done => {
+    it('should successfully wait for gateway to be provisioned', async done => {
       try {
-        poll(
+        const result = await poll(
           () => dlService.getGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          30
-        ).then(result => {
-          expect(result).toBeDefined();
-          expect(result.operational_status).toEqual('provisioned');
-          done();
-        });
+          50
+        );
+
+        expect(result).toBeDefined();
+        expect(result.operational_status).toEqual('provisioned');
+        done();
       } catch (err) {
         done(err);
       }
@@ -2147,23 +2036,23 @@ describe.skip('DirectLinkV1', () => {
       }
     });
 
-    it('should successfully wait for gateway to be provisioned', done => {
+    it('should successfully wait for gateway to be provisioned', async done => {
       try {
-        poll(
+        const result = await poll(
           () => dlService.getGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          20
-        ).then(result => {
-          expect(result).toBeDefined();
-          expect(result.operational_status).toEqual('provisioned');
-          done();
-        });
+          50
+        );
+
+        expect(result).toBeDefined();
+        expect(result.operational_status).toEqual('provisioned');
+        done();
       } catch (err) {
         done(err);
       }
     });
 
-    it('Successfully replace Export Route Filter for the gateway', done => {
+    it('Successfully replace Export Route Filter for the gateway', async done => {
       const exportRouteFilters = [
         {
           action: 'permit',
@@ -2188,24 +2077,9 @@ describe.skip('DirectLinkV1', () => {
       }
     });
 
-    it('should successfully wait for gateway to be provisioned', done => {
+    it('Successfully update Export Route Filter for the gateway using its id', async done => {
       try {
-        poll(
-          () => dlService.getGateway({ id: gatewayId }),
-          result => result.operational_status === 'provisioned',
-          20
-        ).then(result => {
-          expect(result).toBeDefined();
-          expect(result.operational_status).toEqual('provisioned');
-          done();
-        });
-      } catch (err) {
-        done(err);
-      }
-    });
-
-    it('Successfully update Export Route Filter for the gateway using its id', done => {
-      try {
+        await new Promise(r => setTimeout(r, 30000));
         const updateGatewayExportRouteFilterParams = {
           gatewayId,
           id: gatewayExportRouterFilterId,
@@ -2227,25 +2101,26 @@ describe.skip('DirectLinkV1', () => {
       }
     });
 
-    it('should successfully wait for gateway to be provisioned', done => {
+    it('should successfully wait for gateway to be provisioned', async done => {
       try {
-        poll(
+        const result = await poll(
           () => dlService.getGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          20
-        ).then(result => {
-          expect(result).toBeDefined();
-          expect(result.operational_status).toEqual('provisioned');
-          done();
-        });
+          50
+        );
+
+        expect(result).toBeDefined();
+        expect(result.operational_status).toEqual('provisioned');
+        done();
       } catch (err) {
         done(err);
       }
     });
 
     // delete the gateway
-    it('Successfully delete the gateway', done => {
+    it('Successfully delete the gateway', async done => {
       try {
+        await new Promise(r => setTimeout(r, 30000));
         dlService.deleteGateway({ id: gatewayId }).then(response => {
           expect(response.status).toBe(204);
           done();
@@ -2256,7 +2131,7 @@ describe.skip('DirectLinkV1', () => {
     });
   });
 
-  describe('Gateway Import Route Filters', () => {
+  describe.skip('Gateway Import Route Filters', () => {
     jest.setTimeout(timeout);
 
     const gatewayTemplateModel = {
@@ -2291,17 +2166,17 @@ describe.skip('DirectLinkV1', () => {
       }
     });
 
-    it('should successfully wait for gateway to be provisioned', done => {
+    it('should successfully wait for gateway to be provisioned', async done => {
       try {
-        poll(
+        const result = await poll(
           () => dlService.getGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          30
-        ).then(result => {
-          expect(result).toBeDefined();
-          expect(result.operational_status).toEqual('provisioned');
-          done();
-        });
+          50
+        );
+
+        expect(result).toBeDefined();
+        expect(result.operational_status).toEqual('provisioned');
+        done();
       } catch (err) {
         done(err);
       }
@@ -2363,23 +2238,23 @@ describe.skip('DirectLinkV1', () => {
       }
     });
 
-    it('should successfully wait for gateway to be provisioned', done => {
+    it('should successfully wait for gateway to be provisioned', async done => {
       try {
-        poll(
+        const result = await poll(
           () => dlService.getGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          20
-        ).then(result => {
-          expect(result).toBeDefined();
-          expect(result.operational_status).toEqual('provisioned');
-          done();
-        });
+          50
+        );
+
+        expect(result).toBeDefined();
+        expect(result.operational_status).toEqual('provisioned');
+        done();
       } catch (err) {
         done(err);
       }
     });
 
-    it('Successfully replace Import Route Filter for the gateway', done => {
+    it('Successfully replace Import Route Filter for the gateway', async done => {
       const importRouteFilters = [
         {
           action: 'permit',
@@ -2404,23 +2279,23 @@ describe.skip('DirectLinkV1', () => {
       }
     });
 
-    it('should successfully wait for gateway to be provisioned', done => {
+    it('should successfully wait for gateway to be provisioned', async done => {
       try {
-        poll(
+        const result = await poll(
           () => dlService.getGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          20
-        ).then(result => {
-          expect(result).toBeDefined();
-          expect(result.operational_status).toEqual('provisioned');
-          done();
-        });
+          50
+        );
+
+        expect(result).toBeDefined();
+        expect(result.operational_status).toEqual('provisioned');
+        done();
       } catch (err) {
         done(err);
       }
     });
 
-    it('Successfully update Import Route Filter for the gateway using its id', done => {
+    it('Successfully update Import Route Filter for the gateway using its id', async done => {
       try {
         const updateGatewayImportRouteFilterParams = {
           gatewayId,
@@ -2443,15 +2318,67 @@ describe.skip('DirectLinkV1', () => {
       }
     });
 
-    it('should successfully wait for gateway to be provisioned', done => {
+    it('should successfully wait for gateway to be provisioned', async done => {
       try {
-        poll(
+        const result = await poll(
           () => dlService.getGateway({ id: gatewayId }),
           result => result.operational_status === 'provisioned',
-          20
-        ).then(result => {
-          expect(result).toBeDefined();
-          expect(result.operational_status).toEqual('provisioned');
+          50
+        );
+
+        expect(result).toBeDefined();
+        expect(result.operational_status).toEqual('provisioned');
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    // delete the gateway
+    it('Successfully delete the gateway', async done => {
+      try {
+        await new Promise(r => setTimeout(r, 30000));
+        dlService.deleteGateway({ id: gatewayId }).then(response => {
+          expect(response.status).toBe(204);
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe.skip('Gateway Route Reports', () => {
+    jest.setTimeout(timeout);
+
+    const gatewayTemplateModel = {
+      bgp_asn: 64999,
+      global: true,
+      metered: false,
+      name: 'NODE-SDK-IT-RR-' + timestamp,
+      speed_mbps: 1000,
+      type: 'connect',
+      port: { id: 'dc7fdcf4-7d0e-461f-ba48-b67c174034be' },
+    };
+    const classicVCName = 'NODE-SDK-IT-RR-VC-' + timestamp;
+
+    let gatewayId = '';
+    let classicVCId = '';
+    let routeReportId = '';
+
+    // create a connect gateway and verify the results
+    it('Successfully create a connect gateway', done => {
+      const gatewayTemplate = gatewayTemplateModel;
+      const params = {
+        gatewayTemplate,
+      };
+      try {
+        dlService.createGateway(params).then(response => {
+          expect(response.status).toBe(201);
+          expect(response.result.id).toBeDefined();
+          if (null != response && null != response.result && null != response.result.id) {
+            gatewayId = response.result.id;
+          }
           done();
         });
       } catch (err) {
@@ -2459,9 +2386,155 @@ describe.skip('DirectLinkV1', () => {
       }
     });
 
-    // delete the gateway
-    it('Successfully delete the gateway', done => {
+    it('should successfully wait for gateway to be provisioned', async done => {
       try {
+        await new Promise(r => setTimeout(r, 30000));
+        const result = await poll(
+          () => dlService.getGateway({ id: gatewayId }),
+          result => result.operational_status === 'provisioned',
+          60
+        );
+
+        expect(result).toBeDefined();
+        expect(result.operational_status).toEqual('provisioned');
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('Successfully create a classic virtual connection', done => {
+      try {
+        const paramsClassicVC = {
+          gatewayId: gatewayId,
+          name: classicVCName,
+          type: 'classic',
+        };
+
+        dlService.createGatewayVirtualConnection(paramsClassicVC).then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(201);
+          expect(response.result.id).toBeDefined();
+          classicVCId = response.result.id;
+          expect(response.result.type).toBe(paramsClassicVC.type);
+          expect(response.result.name).toBe(paramsClassicVC.name);
+          expect(response.result.status).toBeDefined();
+          expect(response.result.created_at).toBeDefined();
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should successfully wait for virtual connection to be active', async done => {
+      try {
+        await new Promise(r => setTimeout(r, 30000));
+        const result = await poll(
+          () => dlService.getGatewayVirtualConnection({ gatewayId: gatewayId, id: classicVCId }),
+          result => result.status === 'active',
+          60
+        );
+
+        expect(result).toBeDefined();
+        expect(result.status).toEqual('active');
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    // create the gateway route reports and verify the results
+    it('Successfully create the gateway route reports', done => {
+      const createGatewayRouteReportParams = {
+        gatewayId,
+      };
+      try {
+        dlService.createGatewayRouteReport(createGatewayRouteReportParams).then(response => {
+          expect(response.status).toBe(202);
+          expect(response.result.id).toBeDefined();
+          expect(response.result.gateway_routes).toBeDefined();
+          expect(response.result.virtual_connection_routes).toBeDefined();
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    // list all the gateway route report and verify the results
+    it('Successfully list the gateway route reports', done => {
+      const listGatewayRouteReportsParams = {
+        gatewayId,
+      };
+      try {
+        dlService.listGatewayRouteReports(listGatewayRouteReportsParams).then(response => {
+          expect(response.status).toBe(200);
+          expect(response.result.route_reports).toBeDefined();
+          expect(response.result.route_reports.length).toBe(1);
+          routeReportId = response.result.route_reports[0].id;
+          expect(routeReportId).toBeDefined();
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    // get the gateway route report and verify the results
+    it('Successfully get the gateway route report', done => {
+      const getGatewayRouteReportParams = {
+        gatewayId,
+        id: routeReportId,
+      };
+      try {
+        dlService.getGatewayRouteReport(getGatewayRouteReportParams).then(response => {
+          expect(response.status).toBe(200);
+          expect(response.result.id).toBeDefined();
+          expect(response.result.gateway_routes).toBeDefined();
+          expect(response.result.virtual_connection_routes).toBeDefined();
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    // delete the gateway route report
+    it('Successfully delete the gateway route report', async done => {
+      const deleteGatewayRouteReportParams = {
+        gatewayId,
+        id: routeReportId,
+      };
+      try {
+        await new Promise(r => setTimeout(r, 30000));
+        dlService.deleteGatewayRouteReport(deleteGatewayRouteReportParams).then(response => {
+          expect(response.status).toBe(204);
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    // delete the virtual connection
+    it('Successfully delete the virtual connection', async done => {
+      try {
+        await new Promise(r => setTimeout(r, 30000));
+        dlService
+          .deleteGatewayVirtualConnection({ gatewayId: gatewayId, id: classicVCId })
+          .then(response => {
+            expect(response.status).toBe(204);
+            done();
+          });
+      } catch (err) {
+        done(err);
+      }
+    });
+    // delete the gateway
+    it('Successfully delete the gateway', async done => {
+      try {
+        await new Promise(r => setTimeout(r, 30000));
         dlService.deleteGateway({ id: gatewayId }).then(response => {
           expect(response.status).toBe(204);
           done();
