@@ -4304,6 +4304,10 @@ namespace DirectLinkV1 {
 
   /** route report. */
   export interface RouteReport {
+    /** Array of connection prefixes advertised to the on-prem network. This parameter is not returned when the
+     *  route report was generated prior to inclusion of this parameter.
+     */
+    advertised_routes?: RouteReportAdvertisedRoute[];
     /** Date and time route report was requested. */
     created_at: string;
     /** Array of local/direct routes. */
@@ -4324,6 +4328,14 @@ namespace DirectLinkV1 {
     virtual_connection_routes: RouteReportConnection[];
   }
 
+  /** Route advertised to the on-prem network. */
+  export interface RouteReportAdvertisedRoute {
+    /** The BGP AS path of the route. */
+    as_path: string;
+    /** prefix. */
+    prefix: string;
+  }
+
   /** route reports. */
   export interface RouteReportCollection {
     /** Array of route reports. */
@@ -4333,7 +4345,7 @@ namespace DirectLinkV1 {
   /** Routes of a virtual connection. */
   export interface RouteReportConnection {
     /** Array of virtual connection's routes. */
-    routes: RouteReportRoute[];
+    routes: RouteReportVirtualConnectionRoute[];
     /** ID of virtual connection. */
     virtual_connection_id?: string;
     /** name of virtual connection. */
@@ -4344,6 +4356,8 @@ namespace DirectLinkV1 {
 
   /** on-prem route. */
   export interface RouteReportOnPremRoute {
+    /** The BGP AS path of the route. */
+    as_path?: string;
     /** Next hop address. */
     next_hop?: string;
     /** prefix. */
@@ -4364,6 +4378,16 @@ namespace DirectLinkV1 {
   export interface RouteReportRoute {
     /** prefix. */
     prefix?: string;
+  }
+
+  /** A route originating from an attached virtual connection. */
+  export interface RouteReportVirtualConnectionRoute {
+    /** Indicates whether the route is the preferred path of the prefix. */
+    active?: boolean;
+    /** The local preference of the route. This attribute can manipulate the chosen path on routes. */
+    local_preference?: string;
+    /** prefix. */
+    prefix: string;
   }
 
   /** The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL 2.0 gateway. */
