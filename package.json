@@ -59,7 +59,7 @@
     "marked": "^4.0.10",
     "node-notifier": "^8.0.1",
     "prettier": "^1.17.1",
-    "semantic-release": "^19.0.2",
+    "semantic-release": "^21.0.1",
     "set-value": "^4.0.0",
     "tsc-publish": "^0.5.2",
     "tslint": "^5.16.0",
