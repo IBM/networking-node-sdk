@@ -1,3 +1,10 @@
+# [0.29.0](https://github.com/IBM/networking-node-sdk/compare/v0.28.0...v0.29.0) (2023-07-10)
+
+
+### Features
+
+* re-triggering the build ([#109](https://github.com/IBM/networking-node-sdk/issues/109)) ([5191be3](https://github.com/IBM/networking-node-sdk/commit/5191be35ed6b3041b894bdf3aaf42049cd762f10))
+
 # [0.28.0](https://github.com/IBM/networking-node-sdk/compare/v0.27.2...v0.28.0) (2023-03-29)
 
 
