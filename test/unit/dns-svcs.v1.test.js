@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,11 +107,13 @@ describe('DnsSvcsV1', () => {
         const xCorrelationId = 'testString';
         const offset = 38;
         const limit = 200;
+        const vpcId = 'testString';
         const listDnszonesParams = {
           instanceId: instanceId,
           xCorrelationId: xCorrelationId,
           offset: offset,
           limit: limit,
+          vpcId: vpcId,
         };
 
         const listDnszonesResult = dnsSvcsService.listDnszones(listDnszonesParams);
@@ -131,6 +133,7 @@ describe('DnsSvcsV1', () => {
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
         expect(mockRequestOptions.qs.offset).toEqual(offset);
         expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.vpc_id).toEqual(vpcId);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       }
 
@@ -586,12 +589,16 @@ describe('DnsSvcsV1', () => {
         const xCorrelationId = 'testString';
         const offset = 38;
         const limit = 200;
+        const type = 'A';
+        const name = 'www.example.com';
         const listResourceRecordsParams = {
           instanceId: instanceId,
           dnszoneId: dnszoneId,
           xCorrelationId: xCorrelationId,
           offset: offset,
           limit: limit,
+          type: type,
+          name: name,
         };
 
         const listResourceRecordsResult = dnsSvcsService.listResourceRecords(
@@ -617,6 +624,8 @@ describe('DnsSvcsV1', () => {
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
         expect(mockRequestOptions.qs.offset).toEqual(offset);
         expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.type).toEqual(type);
+        expect(mockRequestOptions.qs.name).toEqual(name);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
         expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       }
@@ -1335,10 +1344,12 @@ describe('DnsSvcsV1', () => {
         // Construct the params object for operation listPermittedNetworks
         const instanceId = 'testString';
         const dnszoneId = 'testString';
+        const accounts = 'testString';
         const xCorrelationId = 'testString';
         const listPermittedNetworksParams = {
           instanceId: instanceId,
           dnszoneId: dnszoneId,
+          accounts: accounts,
           xCorrelationId: xCorrelationId,
         };
 
@@ -1363,6 +1374,7 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
+        expect(mockRequestOptions.qs.accounts).toEqual(accounts);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
         expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       }
@@ -1442,12 +1454,14 @@ describe('DnsSvcsV1', () => {
         const dnszoneId = 'testString';
         const type = 'vpc';
         const permittedNetwork = permittedNetworkVpcModel;
+        const accounts = 'testString';
         const xCorrelationId = 'testString';
         const createPermittedNetworkParams = {
           instanceId: instanceId,
           dnszoneId: dnszoneId,
           type: type,
           permittedNetwork: permittedNetwork,
+          accounts: accounts,
           xCorrelationId: xCorrelationId,
         };
 
@@ -1474,6 +1488,7 @@ describe('DnsSvcsV1', () => {
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
         expect(mockRequestOptions.body.type).toEqual(type);
         expect(mockRequestOptions.body.permitted_network).toEqual(permittedNetwork);
+        expect(mockRequestOptions.qs.accounts).toEqual(accounts);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
         expect(mockRequestOptions.path.dnszone_id).toEqual(dnszoneId);
       }
@@ -4307,10 +4322,14 @@ describe('DnsSvcsV1', () => {
         const instanceId = 'testString';
         const resolverId = 'testString';
         const xCorrelationId = 'testString';
+        const offset = 38;
+        const limit = 200;
         const listForwardingRulesParams = {
           instanceId: instanceId,
           resolverId: resolverId,
           xCorrelationId: xCorrelationId,
+          offset: offset,
+          limit: limit,
         };
 
         const listForwardingRulesResult = dnsSvcsService.listForwardingRules(
@@ -4334,6 +4353,8 @@ describe('DnsSvcsV1', () => {
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
+        expect(mockRequestOptions.qs.offset).toEqual(offset);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
         expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
       }

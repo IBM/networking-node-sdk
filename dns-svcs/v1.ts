@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,6 +106,7 @@ class DnsSvcsV1 extends BaseService {
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
    * @param {number} [params.limit] - Specify maximum resources might be returned.
+   * @param {string} [params.vpcId] - Specify the VPC ID.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListDnszones>>}
    */
@@ -114,7 +115,7 @@ class DnsSvcsV1 extends BaseService {
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListDnszones>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId'];
-    const _validParams = ['instanceId', 'xCorrelationId', 'offset', 'limit', 'headers'];
+    const _validParams = ['instanceId', 'xCorrelationId', 'offset', 'limit', 'vpcId', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -123,6 +124,7 @@ class DnsSvcsV1 extends BaseService {
     const query = {
       'offset': _params.offset,
       'limit': _params.limit,
+      'vpc_id': _params.vpcId,
     };
 
     const path = {
@@ -413,6 +415,8 @@ class DnsSvcsV1 extends BaseService {
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
    * @param {number} [params.limit] - Specify maximum resources might be returned.
+   * @param {string} [params.type] - Specify the type of resource record to query.
+   * @param {string} [params.name] - Specify the name of resource record to query.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListResourceRecords>>}
    */
@@ -421,7 +425,7 @@ class DnsSvcsV1 extends BaseService {
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListResourceRecords>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'dnszoneId'];
-    const _validParams = ['instanceId', 'dnszoneId', 'xCorrelationId', 'offset', 'limit', 'headers'];
+    const _validParams = ['instanceId', 'dnszoneId', 'xCorrelationId', 'offset', 'limit', 'type', 'name', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -430,6 +434,8 @@ class DnsSvcsV1 extends BaseService {
     const query = {
       'offset': _params.offset,
       'limit': _params.limit,
+      'type': _params.type,
+      'name': _params.name,
     };
 
     const path = {
@@ -862,6 +868,8 @@ class DnsSvcsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
+   * @param {string} [params.accounts] - The account identifiers of the owner zone and linked zones in the format of
+   * "?account=account1,account2,account3". Maximum 5 accounts are allowed.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPermittedNetworks>>}
@@ -871,11 +879,15 @@ class DnsSvcsV1 extends BaseService {
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ListPermittedNetworks>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'dnszoneId'];
-    const _validParams = ['instanceId', 'dnszoneId', 'xCorrelationId', 'headers'];
+    const _validParams = ['instanceId', 'dnszoneId', 'accounts', 'xCorrelationId', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
+
+    const query = {
+      'accounts': _params.accounts,
+    };
 
     const path = {
       'instance_id': _params.instanceId,
@@ -892,6 +904,7 @@ class DnsSvcsV1 extends BaseService {
       options: {
         url: '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks',
         method: 'GET',
+        qs: query,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -920,6 +933,8 @@ class DnsSvcsV1 extends BaseService {
    * @param {string} params.dnszoneId - The unique identifier of a DNS zone.
    * @param {string} [params.type] - The type of a permitted network.
    * @param {PermittedNetworkVpc} [params.permittedNetwork] - Permitted network data for VPC.
+   * @param {string} [params.accounts] - The account identifiers of the owner zone and linked zones in the format of
+   * "?account=account1,account2,account3". Maximum 5 accounts are allowed.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>>}
@@ -929,7 +944,7 @@ class DnsSvcsV1 extends BaseService {
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.PermittedNetwork>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'dnszoneId'];
-    const _validParams = ['instanceId', 'dnszoneId', 'type', 'permittedNetwork', 'xCorrelationId', 'headers'];
+    const _validParams = ['instanceId', 'dnszoneId', 'type', 'permittedNetwork', 'accounts', 'xCorrelationId', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -938,6 +953,10 @@ class DnsSvcsV1 extends BaseService {
     const body = {
       'type': _params.type,
       'permitted_network': _params.permittedNetwork,
+    };
+
+    const query = {
+      'accounts': _params.accounts,
     };
 
     const path = {
@@ -956,6 +975,7 @@ class DnsSvcsV1 extends BaseService {
         url: '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks',
         method: 'POST',
         body,
+        qs: query,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -2704,6 +2724,8 @@ class DnsSvcsV1 extends BaseService {
    * @param {string} params.instanceId - The unique identifier of a service instance.
    * @param {string} params.resolverId - The unique identifier of a custom resolver.
    * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {number} [params.offset] - Specify how many resources to skip over, the default value is 0.
+   * @param {number} [params.limit] - Specify maximum resources might be returned.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRuleList>>}
    */
@@ -2712,11 +2734,16 @@ class DnsSvcsV1 extends BaseService {
   ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ForwardingRuleList>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'resolverId'];
-    const _validParams = ['instanceId', 'resolverId', 'xCorrelationId', 'headers'];
+    const _validParams = ['instanceId', 'resolverId', 'xCorrelationId', 'offset', 'limit', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
+
+    const query = {
+      'offset': _params.offset,
+      'limit': _params.limit,
+    };
 
     const path = {
       'instance_id': _params.instanceId,
@@ -2733,6 +2760,7 @@ class DnsSvcsV1 extends BaseService {
       options: {
         url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules',
         method: 'GET',
+        qs: query,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -4103,6 +4131,8 @@ namespace DnsSvcsV1 {
     offset?: number;
     /** Specify maximum resources might be returned. */
     limit?: number;
+    /** Specify the VPC ID. */
+    vpcId?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -4170,6 +4200,10 @@ namespace DnsSvcsV1 {
     offset?: number;
     /** Specify maximum resources might be returned. */
     limit?: number;
+    /** Specify the type of resource record to query. */
+    type?: string;
+    /** Specify the name of resource record to query. */
+    name?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -4291,6 +4325,10 @@ namespace DnsSvcsV1 {
     instanceId: string;
     /** The unique identifier of a DNS zone. */
     dnszoneId: string;
+    /** The account identifiers of the owner zone and linked zones in the format of
+     *  "?account=account1,account2,account3". Maximum 5 accounts are allowed.
+     */
+    accounts?: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
     headers?: OutgoingHttpHeaders;
@@ -4306,6 +4344,10 @@ namespace DnsSvcsV1 {
     type?: CreatePermittedNetworkConstants.Type | string;
     /** Permitted network data for VPC. */
     permittedNetwork?: PermittedNetworkVpc;
+    /** The account identifiers of the owner zone and linked zones in the format of
+     *  "?account=account1,account2,account3". Maximum 5 accounts are allowed.
+     */
+    accounts?: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
     headers?: OutgoingHttpHeaders;
@@ -4863,6 +4905,10 @@ namespace DnsSvcsV1 {
     resolverId: string;
     /** Uniquely identifying a request. */
     xCorrelationId?: string;
+    /** Specify how many resources to skip over, the default value is 0. */
+    offset?: number;
+    /** Specify maximum resources might be returned. */
+    limit?: number;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -5327,13 +5373,13 @@ namespace DnsSvcsV1 {
   export interface Dnszone {
     /** Unique identifier of a DNS zone. */
     id?: string;
-    /** the time when a DNS zone is created. */
+    /** The time when a DNS zone is created. */
     created_on?: string;
-    /** the recent time when a DNS zone is modified. */
+    /** The recent time when a DNS zone is modified. */
     modified_on?: string;
     /** Unique identifier of a service instance. */
     instance_id?: string;
-    /** Name of DNS zone. */
+    /** Name of the DNS zone. Must be a fully qualified domain name. */
     name?: string;
     /** The text describing the purpose of a DNS zone. */
     description?: string;
@@ -5364,7 +5410,23 @@ namespace DnsSvcsV1 {
   /** List of forwarding rules. */
   export interface ForwardingRuleList {
     /** An array of forwarding rules. */
-    forwarding_rules?: ForwardingRule[];
+    forwarding_rules: ForwardingRule[];
+    /** The number of resources to skip over. */
+    offset: number;
+    /** The maximum number of resources might be returned. */
+    limit: number;
+    /** The number of resources are returned. */
+    count: number;
+    /** Total number of resources. */
+    total_count: number;
+    /** href. */
+    first: PaginationRef;
+    /** href. */
+    last: PaginationRef;
+    /** href. */
+    previous?: PaginationRef;
+    /** href. */
+    next?: PaginationRef;
   }
 
   /** The HTTP header of health check request. */
@@ -5703,6 +5765,8 @@ namespace DnsSvcsV1 {
     type?: string;
     /** The state of a permitted network. */
     state?: string;
+    /** Unique identifier of a linked zone through which the permitted network was added. */
+    linked_zone_id?: string;
   }
 
   /** Permitted network data for VPC. */
@@ -5786,9 +5850,9 @@ namespace DnsSvcsV1 {
   export interface ResourceRecord {
     /** Identifier of the resource record. */
     id?: string;
-    /** the time when a resource record is created. */
+    /** The time when a resource record is created. */
     created_on?: string;
-    /** the recent time when a resource record is modified. */
+    /** The recent time when a resource record is modified. */
     modified_on?: string;
     /** Name of the resource record. */
     name?: string;
