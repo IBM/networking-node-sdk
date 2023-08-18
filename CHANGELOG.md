@@ -1,3 +1,10 @@
+# [0.30.0](https://github.com/IBM/networking-node-sdk/compare/v0.29.0...v0.30.0) (2023-08-18)
+
+
+### Features
+
+* adding a debug line to the releaserc file ([98108ee](https://github.com/IBM/networking-node-sdk/commit/98108ee79aec2f8090ba26cd2aa8a5a0d853124e))
+
 # [0.29.0](https://github.com/IBM/networking-node-sdk/compare/v0.28.0...v0.29.0) (2023-07-10)
 
 
