@@ -1,3 +1,10 @@
+# [0.31.0](https://github.com/IBM/networking-node-sdk/compare/v0.30.0...v0.31.0) (2023-09-12)
+
+
+### Features
+
+* updating .secrets.baseline to suppress [secure] positives ([#115](https://github.com/IBM/networking-node-sdk/issues/115)) ([d89fa45](https://github.com/IBM/networking-node-sdk/commit/d89fa458c3903adac93dd43f2b7a6ce278456eac))
+
 # [0.30.0](https://github.com/IBM/networking-node-sdk/compare/v0.29.0...v0.30.0) (2023-08-18)
 
 
