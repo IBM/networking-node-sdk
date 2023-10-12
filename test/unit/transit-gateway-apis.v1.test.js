@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,14 @@
  */
 
 // need to import the whole package to mock getAuthenticatorFromEnvironment
-const core = require('ibm-cloud-sdk-core');
+const sdkCorePackage = require('ibm-cloud-sdk-core');
 
-const { NoAuthAuthenticator, unitTestUtils } = core;
+const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
 
 const TransitGatewayApisV1 = require('../../dist/transit-gateway-apis/v1');
+const nock = require('nock');
+
+/* eslint-disable no-await-in-loop */
 
 const {
   getOptions,
@@ -37,29 +40,44 @@ const transitGatewayApisServiceOptions = {
 
 const transitGatewayApisService = new TransitGatewayApisV1(transitGatewayApisServiceOptions);
 
-// dont actually create a request
-const createRequestMock = jest.spyOn(transitGatewayApisService, 'createRequest');
-createRequestMock.mockImplementation(() => Promise.resolve());
+let createRequestMock = null;
+function mock_createRequest() {
+  if (!createRequestMock) {
+    createRequestMock = jest.spyOn(transitGatewayApisService, 'createRequest');
+    createRequestMock.mockImplementation(() => Promise.resolve());
+  }
+}
+function unmock_createRequest() {
+  if (createRequestMock) {
+    createRequestMock.mockRestore();
+    createRequestMock = null;
+  }
+}
 
 // dont actually construct an authenticator
-const getAuthenticatorMock = jest.spyOn(core, 'getAuthenticatorFromEnvironment');
+const getAuthenticatorMock = jest.spyOn(sdkCorePackage, 'getAuthenticatorFromEnvironment');
 getAuthenticatorMock.mockImplementation(() => new NoAuthAuthenticator());
-
-afterEach(() => {
-  createRequestMock.mockClear();
-  getAuthenticatorMock.mockClear();
-});
 
 // used for the service construction tests
 let requiredGlobals;
-beforeEach(() => {
-  // these are changed when passed into the factory/constructor, so re-init
-  requiredGlobals = {
-    version: 'testString',
-  };
-});
 
 describe('TransitGatewayApisV1', () => {
+
+  beforeEach(() => {
+    mock_createRequest();
+    // these are changed when passed into the factory/constructor, so re-init
+    requiredGlobals = {
+      version: 'testString',
+    };
+  });
+
+  afterEach(() => {
+    if (createRequestMock) {
+      createRequestMock.mockClear();
+    }
+    getAuthenticatorMock.mockClear();
+  });
+  
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = TransitGatewayApisV1.newInstance(requiredGlobals);
@@ -89,6 +107,7 @@ describe('TransitGatewayApisV1', () => {
       expect(testInstance).toBeInstanceOf(TransitGatewayApisV1);
     });
   });
+
   describe('the constructor', () => {
     test('use user-given service url', () => {
       let options = {
@@ -115,6 +134,7 @@ describe('TransitGatewayApisV1', () => {
       expect(testInstance.baseOptions.serviceUrl).toBe(TransitGatewayApisV1.DEFAULT_SERVICE_URL);
     });
   });
+
   describe('service-level tests', () => {
     describe('positive tests', () => {
       test('construct service with global params', () => {
@@ -124,20 +144,19 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('listTransitGateways', () => {
     describe('positive tests', () => {
       function __listTransitGatewaysTest() {
         // Construct the params object for operation listTransitGateways
-        const limit = 1;
+        const limit = 50;
         const start = 'testString';
         const listTransitGatewaysParams = {
-          limit: limit,
-          start: start,
+          limit,
+          start,
         };
 
-        const listTransitGatewaysResult = transitGatewayApisService.listTransitGateways(
-          listTransitGatewaysParams
-        );
+        const listTransitGatewaysResult = transitGatewayApisService.listTransitGateways(listTransitGatewaysParams);
 
         // all methods should return a Promise
         expectToBePromise(listTransitGatewaysResult);
@@ -192,7 +211,56 @@ describe('TransitGatewayApisV1', () => {
         checkForSuccessfulExecution(createRequestMock);
       });
     });
+
+    describe('TransitGatewaysPager tests', () => {
+      const serviceUrl = transitGatewayApisServiceOptions.url;
+      const path = '/transit_gateways';
+      const mockPagerResponse1 =
+        '{"next":{"start":"1"},"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"id":"56969d6043e9465c883cb9f7363e78e8","href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
+      const mockPagerResponse2 =
+        '{"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"id":"56969d6043e9465c883cb9f7363e78e8","href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
+
+      beforeEach(() => {
+        unmock_createRequest();
+        const scope = nock(serviceUrl)
+          .get(uri => uri.includes(path))
+          .reply(200, mockPagerResponse1)
+          .get(uri => uri.includes(path))
+          .reply(200, mockPagerResponse2);
+      });
+
+      afterEach(() => {
+        nock.cleanAll();
+        mock_createRequest();
+      });
+
+      test('getNext()', async () => {
+        const params = {
+          limit: 10,
+        };
+        const allResults = [];
+        const pager = new TransitGatewayApisV1.TransitGatewaysPager(transitGatewayApisService, params);
+        while (pager.hasNext()) {
+          const nextPage = await pager.getNext();
+          expect(nextPage).not.toBeNull();
+          allResults.push(...nextPage);
+        }
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+
+      test('getAll()', async () => {
+        const params = {
+          limit: 10,
+        };
+        const pager = new TransitGatewayApisV1.TransitGatewaysPager(transitGatewayApisService, params);
+        const allResults = await pager.getAll();
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+    });
   });
+
   describe('createTransitGateway', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
@@ -209,15 +277,13 @@ describe('TransitGatewayApisV1', () => {
         const global = true;
         const resourceGroup = resourceGroupIdentityModel;
         const createTransitGatewayParams = {
-          location: location,
-          name: name,
-          global: global,
-          resourceGroup: resourceGroup,
+          location,
+          name,
+          global,
+          resourceGroup,
         };
 
-        const createTransitGatewayResult = transitGatewayApisService.createTransitGateway(
-          createTransitGatewayParams
-        );
+        const createTransitGatewayResult = transitGatewayApisService.createTransitGateway(createTransitGatewayParams);
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayResult);
@@ -297,18 +363,17 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('deleteTransitGateway', () => {
     describe('positive tests', () => {
       function __deleteTransitGatewayTest() {
         // Construct the params object for operation deleteTransitGateway
         const id = 'testString';
         const deleteTransitGatewayParams = {
-          id: id,
+          id,
         };
 
-        const deleteTransitGatewayResult = transitGatewayApisService.deleteTransitGateway(
-          deleteTransitGatewayParams
-        );
+        const deleteTransitGatewayResult = transitGatewayApisService.deleteTransitGateway(deleteTransitGatewayParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteTransitGatewayResult);
@@ -383,18 +448,17 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('getTransitGateway', () => {
     describe('positive tests', () => {
       function __getTransitGatewayTest() {
         // Construct the params object for operation getTransitGateway
         const id = 'testString';
         const getTransitGatewayParams = {
-          id: id,
+          id,
         };
 
-        const getTransitGatewayResult = transitGatewayApisService.getTransitGateway(
-          getTransitGatewayParams
-        );
+        const getTransitGatewayResult = transitGatewayApisService.getTransitGateway(getTransitGatewayParams);
 
         // all methods should return a Promise
         expectToBePromise(getTransitGatewayResult);
@@ -469,6 +533,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('updateTransitGateway', () => {
     describe('positive tests', () => {
       function __updateTransitGatewayTest() {
@@ -477,14 +542,12 @@ describe('TransitGatewayApisV1', () => {
         const global = true;
         const name = 'my-transit-gateway';
         const updateTransitGatewayParams = {
-          id: id,
-          global: global,
-          name: name,
+          id,
+          global,
+          name,
         };
 
-        const updateTransitGatewayResult = transitGatewayApisService.updateTransitGateway(
-          updateTransitGatewayParams
-        );
+        const updateTransitGatewayResult = transitGatewayApisService.updateTransitGateway(updateTransitGatewayParams);
 
         // all methods should return a Promise
         expectToBePromise(updateTransitGatewayResult);
@@ -561,22 +624,21 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('listConnections', () => {
     describe('positive tests', () => {
       function __listConnectionsTest() {
         // Construct the params object for operation listConnections
-        const limit = 1;
+        const limit = 50;
         const start = 'testString';
         const networkId = 'testString';
         const listConnectionsParams = {
-          limit: limit,
-          start: start,
-          networkId: networkId,
+          limit,
+          start,
+          networkId,
         };
 
-        const listConnectionsResult = transitGatewayApisService.listConnections(
-          listConnectionsParams
-        );
+        const listConnectionsResult = transitGatewayApisService.listConnections(listConnectionsParams);
 
         // all methods should return a Promise
         expectToBePromise(listConnectionsResult);
@@ -632,19 +694,74 @@ describe('TransitGatewayApisV1', () => {
         checkForSuccessfulExecution(createRequestMock);
       });
     });
+
+    describe('ConnectionsPager tests', () => {
+      const serviceUrl = transitGatewayApisServiceOptions.url;
+      const path = '/connections';
+      const mockPagerResponse1 =
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"name":"Transit_Service_SJ_DL","network_account_id":"28e4d90ac7504be694471ee66e70d0d5","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
+      const mockPagerResponse2 =
+        '{"total_count":2,"limit":1,"connections":[{"base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"name":"Transit_Service_SJ_DL","network_account_id":"28e4d90ac7504be694471ee66e70d0d5","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
+
+      beforeEach(() => {
+        unmock_createRequest();
+        const scope = nock(serviceUrl)
+          .get(uri => uri.includes(path))
+          .reply(200, mockPagerResponse1)
+          .get(uri => uri.includes(path))
+          .reply(200, mockPagerResponse2);
+      });
+
+      afterEach(() => {
+        nock.cleanAll();
+        mock_createRequest();
+      });
+
+      test('getNext()', async () => {
+        const params = {
+          limit: 10,
+          networkId: 'testString',
+        };
+        const allResults = [];
+        const pager = new TransitGatewayApisV1.ConnectionsPager(transitGatewayApisService, params);
+        while (pager.hasNext()) {
+          const nextPage = await pager.getNext();
+          expect(nextPage).not.toBeNull();
+          allResults.push(...nextPage);
+        }
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+
+      test('getAll()', async () => {
+        const params = {
+          limit: 10,
+          networkId: 'testString',
+        };
+        const pager = new TransitGatewayApisV1.ConnectionsPager(transitGatewayApisService, params);
+        const allResults = await pager.getAll();
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+    });
   });
+
   describe('listTransitGatewayConnections', () => {
     describe('positive tests', () => {
       function __listTransitGatewayConnectionsTest() {
         // Construct the params object for operation listTransitGatewayConnections
         const transitGatewayId = 'testString';
+        const start = 'testString';
+        const limit = 50;
+        const name = 'testString';
         const listTransitGatewayConnectionsParams = {
-          transitGatewayId: transitGatewayId,
+          transitGatewayId,
+          start,
+          limit,
+          name,
         };
 
-        const listTransitGatewayConnectionsResult = transitGatewayApisService.listTransitGatewayConnections(
-          listTransitGatewayConnectionsParams
-        );
+        const listTransitGatewayConnectionsResult = transitGatewayApisService.listTransitGatewayConnections(listTransitGatewayConnectionsParams);
 
         // all methods should return a Promise
         expectToBePromise(listTransitGatewayConnectionsResult);
@@ -654,15 +771,14 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.qs.start).toEqual(start);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.name).toEqual(name);
         expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
       }
 
@@ -694,9 +810,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.listTransitGatewayConnections(
-          listTransitGatewayConnectionsParams
-        );
+        transitGatewayApisService.listTransitGatewayConnections(listTransitGatewayConnectionsParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -724,7 +838,60 @@ describe('TransitGatewayApisV1', () => {
         expect(err.message).toMatch(/Missing required parameters/);
       });
     });
+
+    describe('TransitGatewayConnectionsPager tests', () => {
+      const serviceUrl = transitGatewayApisServiceOptions.url;
+      const path = '/transit_gateways/testString/connections';
+      const mockPagerResponse1 =
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"28e4d90ac7504be694471ee66e70d0d5","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
+      const mockPagerResponse2 =
+        '{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"28e4d90ac7504be694471ee66e70d0d5","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
+
+      beforeEach(() => {
+        unmock_createRequest();
+        const scope = nock(serviceUrl)
+          .get(uri => uri.includes(path))
+          .reply(200, mockPagerResponse1)
+          .get(uri => uri.includes(path))
+          .reply(200, mockPagerResponse2);
+      });
+
+      afterEach(() => {
+        nock.cleanAll();
+        mock_createRequest();
+      });
+
+      test('getNext()', async () => {
+        const params = {
+          transitGatewayId: 'testString',
+          limit: 10,
+          name: 'testString',
+        };
+        const allResults = [];
+        const pager = new TransitGatewayApisV1.TransitGatewayConnectionsPager(transitGatewayApisService, params);
+        while (pager.hasNext()) {
+          const nextPage = await pager.getNext();
+          expect(nextPage).not.toBeNull();
+          allResults.push(...nextPage);
+        }
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+
+      test('getAll()', async () => {
+        const params = {
+          transitGatewayId: 'testString',
+          limit: 10,
+          name: 'testString',
+        };
+        const pager = new TransitGatewayApisV1.TransitGatewayConnectionsPager(transitGatewayApisService, params);
+        const allResults = await pager.getAll();
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+    });
   });
+
   describe('createTransitGatewayConnection', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
@@ -752,8 +919,7 @@ describe('TransitGatewayApisV1', () => {
         const localTunnelIp = '192.168.129.2';
         const name = 'Transit_Service_BWTN_SJ_DL';
         const networkAccountId = '28e4d90ac7504be694471ee66e70d0d5';
-        const networkId =
-          'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b';
+        const networkId = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b';
         const prefixFilters = [transitGatewayConnectionPrefixFilterModel];
         const prefixFiltersDefault = 'permit';
         const remoteBgpAsn = 65010;
@@ -761,26 +927,24 @@ describe('TransitGatewayApisV1', () => {
         const remoteTunnelIp = '192.168.129.1';
         const zone = zoneIdentityModel;
         const createTransitGatewayConnectionParams = {
-          transitGatewayId: transitGatewayId,
-          networkType: networkType,
-          baseConnectionId: baseConnectionId,
-          baseNetworkType: baseNetworkType,
-          localGatewayIp: localGatewayIp,
-          localTunnelIp: localTunnelIp,
-          name: name,
-          networkAccountId: networkAccountId,
-          networkId: networkId,
-          prefixFilters: prefixFilters,
-          prefixFiltersDefault: prefixFiltersDefault,
-          remoteBgpAsn: remoteBgpAsn,
-          remoteGatewayIp: remoteGatewayIp,
-          remoteTunnelIp: remoteTunnelIp,
-          zone: zone,
+          transitGatewayId,
+          networkType,
+          baseConnectionId,
+          baseNetworkType,
+          localGatewayIp,
+          localTunnelIp,
+          name,
+          networkAccountId,
+          networkId,
+          prefixFilters,
+          prefixFiltersDefault,
+          remoteBgpAsn,
+          remoteGatewayIp,
+          remoteTunnelIp,
+          zone,
         };
 
-        const createTransitGatewayConnectionResult = transitGatewayApisService.createTransitGatewayConnection(
-          createTransitGatewayConnectionParams
-        );
+        const createTransitGatewayConnectionResult = transitGatewayApisService.createTransitGatewayConnection(createTransitGatewayConnectionParams);
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayConnectionResult);
@@ -790,11 +954,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections',
-          'POST'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -846,9 +1006,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.createTransitGatewayConnection(
-          createTransitGatewayConnectionParams
-        );
+        transitGatewayApisService.createTransitGatewayConnection(createTransitGatewayConnectionParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -877,6 +1035,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('deleteTransitGatewayConnection', () => {
     describe('positive tests', () => {
       function __deleteTransitGatewayConnectionTest() {
@@ -884,13 +1043,11 @@ describe('TransitGatewayApisV1', () => {
         const transitGatewayId = 'testString';
         const id = 'testString';
         const deleteTransitGatewayConnectionParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
+          transitGatewayId,
+          id,
         };
 
-        const deleteTransitGatewayConnectionResult = transitGatewayApisService.deleteTransitGatewayConnection(
-          deleteTransitGatewayConnectionParams
-        );
+        const deleteTransitGatewayConnectionResult = transitGatewayApisService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteTransitGatewayConnectionResult);
@@ -900,11 +1057,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -943,9 +1096,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.deleteTransitGatewayConnection(
-          deleteTransitGatewayConnectionParams
-        );
+        transitGatewayApisService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -974,6 +1125,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('getTransitGatewayConnection', () => {
     describe('positive tests', () => {
       function __getTransitGatewayConnectionTest() {
@@ -981,13 +1133,11 @@ describe('TransitGatewayApisV1', () => {
         const transitGatewayId = 'testString';
         const id = 'testString';
         const getTransitGatewayConnectionParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
+          transitGatewayId,
+          id,
         };
 
-        const getTransitGatewayConnectionResult = transitGatewayApisService.getTransitGatewayConnection(
-          getTransitGatewayConnectionParams
-        );
+        const getTransitGatewayConnectionResult = transitGatewayApisService.getTransitGatewayConnection(getTransitGatewayConnectionParams);
 
         // all methods should return a Promise
         expectToBePromise(getTransitGatewayConnectionResult);
@@ -997,11 +1147,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1069,6 +1215,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('updateTransitGatewayConnection', () => {
     describe('positive tests', () => {
       function __updateTransitGatewayConnectionTest() {
@@ -1078,15 +1225,13 @@ describe('TransitGatewayApisV1', () => {
         const name = 'Transit_Service_BWTN_SJ_DL';
         const prefixFiltersDefault = 'permit';
         const updateTransitGatewayConnectionParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
-          name: name,
-          prefixFiltersDefault: prefixFiltersDefault,
+          transitGatewayId,
+          id,
+          name,
+          prefixFiltersDefault,
         };
 
-        const updateTransitGatewayConnectionResult = transitGatewayApisService.updateTransitGatewayConnection(
-          updateTransitGatewayConnectionParams
-        );
+        const updateTransitGatewayConnectionResult = transitGatewayApisService.updateTransitGatewayConnection(updateTransitGatewayConnectionParams);
 
         // all methods should return a Promise
         expectToBePromise(updateTransitGatewayConnectionResult);
@@ -1096,11 +1241,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1141,9 +1282,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.updateTransitGatewayConnection(
-          updateTransitGatewayConnectionParams
-        );
+        transitGatewayApisService.updateTransitGatewayConnection(updateTransitGatewayConnectionParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1172,6 +1311,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('createTransitGatewayConnectionActions', () => {
     describe('positive tests', () => {
       function __createTransitGatewayConnectionActionsTest() {
@@ -1180,14 +1320,12 @@ describe('TransitGatewayApisV1', () => {
         const id = 'testString';
         const action = 'approve';
         const createTransitGatewayConnectionActionsParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
-          action: action,
+          transitGatewayId,
+          id,
+          action,
         };
 
-        const createTransitGatewayConnectionActionsResult = transitGatewayApisService.createTransitGatewayConnectionActions(
-          createTransitGatewayConnectionActionsParams
-        );
+        const createTransitGatewayConnectionActionsResult = transitGatewayApisService.createTransitGatewayConnectionActions(createTransitGatewayConnectionActionsParams);
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayConnectionActionsResult);
@@ -1197,11 +1335,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}/actions',
-          'POST'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/actions', 'POST');
         const expectedAccept = undefined;
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1243,9 +1377,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.createTransitGatewayConnectionActions(
-          createTransitGatewayConnectionActionsParams
-        );
+        transitGatewayApisService.createTransitGatewayConnectionActions(createTransitGatewayConnectionActionsParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1274,15 +1406,14 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('listGatewayLocations', () => {
     describe('positive tests', () => {
       function __listGatewayLocationsTest() {
         // Construct the params object for operation listGatewayLocations
         const listGatewayLocationsParams = {};
 
-        const listGatewayLocationsResult = transitGatewayApisService.listGatewayLocations(
-          listGatewayLocationsParams
-        );
+        const listGatewayLocationsResult = transitGatewayApisService.listGatewayLocations(listGatewayLocationsParams);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayLocationsResult);
@@ -1336,18 +1467,17 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('getGatewayLocation', () => {
     describe('positive tests', () => {
       function __getGatewayLocationTest() {
         // Construct the params object for operation getGatewayLocation
         const name = 'testString';
         const getGatewayLocationParams = {
-          name: name,
+          name,
         };
 
-        const getGatewayLocationResult = transitGatewayApisService.getGatewayLocation(
-          getGatewayLocationParams
-        );
+        const getGatewayLocationResult = transitGatewayApisService.getGatewayLocation(getGatewayLocationParams);
 
         // all methods should return a Promise
         expectToBePromise(getGatewayLocationResult);
@@ -1422,6 +1552,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('listTransitGatewayConnectionPrefixFilters', () => {
     describe('positive tests', () => {
       function __listTransitGatewayConnectionPrefixFiltersTest() {
@@ -1429,13 +1560,11 @@ describe('TransitGatewayApisV1', () => {
         const transitGatewayId = 'testString';
         const id = 'testString';
         const listTransitGatewayConnectionPrefixFiltersParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
+          transitGatewayId,
+          id,
         };
 
-        const listTransitGatewayConnectionPrefixFiltersResult = transitGatewayApisService.listTransitGatewayConnectionPrefixFilters(
-          listTransitGatewayConnectionPrefixFiltersParams
-        );
+        const listTransitGatewayConnectionPrefixFiltersResult = transitGatewayApisService.listTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersParams);
 
         // all methods should return a Promise
         expectToBePromise(listTransitGatewayConnectionPrefixFiltersResult);
@@ -1445,11 +1574,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1488,9 +1613,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.listTransitGatewayConnectionPrefixFilters(
-          listTransitGatewayConnectionPrefixFiltersParams
-        );
+        transitGatewayApisService.listTransitGatewayConnectionPrefixFilters(listTransitGatewayConnectionPrefixFiltersParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1519,6 +1642,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('createTransitGatewayConnectionPrefixFilter', () => {
     describe('positive tests', () => {
       function __createTransitGatewayConnectionPrefixFilterTest() {
@@ -1531,18 +1655,16 @@ describe('TransitGatewayApisV1', () => {
         const ge = 0;
         const le = 32;
         const createTransitGatewayConnectionPrefixFilterParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
-          action: action,
-          prefix: prefix,
-          before: before,
-          ge: ge,
-          le: le,
+          transitGatewayId,
+          id,
+          action,
+          prefix,
+          before,
+          ge,
+          le,
         };
 
-        const createTransitGatewayConnectionPrefixFilterResult = transitGatewayApisService.createTransitGatewayConnectionPrefixFilter(
-          createTransitGatewayConnectionPrefixFilterParams
-        );
+        const createTransitGatewayConnectionPrefixFilterResult = transitGatewayApisService.createTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayConnectionPrefixFilterResult);
@@ -1552,11 +1674,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters',
-          'POST'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1604,9 +1722,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.createTransitGatewayConnectionPrefixFilter(
-          createTransitGatewayConnectionPrefixFilterParams
-        );
+        transitGatewayApisService.createTransitGatewayConnectionPrefixFilter(createTransitGatewayConnectionPrefixFilterParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1635,6 +1751,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('replaceTransitGatewayConnectionPrefixFilter', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
@@ -1653,14 +1770,12 @@ describe('TransitGatewayApisV1', () => {
         const id = 'testString';
         const prefixFilters = [prefixFilterPutModel];
         const replaceTransitGatewayConnectionPrefixFilterParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
-          prefixFilters: prefixFilters,
+          transitGatewayId,
+          id,
+          prefixFilters,
         };
 
-        const replaceTransitGatewayConnectionPrefixFilterResult = transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter(
-          replaceTransitGatewayConnectionPrefixFilterParams
-        );
+        const replaceTransitGatewayConnectionPrefixFilterResult = transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(replaceTransitGatewayConnectionPrefixFilterResult);
@@ -1670,11 +1785,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters',
-          'PUT'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters', 'PUT');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1716,9 +1827,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter(
-          replaceTransitGatewayConnectionPrefixFilterParams
-        );
+        transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1747,6 +1856,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('deleteTransitGatewayConnectionPrefixFilter', () => {
     describe('positive tests', () => {
       function __deleteTransitGatewayConnectionPrefixFilterTest() {
@@ -1755,14 +1865,12 @@ describe('TransitGatewayApisV1', () => {
         const id = 'testString';
         const filterId = 'testString';
         const deleteTransitGatewayConnectionPrefixFilterParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
-          filterId: filterId,
+          transitGatewayId,
+          id,
+          filterId,
         };
 
-        const deleteTransitGatewayConnectionPrefixFilterResult = transitGatewayApisService.deleteTransitGatewayConnectionPrefixFilter(
-          deleteTransitGatewayConnectionPrefixFilterParams
-        );
+        const deleteTransitGatewayConnectionPrefixFilterResult = transitGatewayApisService.deleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteTransitGatewayConnectionPrefixFilterResult);
@@ -1772,11 +1880,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1818,9 +1922,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.deleteTransitGatewayConnectionPrefixFilter(
-          deleteTransitGatewayConnectionPrefixFilterParams
-        );
+        transitGatewayApisService.deleteTransitGatewayConnectionPrefixFilter(deleteTransitGatewayConnectionPrefixFilterParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1849,6 +1951,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('getTransitGatewayConnectionPrefixFilter', () => {
     describe('positive tests', () => {
       function __getTransitGatewayConnectionPrefixFilterTest() {
@@ -1857,14 +1960,12 @@ describe('TransitGatewayApisV1', () => {
         const id = 'testString';
         const filterId = 'testString';
         const getTransitGatewayConnectionPrefixFilterParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
-          filterId: filterId,
+          transitGatewayId,
+          id,
+          filterId,
         };
 
-        const getTransitGatewayConnectionPrefixFilterResult = transitGatewayApisService.getTransitGatewayConnectionPrefixFilter(
-          getTransitGatewayConnectionPrefixFilterParams
-        );
+        const getTransitGatewayConnectionPrefixFilterResult = transitGatewayApisService.getTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(getTransitGatewayConnectionPrefixFilterResult);
@@ -1874,11 +1975,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1920,9 +2017,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.getTransitGatewayConnectionPrefixFilter(
-          getTransitGatewayConnectionPrefixFilterParams
-        );
+        transitGatewayApisService.getTransitGatewayConnectionPrefixFilter(getTransitGatewayConnectionPrefixFilterParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -1951,6 +2046,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('updateTransitGatewayConnectionPrefixFilter', () => {
     describe('positive tests', () => {
       function __updateTransitGatewayConnectionPrefixFilterTest() {
@@ -1964,19 +2060,17 @@ describe('TransitGatewayApisV1', () => {
         const le = 32;
         const prefix = '192.168.100.0/24';
         const updateTransitGatewayConnectionPrefixFilterParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
-          filterId: filterId,
-          action: action,
-          before: before,
-          ge: ge,
-          le: le,
-          prefix: prefix,
+          transitGatewayId,
+          id,
+          filterId,
+          action,
+          before,
+          ge,
+          le,
+          prefix,
         };
 
-        const updateTransitGatewayConnectionPrefixFilterResult = transitGatewayApisService.updateTransitGatewayConnectionPrefixFilter(
-          updateTransitGatewayConnectionPrefixFilterParams
-        );
+        const updateTransitGatewayConnectionPrefixFilterResult = transitGatewayApisService.updateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(updateTransitGatewayConnectionPrefixFilterResult);
@@ -1986,11 +2080,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2037,9 +2127,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.updateTransitGatewayConnectionPrefixFilter(
-          updateTransitGatewayConnectionPrefixFilterParams
-        );
+        transitGatewayApisService.updateTransitGatewayConnectionPrefixFilter(updateTransitGatewayConnectionPrefixFilterParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -2068,18 +2156,17 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('listTransitGatewayRouteReports', () => {
     describe('positive tests', () => {
       function __listTransitGatewayRouteReportsTest() {
         // Construct the params object for operation listTransitGatewayRouteReports
         const transitGatewayId = 'testString';
         const listTransitGatewayRouteReportsParams = {
-          transitGatewayId: transitGatewayId,
+          transitGatewayId,
         };
 
-        const listTransitGatewayRouteReportsResult = transitGatewayApisService.listTransitGatewayRouteReports(
-          listTransitGatewayRouteReportsParams
-        );
+        const listTransitGatewayRouteReportsResult = transitGatewayApisService.listTransitGatewayRouteReports(listTransitGatewayRouteReportsParams);
 
         // all methods should return a Promise
         expectToBePromise(listTransitGatewayRouteReportsResult);
@@ -2089,11 +2176,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/route_reports',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2129,9 +2212,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.listTransitGatewayRouteReports(
-          listTransitGatewayRouteReportsParams
-        );
+        transitGatewayApisService.listTransitGatewayRouteReports(listTransitGatewayRouteReportsParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -2160,18 +2241,17 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('createTransitGatewayRouteReport', () => {
     describe('positive tests', () => {
       function __createTransitGatewayRouteReportTest() {
         // Construct the params object for operation createTransitGatewayRouteReport
         const transitGatewayId = 'testString';
         const createTransitGatewayRouteReportParams = {
-          transitGatewayId: transitGatewayId,
+          transitGatewayId,
         };
 
-        const createTransitGatewayRouteReportResult = transitGatewayApisService.createTransitGatewayRouteReport(
-          createTransitGatewayRouteReportParams
-        );
+        const createTransitGatewayRouteReportResult = transitGatewayApisService.createTransitGatewayRouteReport(createTransitGatewayRouteReportParams);
 
         // all methods should return a Promise
         expectToBePromise(createTransitGatewayRouteReportResult);
@@ -2181,11 +2261,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/route_reports',
-          'POST'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2221,9 +2297,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.createTransitGatewayRouteReport(
-          createTransitGatewayRouteReportParams
-        );
+        transitGatewayApisService.createTransitGatewayRouteReport(createTransitGatewayRouteReportParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -2252,6 +2326,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('deleteTransitGatewayRouteReport', () => {
     describe('positive tests', () => {
       function __deleteTransitGatewayRouteReportTest() {
@@ -2259,13 +2334,11 @@ describe('TransitGatewayApisV1', () => {
         const transitGatewayId = 'testString';
         const id = 'testString';
         const deleteTransitGatewayRouteReportParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
+          transitGatewayId,
+          id,
         };
 
-        const deleteTransitGatewayRouteReportResult = transitGatewayApisService.deleteTransitGatewayRouteReport(
-          deleteTransitGatewayRouteReportParams
-        );
+        const deleteTransitGatewayRouteReportResult = transitGatewayApisService.deleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteTransitGatewayRouteReportResult);
@@ -2275,11 +2348,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/route_reports/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2318,9 +2387,7 @@ describe('TransitGatewayApisV1', () => {
           },
         };
 
-        transitGatewayApisService.deleteTransitGatewayRouteReport(
-          deleteTransitGatewayRouteReportParams
-        );
+        transitGatewayApisService.deleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -2349,6 +2416,7 @@ describe('TransitGatewayApisV1', () => {
       });
     });
   });
+
   describe('getTransitGatewayRouteReport', () => {
     describe('positive tests', () => {
       function __getTransitGatewayRouteReportTest() {
@@ -2356,13 +2424,11 @@ describe('TransitGatewayApisV1', () => {
         const transitGatewayId = 'testString';
         const id = 'testString';
         const getTransitGatewayRouteReportParams = {
-          transitGatewayId: transitGatewayId,
-          id: id,
+          transitGatewayId,
+          id,
         };
 
-        const getTransitGatewayRouteReportResult = transitGatewayApisService.getTransitGatewayRouteReport(
-          getTransitGatewayRouteReportParams
-        );
+        const getTransitGatewayRouteReportResult = transitGatewayApisService.getTransitGatewayRouteReport(getTransitGatewayRouteReportParams);
 
         // all methods should return a Promise
         expectToBePromise(getTransitGatewayRouteReportResult);
@@ -2372,11 +2438,7 @@ describe('TransitGatewayApisV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/transit_gateways/{transit_gateway_id}/route_reports/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/route_reports/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
