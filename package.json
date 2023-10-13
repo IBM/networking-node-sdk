@@ -41,10 +41,6 @@
     "ibm-cloud-sdk-core": "^4.0.2"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/git": "^9.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.49.0",
     "ansi-regex": "^5.0.1",
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
@@ -64,8 +60,6 @@
     "set-value": "^4.0.0",
     "tsc-publish": "^0.5.2",
     "tslint": "^5.16.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-eslint-rules": "^5.4.0",
     "typedoc": "^0.25.2",
     "typescript": "^4.9.4",
     "yargs-parser": "^13.1.2"
