@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.60.2-95dc7721-20221102-203229
+ * IBM OpenAPI SDK Code Generator Version: 3.80.0-29334a73-20230925-151553
  */
 
 /* eslint-disable max-classes-per-file */
@@ -26,8 +26,8 @@ import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import {
   Authenticator,
   BaseService,
-  getAuthenticatorFromEnvironment,
   UserOptions,
+  getAuthenticatorFromEnvironment,
   validateParams,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
@@ -137,11 +137,7 @@ class DirectLinkV1 extends BaseService {
       'version': this.version,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listGateways'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listGateways');
 
     const parameters = {
       options: {
@@ -190,11 +186,7 @@ class DirectLinkV1 extends BaseService {
       'version': this.version,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createGateway'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'createGateway');
 
     const parameters = {
       options: {
@@ -248,11 +240,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteGateway'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteGateway');
 
     const parameters = {
       options: {
@@ -283,11 +271,11 @@ class DirectLinkV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link gateway identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>>}
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.GetGatewayResponse>>}
    */
   public getGateway(
     params: DirectLinkV1.GetGatewayParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>> {
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.GetGatewayResponse>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
     const _validParams = ['id', 'headers'];
@@ -304,11 +292,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getGateway'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getGateway');
 
     const parameters = {
       options: {
@@ -392,6 +376,11 @@ class DirectLinkV1 extends BaseService {
    * @param {string} [params.patchPanelCompletionNotice] - Gateway patch panel complete notification from implementation
    * team.
    * @param {number} [params.speedMbps] - Gateway speed in megabits per second.
+   * @param {number} [params.vlan] - The VLAN to configure for this gateway.
+   *
+   * Specify `null` to remove an existing VLAN configuration.
+   *
+   * The gateway must have a `type` of `dedicated`.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>>}
    */
@@ -400,7 +389,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'authenticationKey', 'bfdConfig', 'bgpAsn', 'bgpCerCidr', 'bgpIbmCidr', 'connectionMode', 'defaultExportRouteFilter', 'defaultImportRouteFilter', 'global', 'loaRejectReason', 'macsecConfig', 'metered', 'name', 'operationalStatus', 'patchPanelCompletionNotice', 'speedMbps', 'headers'];
+    const _validParams = ['id', 'authenticationKey', 'bfdConfig', 'bgpAsn', 'bgpCerCidr', 'bgpIbmCidr', 'connectionMode', 'defaultExportRouteFilter', 'defaultImportRouteFilter', 'global', 'loaRejectReason', 'macsecConfig', 'metered', 'name', 'operationalStatus', 'patchPanelCompletionNotice', 'speedMbps', 'vlan', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -423,6 +412,7 @@ class DirectLinkV1 extends BaseService {
       'operational_status': _params.operationalStatus,
       'patch_panel_completion_notice': _params.patchPanelCompletionNotice,
       'speed_mbps': _params.speedMbps,
+      'vlan': _params.vlan,
     };
 
     const query = {
@@ -433,11 +423,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateGateway'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'updateGateway');
 
     const parameters = {
       options: {
@@ -453,7 +439,7 @@ class DirectLinkV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/merge-patch+json',
           },
           _params.headers
         ),
@@ -547,11 +533,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createGatewayAction'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'createGatewayAction');
 
     const parameters = {
       options: {
@@ -606,11 +588,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listGatewayCompletionNotice'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayCompletionNotice');
 
     const parameters = {
       options: {
@@ -673,11 +651,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createGatewayCompletionNotice'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'createGatewayCompletionNotice');
 
     const parameters = {
       options: {
@@ -731,11 +705,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listGatewayLetterOfAuthorization'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayLetterOfAuthorization');
 
     const parameters = {
       options: {
@@ -792,11 +762,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getGatewayStatistics'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayStatistics');
 
     const parameters = {
       options: {
@@ -851,11 +817,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getGatewayStatus'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayStatus');
 
     const parameters = {
       options: {
@@ -918,11 +880,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listGatewayExportRouteFilters'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayExportRouteFilters');
 
     const parameters = {
       options: {
@@ -1008,11 +966,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createGatewayExportRouteFilter'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'createGatewayExportRouteFilter');
 
     const parameters = {
       options: {
@@ -1076,11 +1030,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'replaceGatewayExportRouteFilters'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'replaceGatewayExportRouteFilters');
 
     const parameters = {
       options: {
@@ -1142,11 +1092,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteGatewayExportRouteFilter'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteGatewayExportRouteFilter');
 
     const parameters = {
       options: {
@@ -1200,11 +1146,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getGatewayExportRouteFilter'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayExportRouteFilter');
 
     const parameters = {
       options: {
@@ -1294,11 +1236,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateGatewayExportRouteFilter'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'updateGatewayExportRouteFilter');
 
     const parameters = {
       options: {
@@ -1362,11 +1300,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listGatewayImportRouteFilters'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayImportRouteFilters');
 
     const parameters = {
       options: {
@@ -1452,11 +1386,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createGatewayImportRouteFilter'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'createGatewayImportRouteFilter');
 
     const parameters = {
       options: {
@@ -1520,11 +1450,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'replaceGatewayImportRouteFilters'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'replaceGatewayImportRouteFilters');
 
     const parameters = {
       options: {
@@ -1586,11 +1512,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteGatewayImportRouteFilter'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteGatewayImportRouteFilter');
 
     const parameters = {
       options: {
@@ -1644,11 +1566,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getGatewayImportRouteFilter'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayImportRouteFilter');
 
     const parameters = {
       options: {
@@ -1738,11 +1656,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateGatewayImportRouteFilter'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'updateGatewayImportRouteFilter');
 
     const parameters = {
       options: {
@@ -1800,11 +1714,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listGatewayRouteReports'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayRouteReports');
 
     const parameters = {
       options: {
@@ -1861,11 +1771,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createGatewayRouteReport'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'createGatewayRouteReport');
 
     const parameters = {
       options: {
@@ -1920,11 +1826,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteGatewayRouteReport'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteGatewayRouteReport');
 
     const parameters = {
       options: {
@@ -1978,11 +1880,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getGatewayRouteReport'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayRouteReport');
 
     const parameters = {
       options: {
@@ -2039,11 +1937,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listGatewayVirtualConnections'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayVirtualConnections');
 
     const parameters = {
       options: {
@@ -2108,11 +2002,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createGatewayVirtualConnection'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'createGatewayVirtualConnection');
 
     const parameters = {
       options: {
@@ -2169,11 +2059,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteGatewayVirtualConnection'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteGatewayVirtualConnection');
 
     const parameters = {
       options: {
@@ -2227,11 +2113,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getGatewayVirtualConnection'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayVirtualConnection');
 
     const parameters = {
       options: {
@@ -2297,11 +2179,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateGatewayVirtualConnection'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'updateGatewayVirtualConnection');
 
     const parameters = {
       options: {
@@ -2360,11 +2238,7 @@ class DirectLinkV1 extends BaseService {
       'offering_type': _params.offeringType,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listOfferingTypeLocations'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listOfferingTypeLocations');
 
     const parameters = {
       options: {
@@ -2420,11 +2294,7 @@ class DirectLinkV1 extends BaseService {
       'location_name': _params.locationName,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listOfferingTypeLocationCrossConnectRouters'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listOfferingTypeLocationCrossConnectRouters');
 
     const parameters = {
       options: {
@@ -2478,11 +2348,7 @@ class DirectLinkV1 extends BaseService {
       'offering_type': _params.offeringType,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listOfferingTypeSpeeds'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listOfferingTypeSpeeds');
 
     const parameters = {
       options: {
@@ -2540,11 +2406,7 @@ class DirectLinkV1 extends BaseService {
       'location_name': _params.locationName,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listPorts'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listPorts');
 
     const parameters = {
       options: {
@@ -2596,11 +2458,7 @@ class DirectLinkV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getPort'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getPort');
 
     const parameters = {
       options: {
@@ -2656,11 +2514,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listGatewayAsPrepends'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayAsPrepends');
 
     const parameters = {
       options: {
@@ -2721,11 +2575,7 @@ class DirectLinkV1 extends BaseService {
       'gateway_id': _params.gatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'replaceGatewayAsPrepends'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'replaceGatewayAsPrepends');
 
     const parameters = {
       options: {
@@ -2895,6 +2745,13 @@ namespace DirectLinkV1 {
     patchPanelCompletionNotice?: string;
     /** Gateway speed in megabits per second. */
     speedMbps?: number;
+    /** The VLAN to configure for this gateway.
+     *
+     *  Specify `null` to remove an existing VLAN configuration.
+     *
+     *  The gateway must have a `type` of `dedicated`.
+     */
+    vlan?: number;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3596,6 +3453,12 @@ namespace DirectLinkV1 {
     specific_prefixes?: string[];
   }
 
+  /** gateway port for type=connect gateways. */
+  export interface CrossAccountGatewayPort {
+    /** Port Identifier. */
+    id: string;
+  }
+
   /** Cross Connect Router details. */
   export interface CrossConnectRouter {
     /** Array of capabilities for this router. */
@@ -3663,6 +3526,8 @@ namespace DirectLinkV1 {
     created_at: string;
     /** The CRN (Cloud Resource Name) of this gateway. */
     crn: string;
+    /** Indicates whether this gateway is cross account gateway. */
+    cross_account: boolean;
     /** Cross connect router.  Only included on type=dedicated gateways. */
     cross_connect_router?: string;
     /** Customer name.  Only set for type=dedicated gateways. */
@@ -3703,8 +3568,6 @@ namespace DirectLinkV1 {
      *  and processes using this field  must tolerate unexpected values.
      */
     operational_status: string;
-    /** Gateway patch panel complete notification from implementation team. */
-    patch_panel_completion_notice?: string;
     /** gateway port for type=connect gateways. */
     port?: GatewayPort;
     /** Indicates whether gateway changes must be made via a provider portal. */
@@ -3713,11 +3576,15 @@ namespace DirectLinkV1 {
     resource_group?: ResourceGroupReference;
     /** Gateway speed in megabits per second. */
     speed_mbps: number;
+    /** Gateway patch panel complete notification from implementation team. */
+    patch_panel_completion_notice?: string;
     /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes
      *  using this field  must tolerate unexpected values.
      */
     type: string;
-    /** VLAN allocated for this gateway.  Only set for type=connect gateways. */
+    /** VLAN configured for this gateway. If there is no vlan configured for the gateway, the vlan will be absent.
+     *  This property will also be absent if this gateway's `crn` is in another account.
+     */
     vlan?: number;
   }
 
@@ -3810,7 +3677,11 @@ namespace DirectLinkV1 {
   /** List of gateways. */
   export interface GatewayCollection {
     /** Collection of Direct Link gateways. */
-    gateways: Gateway[];
+    gateways: GatewayCollectionGatewaysItem[];
+  }
+
+  /** GatewayCollectionGatewaysItem. */
+  export interface GatewayCollectionGatewaysItem {
   }
 
   /** MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.  Contact IBM support for access to MACsec. */
@@ -4145,6 +4016,10 @@ namespace DirectLinkV1 {
     virtual_connections: GatewayVirtualConnection[];
   }
 
+  /** GetGatewayResponse. */
+  export interface GetGatewayResponse {
+  }
+
   /** Collection of import route filters. */
   export interface ImportRouteFilterCollection {
     /** Array of import route filters. */
@@ -4425,7 +4300,7 @@ namespace DirectLinkV1 {
     speed_mbps?: number;
   }
 
-  /** Update VLAN for this gateway VLAN provided should be in the range 1 to 4094. */
+  /** Update VLAN for this gateway VLAN provided should be in the range 2 to 3967. */
   export interface GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate extends GatewayActionTemplateUpdatesItem {
     /** VLAN to be updated for this gateway. */
     vlan?: number;
@@ -4466,7 +4341,7 @@ namespace DirectLinkV1 {
     speed_mbps?: number;
   }
 
-  /** Update VLAN for this gateway VLAN provided should be in the range 1 to 4094. */
+  /** Update VLAN for this gateway VLAN provided should be in the range 2 to 3967. */
   export interface GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate extends GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem {
     /** VLAN to be updated for this gateway. */
     vlan?: number;
@@ -4490,6 +4365,171 @@ namespace DirectLinkV1 {
     type: string;
     /** array of pending updates. */
     updates: GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem[];
+  }
+
+  /** cross-account gateway read-only view. */
+  export interface GatewayCollectionGatewaysItemCrossAccountGateway extends GatewayCollectionGatewaysItem {
+    /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and
+     *  processes using this field  must tolerate unexpected values.
+     */
+    bgp_status?: string;
+    /** Date and time bgp status was updated. */
+    bgp_status_updated_at?: string;
+    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
+     *  Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of
+     *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
+     *  unexpected values.
+     */
+    connection_mode?: string;
+    /** The date and time resource was created. */
+    created_at: string;
+    /** The CRN (Cloud Resource Name) of this gateway. */
+    crn: string;
+    /** Indicates whether this gateway is cross account gateway. */
+    cross_account: boolean;
+    /** Cross connect router.  Only included on type=dedicated gateways. */
+    cross_connect_router?: string;
+    /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
+    global: boolean;
+    /** The unique identifier of this gateway. */
+    id: string;
+    /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this
+     *  property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+     */
+    link_status?: string;
+    /** Date and time link status was updated. */
+    link_status_updated_at?: string;
+    /** Gateway location long name. */
+    location_display_name: string;
+    /** Gateway location. */
+    location_name: string;
+    /** The unique user-defined name for this gateway. */
+    name: string;
+    /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code
+     *  and processes using this field  must tolerate unexpected values.
+     */
+    operational_status: string;
+    /** gateway port for type=connect gateways. */
+    port?: CrossAccountGatewayPort;
+    /** Gateway speed in megabits per second. */
+    speed_mbps: number;
+    /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes
+     *  using this field  must tolerate unexpected values.
+     */
+    type: string;
+  }
+
+  /** gateway. */
+  export interface GatewayCollectionGatewaysItemGateway extends GatewayCollectionGatewaysItem {
+    /** array of AS Prepend information. */
+    as_prepends?: AsPrepend[];
+    /** The identity of the standard key to use for BGP MD5 authentication key.
+     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
+     *  characters in length.
+     *  To clear the optional `authentication_key` field patch its crn to `""`.
+     */
+    authentication_key?: GatewayAuthenticationKey;
+    /** BFD configuration information. */
+    bfd_config?: GatewayBfdConfig;
+    /** Customer BGP ASN. */
+    bgp_asn: number;
+    /** (DEPRECATED) BGP base CIDR is deprecated and no longer recognized by the Direct Link APIs.
+     *
+     *  See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
+     *
+     *  Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
+     */
+    bgp_base_cidr?: string;
+    /** BGP customer edge router CIDR. */
+    bgp_cer_cidr?: string;
+    /** IBM BGP ASN. */
+    bgp_ibm_asn?: number;
+    /** BGP IBM CIDR. */
+    bgp_ibm_cidr?: string;
+    /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and
+     *  processes using this field  must tolerate unexpected values.
+     */
+    bgp_status?: string;
+    /** Date and time bgp status was updated. */
+    bgp_status_updated_at?: string;
+    /** Carrier name.  Only set for type=dedicated gateways. */
+    carrier_name?: string;
+    /** Changes pending approval for provider managed Direct Link Connect gateways. */
+    change_request?: GatewayChangeRequest;
+    /** Reason for completion notice rejection.  Only included on type=dedicated gateways with a rejected completion
+     *  notice.
+     */
+    completion_notice_reject_reason?: string;
+    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
+     *  Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of
+     *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
+     *  unexpected values.
+     */
+    connection_mode?: string;
+    /** The date and time resource was created. */
+    created_at: string;
+    /** The CRN (Cloud Resource Name) of this gateway. */
+    crn: string;
+    /** Indicates whether this gateway is cross account gateway. */
+    cross_account: boolean;
+    /** Cross connect router.  Only included on type=dedicated gateways. */
+    cross_connect_router?: string;
+    /** Customer name.  Only set for type=dedicated gateways. */
+    customer_name?: string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    default_export_route_filter: string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    default_import_route_filter: string;
+    /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
+    global: boolean;
+    /** The unique identifier of this gateway. */
+    id: string;
+    /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this
+     *  property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+     */
+    link_status?: string;
+    /** Date and time link status was updated. */
+    link_status_updated_at?: string;
+    /** Gateway location long name. */
+    location_display_name: string;
+    /** Gateway location. */
+    location_name: string;
+    /** MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration
+     *  information.  Contact IBM support for access to MACsec.
+     */
+    macsec_config?: GatewayMacsecConfig;
+    /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
+     *  gigabyte usage charge, instead a flat rate is charged for the gateway.
+     */
+    metered: boolean;
+    /** The unique user-defined name for this gateway. */
+    name: string;
+    /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code
+     *  and processes using this field  must tolerate unexpected values.
+     */
+    operational_status: string;
+    /** gateway port for type=connect gateways. */
+    port?: GatewayPort;
+    /** Indicates whether gateway changes must be made via a provider portal. */
+    provider_api_managed?: boolean;
+    /** Resource group reference. */
+    resource_group?: ResourceGroupReference;
+    /** Gateway speed in megabits per second. */
+    speed_mbps: number;
+    /** Gateway patch panel complete notification from implementation team. */
+    patch_panel_completion_notice?: string;
+    /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes
+     *  using this field  must tolerate unexpected values.
+     */
+    type: string;
+    /** VLAN configured for this gateway. If there is no vlan configured for the gateway, the vlan will be absent.
+     *  This property will also be absent if this gateway's `crn` is in another account.
+     */
+    vlan?: number;
   }
 
   /** Gateway bfd status. */
@@ -4540,6 +4580,173 @@ namespace DirectLinkV1 {
     location_name: string;
     /** MACsec configuration information.  Contact IBM support for access to MACsec. */
     macsec_config?: GatewayMacsecConfigTemplate;
+    /** The VLAN to configure for this gateway. */
+    vlan?: number;
+  }
+
+  /** cross-account gateway read-only view. */
+  export interface GetGatewayResponseCrossAccountGateway extends GetGatewayResponse {
+    /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and
+     *  processes using this field  must tolerate unexpected values.
+     */
+    bgp_status?: string;
+    /** Date and time bgp status was updated. */
+    bgp_status_updated_at?: string;
+    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
+     *  Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of
+     *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
+     *  unexpected values.
+     */
+    connection_mode?: string;
+    /** The date and time resource was created. */
+    created_at: string;
+    /** The CRN (Cloud Resource Name) of this gateway. */
+    crn: string;
+    /** Indicates whether this gateway is cross account gateway. */
+    cross_account: boolean;
+    /** Cross connect router.  Only included on type=dedicated gateways. */
+    cross_connect_router?: string;
+    /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
+    global: boolean;
+    /** The unique identifier of this gateway. */
+    id: string;
+    /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this
+     *  property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+     */
+    link_status?: string;
+    /** Date and time link status was updated. */
+    link_status_updated_at?: string;
+    /** Gateway location long name. */
+    location_display_name: string;
+    /** Gateway location. */
+    location_name: string;
+    /** The unique user-defined name for this gateway. */
+    name: string;
+    /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code
+     *  and processes using this field  must tolerate unexpected values.
+     */
+    operational_status: string;
+    /** gateway port for type=connect gateways. */
+    port?: CrossAccountGatewayPort;
+    /** Gateway speed in megabits per second. */
+    speed_mbps: number;
+    /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes
+     *  using this field  must tolerate unexpected values.
+     */
+    type: string;
+  }
+
+  /** gateway. */
+  export interface GetGatewayResponseGateway extends GetGatewayResponse {
+    /** array of AS Prepend information. */
+    as_prepends?: AsPrepend[];
+    /** The identity of the standard key to use for BGP MD5 authentication key.
+     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
+     *  characters in length.
+     *  To clear the optional `authentication_key` field patch its crn to `""`.
+     */
+    authentication_key?: GatewayAuthenticationKey;
+    /** BFD configuration information. */
+    bfd_config?: GatewayBfdConfig;
+    /** Customer BGP ASN. */
+    bgp_asn: number;
+    /** (DEPRECATED) BGP base CIDR is deprecated and no longer recognized by the Direct Link APIs.
+     *
+     *  See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
+     *
+     *  Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
+     */
+    bgp_base_cidr?: string;
+    /** BGP customer edge router CIDR. */
+    bgp_cer_cidr?: string;
+    /** IBM BGP ASN. */
+    bgp_ibm_asn?: number;
+    /** BGP IBM CIDR. */
+    bgp_ibm_cidr?: string;
+    /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and
+     *  processes using this field  must tolerate unexpected values.
+     */
+    bgp_status?: string;
+    /** Date and time bgp status was updated. */
+    bgp_status_updated_at?: string;
+    /** Carrier name.  Only set for type=dedicated gateways. */
+    carrier_name?: string;
+    /** Changes pending approval for provider managed Direct Link Connect gateways. */
+    change_request?: GatewayChangeRequest;
+    /** Reason for completion notice rejection.  Only included on type=dedicated gateways with a rejected completion
+     *  notice.
+     */
+    completion_notice_reject_reason?: string;
+    /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
+     *  Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of
+     *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
+     *  unexpected values.
+     */
+    connection_mode?: string;
+    /** The date and time resource was created. */
+    created_at: string;
+    /** The CRN (Cloud Resource Name) of this gateway. */
+    crn: string;
+    /** Indicates whether this gateway is cross account gateway. */
+    cross_account: boolean;
+    /** Cross connect router.  Only included on type=dedicated gateways. */
+    cross_connect_router?: string;
+    /** Customer name.  Only set for type=dedicated gateways. */
+    customer_name?: string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    default_export_route_filter: string;
+    /** The default directional route filter action that applies to routes that do not match any directional route
+     *  filters.
+     */
+    default_import_route_filter: string;
+    /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
+    global: boolean;
+    /** The unique identifier of this gateway. */
+    id: string;
+    /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this
+     *  property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+     */
+    link_status?: string;
+    /** Date and time link status was updated. */
+    link_status_updated_at?: string;
+    /** Gateway location long name. */
+    location_display_name: string;
+    /** Gateway location. */
+    location_name: string;
+    /** MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration
+     *  information.  Contact IBM support for access to MACsec.
+     */
+    macsec_config?: GatewayMacsecConfig;
+    /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
+     *  gigabyte usage charge, instead a flat rate is charged for the gateway.
+     */
+    metered: boolean;
+    /** The unique user-defined name for this gateway. */
+    name: string;
+    /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code
+     *  and processes using this field  must tolerate unexpected values.
+     */
+    operational_status: string;
+    /** gateway port for type=connect gateways. */
+    port?: GatewayPort;
+    /** Indicates whether gateway changes must be made via a provider portal. */
+    provider_api_managed?: boolean;
+    /** Resource group reference. */
+    resource_group?: ResourceGroupReference;
+    /** Gateway speed in megabits per second. */
+    speed_mbps: number;
+    /** Gateway patch panel complete notification from implementation team. */
+    patch_panel_completion_notice?: string;
+    /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes
+     *  using this field  must tolerate unexpected values.
+     */
+    type: string;
+    /** VLAN configured for this gateway. If there is no vlan configured for the gateway, the vlan will be absent.
+     *  This property will also be absent if this gateway's `crn` is in another account.
+     */
+    vlan?: number;
   }
 
   /** overlapping route details. */
@@ -4558,6 +4765,89 @@ namespace DirectLinkV1 {
     prefix: string;
     /** type of the route. */
     type: string;
+  }
+
+  /*************************
+   * pager classes
+   ************************/
+
+  /**
+   * PortsPager can be used to simplify the use of listPorts().
+   */
+  export class PortsPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: DirectLinkV1;
+
+    protected params: DirectLinkV1.ListPortsParams;
+
+    /**
+     * Construct a PortsPager object.
+     *
+     * @param {DirectLinkV1}  client - The service client instance used to invoke listPorts()
+     * @param {Object} [params] - The parameters to be passed to listPorts()
+     * @constructor
+     * @returns {PortsPager}
+     */
+    constructor(client: DirectLinkV1, params?: DirectLinkV1.ListPortsParams) {
+      if (params && params.start) {
+        throw new Error(`the params.start field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listPorts().
+     * @returns {Promise<DirectLinkV1.Port[]>}
+     */
+    public async getNext(): Promise<DirectLinkV1.Port[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.start = this.pageContext.next;
+      }
+      const response = await this.client.listPorts(this.params);
+      const { result } = response;
+
+      let next;
+      if (result && result.next) {
+        next = result.next.start;
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.ports;
+    }
+
+    /**
+     * Returns all results by invoking listPorts() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<DirectLinkV1.Port[]>}
+     */
+    public async getAll(): Promise<DirectLinkV1.Port[]> {
+      const results: Port[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
   }
 }
 

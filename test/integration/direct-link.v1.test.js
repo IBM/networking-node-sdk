@@ -119,6 +119,7 @@ describe('DirectLinkV1', () => {
       customer_name: 'newCustomerName',
       cross_connect_router: 'LAB-xcr01.dal09',
       location_name: config.LOCATION_NAME,
+      vlan: 10,
     };
 
     // Save the gateway ID for deletion
@@ -152,6 +153,7 @@ describe('DirectLinkV1', () => {
           expect(response.result.link_status).toBe('down');
           expect(response.result.operational_status).toBe('awaiting_loa');
           expect(response.result.resource_group).toBeDefined();
+          expect(response.result.vlan).toBe(10);
           done();
         });
       } catch (err) {
@@ -209,6 +211,7 @@ describe('DirectLinkV1', () => {
         global: false,
         metered: true,
         loaRejectReason: 'testing patch',
+        vlan: 99,
       };
       try {
         dlService.updateGateway(params).then(response => {
@@ -227,6 +230,31 @@ describe('DirectLinkV1', () => {
           expect(response.result.link_status).toBe('down');
           expect(response.result.resource_group).toBeDefined();
           expect(response.result.type).toBe(gatewayTemplate.type);
+          expect(response.result.vlan).toBe(99);
+          done();
+        });
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    // update a dedicated gateway and verify the vlan with null
+    it('Successfully update a gateway with vlan cleared', done => {
+      // Gateway prams for vlan clearing in dedicated gateway
+      const params = {
+        id: gatewayId,
+        name: 'NODE-INT-SDK-DEDICATED-NULL-VLAN-' + timestamp,
+        speedMbps: 1000,
+        vlan: null,
+      };
+      try {
+        dlService.updateGateway(params).then(response => {
+          expect(response.status).toBe(200);
+          expect(response.result.id).toBe(gatewayId);
+          expect(response.result.name).toBe(params.name);
+          expect(response.result.type).toBe(gatewayTemplate.type);
+          expect(response.result.speed_mbps).toBe(params.speedMbps);
+          expect(response.result.vlan).toBeUndefined();
           done();
         });
       } catch (err) {
