@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
+/* eslint-disable no-await-in-loop */
+
+const nock = require('nock');
+
 // need to import the whole package to mock getAuthenticatorFromEnvironment
-const core = require('ibm-cloud-sdk-core');
+const sdkCorePackage = require('ibm-cloud-sdk-core');
 
-const { NoAuthAuthenticator, unitTestUtils } = core;
-
+const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
 const DirectLinkProviderV2 = require('../../dist/direct-link-provider/v2');
 
 const {
@@ -37,29 +40,43 @@ const directLinkProviderServiceOptions = {
 
 const directLinkProviderService = new DirectLinkProviderV2(directLinkProviderServiceOptions);
 
-// dont actually create a request
-const createRequestMock = jest.spyOn(directLinkProviderService, 'createRequest');
-createRequestMock.mockImplementation(() => Promise.resolve());
+let createRequestMock = null;
+function mock_createRequest() {
+  if (!createRequestMock) {
+    createRequestMock = jest.spyOn(directLinkProviderService, 'createRequest');
+    createRequestMock.mockImplementation(() => Promise.resolve());
+  }
+}
+function unmock_createRequest() {
+  if (createRequestMock) {
+    createRequestMock.mockRestore();
+    createRequestMock = null;
+  }
+}
 
 // dont actually construct an authenticator
-const getAuthenticatorMock = jest.spyOn(core, 'getAuthenticatorFromEnvironment');
+const getAuthenticatorMock = jest.spyOn(sdkCorePackage, 'getAuthenticatorFromEnvironment');
 getAuthenticatorMock.mockImplementation(() => new NoAuthAuthenticator());
-
-afterEach(() => {
-  createRequestMock.mockClear();
-  getAuthenticatorMock.mockClear();
-});
 
 // used for the service construction tests
 let requiredGlobals;
-beforeEach(() => {
-  // these are changed when passed into the factory/constructor, so re-init
-  requiredGlobals = {
-    version: 'testString',
-  };
-});
 
 describe('DirectLinkProviderV2', () => {
+  beforeEach(() => {
+    mock_createRequest();
+    // these are changed when passed into the factory/constructor, so re-init
+    requiredGlobals = {
+      version: 'testString',
+    };
+  });
+
+  afterEach(() => {
+    if (createRequestMock) {
+      createRequestMock.mockClear();
+    }
+    getAuthenticatorMock.mockClear();
+  });
+
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = DirectLinkProviderV2.newInstance(requiredGlobals);
@@ -89,6 +106,7 @@ describe('DirectLinkProviderV2', () => {
       expect(testInstance).toBeInstanceOf(DirectLinkProviderV2);
     });
   });
+
   describe('the constructor', () => {
     test('use user-given service url', () => {
       let options = {
@@ -115,6 +133,7 @@ describe('DirectLinkProviderV2', () => {
       expect(testInstance.baseOptions.serviceUrl).toBe(DirectLinkProviderV2.DEFAULT_SERVICE_URL);
     });
   });
+
   describe('service-level tests', () => {
     describe('positive tests', () => {
       test('construct service with global params', () => {
@@ -124,18 +143,19 @@ describe('DirectLinkProviderV2', () => {
       });
     });
   });
+
   describe('listProviderGateways', () => {
     describe('positive tests', () => {
       function __listProviderGatewaysTest() {
         // Construct the params object for operation listProviderGateways
         const start = 'testString';
-        const limit = 1;
-        const params = {
-          start: start,
-          limit: limit,
+        const limit = 50;
+        const listProviderGatewaysParams = {
+          start,
+          limit,
         };
 
-        const listProviderGatewaysResult = directLinkProviderService.listProviderGateways(params);
+        const listProviderGatewaysResult = directLinkProviderService.listProviderGateways(listProviderGatewaysParams);
 
         // all methods should return a Promise
         expectToBePromise(listProviderGatewaysResult);
@@ -173,14 +193,14 @@ describe('DirectLinkProviderV2', () => {
         // parameters
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
-        const params = {
+        const listProviderGatewaysParams = {
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
           },
         };
 
-        directLinkProviderService.listProviderGateways(params);
+        directLinkProviderService.listProviderGateways(listProviderGatewaysParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
 
@@ -190,7 +210,56 @@ describe('DirectLinkProviderV2', () => {
         checkForSuccessfulExecution(createRequestMock);
       });
     });
+
+    describe('ProviderGatewaysPager tests', () => {
+      const serviceUrl = directLinkProviderServiceOptions.url;
+      const path = '/gateways';
+      const mockPagerResponse1 =
+        '{"next":{"start":"1"},"gateways":[{"bgp_asn":64999,"bgp_cer_cidr":"10.254.30.78/30","bgp_ibm_asn":13884,"bgp_ibm_cidr":"10.254.30.77/30","bgp_status":"active","change_request":{"type":"create_gateway"},"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","customer_account_id":"4111d05f36894e3cb9b46a43556d9000","id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"myGateway","operational_status":"configuring","port":{"id":"fffdcb1a-fee4-41c7-9e11-9cd99e65c777"},"provider_api_managed":true,"speed_mbps":1000,"type":"connect","vlan":10}],"total_count":2,"limit":1}';
+      const mockPagerResponse2 =
+        '{"gateways":[{"bgp_asn":64999,"bgp_cer_cidr":"10.254.30.78/30","bgp_ibm_asn":13884,"bgp_ibm_cidr":"10.254.30.77/30","bgp_status":"active","change_request":{"type":"create_gateway"},"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","customer_account_id":"4111d05f36894e3cb9b46a43556d9000","id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"myGateway","operational_status":"configuring","port":{"id":"fffdcb1a-fee4-41c7-9e11-9cd99e65c777"},"provider_api_managed":true,"speed_mbps":1000,"type":"connect","vlan":10}],"total_count":2,"limit":1}';
+
+      beforeEach(() => {
+        unmock_createRequest();
+        const scope = nock(serviceUrl)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse1)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse2);
+      });
+
+      afterEach(() => {
+        nock.cleanAll();
+        mock_createRequest();
+      });
+
+      test('getNext()', async () => {
+        const params = {
+          limit: 10,
+        };
+        const allResults = [];
+        const pager = new DirectLinkProviderV2.ProviderGatewaysPager(directLinkProviderService, params);
+        while (pager.hasNext()) {
+          const nextPage = await pager.getNext();
+          expect(nextPage).not.toBeNull();
+          allResults.push(...nextPage);
+        }
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+
+      test('getAll()', async () => {
+        const params = {
+          limit: 10,
+        };
+        const pager = new DirectLinkProviderV2.ProviderGatewaysPager(directLinkProviderService, params);
+        const allResults = await pager.getAll();
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+    });
   });
+
   describe('createProviderGateway', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
@@ -211,19 +280,19 @@ describe('DirectLinkProviderV2', () => {
         const bgpIbmCidr = '10.254.30.77/30';
         const vlan = 10;
         const checkOnly = 'testString';
-        const params = {
-          bgpAsn: bgpAsn,
-          customerAccountId: customerAccountId,
-          name: name,
-          port: port,
-          speedMbps: speedMbps,
-          bgpCerCidr: bgpCerCidr,
-          bgpIbmCidr: bgpIbmCidr,
-          vlan: vlan,
-          checkOnly: checkOnly,
+        const createProviderGatewayParams = {
+          bgpAsn,
+          customerAccountId,
+          name,
+          port,
+          speedMbps,
+          bgpCerCidr,
+          bgpIbmCidr,
+          vlan,
+          checkOnly,
         };
 
-        const createProviderGatewayResult = directLinkProviderService.createProviderGateway(params);
+        const createProviderGatewayResult = directLinkProviderService.createProviderGateway(createProviderGatewayParams);
 
         // all methods should return a Promise
         expectToBePromise(createProviderGatewayResult);
@@ -273,7 +342,7 @@ describe('DirectLinkProviderV2', () => {
         const speedMbps = 1000;
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
-        const params = {
+        const createProviderGatewayParams = {
           bgpAsn,
           customerAccountId,
           name,
@@ -285,7 +354,7 @@ describe('DirectLinkProviderV2', () => {
           },
         };
 
-        directLinkProviderService.createProviderGateway(params);
+        directLinkProviderService.createProviderGateway(createProviderGatewayParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -314,16 +383,17 @@ describe('DirectLinkProviderV2', () => {
       });
     });
   });
+
   describe('deleteProviderGateway', () => {
     describe('positive tests', () => {
       function __deleteProviderGatewayTest() {
         // Construct the params object for operation deleteProviderGateway
         const id = 'testString';
-        const params = {
-          id: id,
+        const deleteProviderGatewayParams = {
+          id,
         };
 
-        const deleteProviderGatewayResult = directLinkProviderService.deleteProviderGateway(params);
+        const deleteProviderGatewayResult = directLinkProviderService.deleteProviderGateway(deleteProviderGatewayParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteProviderGatewayResult);
@@ -361,7 +431,7 @@ describe('DirectLinkProviderV2', () => {
         const id = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
-        const params = {
+        const deleteProviderGatewayParams = {
           id,
           headers: {
             Accept: userAccept,
@@ -369,7 +439,7 @@ describe('DirectLinkProviderV2', () => {
           },
         };
 
-        directLinkProviderService.deleteProviderGateway(params);
+        directLinkProviderService.deleteProviderGateway(deleteProviderGatewayParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -398,16 +468,17 @@ describe('DirectLinkProviderV2', () => {
       });
     });
   });
+
   describe('getProviderGateway', () => {
     describe('positive tests', () => {
       function __getProviderGatewayTest() {
         // Construct the params object for operation getProviderGateway
         const id = 'testString';
-        const params = {
-          id: id,
+        const getProviderGatewayParams = {
+          id,
         };
 
-        const getProviderGatewayResult = directLinkProviderService.getProviderGateway(params);
+        const getProviderGatewayResult = directLinkProviderService.getProviderGateway(getProviderGatewayParams);
 
         // all methods should return a Promise
         expectToBePromise(getProviderGatewayResult);
@@ -445,7 +516,7 @@ describe('DirectLinkProviderV2', () => {
         const id = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
-        const params = {
+        const getProviderGatewayParams = {
           id,
           headers: {
             Accept: userAccept,
@@ -453,7 +524,7 @@ describe('DirectLinkProviderV2', () => {
           },
         };
 
-        directLinkProviderService.getProviderGateway(params);
+        directLinkProviderService.getProviderGateway(getProviderGatewayParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -482,6 +553,7 @@ describe('DirectLinkProviderV2', () => {
       });
     });
   });
+
   describe('updateProviderGateway', () => {
     describe('positive tests', () => {
       function __updateProviderGatewayTest() {
@@ -493,17 +565,17 @@ describe('DirectLinkProviderV2', () => {
         const name = 'myNewGateway';
         const speedMbps = 1000;
         const vlan = 10;
-        const params = {
-          id: id,
-          bgpAsn: bgpAsn,
-          bgpCerCidr: bgpCerCidr,
-          bgpIbmCidr: bgpIbmCidr,
-          name: name,
-          speedMbps: speedMbps,
-          vlan: vlan,
+        const updateProviderGatewayParams = {
+          id,
+          bgpAsn,
+          bgpCerCidr,
+          bgpIbmCidr,
+          name,
+          speedMbps,
+          vlan,
         };
 
-        const updateProviderGatewayResult = directLinkProviderService.updateProviderGateway(params);
+        const updateProviderGatewayResult = directLinkProviderService.updateProviderGateway(updateProviderGatewayParams);
 
         // all methods should return a Promise
         expectToBePromise(updateProviderGatewayResult);
@@ -547,7 +619,7 @@ describe('DirectLinkProviderV2', () => {
         const id = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
-        const params = {
+        const updateProviderGatewayParams = {
           id,
           headers: {
             Accept: userAccept,
@@ -555,7 +627,7 @@ describe('DirectLinkProviderV2', () => {
           },
         };
 
-        directLinkProviderService.updateProviderGateway(params);
+        directLinkProviderService.updateProviderGateway(updateProviderGatewayParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -584,18 +656,19 @@ describe('DirectLinkProviderV2', () => {
       });
     });
   });
+
   describe('listProviderPorts', () => {
     describe('positive tests', () => {
       function __listProviderPortsTest() {
         // Construct the params object for operation listProviderPorts
         const start = 'testString';
-        const limit = 1;
-        const params = {
-          start: start,
-          limit: limit,
+        const limit = 50;
+        const listProviderPortsParams = {
+          start,
+          limit,
         };
 
-        const listProviderPortsResult = directLinkProviderService.listProviderPorts(params);
+        const listProviderPortsResult = directLinkProviderService.listProviderPorts(listProviderPortsParams);
 
         // all methods should return a Promise
         expectToBePromise(listProviderPortsResult);
@@ -633,14 +706,14 @@ describe('DirectLinkProviderV2', () => {
         // parameters
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
-        const params = {
+        const listProviderPortsParams = {
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
           },
         };
 
-        directLinkProviderService.listProviderPorts(params);
+        directLinkProviderService.listProviderPorts(listProviderPortsParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
 
@@ -650,17 +723,66 @@ describe('DirectLinkProviderV2', () => {
         checkForSuccessfulExecution(createRequestMock);
       });
     });
+
+    describe('ProviderPortsPager tests', () => {
+      const serviceUrl = directLinkProviderServiceOptions.url;
+      const path = '/ports';
+      const mockPagerResponse1 =
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"ports":[{"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}';
+      const mockPagerResponse2 =
+        '{"total_count":2,"limit":1,"ports":[{"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}';
+
+      beforeEach(() => {
+        unmock_createRequest();
+        const scope = nock(serviceUrl)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse1)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse2);
+      });
+
+      afterEach(() => {
+        nock.cleanAll();
+        mock_createRequest();
+      });
+
+      test('getNext()', async () => {
+        const params = {
+          limit: 10,
+        };
+        const allResults = [];
+        const pager = new DirectLinkProviderV2.ProviderPortsPager(directLinkProviderService, params);
+        while (pager.hasNext()) {
+          const nextPage = await pager.getNext();
+          expect(nextPage).not.toBeNull();
+          allResults.push(...nextPage);
+        }
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+
+      test('getAll()', async () => {
+        const params = {
+          limit: 10,
+        };
+        const pager = new DirectLinkProviderV2.ProviderPortsPager(directLinkProviderService, params);
+        const allResults = await pager.getAll();
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+    });
   });
+
   describe('getProviderPort', () => {
     describe('positive tests', () => {
       function __getProviderPortTest() {
         // Construct the params object for operation getProviderPort
         const id = 'testString';
-        const params = {
-          id: id,
+        const getProviderPortParams = {
+          id,
         };
 
-        const getProviderPortResult = directLinkProviderService.getProviderPort(params);
+        const getProviderPortResult = directLinkProviderService.getProviderPort(getProviderPortParams);
 
         // all methods should return a Promise
         expectToBePromise(getProviderPortResult);
@@ -698,7 +820,7 @@ describe('DirectLinkProviderV2', () => {
         const id = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
-        const params = {
+        const getProviderPortParams = {
           id,
           headers: {
             Accept: userAccept,
@@ -706,7 +828,7 @@ describe('DirectLinkProviderV2', () => {
           },
         };
 
-        directLinkProviderService.getProviderPort(params);
+        directLinkProviderService.getProviderPort(getProviderPortParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });

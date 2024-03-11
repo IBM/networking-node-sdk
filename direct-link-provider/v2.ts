@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021, 2022.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,20 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.43.0-49eab5c7-20211117-152138
+ * IBM OpenAPI SDK Code Generator Version: 3.80.0-29334a73-20230925-151553
  */
+
+/* eslint-disable max-classes-per-file */
+/* eslint-disable no-await-in-loop */
 
 import * as extend from 'extend';
 import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import {
   Authenticator,
   BaseService,
-  getAuthenticatorFromEnvironment,
-  getMissingParams,
   UserOptions,
+  getAuthenticatorFromEnvironment,
+  validateParams,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
 
@@ -91,10 +94,10 @@ class DirectLinkProviderV2 extends BaseService {
   constructor(options: UserOptions) {
     options = options || {};
 
-    const requiredParams = ['version'];
-    const missingParams = getMissingParams(options, requiredParams);
-    if (missingParams) {
-      throw missingParams;
+    const _requiredParams = ['version'];
+    const _validationErrors = validateParams(options, _requiredParams, null);
+    if (_validationErrors) {
+      throw _validationErrors;
     }
     super(options);
     if (options.serviceUrl) {
@@ -124,6 +127,12 @@ class DirectLinkProviderV2 extends BaseService {
     params?: DirectLinkProviderV2.ListProviderGatewaysParams
   ): Promise<DirectLinkProviderV2.Response<DirectLinkProviderV2.ProviderGatewayCollection>> {
     const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['start', 'limit', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const query = {
       'version': this.version,
@@ -131,11 +140,7 @@ class DirectLinkProviderV2 extends BaseService {
       'limit': _params.limit,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkProviderV2.DEFAULT_SERVICE_NAME,
-      'v2',
-      'listProviderGateways'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkProviderV2.DEFAULT_SERVICE_NAME, 'v2', 'listProviderGateways');
 
     const parameters = {
       options: {
@@ -193,7 +198,7 @@ class DirectLinkProviderV2 extends BaseService {
    * bgp_ibm_cidr must have matching network and subnet mask values.
    * @param {number} [params.vlan] - VLAN requested for this gateway.
    *
-   * VLAN provided should be in the range 1 to 4094.
+   * VLAN provided should be in the range 2 to 3967.
    * @param {string} [params.checkOnly] - When true, perform request validation only and do not create a gateway.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DirectLinkProviderV2.Response<DirectLinkProviderV2.ProviderGateway>>}
@@ -202,11 +207,11 @@ class DirectLinkProviderV2 extends BaseService {
     params: DirectLinkProviderV2.CreateProviderGatewayParams
   ): Promise<DirectLinkProviderV2.Response<DirectLinkProviderV2.ProviderGateway>> {
     const _params = { ...params };
-    const requiredParams = ['bgpAsn', 'customerAccountId', 'name', 'port', 'speedMbps'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['bgpAsn', 'customerAccountId', 'name', 'port', 'speedMbps'];
+    const _validParams = ['bgpAsn', 'customerAccountId', 'name', 'port', 'speedMbps', 'bgpCerCidr', 'bgpIbmCidr', 'vlan', 'checkOnly', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -225,11 +230,7 @@ class DirectLinkProviderV2 extends BaseService {
       'check_only': _params.checkOnly,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkProviderV2.DEFAULT_SERVICE_NAME,
-      'v2',
-      'createProviderGateway'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkProviderV2.DEFAULT_SERVICE_NAME, 'v2', 'createProviderGateway');
 
     const parameters = {
       options: {
@@ -268,11 +269,11 @@ class DirectLinkProviderV2 extends BaseService {
     params: DirectLinkProviderV2.DeleteProviderGatewayParams
   ): Promise<DirectLinkProviderV2.Response<DirectLinkProviderV2.ProviderGateway>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -283,11 +284,7 @@ class DirectLinkProviderV2 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkProviderV2.DEFAULT_SERVICE_NAME,
-      'v2',
-      'deleteProviderGateway'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkProviderV2.DEFAULT_SERVICE_NAME, 'v2', 'deleteProviderGateway');
 
     const parameters = {
       options: {
@@ -326,11 +323,11 @@ class DirectLinkProviderV2 extends BaseService {
     params: DirectLinkProviderV2.GetProviderGatewayParams
   ): Promise<DirectLinkProviderV2.Response<DirectLinkProviderV2.ProviderGateway>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -341,11 +338,7 @@ class DirectLinkProviderV2 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkProviderV2.DEFAULT_SERVICE_NAME,
-      'v2',
-      'getProviderGateway'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkProviderV2.DEFAULT_SERVICE_NAME, 'v2', 'getProviderGateway');
 
     const parameters = {
       options: {
@@ -397,7 +390,7 @@ class DirectLinkProviderV2 extends BaseService {
    * @param {number} [params.speedMbps] - Gateway speed in megabits per second.
    * @param {number} [params.vlan] - VLAN to be modified for this gateway.
    *
-   * VLAN provided should be in the range 1 to 4094.
+   * VLAN provided should be in the range 2 to 3967.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<DirectLinkProviderV2.Response<DirectLinkProviderV2.ProviderGateway>>}
    */
@@ -405,11 +398,11 @@ class DirectLinkProviderV2 extends BaseService {
     params: DirectLinkProviderV2.UpdateProviderGatewayParams
   ): Promise<DirectLinkProviderV2.Response<DirectLinkProviderV2.ProviderGateway>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'bgpAsn', 'bgpCerCidr', 'bgpIbmCidr', 'name', 'speedMbps', 'vlan', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const body = {
@@ -429,11 +422,7 @@ class DirectLinkProviderV2 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkProviderV2.DEFAULT_SERVICE_NAME,
-      'v2',
-      'updateProviderGateway'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkProviderV2.DEFAULT_SERVICE_NAME, 'v2', 'updateProviderGateway');
 
     const parameters = {
       options: {
@@ -474,6 +463,12 @@ class DirectLinkProviderV2 extends BaseService {
     params?: DirectLinkProviderV2.ListProviderPortsParams
   ): Promise<DirectLinkProviderV2.Response<DirectLinkProviderV2.ProviderPortCollection>> {
     const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['start', 'limit', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const query = {
       'version': this.version,
@@ -481,11 +476,7 @@ class DirectLinkProviderV2 extends BaseService {
       'limit': _params.limit,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkProviderV2.DEFAULT_SERVICE_NAME,
-      'v2',
-      'listProviderPorts'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkProviderV2.DEFAULT_SERVICE_NAME, 'v2', 'listProviderPorts');
 
     const parameters = {
       options: {
@@ -522,11 +513,11 @@ class DirectLinkProviderV2 extends BaseService {
     params: DirectLinkProviderV2.GetProviderPortParams
   ): Promise<DirectLinkProviderV2.Response<DirectLinkProviderV2.ProviderPort>> {
     const _params = { ...params };
-    const requiredParams = ['id'];
-
-    const missingParams = getMissingParams(_params, requiredParams);
-    if (missingParams) {
-      return Promise.reject(missingParams);
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
     }
 
     const query = {
@@ -537,11 +528,7 @@ class DirectLinkProviderV2 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      DirectLinkProviderV2.DEFAULT_SERVICE_NAME,
-      'v2',
-      'getProviderPort'
-    );
+    const sdkHeaders = getSdkHeaders(DirectLinkProviderV2.DEFAULT_SERVICE_NAME, 'v2', 'getProviderPort');
 
     const parameters = {
       options: {
@@ -591,7 +578,7 @@ namespace DirectLinkProviderV2 {
   export type Callback<T> = (error: any, response?: Response<T>) => void;
 
   /** The body of a service request that returns no response data. */
-  export interface Empty {}
+  export interface EmptyObject {}
 
   /** A standard JS object, defined to avoid the limitations of `Object` and `object` */
   export interface JsonObject {
@@ -651,7 +638,7 @@ namespace DirectLinkProviderV2 {
     bgpIbmCidr?: string;
     /** VLAN requested for this gateway.
      *
-     *  VLAN provided should be in the range 1 to 4094.
+     *  VLAN provided should be in the range 2 to 3967.
      */
     vlan?: number;
     /** When true, perform request validation only and do not create a gateway. */
@@ -703,7 +690,7 @@ namespace DirectLinkProviderV2 {
     speedMbps?: number;
     /** VLAN to be modified for this gateway.
      *
-     *  VLAN provided should be in the range 1 to 4094.
+     *  VLAN provided should be in the range 2 to 3967.
      */
     vlan?: number;
     headers?: OutgoingHttpHeaders;
@@ -928,13 +915,175 @@ namespace DirectLinkProviderV2 {
     speed_mbps?: number;
   }
 
-  /** Update VLAN for this gateway. VLAN provided should be in the range 1 to 4094. */
+  /** Update VLAN for this gateway. VLAN provided should be in the range 2 to 3967. */
   export interface ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayVLAN extends ProviderGatewayUpdateAttributesUpdatesItem {
     /** VLAN to be updated for this gateway.
      *
-     *  VLAN provided should be in the range 1 to 4094.
+     *  VLAN provided should be in the range 2 to 3967.
      */
     vlan?: number;
+  }
+
+  /*************************
+   * pager classes
+   ************************/
+
+  /**
+   * ProviderGatewaysPager can be used to simplify the use of listProviderGateways().
+   */
+  export class ProviderGatewaysPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: DirectLinkProviderV2;
+
+    protected params: DirectLinkProviderV2.ListProviderGatewaysParams;
+
+    /**
+     * Construct a ProviderGatewaysPager object.
+     *
+     * @param {DirectLinkProviderV2}  client - The service client instance used to invoke listProviderGateways()
+     * @param {Object} [params] - The parameters to be passed to listProviderGateways()
+     * @constructor
+     * @returns {ProviderGatewaysPager}
+     */
+    constructor(client: DirectLinkProviderV2, params?: DirectLinkProviderV2.ListProviderGatewaysParams) {
+      if (params && params.start) {
+        throw new Error(`the params.start field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listProviderGateways().
+     * @returns {Promise<DirectLinkProviderV2.ProviderGateway[]>}
+     */
+    public async getNext(): Promise<DirectLinkProviderV2.ProviderGateway[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.start = this.pageContext.next;
+      }
+      const response = await this.client.listProviderGateways(this.params);
+      const { result } = response;
+
+      let next;
+      if (result && result.next) {
+        next = result.next.start;
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.gateways;
+    }
+
+    /**
+     * Returns all results by invoking listProviderGateways() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<DirectLinkProviderV2.ProviderGateway[]>}
+     */
+    public async getAll(): Promise<DirectLinkProviderV2.ProviderGateway[]> {
+      const results: ProviderGateway[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
+  }
+
+  /**
+   * ProviderPortsPager can be used to simplify the use of listProviderPorts().
+   */
+  export class ProviderPortsPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: DirectLinkProviderV2;
+
+    protected params: DirectLinkProviderV2.ListProviderPortsParams;
+
+    /**
+     * Construct a ProviderPortsPager object.
+     *
+     * @param {DirectLinkProviderV2}  client - The service client instance used to invoke listProviderPorts()
+     * @param {Object} [params] - The parameters to be passed to listProviderPorts()
+     * @constructor
+     * @returns {ProviderPortsPager}
+     */
+    constructor(client: DirectLinkProviderV2, params?: DirectLinkProviderV2.ListProviderPortsParams) {
+      if (params && params.start) {
+        throw new Error(`the params.start field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listProviderPorts().
+     * @returns {Promise<DirectLinkProviderV2.ProviderPort[]>}
+     */
+    public async getNext(): Promise<DirectLinkProviderV2.ProviderPort[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.start = this.pageContext.next;
+      }
+      const response = await this.client.listProviderPorts(this.params);
+      const { result } = response;
+
+      let next;
+      if (result && result.next) {
+        next = result.next.start;
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.ports;
+    }
+
+    /**
+     * Returns all results by invoking listProviderPorts() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<DirectLinkProviderV2.ProviderPort[]>}
+     */
+    public async getAll(): Promise<DirectLinkProviderV2.ProviderPort[]> {
+      const results: ProviderPort[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
   }
 }
 
