@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-// need to import the whole package to mock getAuthenticatorFromEnvironment
-const core = require('ibm-cloud-sdk-core');
-
-const { NoAuthAuthenticator, unitTestUtils } = core;
-
-const DirectLinkV1 = require('../../dist/direct-link/v1');
-
 /* eslint-disable no-await-in-loop */
+
+const nock = require('nock');
+
+// need to import the whole package to mock getAuthenticatorFromEnvironment
+const sdkCorePackage = require('ibm-cloud-sdk-core');
+
+const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
+const DirectLinkV1 = require('../../dist/direct-link/v1');
 
 const {
   getOptions,
@@ -47,9 +48,15 @@ function mock_createRequest() {
     createRequestMock.mockImplementation(() => Promise.resolve());
   }
 }
+function unmock_createRequest() {
+  if (createRequestMock) {
+    createRequestMock.mockRestore();
+    createRequestMock = null;
+  }
+}
 
 // dont actually construct an authenticator
-const getAuthenticatorMock = jest.spyOn(core, 'getAuthenticatorFromEnvironment');
+const getAuthenticatorMock = jest.spyOn(sdkCorePackage, 'getAuthenticatorFromEnvironment');
 getAuthenticatorMock.mockImplementation(() => new NoAuthAuthenticator());
 
 // used for the service construction tests
@@ -213,8 +220,7 @@ describe('DirectLinkV1', () => {
 
       // GatewayTemplateAuthenticationKey
       const gatewayTemplateAuthenticationKeyModel = {
-        crn:
-          'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
+        crn: 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
       };
 
       // GatewayBfdConfigTemplate
@@ -238,14 +244,12 @@ describe('DirectLinkV1', () => {
 
       // GatewayMacsecConfigTemplateFallbackCak
       const gatewayMacsecConfigTemplateFallbackCakModel = {
-        crn:
-          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecConfigTemplatePrimaryCak
       const gatewayMacsecConfigTemplatePrimaryCakModel = {
-        crn:
-          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecConfigTemplate
@@ -282,6 +286,7 @@ describe('DirectLinkV1', () => {
         customer_name: 'newCustomerName',
         location_name: 'dal03',
         macsec_config: gatewayMacsecConfigTemplateModel,
+        vlan: 10,
       };
 
       function __createGatewayTest() {
@@ -543,8 +548,7 @@ describe('DirectLinkV1', () => {
 
       // GatewayPatchTemplateAuthenticationKey
       const gatewayPatchTemplateAuthenticationKeyModel = {
-        crn:
-          'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
+        crn: 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
       };
 
       // GatewayBfdPatchTemplate
@@ -555,14 +559,12 @@ describe('DirectLinkV1', () => {
 
       // GatewayMacsecConfigPatchTemplateFallbackCak
       const gatewayMacsecConfigPatchTemplateFallbackCakModel = {
-        crn:
-          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecConfigPatchTemplatePrimaryCak
       const gatewayMacsecConfigPatchTemplatePrimaryCakModel = {
-        crn:
-          'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecConfigPatchTemplate
@@ -592,6 +594,7 @@ describe('DirectLinkV1', () => {
         const operationalStatus = 'loa_accepted';
         const patchPanelCompletionNotice = 'patch panel configuration details';
         const speedMbps = 1000;
+        const vlan = 10;
         const updateGatewayParams = {
           id,
           authenticationKey,
@@ -610,6 +613,7 @@ describe('DirectLinkV1', () => {
           operationalStatus,
           patchPanelCompletionNotice,
           speedMbps,
+          vlan,
         };
 
         const updateGatewayResult = directLinkService.updateGateway(updateGatewayParams);
@@ -624,7 +628,7 @@ describe('DirectLinkV1', () => {
 
         checkUrlAndMethod(mockRequestOptions, '/gateways/{id}', 'PATCH');
         const expectedAccept = 'application/json';
-        const expectedContentType = 'application/json';
+        const expectedContentType = 'application/merge-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.body.authentication_key).toEqual(authenticationKey);
         expect(mockRequestOptions.body.bfd_config).toEqual(bfdConfig);
@@ -632,22 +636,17 @@ describe('DirectLinkV1', () => {
         expect(mockRequestOptions.body.bgp_cer_cidr).toEqual(bgpCerCidr);
         expect(mockRequestOptions.body.bgp_ibm_cidr).toEqual(bgpIbmCidr);
         expect(mockRequestOptions.body.connection_mode).toEqual(connectionMode);
-        expect(mockRequestOptions.body.default_export_route_filter).toEqual(
-          defaultExportRouteFilter
-        );
-        expect(mockRequestOptions.body.default_import_route_filter).toEqual(
-          defaultImportRouteFilter
-        );
+        expect(mockRequestOptions.body.default_export_route_filter).toEqual(defaultExportRouteFilter);
+        expect(mockRequestOptions.body.default_import_route_filter).toEqual(defaultImportRouteFilter);
         expect(mockRequestOptions.body.global).toEqual(global);
         expect(mockRequestOptions.body.loa_reject_reason).toEqual(loaRejectReason);
         expect(mockRequestOptions.body.macsec_config).toEqual(macsecConfig);
         expect(mockRequestOptions.body.metered).toEqual(metered);
         expect(mockRequestOptions.body.name).toEqual(name);
         expect(mockRequestOptions.body.operational_status).toEqual(operationalStatus);
-        expect(mockRequestOptions.body.patch_panel_completion_notice).toEqual(
-          patchPanelCompletionNotice
-        );
+        expect(mockRequestOptions.body.patch_panel_completion_notice).toEqual(patchPanelCompletionNotice);
         expect(mockRequestOptions.body.speed_mbps).toEqual(speedMbps);
+        expect(mockRequestOptions.body.vlan).toEqual(vlan);
         expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
         expect(mockRequestOptions.path.id).toEqual(id);
       }
@@ -724,8 +723,7 @@ describe('DirectLinkV1', () => {
 
       // GatewayActionTemplateAuthenticationKey
       const gatewayActionTemplateAuthenticationKeyModel = {
-        crn:
-          'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
+        crn: 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
       };
 
       // GatewayBfdConfigActionTemplate
@@ -785,9 +783,7 @@ describe('DirectLinkV1', () => {
           updates,
         };
 
-        const createGatewayActionResult = directLinkService.createGatewayAction(
-          createGatewayActionParams
-        );
+        const createGatewayActionResult = directLinkService.createGatewayAction(createGatewayActionParams);
 
         // all methods should return a Promise
         expectToBePromise(createGatewayActionResult);
@@ -806,12 +802,8 @@ describe('DirectLinkV1', () => {
         expect(mockRequestOptions.body.authentication_key).toEqual(authenticationKey);
         expect(mockRequestOptions.body.bfd_config).toEqual(bfdConfig);
         expect(mockRequestOptions.body.connection_mode).toEqual(connectionMode);
-        expect(mockRequestOptions.body.default_export_route_filter).toEqual(
-          defaultExportRouteFilter
-        );
-        expect(mockRequestOptions.body.default_import_route_filter).toEqual(
-          defaultImportRouteFilter
-        );
+        expect(mockRequestOptions.body.default_export_route_filter).toEqual(defaultExportRouteFilter);
+        expect(mockRequestOptions.body.default_import_route_filter).toEqual(defaultImportRouteFilter);
         expect(mockRequestOptions.body.export_route_filters).toEqual(exportRouteFilters);
         expect(mockRequestOptions.body.global).toEqual(global);
         expect(mockRequestOptions.body.import_route_filters).toEqual(importRouteFilters);
@@ -889,9 +881,7 @@ describe('DirectLinkV1', () => {
           id,
         };
 
-        const listGatewayCompletionNoticeResult = directLinkService.listGatewayCompletionNotice(
-          listGatewayCompletionNoticeParams
-        );
+        const listGatewayCompletionNoticeResult = directLinkService.listGatewayCompletionNotice(listGatewayCompletionNoticeParams);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayCompletionNoticeResult);
@@ -981,9 +971,7 @@ describe('DirectLinkV1', () => {
           uploadContentType,
         };
 
-        const createGatewayCompletionNoticeResult = directLinkService.createGatewayCompletionNotice(
-          createGatewayCompletionNoticeParams
-        );
+        const createGatewayCompletionNoticeResult = directLinkService.createGatewayCompletionNotice(createGatewayCompletionNoticeParams);
 
         // all methods should return a Promise
         expectToBePromise(createGatewayCompletionNoticeResult);
@@ -1070,9 +1058,7 @@ describe('DirectLinkV1', () => {
           id,
         };
 
-        const listGatewayLetterOfAuthorizationResult = directLinkService.listGatewayLetterOfAuthorization(
-          listGatewayLetterOfAuthorizationParams
-        );
+        const listGatewayLetterOfAuthorizationResult = directLinkService.listGatewayLetterOfAuthorization(listGatewayLetterOfAuthorizationParams);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayLetterOfAuthorizationResult);
@@ -1160,9 +1146,7 @@ describe('DirectLinkV1', () => {
           type,
         };
 
-        const getGatewayStatisticsResult = directLinkService.getGatewayStatistics(
-          getGatewayStatisticsParams
-        );
+        const getGatewayStatisticsResult = directLinkService.getGatewayStatistics(getGatewayStatisticsParams);
 
         // all methods should return a Promise
         expectToBePromise(getGatewayStatisticsResult);
@@ -1338,9 +1322,7 @@ describe('DirectLinkV1', () => {
           gatewayId,
         };
 
-        const listGatewayExportRouteFiltersResult = directLinkService.listGatewayExportRouteFilters(
-          listGatewayExportRouteFiltersParams
-        );
+        const listGatewayExportRouteFiltersResult = directLinkService.listGatewayExportRouteFilters(listGatewayExportRouteFiltersParams);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayExportRouteFiltersResult);
@@ -1435,9 +1417,7 @@ describe('DirectLinkV1', () => {
           le,
         };
 
-        const createGatewayExportRouteFilterResult = directLinkService.createGatewayExportRouteFilter(
-          createGatewayExportRouteFilterParams
-        );
+        const createGatewayExportRouteFilterResult = directLinkService.createGatewayExportRouteFilter(createGatewayExportRouteFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(createGatewayExportRouteFilterResult);
@@ -1447,11 +1427,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/export_route_filters',
-          'POST'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/export_route_filters', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1549,9 +1525,7 @@ describe('DirectLinkV1', () => {
           exportRouteFilters,
         };
 
-        const replaceGatewayExportRouteFiltersResult = directLinkService.replaceGatewayExportRouteFilters(
-          replaceGatewayExportRouteFiltersParams
-        );
+        const replaceGatewayExportRouteFiltersResult = directLinkService.replaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersParams);
 
         // all methods should return a Promise
         expectToBePromise(replaceGatewayExportRouteFiltersResult);
@@ -1642,9 +1616,7 @@ describe('DirectLinkV1', () => {
           id,
         };
 
-        const deleteGatewayExportRouteFilterResult = directLinkService.deleteGatewayExportRouteFilter(
-          deleteGatewayExportRouteFilterParams
-        );
+        const deleteGatewayExportRouteFilterResult = directLinkService.deleteGatewayExportRouteFilter(deleteGatewayExportRouteFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteGatewayExportRouteFilterResult);
@@ -1654,11 +1626,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/export_route_filters/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/export_route_filters/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1738,9 +1706,7 @@ describe('DirectLinkV1', () => {
           id,
         };
 
-        const getGatewayExportRouteFilterResult = directLinkService.getGatewayExportRouteFilter(
-          getGatewayExportRouteFilterParams
-        );
+        const getGatewayExportRouteFilterResult = directLinkService.getGatewayExportRouteFilter(getGatewayExportRouteFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(getGatewayExportRouteFilterResult);
@@ -1750,11 +1716,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/export_route_filters/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/export_route_filters/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1844,9 +1806,7 @@ describe('DirectLinkV1', () => {
           prefix,
         };
 
-        const updateGatewayExportRouteFilterResult = directLinkService.updateGatewayExportRouteFilter(
-          updateGatewayExportRouteFilterParams
-        );
+        const updateGatewayExportRouteFilterResult = directLinkService.updateGatewayExportRouteFilter(updateGatewayExportRouteFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(updateGatewayExportRouteFilterResult);
@@ -1856,11 +1816,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/export_route_filters/{id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/export_route_filters/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/merge-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1943,9 +1899,7 @@ describe('DirectLinkV1', () => {
           gatewayId,
         };
 
-        const listGatewayImportRouteFiltersResult = directLinkService.listGatewayImportRouteFilters(
-          listGatewayImportRouteFiltersParams
-        );
+        const listGatewayImportRouteFiltersResult = directLinkService.listGatewayImportRouteFilters(listGatewayImportRouteFiltersParams);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayImportRouteFiltersResult);
@@ -2040,9 +1994,7 @@ describe('DirectLinkV1', () => {
           le,
         };
 
-        const createGatewayImportRouteFilterResult = directLinkService.createGatewayImportRouteFilter(
-          createGatewayImportRouteFilterParams
-        );
+        const createGatewayImportRouteFilterResult = directLinkService.createGatewayImportRouteFilter(createGatewayImportRouteFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(createGatewayImportRouteFilterResult);
@@ -2052,11 +2004,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/import_route_filters',
-          'POST'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/import_route_filters', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2154,9 +2102,7 @@ describe('DirectLinkV1', () => {
           importRouteFilters,
         };
 
-        const replaceGatewayImportRouteFiltersResult = directLinkService.replaceGatewayImportRouteFilters(
-          replaceGatewayImportRouteFiltersParams
-        );
+        const replaceGatewayImportRouteFiltersResult = directLinkService.replaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersParams);
 
         // all methods should return a Promise
         expectToBePromise(replaceGatewayImportRouteFiltersResult);
@@ -2247,9 +2193,7 @@ describe('DirectLinkV1', () => {
           id,
         };
 
-        const deleteGatewayImportRouteFilterResult = directLinkService.deleteGatewayImportRouteFilter(
-          deleteGatewayImportRouteFilterParams
-        );
+        const deleteGatewayImportRouteFilterResult = directLinkService.deleteGatewayImportRouteFilter(deleteGatewayImportRouteFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteGatewayImportRouteFilterResult);
@@ -2259,11 +2203,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/import_route_filters/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/import_route_filters/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2343,9 +2283,7 @@ describe('DirectLinkV1', () => {
           id,
         };
 
-        const getGatewayImportRouteFilterResult = directLinkService.getGatewayImportRouteFilter(
-          getGatewayImportRouteFilterParams
-        );
+        const getGatewayImportRouteFilterResult = directLinkService.getGatewayImportRouteFilter(getGatewayImportRouteFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(getGatewayImportRouteFilterResult);
@@ -2355,11 +2293,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/import_route_filters/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/import_route_filters/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2449,9 +2383,7 @@ describe('DirectLinkV1', () => {
           prefix,
         };
 
-        const updateGatewayImportRouteFilterResult = directLinkService.updateGatewayImportRouteFilter(
-          updateGatewayImportRouteFilterParams
-        );
+        const updateGatewayImportRouteFilterResult = directLinkService.updateGatewayImportRouteFilter(updateGatewayImportRouteFilterParams);
 
         // all methods should return a Promise
         expectToBePromise(updateGatewayImportRouteFilterResult);
@@ -2461,11 +2393,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/import_route_filters/{id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/import_route_filters/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/merge-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2548,9 +2476,7 @@ describe('DirectLinkV1', () => {
           gatewayId,
         };
 
-        const listGatewayRouteReportsResult = directLinkService.listGatewayRouteReports(
-          listGatewayRouteReportsParams
-        );
+        const listGatewayRouteReportsResult = directLinkService.listGatewayRouteReports(listGatewayRouteReportsParams);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayRouteReportsResult);
@@ -2635,9 +2561,7 @@ describe('DirectLinkV1', () => {
           gatewayId,
         };
 
-        const createGatewayRouteReportResult = directLinkService.createGatewayRouteReport(
-          createGatewayRouteReportParams
-        );
+        const createGatewayRouteReportResult = directLinkService.createGatewayRouteReport(createGatewayRouteReportParams);
 
         // all methods should return a Promise
         expectToBePromise(createGatewayRouteReportResult);
@@ -2724,9 +2648,7 @@ describe('DirectLinkV1', () => {
           id,
         };
 
-        const deleteGatewayRouteReportResult = directLinkService.deleteGatewayRouteReport(
-          deleteGatewayRouteReportParams
-        );
+        const deleteGatewayRouteReportResult = directLinkService.deleteGatewayRouteReport(deleteGatewayRouteReportParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteGatewayRouteReportResult);
@@ -2736,11 +2658,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/route_reports/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/route_reports/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2820,9 +2738,7 @@ describe('DirectLinkV1', () => {
           id,
         };
 
-        const getGatewayRouteReportResult = directLinkService.getGatewayRouteReport(
-          getGatewayRouteReportParams
-        );
+        const getGatewayRouteReportResult = directLinkService.getGatewayRouteReport(getGatewayRouteReportParams);
 
         // all methods should return a Promise
         expectToBePromise(getGatewayRouteReportResult);
@@ -2910,9 +2826,7 @@ describe('DirectLinkV1', () => {
           gatewayId,
         };
 
-        const listGatewayVirtualConnectionsResult = directLinkService.listGatewayVirtualConnections(
-          listGatewayVirtualConnectionsParams
-        );
+        const listGatewayVirtualConnectionsResult = directLinkService.listGatewayVirtualConnections(listGatewayVirtualConnectionsParams);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayVirtualConnectionsResult);
@@ -2995,8 +2909,7 @@ describe('DirectLinkV1', () => {
         const gatewayId = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
         const name = 'newVC';
         const type = 'vpc';
-        const networkId =
-          'crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb';
+        const networkId = 'crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb';
         const createGatewayVirtualConnectionParams = {
           gatewayId,
           name,
@@ -3004,9 +2917,7 @@ describe('DirectLinkV1', () => {
           networkId,
         };
 
-        const createGatewayVirtualConnectionResult = directLinkService.createGatewayVirtualConnection(
-          createGatewayVirtualConnectionParams
-        );
+        const createGatewayVirtualConnectionResult = directLinkService.createGatewayVirtualConnection(createGatewayVirtualConnectionParams);
 
         // all methods should return a Promise
         expectToBePromise(createGatewayVirtualConnectionResult);
@@ -3100,9 +3011,7 @@ describe('DirectLinkV1', () => {
           id,
         };
 
-        const deleteGatewayVirtualConnectionResult = directLinkService.deleteGatewayVirtualConnection(
-          deleteGatewayVirtualConnectionParams
-        );
+        const deleteGatewayVirtualConnectionResult = directLinkService.deleteGatewayVirtualConnection(deleteGatewayVirtualConnectionParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteGatewayVirtualConnectionResult);
@@ -3112,11 +3021,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/virtual_connections/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/virtual_connections/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3196,9 +3101,7 @@ describe('DirectLinkV1', () => {
           id,
         };
 
-        const getGatewayVirtualConnectionResult = directLinkService.getGatewayVirtualConnection(
-          getGatewayVirtualConnectionParams
-        );
+        const getGatewayVirtualConnectionResult = directLinkService.getGatewayVirtualConnection(getGatewayVirtualConnectionParams);
 
         // all methods should return a Promise
         expectToBePromise(getGatewayVirtualConnectionResult);
@@ -3208,11 +3111,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/virtual_connections/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/virtual_connections/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3296,9 +3195,7 @@ describe('DirectLinkV1', () => {
           status,
         };
 
-        const updateGatewayVirtualConnectionResult = directLinkService.updateGatewayVirtualConnection(
-          updateGatewayVirtualConnectionParams
-        );
+        const updateGatewayVirtualConnectionResult = directLinkService.updateGatewayVirtualConnection(updateGatewayVirtualConnectionParams);
 
         // all methods should return a Promise
         expectToBePromise(updateGatewayVirtualConnectionResult);
@@ -3308,11 +3205,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/gateways/{gateway_id}/virtual_connections/{id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/virtual_connections/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3392,9 +3285,7 @@ describe('DirectLinkV1', () => {
           offeringType,
         };
 
-        const listOfferingTypeLocationsResult = directLinkService.listOfferingTypeLocations(
-          listOfferingTypeLocationsParams
-        );
+        const listOfferingTypeLocationsResult = directLinkService.listOfferingTypeLocations(listOfferingTypeLocationsParams);
 
         // all methods should return a Promise
         expectToBePromise(listOfferingTypeLocationsResult);
@@ -3481,9 +3372,7 @@ describe('DirectLinkV1', () => {
           locationName,
         };
 
-        const listOfferingTypeLocationCrossConnectRoutersResult = directLinkService.listOfferingTypeLocationCrossConnectRouters(
-          listOfferingTypeLocationCrossConnectRoutersParams
-        );
+        const listOfferingTypeLocationCrossConnectRoutersResult = directLinkService.listOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersParams);
 
         // all methods should return a Promise
         expectToBePromise(listOfferingTypeLocationCrossConnectRoutersResult);
@@ -3493,11 +3382,7 @@ describe('DirectLinkV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/offering_types/{offering_type}/locations/{location_name}/cross_connect_routers',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/offering_types/{offering_type}/locations/{location_name}/cross_connect_routers', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3536,9 +3421,7 @@ describe('DirectLinkV1', () => {
           },
         };
 
-        directLinkService.listOfferingTypeLocationCrossConnectRouters(
-          listOfferingTypeLocationCrossConnectRoutersParams
-        );
+        directLinkService.listOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -3577,9 +3460,7 @@ describe('DirectLinkV1', () => {
           offeringType,
         };
 
-        const listOfferingTypeSpeedsResult = directLinkService.listOfferingTypeSpeeds(
-          listOfferingTypeSpeedsParams
-        );
+        const listOfferingTypeSpeedsResult = directLinkService.listOfferingTypeSpeeds(listOfferingTypeSpeedsParams);
 
         // all methods should return a Promise
         expectToBePromise(listOfferingTypeSpeedsResult);
@@ -3660,7 +3541,7 @@ describe('DirectLinkV1', () => {
       function __listPortsTest() {
         // Construct the params object for operation listPorts
         const start = 'testString';
-        const limit = 1;
+        const limit = 50;
         const locationName = 'testString';
         const listPortsParams = {
           start,
@@ -3722,6 +3603,56 @@ describe('DirectLinkV1', () => {
         // invoke the method with no parameters
         directLinkService.listPorts({});
         checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+
+    describe('PortsPager tests', () => {
+      const serviceUrl = directLinkServiceOptions.url;
+      const path = '/ports';
+      const mockPagerResponse1 =
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"ports":[{"direct_link_count":1,"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}';
+      const mockPagerResponse2 =
+        '{"total_count":2,"limit":1,"ports":[{"direct_link_count":1,"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}';
+
+      beforeEach(() => {
+        unmock_createRequest();
+        const scope = nock(serviceUrl)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse1)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse2);
+      });
+
+      afterEach(() => {
+        nock.cleanAll();
+        mock_createRequest();
+      });
+
+      test('getNext()', async () => {
+        const params = {
+          limit: 10,
+          locationName: 'testString',
+        };
+        const allResults = [];
+        const pager = new DirectLinkV1.PortsPager(directLinkService, params);
+        while (pager.hasNext()) {
+          const nextPage = await pager.getNext();
+          expect(nextPage).not.toBeNull();
+          allResults.push(...nextPage);
+        }
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+
+      test('getAll()', async () => {
+        const params = {
+          limit: 10,
+          locationName: 'testString',
+        };
+        const pager = new DirectLinkV1.PortsPager(directLinkService, params);
+        const allResults = await pager.getAll();
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
       });
     });
   });
@@ -3820,9 +3751,7 @@ describe('DirectLinkV1', () => {
           gatewayId,
         };
 
-        const listGatewayAsPrependsResult = directLinkService.listGatewayAsPrepends(
-          listGatewayAsPrependsParams
-        );
+        const listGatewayAsPrependsResult = directLinkService.listGatewayAsPrepends(listGatewayAsPrependsParams);
 
         // all methods should return a Promise
         expectToBePromise(listGatewayAsPrependsResult);
@@ -3920,9 +3849,7 @@ describe('DirectLinkV1', () => {
           asPrepends,
         };
 
-        const replaceGatewayAsPrependsResult = directLinkService.replaceGatewayAsPrepends(
-          replaceGatewayAsPrependsParams
-        );
+        const replaceGatewayAsPrependsResult = directLinkService.replaceGatewayAsPrepends(replaceGatewayAsPrependsParams);
 
         // all methods should return a Promise
         expectToBePromise(replaceGatewayAsPrependsResult);
