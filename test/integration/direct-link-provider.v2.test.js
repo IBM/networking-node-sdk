@@ -114,33 +114,37 @@ describe.skip('DirectLinkProviderV2', () => {
 
     let portId = '';
 
-    it('should successfully lists the ports', async done => {
-      try {
-        const response = await dlProviderService.listProviderPorts({});
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
+    it('should successfully lists the ports', done => {
+      dlProviderService
+        .listProviderPorts({})
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
 
-        const { result } = response || {};
-        expect(result.ports.length).toBeGreaterThan(0);
-        portId = result.ports[0].id;
-        done();
-      } catch (err) {
-        done(err);
-      }
+          const { result } = response || {};
+          expect(result.ports.length).toBeGreaterThan(0);
+          portId = result.ports[0].id;
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully fetch the port by id', async done => {
-      try {
-        const response = await dlProviderService.getProviderPort({ id: portId });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-        const { result } = response || {};
+    it('should successfully fetch the port by id', done => {
+      dlProviderService
+        .getProviderPort({ id: portId })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+          const { result } = response || {};
 
-        expect(result.id).toEqual(portId);
-        done();
-      } catch (err) {
-        done(err);
-      }
+          expect(result.id).toEqual(portId);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
   });
 
@@ -158,117 +162,129 @@ describe.skip('DirectLinkProviderV2', () => {
       customerAccountId: config.CUSTOMER_ACCT_ID,
     };
 
-    it('should successfully get a provider port', async done => {
-      try {
-        const response = await dlProviderService.listProviderPorts({});
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
+    it('should successfully get a provider port', done => {
+      dlProviderService
+        .listProviderPorts({})
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
 
-        const { result } = response || {};
-        expect(result.ports.length).toBeGreaterThan(0);
-        portId = result.ports[0].id;
-        done();
-      } catch (err) {
-        done(err);
-      }
+          const { result } = response || {};
+          expect(result.ports.length).toBeGreaterThan(0);
+          portId = result.ports[0].id;
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('successfully create a provider gateway', async done => {
-      try {
-        const response = await dlProviderService.createProviderGateway({
+    it('successfully create a provider gateway', done => {
+      dlProviderService
+        .createProviderGateway({
           ...params,
           port: { id: portId },
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.hasOwnProperty('status')).toBe(true);
+          expect(response.status).toBe(201);
+
+          if (null != response && null != response.result && null != response.result.id) {
+            gatewayId = response.result.id;
+          }
+
+          expect(response.result.id).toBeDefined();
+          expect(response.result.name).toEqual(params.name);
+          expect(response.result.type).toEqual('connect');
+          expect(response.result.speed_mbps).toEqual(params.speedMbps);
+          expect(response.result.bgp_asn).toEqual(params.bgpAsn);
+          expect(response.result.operational_status).toEqual('create_pending');
+          expect(response.result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
+          expect(response.result.provider_api_managed).toBeTruthy();
+          expect(response.result.bgp_cer_cidr).not.toBe('');
+          expect(response.result.bgp_ibm_cidr).not.toBe('');
+          expect(response.result.bgp_ibm_asn).not.toBe('');
+          expect(response.result.bgp_status).not.toBe('');
+          expect(response.result.created_at).not.toBe('');
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.hasOwnProperty('status')).toBe(true);
-        expect(response.status).toBe(201);
-
-        if (null != response && null != response.result && null != response.result.id) {
-          gatewayId = response.result.id;
-        }
-
-        expect(response.result.id).toBeDefined();
-        expect(response.result.name).toEqual(params.name);
-        expect(response.result.type).toEqual('connect');
-        expect(response.result.speed_mbps).toEqual(params.speedMbps);
-        expect(response.result.bgp_asn).toEqual(params.bgpAsn);
-        expect(response.result.operational_status).toEqual('create_pending');
-        expect(response.result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
-        expect(response.result.provider_api_managed).toBeTruthy();
-        expect(response.result.bgp_cer_cidr).not.toBe('');
-        expect(response.result.bgp_ibm_cidr).not.toBe('');
-        expect(response.result.bgp_ibm_asn).not.toBe('');
-        expect(response.result.bgp_status).not.toBe('');
-        expect(response.result.created_at).not.toBe('');
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully get the created gateway', async done => {
-      try {
-        const response = await dlProviderService.getProviderGateway({ id: gatewayId });
-        expect(response).toBeDefined();
-        expect(response.status).toBe(200);
+    it('should successfully get the created gateway', done => {
+      dlProviderService
+        .getProviderGateway({ id: gatewayId })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(200);
 
-        expect(response.result.id).toBeDefined();
-        expect(response.result.name).toEqual(params.name);
-        expect(response.result.type).toEqual('connect');
-        expect(response.result.speed_mbps).toEqual(params.speedMbps);
-        expect(response.result.bgp_asn).toEqual(params.bgpAsn);
-        expect(response.result.operational_status).toEqual('create_pending');
-        expect(response.result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
-        expect(response.result.provider_api_managed).toBeTruthy();
-        expect(response.result.bgp_cer_cidr).not.toBe('');
-        expect(response.result.bgp_ibm_cidr).not.toBe('');
-        expect(response.result.bgp_ibm_asn).not.toBe('');
-        expect(response.result.bgp_status).not.toBe('');
-        expect(response.result.created_at).not.toBe('');
-        done();
-      } catch (err) {
-        done(err);
-      }
+          expect(response.result.id).toBeDefined();
+          expect(response.result.name).toEqual(params.name);
+          expect(response.result.type).toEqual('connect');
+          expect(response.result.speed_mbps).toEqual(params.speedMbps);
+          expect(response.result.bgp_asn).toEqual(params.bgpAsn);
+          expect(response.result.operational_status).toEqual('create_pending');
+          expect(response.result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
+          expect(response.result.provider_api_managed).toBeTruthy();
+          expect(response.result.bgp_cer_cidr).not.toBe('');
+          expect(response.result.bgp_ibm_cidr).not.toBe('');
+          expect(response.result.bgp_ibm_asn).not.toBe('');
+          expect(response.result.bgp_status).not.toBe('');
+          expect(response.result.created_at).not.toBe('');
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully list the gateways', async done => {
-      try {
-        const response = await dlProviderService.listProviderGateways({});
-        expect(response).toBeDefined();
-        expect(response.status).toBe(200);
+    it('should successfully list the gateways', done => {
+      dlProviderService
+        .listProviderGateways({})
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(200);
 
-        const { result } = response || {};
-        expect(result.gateways.length).toBeGreaterThan(0);
-        done();
-      } catch (err) {
-        done(err);
-      }
+          const { result } = response || {};
+          expect(result.gateways.length).toBeGreaterThan(0);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should fail to update the created gateway due to invalid status', async done => {
+    it('should fail to update the created gateway due to invalid status', done => {
       const params = {
         id: gatewayId,
         name: 'NODE-INT-SDK-PROVIDER-PATCH-' + timestamp,
       };
-      try {
-        await dlProviderService.updateProviderGateway(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        expect(err.message).toBe('Cannot update a gateway with current status');
-        done();
-      }
-      done();
+      dlProviderService
+        .updateProviderGateway(params)
+        .then(() => {
+          done();
+        })
+        .catch(err => {
+          expect(err.status).toEqual(400);
+          expect(err.message).toBe('Cannot update a gateway with current status');
+          done();
+        });
     });
 
-    it('should successfully delete a gateway', async done => {
-      try {
-        const response = await dlProviderService.deleteProviderGateway({ id: gatewayId });
-        expect(response).toBeDefined();
-        expect(response.status).toBe(204);
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully delete a gateway', done => {
+      dlProviderService
+        .deleteProviderGateway({ id: gatewayId })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(204);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
   });
 
@@ -294,224 +310,234 @@ describe.skip('DirectLinkProviderV2', () => {
       vlan: vlan,
     };
 
-    it('should successfully get the provider port', async done => {
-      try {
-        const response = await dlProviderService.listProviderPorts({});
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
+    it('should successfully get the provider port', done => {
+      dlProviderService
+        .listProviderPorts({})
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
 
-        const { result } = response || {};
-        expect(result.ports.length).toBeGreaterThan(0);
-        portId = result.ports[0].id;
-        done();
-      } catch (err) {
-        done(err);
-      }
+          const { result } = response || {};
+          expect(result.ports.length).toBeGreaterThan(0);
+          portId = result.ports[0].id;
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should create a provider gateway', async done => {
-      try {
-        const response = await dlProviderService.createProviderGateway({
+    it('should create a provider gateway', done => {
+      dlProviderService
+        .createProviderGateway({
           ...params,
           port: { id: portId },
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(201);
+          gatewayId = response.result.id;
+          const { result } = response || {};
+          expect(result.vlan).toEqual(vlan);
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(201);
-        gatewayId = response.result.id;
-        const { result } = response || {};
-        expect(result.vlan).toEqual(vlan);
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully verify that client account can see the created gatway', async done => {
-      try {
-        const response = await dlService.getGateway({ id: gatewayId });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
+    it('should successfully verify that client account can see the created gatway', done => {
+      dlService
+        .getGateway({ id: gatewayId })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
 
-        const { result } = response || {};
-        expect(result.id).toBe(gatewayId);
-        expect(result.name).toEqual(gwName);
-        expect(result.type).toEqual('connect');
-        expect(result.speed_mbps).toEqual(speedMbps);
-        expect(result.vlan).toEqual(vlan);
-        expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.operational_status).toEqual('create_pending');
-        expect(result.provider_api_managed).toBeTruthy();
-        expect(result.bgp_cer_cidr).not.toBe('');
-        expect(result.bgp_ibm_cidr).not.toBe('');
-        expect(result.bgp_ibm_asn).not.toBe('');
-        expect(result.bgp_status).not.toBe('');
-        expect(result.created_at).not.toBe('');
-        expect(result.port.id).toBe(portId);
-        done();
-      } catch (err) {
-        done(err);
-      }
+          const { result } = response || {};
+          expect(result.id).toBe(gatewayId);
+          expect(result.name).toEqual(gwName);
+          expect(result.type).toEqual('connect');
+          expect(result.speed_mbps).toEqual(speedMbps);
+          expect(result.vlan).toEqual(vlan);
+          expect(result.bgp_asn).toEqual(params.bgpAsn);
+          expect(result.operational_status).toEqual('create_pending');
+          expect(result.provider_api_managed).toBeTruthy();
+          expect(result.bgp_cer_cidr).not.toBe('');
+          expect(result.bgp_ibm_cidr).not.toBe('');
+          expect(result.bgp_ibm_asn).not.toBe('');
+          expect(result.bgp_status).not.toBe('');
+          expect(result.created_at).not.toBe('');
+          expect(result.port.id).toBe(portId);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully approve the provider created gateway', async done => {
-      try {
-        const response = await dlService.createGatewayAction({
+    it('should successfully approve the provider created gateway', done => {
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'create_gateway_approve',
           global: false,
           metered: false,
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+
+          const { result } = response || {};
+          expect(result.id).toBe(gatewayId);
+          expect(result.name).toEqual(gwName);
+          expect(result.type).toEqual('connect');
+          expect(result.speed_mbps).toEqual(speedMbps);
+          expect(result.vlan).toEqual(vlan);
+          expect(result.bgp_asn).toEqual(params.bgpAsn);
+          expect(result.operational_status).toEqual('create_pending');
+          expect(result.provider_api_managed).toBeTruthy();
+          expect(result.bgp_cer_cidr).not.toBe('');
+          expect(result.bgp_ibm_cidr).not.toBe('');
+          expect(result.bgp_ibm_asn).not.toBe('');
+          expect(result.bgp_status).not.toBe('');
+          expect(result.created_at).not.toBe('');
+          expect(result.port.id).toBe(portId);
+          expect(result.global).toBeFalsy();
+          expect(result.metered).toBeFalsy();
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-
-        const { result } = response || {};
-        expect(result.id).toBe(gatewayId);
-        expect(result.name).toEqual(gwName);
-        expect(result.type).toEqual('connect');
-        expect(result.speed_mbps).toEqual(speedMbps);
-        expect(result.vlan).toEqual(vlan);
-        expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.operational_status).toEqual('create_pending');
-        expect(result.provider_api_managed).toBeTruthy();
-        expect(result.bgp_cer_cidr).not.toBe('');
-        expect(result.bgp_ibm_cidr).not.toBe('');
-        expect(result.bgp_ibm_asn).not.toBe('');
-        expect(result.bgp_status).not.toBe('');
-        expect(result.created_at).not.toBe('');
-        expect(result.port.id).toBe(portId);
-        expect(result.global).toBeFalsy();
-        expect(result.metered).toBeFalsy();
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully wait for the gateway to move to provisioned state', async done => {
-      try {
-        const result = await poll(
-          () => dlService.getGateway({ id: gatewayId }),
-          result => result.operational_status === 'provisioned',
-          300
-        );
-
-        expect(result).toBeDefined();
-        expect(result.operational_status).toEqual('provisioned');
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully wait for the gateway to move to provisioned state', done => {
+      poll(
+        () => dlService.getGateway({ id: gatewayId }),
+        result => result.operational_status === 'provisioned',
+        300
+      )
+        .then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully update the name of the gateway', async done => {
-      try {
-        const response = await dlProviderService.updateProviderGateway({
+    it('should successfully update the name of the gateway', done => {
+      dlProviderService
+        .updateProviderGateway({
           id: gatewayId,
           name: updatedGWName,
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+
+          const { result } = response || {};
+
+          expect(result.name).toEqual(updatedGWName);
+          expect(result.id).toEqual(gatewayId);
+          expect(result.type).toEqual('connect');
+          expect(result.speed_mbps).toEqual(speedMbps);
+          expect(result.vlan).toEqual(vlan);
+          expect(result.bgp_asn).toEqual(params.bgpAsn);
+          expect(result.operational_status).toEqual('provisioned');
+          expect(result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
+          expect(result.provider_api_managed).toBeTruthy();
+          expect(result.bgp_cer_cidr).not.toBe('');
+          expect(result.bgp_ibm_cidr).not.toBe('');
+          expect(result.bgp_ibm_asn).not.toBe('');
+          expect(result.bgp_status).not.toBe('');
+          expect(result.created_at).not.toBe('');
+          expect(result.port.id).toBe(portId);
+          expect(result.global).toBeFalsy();
+          expect(result.metered).toBeFalsy();
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-
-        const { result } = response || {};
-
-        expect(result.name).toEqual(updatedGWName);
-        expect(result.id).toEqual(gatewayId);
-        expect(result.type).toEqual('connect');
-        expect(result.speed_mbps).toEqual(speedMbps);
-        expect(result.vlan).toEqual(vlan);
-        expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.operational_status).toEqual('provisioned');
-        expect(result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
-        expect(result.provider_api_managed).toBeTruthy();
-        expect(result.bgp_cer_cidr).not.toBe('');
-        expect(result.bgp_ibm_cidr).not.toBe('');
-        expect(result.bgp_ibm_asn).not.toBe('');
-        expect(result.bgp_status).not.toBe('');
-        expect(result.created_at).not.toBe('');
-        expect(result.port.id).toBe(portId);
-        expect(result.global).toBeFalsy();
-        expect(result.metered).toBeFalsy();
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully request the speed update of the gateway', async done => {
-      try {
-        const response = await dlProviderService.updateProviderGateway({
+    it('should successfully request the speed update of the gateway', done => {
+      dlProviderService
+        .updateProviderGateway({
           id: gatewayId,
           speedMbps: updatedSpeedMbps,
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+
+          const { result } = response || {};
+
+          expect(result.name).toEqual(updatedGWName);
+          expect(result.id).toEqual(gatewayId);
+          expect(result.type).toEqual('connect');
+          expect(result.speed_mbps).toEqual(speedMbps); // Speed not updated yet
+          expect(result.vlan).toEqual(vlan);
+          expect(result.bgp_asn).toEqual(params.bgpAsn);
+          expect(result.operational_status).toEqual('provisioned');
+          expect(result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
+          expect(result.provider_api_managed).toBeTruthy();
+          expect(result.bgp_cer_cidr).not.toBe('');
+          expect(result.bgp_ibm_cidr).not.toBe('');
+          expect(result.bgp_ibm_asn).not.toBe('');
+          expect(result.bgp_status).not.toBe('');
+          expect(result.created_at).not.toBe('');
+          expect(result.port.id).toBe(portId);
+          expect(result.global).toBeFalsy();
+          expect(result.metered).toBeFalsy();
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-
-        const { result } = response || {};
-
-        expect(result.name).toEqual(updatedGWName);
-        expect(result.id).toEqual(gatewayId);
-        expect(result.type).toEqual('connect');
-        expect(result.speed_mbps).toEqual(speedMbps); // Speed not updated yet
-        expect(result.vlan).toEqual(vlan);
-        expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.operational_status).toEqual('provisioned');
-        expect(result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
-        expect(result.provider_api_managed).toBeTruthy();
-        expect(result.bgp_cer_cidr).not.toBe('');
-        expect(result.bgp_ibm_cidr).not.toBe('');
-        expect(result.bgp_ibm_asn).not.toBe('');
-        expect(result.bgp_status).not.toBe('');
-        expect(result.created_at).not.toBe('');
-        expect(result.port.id).toBe(portId);
-        expect(result.global).toBeFalsy();
-        expect(result.metered).toBeFalsy();
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully request the vlan update of the gateway', async done => {
-      try {
-        const response = await dlProviderService.updateProviderGateway({
+    it('should successfully request the vlan update of the gateway', done => {
+      dlProviderService
+        .updateProviderGateway({
           id: gatewayId,
           vlan: updatedVlan,
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+
+          const { result } = response || {};
+
+          expect(result.name).toEqual(updatedGWName);
+          expect(result.id).toEqual(gatewayId);
+          expect(result.type).toEqual('connect');
+          expect(result.speed_mbps).toEqual(speedMbps); // Speed not updated yet
+          expect(result.vlan).toEqual(vlan); // not updated until approved
+          expect(result.bgp_asn).toEqual(params.bgpAsn);
+          expect(result.operational_status).toEqual('provisioned');
+          expect(result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
+          expect(result.provider_api_managed).toBeTruthy();
+          expect(result.bgp_cer_cidr).not.toBe('');
+          expect(result.bgp_ibm_cidr).not.toBe('');
+          expect(result.bgp_ibm_asn).not.toBe('');
+          expect(result.bgp_status).not.toBe('');
+          expect(result.created_at).not.toBe('');
+          expect(result.port.id).toBe(portId);
+          expect(result.global).toBeFalsy();
+          expect(result.metered).toBeFalsy();
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-
-        const { result } = response || {};
-
-        expect(result.name).toEqual(updatedGWName);
-        expect(result.id).toEqual(gatewayId);
-        expect(result.type).toEqual('connect');
-        expect(result.speed_mbps).toEqual(speedMbps); // Speed not updated yet
-        expect(result.vlan).toEqual(vlan); // not updated until approved
-        expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.operational_status).toEqual('provisioned');
-        expect(result.customer_account_id).toEqual(config.CUSTOMER_ACCT_ID);
-        expect(result.provider_api_managed).toBeTruthy();
-        expect(result.bgp_cer_cidr).not.toBe('');
-        expect(result.bgp_ibm_cidr).not.toBe('');
-        expect(result.bgp_ibm_asn).not.toBe('');
-        expect(result.bgp_status).not.toBe('');
-        expect(result.created_at).not.toBe('');
-        expect(result.port.id).toBe(portId);
-        expect(result.global).toBeFalsy();
-        expect(result.metered).toBeFalsy();
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully approve gateway speed and vlan change using client account', async done => {
-      try {
-        const response = await dlService.createGatewayAction({
+    it('should successfully approve gateway speed and vlan change using client account', done => {
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'update_attributes_approve',
           updates: [
@@ -520,129 +546,140 @@ describe.skip('DirectLinkProviderV2', () => {
               vlan: updatedVlan,
             },
           ],
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+
+          const { result } = response || {};
+
+          expect(result.name).toEqual(updatedGWName);
+          expect(result.id).toEqual(gatewayId);
+          expect(result.type).toEqual('connect');
+          expect(result.speed_mbps).toEqual(updatedSpeedMbps); // Speed updated now
+          expect(result.vlan).toEqual(updatedVlan); // updated now
+          expect(result.bgp_asn).toEqual(params.bgpAsn);
+          expect(result.provider_api_managed).toBeTruthy();
+          expect(result.bgp_cer_cidr).not.toBe('');
+          expect(result.bgp_ibm_cidr).not.toBe('');
+          expect(result.bgp_ibm_asn).not.toBe('');
+          expect(result.bgp_status).not.toBe('');
+          expect(result.created_at).not.toBe('');
+          expect(result.port.id).toBe(portId);
+          expect(result.global).toBeFalsy();
+          expect(result.metered).toBeFalsy();
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-
-        const { result } = response || {};
-
-        expect(result.name).toEqual(updatedGWName);
-        expect(result.id).toEqual(gatewayId);
-        expect(result.type).toEqual('connect');
-        expect(result.speed_mbps).toEqual(updatedSpeedMbps); // Speed updated now
-        expect(result.vlan).toEqual(updatedVlan); // updated now
-        expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.provider_api_managed).toBeTruthy();
-        expect(result.bgp_cer_cidr).not.toBe('');
-        expect(result.bgp_ibm_cidr).not.toBe('');
-        expect(result.bgp_ibm_asn).not.toBe('');
-        expect(result.bgp_status).not.toBe('');
-        expect(result.created_at).not.toBe('');
-        expect(result.port.id).toBe(portId);
-        expect(result.global).toBeFalsy();
-        expect(result.metered).toBeFalsy();
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully wait for the gateway to move to provisioned state', async done => {
-      try {
-        const result = await poll(
-          () => dlProviderService.getProviderGateway({ id: gatewayId }),
-          result => result.operational_status === 'provisioned',
-          300
-        );
-
-        expect(result).toBeDefined();
-        expect(result.operational_status).toEqual('provisioned');
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully wait for the gateway to move to provisioned state', done => {
+      poll(
+        () => dlProviderService.getProviderGateway({ id: gatewayId }),
+        result => result.operational_status === 'provisioned',
+        300
+      )
+        .then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully request delete gateway using provider account', async done => {
-      try {
-        const response = await dlProviderService.deleteProviderGateway({ id: gatewayId });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(202);
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully request delete gateway using provider account', done => {
+      dlProviderService
+        .deleteProviderGateway({ id: gatewayId })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(202);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully reject delete gateway using client account', async done => {
-      try {
-        const response = await dlService.createGatewayAction({
+    it('should successfully reject delete gateway using client account', done => {
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'delete_gateway_reject',
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully verify reject gateway using client account', async done => {
-      try {
-        const response = await dlService.getGateway({ id: gatewayId });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
+    it('should successfully verify reject gateway using client account', done => {
+      dlService
+        .getGateway({ id: gatewayId })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
 
-        const result = response || {};
+          const result = response || {};
 
-        expect(result.change_request).toBeUndefined();
-        done();
-      } catch (err) {
-        done(err);
-      }
+          expect(result.change_request).toBeUndefined();
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully wait for the gateway to move to provisioned state', async done => {
-      try {
-        const result = await poll(
-          () => dlProviderService.getProviderGateway({ id: gatewayId }),
-          result => result.operational_status === 'provisioned',
-          300
-        );
-
-        expect(result).toBeDefined();
-        expect(result.operational_status).toEqual('provisioned');
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully wait for the gateway to move to provisioned state', done => {
+      poll(
+        () => dlProviderService.getProviderGateway({ id: gatewayId }),
+        result => result.operational_status === 'provisioned',
+        300
+      )
+        .then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully re-request delete gateway using provider account', async done => {
-      try {
-        const response = await dlProviderService.deleteProviderGateway({ id: gatewayId });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(202);
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully re-request delete gateway using provider account', done => {
+      dlProviderService
+        .deleteProviderGateway({ id: gatewayId })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(202);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully approve delete gateway using client account', async done => {
-      try {
-        const response = await dlService.createGatewayAction({
+    it('should successfully approve delete gateway using client account', done => {
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'delete_gateway_approve',
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(204);
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(204);
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
   });
 
@@ -664,39 +701,43 @@ describe.skip('DirectLinkProviderV2', () => {
       customerAccountId: config.CUSTOMER_ACCT_ID,
     };
 
-    it('should successfully get the provider port', async done => {
-      try {
-        const response = await dlProviderService.listProviderPorts({});
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
+    it('should successfully get the provider port', done => {
+      dlProviderService
+        .listProviderPorts({})
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
 
-        const { result } = response || {};
-        expect(result.ports.length).toBeGreaterThan(0);
-        portId = result.ports[0].id;
-        done();
-      } catch (err) {
-        done(err);
-      }
+          const { result } = response || {};
+          expect(result.ports.length).toBeGreaterThan(0);
+          portId = result.ports[0].id;
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should create a provider gateway', async done => {
-      try {
-        const response = await dlProviderService.createProviderGateway({
+    it('should create a provider gateway', done => {
+      dlProviderService
+        .createProviderGateway({
           ...params,
           port: { id: portId },
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(201);
+          gatewayId = response.result.id;
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(201);
-        gatewayId = response.result.id;
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully approve the provider created gateway', async done => {
-      try {
-        const response = await dlService.createGatewayAction({
+    it('should successfully approve the provider created gateway', done => {
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'create_gateway_approve',
           global: false,
@@ -704,72 +745,77 @@ describe.skip('DirectLinkProviderV2', () => {
           authenticationKey: {
             crn: config.AUTHENTICATION_KEY,
           },
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+          const { result } = response || {};
+          expect(result.id).toBe(gatewayId);
+          expect(result.name).toEqual(gwName);
+          expect(result.authentication_key.crn).toEqual(config.AUTHENTICATION_KEY);
+          expect(result.type).toEqual('connect');
+          expect(result.speed_mbps).toEqual(speedMbps);
+          expect(result.bgp_asn).toEqual(params.bgpAsn);
+          expect(result.operational_status).toEqual('create_pending');
+          expect(result.provider_api_managed).toBeTruthy();
+          expect(result.bgp_cer_cidr).not.toBe('');
+          expect(result.bgp_ibm_cidr).not.toBe('');
+          expect(result.bgp_ibm_asn).not.toBe('');
+          expect(result.bgp_status).not.toBe('');
+          expect(result.created_at).not.toBe('');
+          expect(result.port.id).toBe(portId);
+          expect(result.global).toBeFalsy();
+          expect(result.metered).toBeFalsy();
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-        const { result } = response || {};
-        expect(result.id).toBe(gatewayId);
-        expect(result.name).toEqual(gwName);
-        expect(result.authentication_key.crn).toEqual(config.AUTHENTICATION_KEY);
-        expect(result.type).toEqual('connect');
-        expect(result.speed_mbps).toEqual(speedMbps);
-        expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.operational_status).toEqual('create_pending');
-        expect(result.provider_api_managed).toBeTruthy();
-        expect(result.bgp_cer_cidr).not.toBe('');
-        expect(result.bgp_ibm_cidr).not.toBe('');
-        expect(result.bgp_ibm_asn).not.toBe('');
-        expect(result.bgp_status).not.toBe('');
-        expect(result.created_at).not.toBe('');
-        expect(result.port.id).toBe(portId);
-        expect(result.global).toBeFalsy();
-        expect(result.metered).toBeFalsy();
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully wait for the gateway to move to provisioned state', async done => {
-      try {
-        const result = await poll(
-          () => dlProviderService.getProviderGateway({ id: gatewayId }),
-          result => result.operational_status === 'provisioned',
-          300
-        );
-
-        expect(result).toBeDefined();
-        expect(result.operational_status).toEqual('provisioned');
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully wait for the gateway to move to provisioned state', done => {
+      poll(
+        () => dlProviderService.getProviderGateway({ id: gatewayId }),
+        result => result.operational_status === 'provisioned',
+        300
+      )
+        .then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully request delete gateway using provider account', async done => {
-      try {
-        const response = await dlProviderService.deleteProviderGateway({ id: gatewayId });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(202);
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully request delete gateway using provider account', done => {
+      dlProviderService
+        .deleteProviderGateway({ id: gatewayId })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(202);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully approve delete gateway using client account', async done => {
-      try {
-        const response = await dlService.createGatewayAction({
+    it('should successfully approve delete gateway using client account', done => {
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'delete_gateway_approve',
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(204);
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(204);
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
   });
 
@@ -791,103 +837,112 @@ describe.skip('DirectLinkProviderV2', () => {
       customerAccountId: config.CUSTOMER_ACCT_ID,
     };
 
-    it('should successfully get the provider port', async done => {
-      try {
-        const response = await dlProviderService.listProviderPorts({});
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
+    it('should successfully get the provider port', done => {
+      dlProviderService
+        .listProviderPorts({})
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
 
-        const { result } = response || {};
-        expect(result.ports.length).toBeGreaterThan(0);
-        portId = result.ports[0].id;
-        done();
-      } catch (err) {
-        done(err);
-      }
+          const { result } = response || {};
+          expect(result.ports.length).toBeGreaterThan(0);
+          portId = result.ports[0].id;
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should create a provider gateway', async done => {
-      try {
-        const response = await dlProviderService.createProviderGateway({
+    it('should create a provider gateway', done => {
+      dlProviderService
+        .createProviderGateway({
           ...params,
           port: { id: portId },
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(201);
+          gatewayId = response.result.id;
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(201);
-        gatewayId = response.result.id;
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully approve the provider created gateway with connection mode set as transit', async done => {
-      try {
-        const response = await dlService.createGatewayAction({
+    it('should successfully approve the provider created gateway with connection mode set as transit', done => {
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'create_gateway_approve',
           global: false,
           metered: false,
           connectionMode: 'transit',
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+          const { result } = response || {};
+          expect(result.id).toBe(gatewayId);
+          expect(result.name).toEqual(gwName);
+          expect(result.connection_mode).toEqual('transit');
+          expect(result.type).toEqual('connect');
+          expect(result.speed_mbps).toEqual(speedMbps);
+          expect(result.bgp_asn).toEqual(params.bgpAsn);
+          expect(result.port.id).toBe(portId);
+          expect(result.global).toBeFalsy();
+          expect(result.metered).toBeFalsy();
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-        const { result } = response || {};
-        expect(result.id).toBe(gatewayId);
-        expect(result.name).toEqual(gwName);
-        expect(result.connection_mode).toEqual('transit');
-        expect(result.type).toEqual('connect');
-        expect(result.speed_mbps).toEqual(speedMbps);
-        expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.port.id).toBe(portId);
-        expect(result.global).toBeFalsy();
-        expect(result.metered).toBeFalsy();
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully wait for the gateway to move to provisioned state', async done => {
-      try {
-        const result = await poll(
-          () => dlProviderService.getProviderGateway({ id: gatewayId }),
-          result => result.operational_status === 'provisioned',
-          300
-        );
-
-        expect(result).toBeDefined();
-        expect(result.operational_status).toEqual('provisioned');
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully wait for the gateway to move to provisioned state', done => {
+      poll(
+        () => dlProviderService.getProviderGateway({ id: gatewayId }),
+        result => result.operational_status === 'provisioned',
+        300
+      )
+        .then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully request delete gateway using provider account', async done => {
-      try {
-        const response = await dlProviderService.deleteProviderGateway({ id: gatewayId });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(202);
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully request delete gateway using provider account', done => {
+      dlProviderService
+        .deleteProviderGateway({ id: gatewayId })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(202);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully approve delete gateway using client account', async done => {
-      try {
-        const response = await dlService.createGatewayAction({
+    it('should successfully approve delete gateway using client account', done => {
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'delete_gateway_approve',
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(204);
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(204);
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
   });
 
@@ -909,95 +964,102 @@ describe.skip('DirectLinkProviderV2', () => {
       customerAccountId: config.CUSTOMER_ACCT_ID,
     };
 
-    it('should successfully get the provider port', async done => {
-      try {
-        const response = await dlProviderService.listProviderPorts({});
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
+    it('should successfully get the provider port', done => {
+      dlProviderService
+        .listProviderPorts({})
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
 
-        const { result } = response || {};
-        expect(result.ports.length).toBeGreaterThan(0);
-        portId = result.ports[0].id;
-        done();
-      } catch (err) {
-        done(err);
-      }
+          const { result } = response || {};
+          expect(result.ports.length).toBeGreaterThan(0);
+          portId = result.ports[0].id;
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should create a provider gateway', async done => {
-      try {
-        const response = await dlProviderService.createProviderGateway({
+    it('should create a provider gateway', done => {
+      dlProviderService
+        .createProviderGateway({
           ...params,
           port: { id: portId },
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(201);
+          gatewayId = response.result.id;
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(201);
-        gatewayId = response.result.id;
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully approve the provider created gateway', async done => {
-      try {
-        const response = await dlService.createGatewayAction({
+    it('should successfully approve the provider created gateway', done => {
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'create_gateway_approve',
           global: false,
           metered: false,
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+          const { result } = response || {};
+          expect(result.id).toBe(gatewayId);
+          expect(result.name).toEqual(gwName);
+          expect(result.type).toEqual('connect');
+          expect(result.speed_mbps).toEqual(speedMbps);
+          expect(result.bgp_asn).toEqual(params.bgpAsn);
+          expect(result.port.id).toBe(portId);
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-        const { result } = response || {};
-        expect(result.id).toBe(gatewayId);
-        expect(result.name).toEqual(gwName);
-        expect(result.type).toEqual('connect');
-        expect(result.speed_mbps).toEqual(speedMbps);
-        expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.port.id).toBe(portId);
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully wait for the gateway to move to provisioned state', async done => {
-      try {
-        const result = await poll(
-          () => dlProviderService.getProviderGateway({ id: gatewayId }),
-          result => result.operational_status === 'provisioned',
-          300
-        );
-
-        expect(result).toBeDefined();
-        expect(result.operational_status).toEqual('provisioned');
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully wait for the gateway to move to provisioned state', done => {
+      poll(
+        () => dlProviderService.getProviderGateway({ id: gatewayId }),
+        result => result.operational_status === 'provisioned',
+        300
+      )
+        .then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should update the bgp_asn and BGP CER and IBM CIDR for the gateway', async done => {
+    it('should update the bgp_asn and BGP CER and IBM CIDR for the gateway', done => {
       const updatedParams = {
         id: gatewayId,
         bgpAsn: 63999,
         bgpCerCidr: '172.17.252.2/29',
         bgpIbmCidr: '172.17.252.1/29',
       };
-      try {
-        const response = await dlProviderService.updateProviderGateway(updatedParams);
-        expect(response.status).toBe(200);
-        expect(response.result.id).toBe(gatewayId);
-        expect(response.result.bgp_asn).toBe(params.bgpAsn);
-        done();
-      } catch (err) {
-        done(err);
-      }
+      dlProviderService
+        .updateProviderGateway(updatedParams)
+        .then(response => {
+          expect(response.status).toBe(200);
+          expect(response.result.id).toBe(gatewayId);
+          expect(response.result.bgp_asn).toBe(params.bgpAsn);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully approve BGP ASN and IP change using client account', async done => {
+    it('should successfully approve BGP ASN and IP change using client account', done => {
       const updates = [
         {
           bgp_asn: 63999,
@@ -1008,67 +1070,72 @@ describe.skip('DirectLinkProviderV2', () => {
         },
       ];
 
-      try {
-        const response = await dlService.createGatewayAction({
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'update_attributes_approve',
           updates,
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+
+          const { result } = response || {};
+
+          expect(result.id).toEqual(gatewayId);
+          expect(result.bgp_asn).toEqual(updates[0].bgp_asn); // Paramaters updated now
+          expect(result.bgp_cer_cidr).toBe(updates[1].bgp_cer_cidr);
+          expect(result.bgp_ibm_cidr).toBe(updates[1].bgp_ibm_cidr);
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-
-        const { result } = response || {};
-
-        expect(result.id).toEqual(gatewayId);
-        expect(result.bgp_asn).toEqual(updates[0].bgp_asn); // Paramaters updated now
-        expect(result.bgp_cer_cidr).toBe(updates[1].bgp_cer_cidr);
-        expect(result.bgp_ibm_cidr).toBe(updates[1].bgp_ibm_cidr);
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully wait for the gateway to move to provisioned state', async done => {
-      try {
-        const result = await poll(
-          () => dlProviderService.getProviderGateway({ id: gatewayId }),
-          result => result.operational_status === 'provisioned',
-          300
-        );
-
-        expect(result).toBeDefined();
-        expect(result.operational_status).toEqual('provisioned');
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully wait for the gateway to move to provisioned state', done => {
+      poll(
+        () => dlProviderService.getProviderGateway({ id: gatewayId }),
+        result => result.operational_status === 'provisioned',
+        300
+      )
+        .then(result => {
+          expect(result).toBeDefined();
+          expect(result.operational_status).toEqual('provisioned');
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully request delete gateway using provider account', async done => {
-      try {
-        const response = await dlProviderService.deleteProviderGateway({ id: gatewayId });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(202);
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully request delete gateway using provider account', done => {
+      dlProviderService
+        .deleteProviderGateway({ id: gatewayId })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(202);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully approve delete gateway using client account', async done => {
-      try {
-        const response = await dlService.createGatewayAction({
+    it('should successfully approve delete gateway using client account', done => {
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'delete_gateway_approve',
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(204);
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(204);
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
   });
 
@@ -1090,69 +1157,74 @@ describe.skip('DirectLinkProviderV2', () => {
       customerAccountId: config.CUSTOMER_ACCT_ID,
     };
 
-    it('should successfully get the provider port', async done => {
-      try {
-        const response = await dlProviderService.listProviderPorts({});
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
+    it('should successfully get the provider port', done => {
+      dlProviderService
+        .listProviderPorts({})
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
 
-        const { result } = response || {};
-        expect(result.ports.length).toBeGreaterThan(0);
-        portId = result.ports[0].id;
-        done();
-      } catch (err) {
-        done(err);
-      }
+          const { result } = response || {};
+          expect(result.ports.length).toBeGreaterThan(0);
+          portId = result.ports[0].id;
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should create a provider gateway', async done => {
-      try {
-        const response = await dlProviderService.createProviderGateway({
+    it('should create a provider gateway', done => {
+      dlProviderService
+        .createProviderGateway({
           ...params,
           port: { id: portId },
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(201);
+          gatewayId = response.result.id;
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(201);
-        gatewayId = response.result.id;
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    it('should successfully approve the provider created gateway with connection mode set as transit', async done => {
+    it('should successfully approve the provider created gateway with connection mode set as transit', done => {
       const bfdConfig = {
         interval: 1000,
         multiplier: 2,
       };
 
-      try {
-        const response = await dlService.createGatewayAction({
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'create_gateway_approve',
           global: false,
           metered: false,
           bfdConfig,
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(200);
+          const { result } = response || {};
+          expect(result.id).toBe(gatewayId);
+          expect(result.name).toEqual(gwName);
+          expect(result.type).toEqual('connect');
+          expect(result.speed_mbps).toEqual(speedMbps);
+          expect(result.bgp_asn).toEqual(params.bgpAsn);
+          expect(result.port.id).toBe(portId);
+          expect(result.global).toBeFalsy();
+          expect(result.metered).toBeFalsy();
+          expect(result.bfd_config).toBeDefined();
+          expect(result.bfd_config.interval).toBe(bfdConfig.interval);
+          expect(result.bfd_config.multiplier).toBe(bfdConfig.multiplier);
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-        const { result } = response || {};
-        expect(result.id).toBe(gatewayId);
-        expect(result.name).toEqual(gwName);
-        expect(result.type).toEqual('connect');
-        expect(result.speed_mbps).toEqual(speedMbps);
-        expect(result.bgp_asn).toEqual(params.bgpAsn);
-        expect(result.port.id).toBe(portId);
-        expect(result.global).toBeFalsy();
-        expect(result.metered).toBeFalsy();
-        expect(result.bfd_config).toBeDefined();
-        expect(result.bfd_config.interval).toBe(bfdConfig.interval);
-        expect(result.bfd_config.multiplier).toBe(bfdConfig.multiplier);
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
     it('should successfully wait for the gateway to move to provisioned state', async done => {
@@ -1171,29 +1243,33 @@ describe.skip('DirectLinkProviderV2', () => {
       }
     });
 
-    it('should successfully request delete gateway using provider account', async done => {
-      try {
-        const response = await dlProviderService.deleteProviderGateway({ id: gatewayId });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(202);
-        done();
-      } catch (err) {
-        done(err);
-      }
+    it('should successfully request delete gateway using provider account', done => {
+      dlProviderService
+        .deleteProviderGateway({ id: gatewayId })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(202);
+          done();
+        })
+        .catch(err => {
+          done(err);
+        });
     });
 
-    it('should successfully approve delete gateway using client account', async done => {
-      try {
-        const response = await dlService.createGatewayAction({
+    it('should successfully approve delete gateway using client account', done => {
+      dlService
+        .createGatewayAction({
           id: gatewayId,
           action: 'delete_gateway_approve',
+        })
+        .then(response => {
+          expect(response).toBeDefined();
+          expect(response.status).toEqual(204);
+          done();
+        })
+        .catch(err => {
+          done(err);
         });
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(204);
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
   });
 });
