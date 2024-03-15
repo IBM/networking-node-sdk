@@ -1,3 +1,17 @@
+# [0.33.0](https://github.com/IBM/networking-node-sdk/compare/v0.32.0...v0.33.0) (2024-03-15)
+
+
+### Bug Fixes
+
+* updating dependencies ([#127](https://github.com/IBM/networking-node-sdk/issues/127)) ([63ede7d](https://github.com/IBM/networking-node-sdk/commit/63ede7d77b8e3bb3eddf8044486a82456f9808c5))
+
+
+### Features
+
+* direct link changes build release ([65505ba](https://github.com/IBM/networking-node-sdk/commit/65505baa1106e9bf9028181b7927d2522e5e5ada))
+* direct link changes build releases ([edde873](https://github.com/IBM/networking-node-sdk/commit/edde873b297d38c8f1e4e2ea5a45f7b98505b6f4))
+* direct link provider latest spec ([b082ea1](https://github.com/IBM/networking-node-sdk/commit/b082ea13d8de9cb6a774746b415b5a3946a933af))
+
 # [0.31.0](https://github.com/IBM/networking-node-sdk/compare/v0.30.0...v0.31.0) (2023-09-12)
 
 
