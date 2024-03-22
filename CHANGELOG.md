@@ -1,3 +1,10 @@
+# [0.34.0](https://github.com/IBM/networking-node-sdk/compare/v0.33.0...v0.34.0) (2024-03-22)
+
+
+### Features
+
+* order advance certificate ([#120](https://github.com/IBM/networking-node-sdk/issues/120)) ([cc7d321](https://github.com/IBM/networking-node-sdk/commit/cc7d3219124afca1bd56b4f4603133b62aaf0293))
+
 # [0.33.0](https://github.com/IBM/networking-node-sdk/compare/v0.32.0...v0.33.0) (2024-03-15)
 
 
