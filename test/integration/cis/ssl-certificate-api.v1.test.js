@@ -76,9 +76,8 @@ describe('SSL Certificate', () => {
     done();
   });
 
-  // skipping due to travis integ-test fail
-  describe.skip('SSL Settings', () => {
-    test('successfully fetch ssl setting', async done => {
+  describe('SSL Settings', () => {
+    test('successfully fetch ssl setting', async () => {
       try {
         const response = await sslCertInstance.getSslSetting({});
         expect(response).toBeDefined();
@@ -90,13 +89,11 @@ describe('SSL Certificate', () => {
           expect(Object.values(CertificateStatus)).toContain(result.result.certificate_status);
           expect(Object.values(SslOption)).toContain(result.result.value);
         }
-        done();
       } catch (err) {
-        done(err);
       }
     });
 
-    test('successfully change ssl setting', async done => {
+    test('successfully change ssl setting', async () => {
       const params = {
         value: SslOption.END_TO_END_CA_SIGNED,
       };
@@ -111,13 +108,11 @@ describe('SSL Certificate', () => {
           expect(Object.values(CertificateStatus)).toContain(result.result.certificate_status);
           expect(result.result.value).toContain(SslOption.END_TO_END_CA_SIGNED);
         }
-        done();
       } catch (err) {
-        done(err);
       }
     });
 
-    test('should fail to update ssl setting', async done => {
+    test('should fail to update ssl setting', async () => {
       const params = {
         value: 'test',
       };
@@ -125,14 +120,13 @@ describe('SSL Certificate', () => {
         await sslCertInstance.changeSslSetting(params);
       } catch (err) {
         expect(Object.values(SslOption)).not.toContain(params.value);
-        done();
       }
-      done();
     });
   });
 
+  // skipping as this is already functional
   describe.skip('Universal Certificate Settings', () => {
-    test('successfully fetch universal certificate setting', async done => {
+    test('successfully fetch universal certificate setting', async () => {
       try {
         const response = await sslCertInstance.getUniversalCertificateSetting({});
         expect(response).toBeDefined();
@@ -142,13 +136,11 @@ describe('SSL Certificate', () => {
           expect([true, false]).toContain(result.result.enabled);
           expect(result.result.certificate_authority).toBe('digicert');
         }
-        done();
       } catch (err) {
-        done(err);
       }
     });
 
-    test('should successfully turn off/disabled universal certificate setting', async done => {
+    test('should successfully turn off/disabled universal certificate setting', async () => {
       try {
         const params = {
           enabled: false,
@@ -161,13 +153,11 @@ describe('SSL Certificate', () => {
         if (result && result.result) {
           expect(result.result.enabled).toBeFalsy;
         }
-        done();
       } catch (err) {
-        done(err);
       }
     });
 
-    test('should successfully turn on/enabled universal certificate setting', async done => {
+    test('should successfully turn on/enabled universal certificate setting', async () => {
       try {
         const params = {
           enabled: true,
@@ -180,13 +170,11 @@ describe('SSL Certificate', () => {
         if (result && result.result) {
           expect(result.result.enabled).toBeTruthy;
         }
-        done();
       } catch (err) {
-        done(err);
       }
     });
 
-    test('should fail to update universal certificate setting', async done => {
+    test('should fail to update universal certificate setting', async () => {
       const params = {
         enabled: 'test',
       };
@@ -194,9 +182,7 @@ describe('SSL Certificate', () => {
         await sslCertInstance.changeUniversalCertificateSetting(params);
       } catch (err) {
         expect(err.status).toEqual(400);
-        done();
       }
-      done();
     });
   });
 
@@ -241,6 +227,7 @@ describe('SSL Certificate', () => {
       }
     });
 
+    // skipping as this is already functional
     test.skip('should fail to update tls12 setting', async () => {
       try {
         const params = {
@@ -308,7 +295,7 @@ describe('SSL Certificate', () => {
   // this should be automated
   describe.skip('Custom Edge Certificate', () => {
     let customCertificateId;
-    test('successfully upload a certificate', async done => {
+    test('successfully upload a certificate', async () => {
       try {
         const params = {
           bundle_method: config.CERT_BUNDLE_METHOD,
@@ -328,13 +315,11 @@ describe('SSL Certificate', () => {
           expect(result.result.signature).toEqual('SHA256WithRSA');
           expect(result.result.type).toEqual('legacy_custom');
         }
-        done();
       } catch (err) {
-        done(err);
       }
     });
 
-    test('successfully list custom certificates', async done => {
+    test('successfully list custom certificates', async () => {
       try {
         const response = await sslCertInstance.listCustomCertificates({});
         expect(response).toBeDefined();
@@ -344,13 +329,11 @@ describe('SSL Certificate', () => {
         if (result.result) {
           expect(result.result.length).toBeGreaterThanOrEqual(1);
         }
-        done();
       } catch (err) {
-        done(err);
       }
     });
 
-    test('successfully get certificate by id', async done => {
+    test('successfully get certificate by id', async () => {
       try {
         const response = await sslCertInstance.getCustomCertificate({
           customCertId: customCertificateId,
@@ -362,13 +345,11 @@ describe('SSL Certificate', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.id).toBeDefined();
         }
-        done();
       } catch (err) {
-        done(err);
       }
     });
 
-    test('successfully update a custom certificate', async done => {
+    test('successfully update a custom certificate', async () => {
       try {
         const params = {
           certificate: config.CERTIFICATE, // todo: replace with a new certificate
@@ -386,13 +367,11 @@ describe('SSL Certificate', () => {
           expect(result.result.id).toBeDefined();
           expect(result.result.bundle_method).toBe('ubiquitous');
         }
-        done();
       } catch (err) {
-        done(err);
       }
     });
 
-    test('should successfully change priority of certificates', async done => {
+    test('should successfully change priority of certificates', async () => {
       try {
         const certPriorityReqCertificatesItemModel = {
           customCertId: customCertificateId,
@@ -411,13 +390,11 @@ describe('SSL Certificate', () => {
           expect(result.success).toBeTruthy();
           expect(result.result.priority).toBe(1);
         }
-        done();
       } catch (err) {
-        done(err);
       }
     });
 
-    test('should successfully delete the certificate', async done => {
+    test('should successfully delete the certificate', async () => {
       const params = {
         customCertId: customCertificateId,
       };
@@ -432,7 +409,7 @@ describe('SSL Certificate', () => {
       }
     });
 
-    test('should fail to delete certificate for wrong id', async done => {
+    test('should fail to delete certificate for wrong id', async () => {
       const params = {
         customCertId: '111',
       };
@@ -440,9 +417,7 @@ describe('SSL Certificate', () => {
         await sslCertInstance.deleteCustomCertificate(params);
       } catch (err) {
         expect(err.status).toEqual(400);
-        done();
       }
-      done();
     });
   });
 
