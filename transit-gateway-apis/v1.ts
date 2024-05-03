@@ -546,7 +546,83 @@ class TransitGatewayApisV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
-   * @param {TransitGatewayConnectionTemplate} params.transitGatewayConnectionTemplate - The connection template.
+   * @param {string} params.networkType - Defines what type of network is connected via this connection.
+   * @param {string} [params.baseConnectionId] - Deprecated: network_type 'gre_tunnel' connections must be created over
+   * an existing network_type 'classic' connection. This field must specify the ID of an active transit gateway
+   * network_type 'classic' connection in the same transit gateway.
+   *
+   * This field is required for network type 'gre_tunnel' connections.
+   *
+   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
+   * 'power_virtual_server', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * @param {string} [params.baseNetworkType] - The type of network the Unbound GRE tunnel is targeting. This field is
+   * required for network type 'unbound_gre_tunnel' and must be set to 'classic'.  For a 'redundant_gre' network type,
+   * the value is required and can be either VPC or Classic. This field is required to be unspecified for network type
+   * 'classic', 'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
+   * @param {string} [params.localGatewayIp] - Local gateway IP address. This field is required for network type
+   * 'gre_tunnel' and 'unbound_gre_tunnel' connections. This field is required to be unspecified for network type
+   * 'classic', 'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre' connections.
+   * @param {string} [params.localTunnelIp] - Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip
+   * addresses must be in the same /30 network. Neither can be the network nor broadcast addresses.
+   *
+   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   *
+   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
+   * and 'redundant_gre' connections.
+   * @param {string} [params.name] - The user-defined name for this transit gateway connection. Network type 'vpc'
+   * connections are defaulted to the name of the VPC.  Network type 'classic' connections are named 'Classic'.
+   *
+   * This field is required for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   *
+   * This field is optional for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
+   * @param {string} [params.networkAccountId] - The ID of the account which owns the network that is being connected.
+   * Generally only used if the network is in a different account than the gateway. This field is required for type
+   * 'unbound_gre_tunnel' when the associated_network_type is 'classic' or network_type is 'redundant_gre' and the GRE
+   * tunnel is in a different account than the gateway.
+   * @param {string} [params.networkId] - The ID of the network being connected via this connection. For network types
+   * 'vpc','power_virtual_server' and 'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway
+   * respectively. This field is required for network type 'vpc', 'power_virtual_server' and 'directlink' connections.
+   * It is also required for 'redundant_gre' connections when the base_network_type is set to VPC. This field is
+   * required to be unspecified for network type 'classic', 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * @param {TransitGatewayConnectionPrefixFilter[]} [params.prefixFilters] - Array of prefix route filters for a
+   * transit gateway connection. Prefix filters can be specified for netowrk type 'vpc', 'classic',
+   * 'power_virtual_server' and 'directlink' connections. They are not allowed for type 'gre_tunnel' connections. This
+   * is order dependent with those first in the array being applied first, and those at the end of the array being
+   * applied last, or just before applying the default. This field is optional for network type 'classic', 'vpc',
+   * 'directlink', and 'power_virtual_server' connections. This field is required to be unspecified for network type
+   * 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * @param {string} [params.prefixFiltersDefault] - Default setting of permit or deny which applies to any routes that
+   * don't match a specified filter. This field is optional for network type 'classic', 'vpc', 'directlink', and
+   * 'power_virtual_server' connections. This field is required to be unspecified for network type 'gre_tunnel',
+   * 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * @param {number} [params.remoteBgpAsn] - Remote network BGP ASN. The following ASN values are reserved and
+   * unavailable 0, 13884, 36351, 64512-64513, 65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
+   * 'remote_bgp_asn' is omitted on gre_tunnel or unbound_gre_tunnel connection create requests IBM will assign an ASN.
+   *
+   * This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   *
+   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
+   * and 'gre_tunnel' connections.
+   * @param {string} [params.remoteGatewayIp] - Remote gateway IP address. This field is required for network type
+   * 'gre_tunnel' and 'unbound_gre_tunnel' connections. This field is required to be unspecified for network type
+   * 'classic', 'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre' connections.
+   * @param {string} [params.remoteTunnelIp] - Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip
+   * addresses must be in the same /30 network. Neither can be the network nor broadcast addresses.
+   *
+   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   *
+   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',  'power_virtual_server'
+   * and 'redundant_gre' connections.
+   * @param {TransitGatewayRedundantGRETunnelTemplate[]} [params.tunnels] - Array of GRE tunnels for a transit gateway
+   * redundant GRE tunnel connection.  This field is required for 'redundant_gre' connections.
+   * @param {ZoneIdentity} [params.zone] - Specify the connection's location.  The specified availability zone must
+   * reside in the gateway's region.
+   * Use the IBM Cloud global catalog to list zones within the desired region.
+   *
+   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   *
+   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
+   * and 'redundant_gre' connections.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
    */
@@ -554,14 +630,31 @@ class TransitGatewayApisV1 extends BaseService {
     params: TransitGatewayApisV1.CreateTransitGatewayConnectionParams
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
     const _params = { ...params };
-    const _requiredParams = ['transitGatewayId', 'transitGatewayConnectionTemplate'];
-    const _validParams = ['transitGatewayId', 'transitGatewayConnectionTemplate', 'headers'];
+    const _requiredParams = ['transitGatewayId', 'networkType'];
+    const _validParams = ['transitGatewayId', 'networkType', 'baseConnectionId', 'baseNetworkType', 'localGatewayIp', 'localTunnelIp', 'name', 'networkAccountId', 'networkId', 'prefixFilters', 'prefixFiltersDefault', 'remoteBgpAsn', 'remoteGatewayIp', 'remoteTunnelIp', 'tunnels', 'zone', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
 
-    const body = _params.transitGatewayConnectionTemplate;
+    const body = {
+      'network_type': _params.networkType,
+      'base_connection_id': _params.baseConnectionId,
+      'base_network_type': _params.baseNetworkType,
+      'local_gateway_ip': _params.localGatewayIp,
+      'local_tunnel_ip': _params.localTunnelIp,
+      'name': _params.name,
+      'network_account_id': _params.networkAccountId,
+      'network_id': _params.networkId,
+      'prefix_filters': _params.prefixFilters,
+      'prefix_filters_default': _params.prefixFiltersDefault,
+      'remote_bgp_asn': _params.remoteBgpAsn,
+      'remote_gateway_ip': _params.remoteGatewayIp,
+      'remote_tunnel_ip': _params.remoteTunnelIp,
+      'tunnels': _params.tunnels,
+      'zone': _params.zone,
+    };
+
     const query = {
       'version': this.version,
     };
@@ -2085,9 +2178,135 @@ namespace TransitGatewayApisV1 {
   export interface CreateTransitGatewayConnectionParams {
     /** The Transit Gateway identifier. */
     transitGatewayId: string;
-    /** The connection template. */
-    transitGatewayConnectionTemplate: TransitGatewayConnectionTemplate;
+    /** Defines what type of network is connected via this connection. */
+    networkType: CreateTransitGatewayConnectionConstants.NetworkType | string;
+    /** Deprecated: network_type 'gre_tunnel' connections must be created over an existing network_type 'classic'
+     *  connection. This field must specify the ID of an active transit gateway network_type 'classic' connection in the
+     *  same transit gateway.
+     *
+     *  This field is required for network type 'gre_tunnel' connections.
+     *
+     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
+     *  'power_virtual_server', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+     */
+    baseConnectionId?: string;
+    /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type
+     *  'unbound_gre_tunnel' and must be set to 'classic'.  For a 'redundant_gre' network type, the value is required
+     *  and can be either VPC or Classic. This field is required to be unspecified for network type 'classic',
+     *  'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
+     */
+    baseNetworkType?: CreateTransitGatewayConnectionConstants.BaseNetworkType | string;
+    /** Local gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
+     *  'power_virtual_server' and 'redundant_gre' connections.
+     */
+    localGatewayIp?: string;
+    /** Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
+     *  Neither can be the network nor broadcast addresses.
+     *
+     *  This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+     *
+     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
+     *  and 'redundant_gre' connections.
+     */
+    localTunnelIp?: string;
+    /** The user-defined name for this transit gateway connection. Network type 'vpc'  connections are defaulted to
+     *  the name of the VPC.  Network type 'classic' connections are named 'Classic'.
+     *
+     *  This field is required for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+     *
+     *  This field is optional for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
+     */
+    name?: string;
+    /** The ID of the account which owns the network that is being connected. Generally only used if the network is
+     *  in a different account than the gateway. This field is required for type 'unbound_gre_tunnel' when the
+     *  associated_network_type is 'classic' or network_type is 'redundant_gre' and the GRE tunnel is in a different
+     *  account than the gateway.
+     */
+    networkAccountId?: string;
+    /** The ID of the network being connected via this connection. For network types 'vpc','power_virtual_server'
+     *  and 'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway respectively. This field is required
+     *  for network type 'vpc', 'power_virtual_server' and 'directlink' connections.  It is also required for
+     *  'redundant_gre' connections when the base_network_type is set to VPC. This field is required to be unspecified
+     *  for network type 'classic', 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+     */
+    networkId?: string;
+    /** Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk
+     *  type 'vpc', 'classic', 'power_virtual_server' and 'directlink' connections. They are not allowed for type
+     *  'gre_tunnel' connections. This is order dependent with those first in the array being applied first, and those
+     *  at the end of the array being applied last, or just before applying the default. This field is optional for
+     *  network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is required to
+     *  be unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+     */
+    prefixFilters?: TransitGatewayConnectionPrefixFilter[];
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This
+     *  field is optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This
+     *  field is required to be unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre'
+     *  connections.
+     */
+    prefixFiltersDefault?: CreateTransitGatewayConnectionConstants.PrefixFiltersDefault | string;
+    /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
+     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel
+     *  or unbound_gre_tunnel connection create requests IBM will assign an ASN.
+     *
+     *  This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+     *
+     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
+     *  and 'gre_tunnel' connections.
+     */
+    remoteBgpAsn?: number;
+    /** Remote gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
+     *  'power_virtual_server' and 'redundant_gre' connections.
+     */
+    remoteGatewayIp?: string;
+    /** Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
+     *  network. Neither can be the network nor broadcast addresses.
+     *
+     *  This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+     *
+     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
+     *  'power_virtual_server' and 'redundant_gre' connections.
+     */
+    remoteTunnelIp?: string;
+    /** Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.  This field is required for
+     *  'redundant_gre' connections.
+     */
+    tunnels?: TransitGatewayRedundantGRETunnelTemplate[];
+    /** Specify the connection's location.  The specified availability zone must reside in the gateway's region.
+     *  Use the IBM Cloud global catalog to list zones within the desired region.
+     *
+     *  This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+     *
+     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
+     *  and 'redundant_gre' connections.
+     */
+    zone?: ZoneIdentity;
     headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `createTransitGatewayConnection` operation. */
+  export namespace CreateTransitGatewayConnectionConstants {
+    /** Defines what type of network is connected via this connection. */
+    export enum NetworkType {
+      CLASSIC = 'classic',
+      DIRECTLINK = 'directlink',
+      GRE_TUNNEL = 'gre_tunnel',
+      UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel',
+      VPC = 'vpc',
+      POWER_VIRTUAL_SERVER = 'power_virtual_server',
+      REDUNDANT_GRE = 'redundant_gre',
+    }
+    /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type 'unbound_gre_tunnel' and must be set to 'classic'.  For a 'redundant_gre' network type, the value is required and can be either VPC or Classic. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections. */
+    export enum BaseNetworkType {
+      CLASSIC = 'classic',
+      VPC = 'vpc',
+    }
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is required to be unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections. */
+    export enum PrefixFiltersDefault {
+      PERMIT = 'permit',
+      DENY = 'deny',
+    }
   }
 
   /** Parameters for the `deleteTransitGatewayConnection` operation. */
@@ -2743,20 +2962,103 @@ namespace TransitGatewayApisV1 {
     type: string;
   }
 
+  /** Connection included in transit gateway. */
+  export interface TransitConnection {
+    /** The type of network the GRE tunnel is targeting. */
+    base_network_type?: string;
+    /** The user-defined name for this transit gateway connection. */
+    name: string;
+    /** The ID of the network being connected via this connection. This field is required for some types, such as
+     *  'vpc', 'power_virtual_server', 'directlink' and 'redundant_gre'. For network types 'vpc', 'redundant_gre',
+     *  'power_virtual_server' and 'directlink' this is the CRN of the VPC  / PowerVS / Direct Link gateway
+     *  respectively.
+     */
+    network_id?: string;
+    /** Defines what type of network is connected via this connection. The list of enumerated values for this
+     *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
+     */
+    network_type: string;
+    /** The unique identifier for this Transit Gateway Connection. */
+    id: string;
+    /** Deprecated: network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
+     *  network_type 'classic' connection the tunnel is configured over. The specified connection must reside in the
+     *  same transit gateway and be in an active state. The 'classic' connection cannot be deleted until any
+     *  'gre_tunnel' connections using it are deleted. This field only applies to and is required for network type
+     *  'gre_tunnel' connections.
+     */
+    base_connection_id?: string;
+    /** The date and time that this connection was created. */
+    created_at: string;
+    /** Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    local_bgp_asn?: number;
+    /** Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    local_gateway_ip?: string;
+    /** Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    local_tunnel_ip?: string;
+    /** GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections. */
+    mtu?: number;
+    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
+     *  IBM Cloud account than the gateway.
+     */
+    network_account_id?: string;
+    /** Array of prefix route filters for a transit gateway connection. This is order dependent with those first in
+     *  the array being applied first, and those at the end of the array is applied last, or just before the default.
+     *
+     *  This field does not apply to the 'redundant_gre' network type.
+     */
+    prefix_filters?: TransitGatewayConnectionPrefixFilterReference[];
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter.
+     *
+     *  This field does not apply to the 'redundant_gre' network type.
+     */
+    prefix_filters_default?: string;
+    /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    remote_bgp_asn?: number;
+    /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    remote_gateway_ip?: string;
+    /** Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    remote_tunnel_ip?: string;
+    /** Only visible for cross account connections, this field represents the status of a connection request between
+     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
+     *  using this field must tolerate unexpected values.
+     */
+    request_status: string;
+    /** Connection's current configuration state. The list of enumerated values for this property may expand in the
+     *  future. Code and processes using this field must tolerate unexpected values.
+     */
+    status: string;
+    /** Transit gateway reference. */
+    transit_gateway: TransitGatewayReference;
+    /** Collection of all tunnels for 'redundant_gre' connection. */
+    tunnels?: TransitGatewayRedundantGRETunnelReference[];
+    /** The date and time that this connection was last updated. */
+    updated_at: string;
+    /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
+    zone?: GreTunnelZoneReference;
+  }
+
   /** Transit gateway connections. */
   export interface TransitConnectionCollection {
     /** Array of transit gateway connections. */
-    connections: TransitConnectionCollectionConnectionsItem[];
+    connections: TransitConnection[];
     /** A reference to the first page of resources. */
     first: PaginationFirstConnection;
     /** The maximum number of connections returned on one request. */
     limit: number;
     /** A reference to the next page of resources; this reference is included for all pages except the last page. */
     next?: PaginationNextConnection;
-  }
-
-  /** TransitConnectionCollectionConnectionsItem. */
-  export interface TransitConnectionCollectionConnectionsItem {
   }
 
   /** Details of a Transit Gateway. */
@@ -2797,10 +3099,93 @@ namespace TransitGatewayApisV1 {
     transit_gateways: TransitGateway[];
   }
 
+  /** Connection included in transit gateway. */
+  export interface TransitGatewayConnection {
+    /** The type of network the GRE tunnel is targeting. */
+    base_network_type?: string;
+    /** The user-defined name for this transit gateway connection. */
+    name: string;
+    /** The ID of the network being connected via this connection. This field is required for some types, such as
+     *  'vpc', 'power_virtual_server', 'directlink' and 'redundant_gre'. For network types 'vpc', 'redundant_gre',
+     *  'power_virtual_server' and 'directlink' this is the CRN of the VPC  / PowerVS / Direct Link gateway
+     *  respectively.
+     */
+    network_id?: string;
+    /** Defines what type of network is connected via this connection. The list of enumerated values for this
+     *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
+     */
+    network_type: string;
+    /** The unique identifier for this Transit Gateway Connection. */
+    id: string;
+    /** Deprecated: network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
+     *  network_type 'classic' connection the tunnel is configured over. The specified connection must reside in the
+     *  same transit gateway and be in an active state. The 'classic' connection cannot be deleted until any
+     *  'gre_tunnel' connections using it are deleted. This field only applies to and is required for network type
+     *  'gre_tunnel' connections.
+     */
+    base_connection_id?: string;
+    /** The date and time that this connection was created. */
+    created_at: string;
+    /** Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    local_bgp_asn?: number;
+    /** Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    local_gateway_ip?: string;
+    /** Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    local_tunnel_ip?: string;
+    /** GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections. */
+    mtu?: number;
+    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
+     *  IBM Cloud account than the gateway.
+     */
+    network_account_id?: string;
+    /** Array of prefix route filters for a transit gateway connection. This is order dependent with those first in
+     *  the array being applied first, and those at the end of the array is applied last, or just before the default.
+     *  This field does not apply to the 'redundant_gre' network type.
+     */
+    prefix_filters?: TransitGatewayConnectionPrefixFilterReference[];
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This
+     *  field does not apply to the 'redundant_gre' network type.
+     */
+    prefix_filters_default?: string;
+    /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    remote_bgp_asn?: number;
+    /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    remote_gateway_ip?: string;
+    /** Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    remote_tunnel_ip?: string;
+    /** Only visible for cross account connections, this field represents the status of a connection request between
+     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
+     *  using this field must tolerate unexpected values.
+     */
+    request_status: string;
+    /** Connection's current configuration state. The list of enumerated values for this property may expand in the
+     *  future. Code and processes using this field must tolerate unexpected values.
+     */
+    status: string;
+    /** Collection of all tunnels for 'redundant_gre' connection. */
+    tunnels?: TransitGatewayRedundantGRETunnelReference[];
+    /** The date and time that this connection was last updated. */
+    updated_at: string;
+    /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
+    zone?: GreTunnelZoneReference;
+  }
+
   /** A set of Transit Gateway network connections. */
   export interface TransitGatewayConnectionCollection {
     /** Array of transit gateways network Connections. */
-    connections: TransitGatewayConnectionCollectionConnectionsItem[];
+    connections: TransitGatewayConnection[];
     /** A reference to the first page of resources.
      *  This will be returned when number of connections in response are greater than max page limit.
      */
@@ -2815,12 +3200,87 @@ namespace TransitGatewayApisV1 {
     total_count: number;
   }
 
-  /** TransitGatewayConnectionCollectionConnectionsItem. */
-  export interface TransitGatewayConnectionCollectionConnectionsItem {
-  }
-
-  /** TransitGatewayConnectionCust. */
+  /** Connection included in transit gateway. */
   export interface TransitGatewayConnectionCust {
+    /** The type of network the GRE tunnel is targeting. */
+    base_network_type?: string;
+    /** The user-defined name for this transit gateway connection. */
+    name: string;
+    /** The ID of the network being connected via this connection. This field is required for some types, such as
+     *  'vpc', 'power_virtual_server', 'directlink' and 'redundant_gre'. For network types 'vpc', 'redundant_gre',
+     *  'power_virtual_server' and 'directlink' this is the CRN of the VPC  / PowerVS / Direct Link gateway
+     *  respectively.
+     */
+    network_id?: string;
+    /** Defines what type of network is connected via this connection. The list of enumerated values for this
+     *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
+     */
+    network_type: string;
+    /** The unique identifier for this Transit Gateway Connection. */
+    id: string;
+    /** Deprecated: network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
+     *  network_type 'classic' connection the tunnel is configured over. The specified connection must reside in the
+     *  same transit gateway and be in an active state. The 'classic' connection cannot be deleted until any
+     *  'gre_tunnel' connections using it are deleted. This field only applies to and is required for network type
+     *  'gre_tunnel' connections.
+     */
+    base_connection_id?: string;
+    /** The date and time that this connection was created. */
+    created_at: string;
+    /** Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    local_bgp_asn?: number;
+    /** Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    local_gateway_ip?: string;
+    /** Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    local_tunnel_ip?: string;
+    /** GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections. */
+    mtu?: number;
+    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
+     *  IBM Cloud account than the gateway.
+     */
+    network_account_id?: string;
+    /** Array of prefix route filters for a transit gateway connection. This is order dependent with those first in
+     *  the array being applied first, and those at the end of the array is applied last, or just before the default.
+     *  This field does not apply to the 'redundant_gre' network type.
+     */
+    prefix_filters?: TransitGatewayConnectionPrefixFilterReference[];
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This
+     *  field does not apply to the 'redundant_gre' network type.
+     */
+    prefix_filters_default?: string;
+    /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    remote_bgp_asn?: number;
+    /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    remote_gateway_ip?: string;
+    /** Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+     *  connections.
+     */
+    remote_tunnel_ip?: string;
+    /** Only visible for cross account connections, this field represents the status of a connection request between
+     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
+     *  using this field must tolerate unexpected values.
+     */
+    request_status: string;
+    /** Connection's current configuration state. The list of enumerated values for this property may expand in the
+     *  future. Code and processes using this field must tolerate unexpected values.
+     */
+    status: string;
+    /** Collection of all tunnels for 'redundant_gre' connection. */
+    tunnels?: TransitGatewayRedundantGRETunnelReference[];
+    /** The date and time that this connection was last updated. */
+    updated_at: string;
+    /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
+    zone?: GreTunnelZoneReference;
   }
 
   /** A prefix filter for a Transit Gateway connection. */
@@ -2870,10 +3330,6 @@ namespace TransitGatewayApisV1 {
     prefix: string;
     /** The date and time that this prefix filter was last updated. */
     updated_at?: string;
-  }
-
-  /** TransitGatewayConnectionTemplate. */
-  export interface TransitGatewayConnectionTemplate {
   }
 
   /** Details for a redundant GRE tunnel. */
@@ -2968,451 +3424,6 @@ namespace TransitGatewayApisV1 {
   export interface ZoneReferenceCollection {
     /** Array of valid zones for GRE tunnels. */
     zones: ZoneReference[];
-  }
-
-  /** Transit gateway connection. */
-  export interface TransitConnectionCollectionConnectionsItemTransitConnection extends TransitConnectionCollectionConnectionsItem {
-    /** network_type 'gre_tunnel' connections use 'base_connection_id' to specify the id of a network_type 'classic'
-     *  connection the tunnel is configured over. The specified connection must reside in the same transit gateway and
-     *  be in an active state. The 'classic' connection cannot be deleted until any 'gre_tunnel' connections using it
-     *  are deleted. This field only applies to and is required for network type 'gre_tunnel' connections.
-     */
-    base_connection_id?: string;
-    /** The date and time that this connection was created. */
-    created_at: string;
-    /** The unique identifier for this connection. */
-    id: string;
-    /** Local network BGP ASN.  This field only applies to network type 'gre_tunnel' connections. */
-    local_bgp_asn?: number;
-    /** Local gateway IP address.  This field only applies to network type 'gre_tunnel' connections. */
-    local_gateway_ip?: string;
-    /** Local tunnel IP address.  This field only applies to network type 'gre_tunnel' connections. */
-    local_tunnel_ip?: string;
-    /** GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' connections. */
-    mtu?: number;
-    /** The user-defined name for this transit gateway connection. */
-    name: string;
-    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
-     *  IBM Cloud account than the gateway.
-     */
-    network_account_id?: string;
-    /** The ID of the network being connected via this connection. This field is required for some types, such as
-     *  'vpc', 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink'
-     *  this is the CRN of the VPC / PowerVS / Direct Link gateway respectively.
-     */
-    network_id?: string;
-    /** Defines what type of network is connected via this connection. The list of enumerated values for this
-     *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
-     */
-    network_type: string;
-    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. */
-    prefix_filters_default: string;
-    /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' connections. */
-    remote_bgp_asn?: number;
-    /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' connections. */
-    remote_gateway_ip?: string;
-    /** Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' connections. */
-    remote_tunnel_ip?: string;
-    /** Only visible for cross account connections, this field represents the status of a connection request between
-     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
-     *  using this field must tolerate unexpected values.
-     */
-    request_status?: string;
-    /** Connection state. The list of enumerated values for this property may expand in the future. Code and
-     *  processes using this field must tolerate unexpected values.
-     */
-    status: string;
-    /** Reference to the transit gateway that contains this connection. */
-    transit_gateway: TransitGatewayReference;
-    /** The date and time that this connection was last updated. */
-    updated_at?: string;
-    /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
-    zone?: GreTunnelZoneReference;
-  }
-
-  /** Transit gateway connection for redundant GRE. */
-  export interface TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE extends TransitConnectionCollectionConnectionsItem {
-    /** The type of network the redundant GRE tunnel is targeting. */
-    base_network_type: string;
-    /** The date and time that this connection was created. */
-    created_at: string;
-    /** The unique identifier for this connection. */
-    id: string;
-    /** The user-defined name for this transit gateway connection. */
-    name: string;
-    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
-     *  IBM Cloud account than the gateway.
-     */
-    network_account_id?: string;
-    /** The ID of the network being connected via this connection. This field is required for type 'vpc' and is the
-     *  CRN of the VPC.
-     */
-    network_id?: string;
-    /** Defines what type of network is connected via this connection. */
-    network_type: string;
-    /** Only visible for cross account connections, this field represents the status of a connection request between
-     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
-     *  using this field must tolerate unexpected values.
-     */
-    request_status: string;
-    /** Connection state. The list of enumerated values for this property may expand in the future. Code and
-     *  processes using this field must tolerate unexpected values.
-     */
-    status: string;
-    /** Reference to the transit gateway that contains this connection. */
-    transit_gateway: TransitGatewayReference;
-    /** Array of GRE tunnels for a transit gateway redundant GRE tunnel connection. */
-    tunnels: TransitGatewayRedundantGRETunnelReference[];
-    /** The date and time that this connection was last updated. */
-    updated_at: string;
-  }
-
-  /** Connection included in transit gateway. */
-  export interface TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel extends TransitGatewayConnectionCollectionConnectionsItem {
-    /** The type of network the GRE tunnel is targeting. */
-    base_network_type?: string;
-    /** The user-defined name for this transit gateway connection. */
-    name: string;
-    /** The ID of the network being connected via this connection. This field is required for some types, such as
-     *  'vpc', 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink'
-     *  this is the CRN of the VPC / PowerVS / Direct Link gateway respectively.
-     */
-    network_id?: string;
-    /** Defines what type of network is connected via this connection. The list of enumerated values for this
-     *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
-     */
-    network_type: string;
-    /** The unique identifier for this Transit Gateway Connection. */
-    id: string;
-    /** Deprecated: network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
-     *  network_type 'classic' connection the tunnel is configured over. The specified connection must reside in the
-     *  same transit gateway and be in an active state. The 'classic' connection cannot be deleted until any
-     *  'gre_tunnel' connections using it are deleted. This field only applies to and is required for network type
-     *  'gre_tunnel' connections.
-     */
-    base_connection_id?: string;
-    /** The date and time that this connection was created. */
-    created_at: string;
-    /** Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    local_bgp_asn?: number;
-    /** Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    local_gateway_ip?: string;
-    /** Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    local_tunnel_ip?: string;
-    /** GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections. */
-    mtu?: number;
-    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
-     *  IBM Cloud account than the gateway.
-     */
-    network_account_id?: string;
-    /** Array of prefix route filters for a transit gateway connection. This is order dependent with those first in
-     *  the array being applied first, and those at the end of the array is applied last, or just before the default.
-     */
-    prefix_filters?: TransitGatewayConnectionPrefixFilterReference[];
-    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. */
-    prefix_filters_default: string;
-    /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    remote_bgp_asn?: number;
-    /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    remote_gateway_ip?: string;
-    /** Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    remote_tunnel_ip?: string;
-    /** Only visible for cross account connections, this field represents the status of a connection request between
-     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
-     *  using this field must tolerate unexpected values.
-     */
-    request_status?: string;
-    /** Connection's current configuration state. The list of enumerated values for this property may expand in the
-     *  future. Code and processes using this field must tolerate unexpected values.
-     */
-    status?: string;
-    /** The date and time that this connection was last updated. */
-    updated_at?: string;
-    /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
-    zone?: GreTunnelZoneReference;
-  }
-
-  /** Redundant GRE tunnel connection included in transit gateway. */
-  export interface TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel extends TransitGatewayConnectionCollectionConnectionsItem {
-    /** The unique identifier for this Transit Gateway redundant tunnel connection. */
-    id: string;
-    /** The type of network the GRE tunnel is targeting. */
-    base_network_type: string;
-    /** The date and time that this connection was created. */
-    created_at: string;
-    /** The user-defined name for this transit gateway connection. */
-    name: string;
-    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
-     *  IBM Cloud account than the gateway.
-     */
-    network_account_id?: string;
-    /** The ID of the network VPC being connected via this connection. */
-    network_id?: string;
-    /** Defines what type of network is connected via this connection. The list of enumerated values for this
-     *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
-     */
-    network_type: string;
-    /** Only visible for cross account connections, this field represents the status of a connection request between
-     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
-     *  using this field must tolerate unexpected values.
-     */
-    request_status: string;
-    /** Connection's current configuration state. The list of enumerated values for this property may expand in the
-     *  future. Code and processes using this field must tolerate unexpected values.
-     */
-    status: string;
-    /** Array of GRE tunnels for a transit gateway redundant GRE tunnel connection. */
-    tunnels: TransitGatewayRedundantGRETunnelReference[];
-    /** The date and time that this connection was last updated. */
-    updated_at: string;
-  }
-
-  /** Connection included in transit gateway. */
-  export interface TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel extends TransitGatewayConnectionCust {
-    /** The type of network the GRE tunnel is targeting. */
-    base_network_type?: string;
-    /** The user-defined name for this transit gateway connection. */
-    name: string;
-    /** The ID of the network being connected via this connection. This field is required for some types, such as
-     *  'vpc', 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink'
-     *  this is the CRN of the VPC / PowerVS / Direct Link gateway respectively.
-     */
-    network_id?: string;
-    /** Defines what type of network is connected via this connection. The list of enumerated values for this
-     *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
-     */
-    network_type: string;
-    /** The unique identifier for this Transit Gateway Connection. */
-    id: string;
-    /** Deprecated: network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
-     *  network_type 'classic' connection the tunnel is configured over. The specified connection must reside in the
-     *  same transit gateway and be in an active state. The 'classic' connection cannot be deleted until any
-     *  'gre_tunnel' connections using it are deleted. This field only applies to and is required for network type
-     *  'gre_tunnel' connections.
-     */
-    base_connection_id?: string;
-    /** The date and time that this connection was created. */
-    created_at: string;
-    /** Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    local_bgp_asn?: number;
-    /** Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    local_gateway_ip?: string;
-    /** Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    local_tunnel_ip?: string;
-    /** GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections. */
-    mtu?: number;
-    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
-     *  IBM Cloud account than the gateway.
-     */
-    network_account_id?: string;
-    /** Array of prefix route filters for a transit gateway connection. This is order dependent with those first in
-     *  the array being applied first, and those at the end of the array is applied last, or just before the default.
-     */
-    prefix_filters?: TransitGatewayConnectionPrefixFilterReference[];
-    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. */
-    prefix_filters_default: string;
-    /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    remote_bgp_asn?: number;
-    /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    remote_gateway_ip?: string;
-    /** Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections.
-     */
-    remote_tunnel_ip?: string;
-    /** Only visible for cross account connections, this field represents the status of a connection request between
-     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
-     *  using this field must tolerate unexpected values.
-     */
-    request_status?: string;
-    /** Connection's current configuration state. The list of enumerated values for this property may expand in the
-     *  future. Code and processes using this field must tolerate unexpected values.
-     */
-    status?: string;
-    /** The date and time that this connection was last updated. */
-    updated_at?: string;
-    /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
-    zone?: GreTunnelZoneReference;
-  }
-
-  /** Redundant GRE tunnel connection included in transit gateway. */
-  export interface TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel extends TransitGatewayConnectionCust {
-    /** The unique identifier for this Transit Gateway redundant tunnel connection. */
-    id: string;
-    /** The type of network the GRE tunnel is targeting. */
-    base_network_type: string;
-    /** The date and time that this connection was created. */
-    created_at: string;
-    /** The user-defined name for this transit gateway connection. */
-    name: string;
-    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
-     *  IBM Cloud account than the gateway.
-     */
-    network_account_id?: string;
-    /** The ID of the network VPC being connected via this connection. */
-    network_id?: string;
-    /** Defines what type of network is connected via this connection. The list of enumerated values for this
-     *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
-     */
-    network_type: string;
-    /** Only visible for cross account connections, this field represents the status of a connection request between
-     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
-     *  using this field must tolerate unexpected values.
-     */
-    request_status: string;
-    /** Connection's current configuration state. The list of enumerated values for this property may expand in the
-     *  future. Code and processes using this field must tolerate unexpected values.
-     */
-    status: string;
-    /** Array of GRE tunnels for a transit gateway redundant GRE tunnel connection. */
-    tunnels: TransitGatewayRedundantGRETunnelReference[];
-    /** The date and time that this connection was last updated. */
-    updated_at: string;
-  }
-
-  /** A create template for a Transit Gateway connection. */
-  export interface TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate extends TransitGatewayConnectionTemplate {
-    /** Deprecated: network_type 'gre_tunnel' connections must be created over an existing network_type 'classic'
-     *  connection. This field must specify the ID of an active transit gateway network_type 'classic' connection in the
-     *  same transit gateway.
-     *
-     *  This field is required for network type 'gre_tunnel' connections.
-     *
-     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
-     *  and 'unbound_gre_tunnel' connections.
-     */
-    base_connection_id?: string;
-    /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type
-     *  'unbound_gre_tunnel' connections. This field is required to be unspecified for network type 'classic',
-     *  'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
-     */
-    base_network_type?: string;
-    /** Local gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and
-     *  'power_virtual_server' connections.
-     */
-    local_gateway_ip?: string;
-    /** Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
-     *  Neither can be the network nor broadcast addresses.
-     *
-     *  This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-     *
-     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and
-     *  'power_virtual_server' connections.
-     */
-    local_tunnel_ip?: string;
-    /** The user-defined name for this transit gateway connection. Network type 'vpc'  connections are defaulted to
-     *  the name of the VPC.  Network type 'classic' connections are named 'Classic'.
-     *
-     *  This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-     *
-     *  This field is optional for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
-     */
-    name?: string;
-    /** The ID of the account which owns the network that is being connected. Generally only used if the network is
-     *  in a different account than the gateway. This field is required for type 'unbound_gre_tunnel' when the
-     *  associated_network_type is 'classic' and the GRE tunnel is in a different account than the gateway.
-     */
-    network_account_id?: string;
-    /** The ID of the network being connected via this connection. For network types 'vpc','power_virtual_server'
-     *  and 'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway respectively. This field is required
-     *  for network type 'vpc', 'power_virtual_server' and 'directlink' connections. This field is required to be
-     *  unspecified for network type 'classic', 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-     */
-    network_id?: string;
-    /** Defines what type of network is connected via this connection. */
-    network_type: string;
-    /** Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk
-     *  type 'vpc', 'classic', 'power_virtual_server' and 'directlink' connections. They are not allowed for type
-     *  'gre_tunnel' connections. This is order dependent with those first in the array being applied first, and those
-     *  at the end of the array being applied last, or just before applying the default. This field is optional for
-     *  network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is required to
-     *  be unspecified for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-     */
-    prefix_filters?: TransitGatewayConnectionPrefixFilter[];
-    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This
-     *  field is optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This
-     *  field is required to be unspecified for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-     */
-    prefix_filters_default?: string;
-    /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel
-     *  or unbound_gre_tunnel connection create requests IBM will assign an ASN.
-     *
-     *  This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-     *
-     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and
-     *  'power_virtual_server' connections.
-     */
-    remote_bgp_asn?: number;
-    /** Remote gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and
-     *  'power_virtual_server' connections.
-     */
-    remote_gateway_ip?: string;
-    /** Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
-     *  network. Neither can be the network nor broadcast addresses.
-     *
-     *  This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-     *
-     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and
-     *  'power_virtual_server' connections.
-     */
-    remote_tunnel_ip?: string;
-    /** Specify the connection's location.  The specified availability zone must reside in the gateway's region.
-     *  Use the IBM Cloud global catalog to list zones within the desired region.
-     *
-     *  This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-     *
-     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and
-     *  'power_virtual_server' connections.
-     */
-    zone?: ZoneIdentity;
-  }
-
-  /** A create template for a Transit Gateway connection redundant GRE tunnel object. */
-  export interface TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate extends TransitGatewayConnectionTemplate {
-    /** The type of network the GRE tunnel is targeting. */
-    base_network_type: string;
-    /** The user-defined name for this redundant gre transit gateway connection. Network type 'vpc'  connections are
-     *  defaulted to the name of the VPC.  Network type 'classic' connections are named 'Classic'.
-     */
-    name: string;
-    /** The ID of the account which owns the network that is being connected. Generally only used if the network is
-     *  in a different account than the gateway. This field is required when the GRE tunnel is in a different account
-     *  than the gateway.
-     */
-    network_account_id?: string;
-    /** The ID of the network being connected via this connection. For base network type, 'vpc', this is the CRN of
-     *  the VPC. This field is required for base network type 'vpc'. This field is required to be unspecified for base
-     *  network type 'classic' connections.
-     */
-    network_id?: string;
-    /** Defines what type of network is connected via this connection. */
-    network_type: string;
-    /** Array of GRE tunnels for a transit gateway redundant GRE tunnel connection. */
-    tunnels: TransitGatewayRedundantGRETunnelTemplate[];
   }
 
   /** Availability zone. */
@@ -3549,9 +3560,9 @@ namespace TransitGatewayApisV1 {
 
     /**
      * Returns the next page of results by invoking listConnections().
-     * @returns {Promise<TransitGatewayApisV1.TransitConnectionCollectionConnectionsItem[]>}
+     * @returns {Promise<TransitGatewayApisV1.TransitConnection[]>}
      */
-    public async getNext(): Promise<TransitGatewayApisV1.TransitConnectionCollectionConnectionsItem[]> {
+    public async getNext(): Promise<TransitGatewayApisV1.TransitConnection[]> {
       if (!this.hasNext()) {
         throw new Error('No more results available');
       }
@@ -3575,10 +3586,10 @@ namespace TransitGatewayApisV1 {
 
     /**
      * Returns all results by invoking listConnections() repeatedly until all pages of results have been retrieved.
-     * @returns {Promise<TransitGatewayApisV1.TransitConnectionCollectionConnectionsItem[]>}
+     * @returns {Promise<TransitGatewayApisV1.TransitConnection[]>}
      */
-    public async getAll(): Promise<TransitGatewayApisV1.TransitConnectionCollectionConnectionsItem[]> {
-      const results: TransitConnectionCollectionConnectionsItem[] = [];
+    public async getAll(): Promise<TransitGatewayApisV1.TransitConnection[]> {
+      const results: TransitConnection[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
         results.push(...nextPage);
@@ -3630,9 +3641,9 @@ namespace TransitGatewayApisV1 {
 
     /**
      * Returns the next page of results by invoking listTransitGatewayConnections().
-     * @returns {Promise<TransitGatewayApisV1.TransitGatewayConnectionCollectionConnectionsItem[]>}
+     * @returns {Promise<TransitGatewayApisV1.TransitGatewayConnection[]>}
      */
-    public async getNext(): Promise<TransitGatewayApisV1.TransitGatewayConnectionCollectionConnectionsItem[]> {
+    public async getNext(): Promise<TransitGatewayApisV1.TransitGatewayConnection[]> {
       if (!this.hasNext()) {
         throw new Error('No more results available');
       }
@@ -3656,10 +3667,10 @@ namespace TransitGatewayApisV1 {
 
     /**
      * Returns all results by invoking listTransitGatewayConnections() repeatedly until all pages of results have been retrieved.
-     * @returns {Promise<TransitGatewayApisV1.TransitGatewayConnectionCollectionConnectionsItem[]>}
+     * @returns {Promise<TransitGatewayApisV1.TransitGatewayConnection[]>}
      */
-    public async getAll(): Promise<TransitGatewayApisV1.TransitGatewayConnectionCollectionConnectionsItem[]> {
-      const results: TransitGatewayConnectionCollectionConnectionsItem[] = [];
+    public async getAll(): Promise<TransitGatewayApisV1.TransitGatewayConnection[]> {
+      const results: TransitGatewayConnection[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
         results.push(...nextPage);
