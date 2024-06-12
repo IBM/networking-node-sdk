@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
+/* eslint-disable no-await-in-loop */
+
+const nock = require('nock');
+
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const sdkCorePackage = require('ibm-cloud-sdk-core');
 
 const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
-
 const TransitGatewayApisV1 = require('../../dist/transit-gateway-apis/v1');
-const nock = require('nock');
-
-/* eslint-disable no-await-in-loop */
 
 const {
   getOptions,
@@ -62,7 +62,6 @@ getAuthenticatorMock.mockImplementation(() => new NoAuthAuthenticator());
 let requiredGlobals;
 
 describe('TransitGatewayApisV1', () => {
-
   beforeEach(() => {
     mock_createRequest();
     // these are changed when passed into the factory/constructor, so re-init
@@ -77,7 +76,7 @@ describe('TransitGatewayApisV1', () => {
     }
     getAuthenticatorMock.mockClear();
   });
-  
+
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = TransitGatewayApisV1.newInstance(requiredGlobals);
@@ -216,16 +215,16 @@ describe('TransitGatewayApisV1', () => {
       const serviceUrl = transitGatewayApisServiceOptions.url;
       const path = '/transit_gateways';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"id":"56969d6043e9465c883cb9f7363e78e8","href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
+        '{"next":{"start":"1"},"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
       const mockPagerResponse2 =
-        '{"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"id":"56969d6043e9465c883cb9f7363e78e8","href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
+        '{"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
 
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -699,16 +698,16 @@ describe('TransitGatewayApisV1', () => {
       const serviceUrl = transitGatewayApisServiceOptions.url;
       const path = '/connections';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"name":"Transit_Service_SJ_DL","network_account_id":"28e4d90ac7504be694471ee66e70d0d5","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"network_account_id","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":13,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"connections":[{"base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"name":"Transit_Service_SJ_DL","network_account_id":"28e4d90ac7504be694471ee66e70d0d5","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
+        '{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"network_account_id","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","transit_gateway":{"crn":"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44","id":"456f58c1-afe7-123a-0a0a-7f3d720f1a44","name":"my-transit-gw100"},"tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":13,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
 
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -843,16 +842,16 @@ describe('TransitGatewayApisV1', () => {
       const serviceUrl = transitGatewayApisServiceOptions.url;
       const path = '/transit_gateways/testString/connections';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"28e4d90ac7504be694471ee66e70d0d5","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"network_account_id","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":13,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"28e4d90ac7504be694471ee66e70d0d5","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
+        '{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"network_account_id","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":13,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
 
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -909,6 +908,17 @@ describe('TransitGatewayApisV1', () => {
         name: 'us-south-1',
       };
 
+      // TransitGatewayRedundantGRETunnelTemplate
+      const transitGatewayRedundantGreTunnelTemplateModel = {
+        local_gateway_ip: '10.242.63.12',
+        local_tunnel_ip: '192.168.100.20',
+        name: 'gre1',
+        remote_bgp_asn: 65010,
+        remote_gateway_ip: '10.242.33.22',
+        remote_tunnel_ip: '192.168.129.1',
+        zone: zoneIdentityModel,
+      };
+
       function __createTransitGatewayConnectionTest() {
         // Construct the params object for operation createTransitGatewayConnection
         const transitGatewayId = 'testString';
@@ -918,13 +928,14 @@ describe('TransitGatewayApisV1', () => {
         const localGatewayIp = '192.168.100.1';
         const localTunnelIp = '192.168.129.2';
         const name = 'Transit_Service_BWTN_SJ_DL';
-        const networkAccountId = '28e4d90ac7504be694471ee66e70d0d5';
+        const networkAccountId = 'testString';
         const networkId = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b';
         const prefixFilters = [transitGatewayConnectionPrefixFilterModel];
         const prefixFiltersDefault = 'permit';
         const remoteBgpAsn = 65010;
         const remoteGatewayIp = '10.242.63.12';
         const remoteTunnelIp = '192.168.129.1';
+        const tunnels = [transitGatewayRedundantGreTunnelTemplateModel];
         const zone = zoneIdentityModel;
         const createTransitGatewayConnectionParams = {
           transitGatewayId,
@@ -941,6 +952,7 @@ describe('TransitGatewayApisV1', () => {
           remoteBgpAsn,
           remoteGatewayIp,
           remoteTunnelIp,
+          tunnels,
           zone,
         };
 
@@ -971,6 +983,7 @@ describe('TransitGatewayApisV1', () => {
         expect(mockRequestOptions.body.remote_bgp_asn).toEqual(remoteBgpAsn);
         expect(mockRequestOptions.body.remote_gateway_ip).toEqual(remoteGatewayIp);
         expect(mockRequestOptions.body.remote_tunnel_ip).toEqual(remoteTunnelIp);
+        expect(mockRequestOptions.body.tunnels).toEqual(tunnels);
         expect(mockRequestOptions.body.zone).toEqual(zone);
         expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
         expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
@@ -1398,6 +1411,514 @@ describe('TransitGatewayApisV1', () => {
         let err;
         try {
           await transitGatewayApisService.createTransitGatewayConnectionActions();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getTransitGatewayGreTunnel', () => {
+    describe('positive tests', () => {
+      function __getTransitGatewayGreTunnelTest() {
+        // Construct the params object for operation getTransitGatewayGreTunnel
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const getTransitGatewayGreTunnelParams = {
+          transitGatewayId,
+          id,
+        };
+
+        const getTransitGatewayGreTunnelResult = transitGatewayApisService.getTransitGatewayGreTunnel(getTransitGatewayGreTunnelParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getTransitGatewayGreTunnelResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getTransitGatewayGreTunnelTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __getTransitGatewayGreTunnelTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __getTransitGatewayGreTunnelTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getTransitGatewayGreTunnelParams = {
+          transitGatewayId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        transitGatewayApisService.getTransitGatewayGreTunnel(getTransitGatewayGreTunnelParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.getTransitGatewayGreTunnel({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.getTransitGatewayGreTunnel();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('createTransitGatewayGreTunnel', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // ZoneIdentityByName
+      const zoneIdentityModel = {
+        name: 'us-south-1',
+      };
+
+      function __createTransitGatewayGreTunnelTest() {
+        // Construct the params object for operation createTransitGatewayGreTunnel
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const localGatewayIp = '10.242.63.12';
+        const localTunnelIp = '192.168.100.20';
+        const name = 'gre1';
+        const remoteGatewayIp = '10.242.33.22';
+        const remoteTunnelIp = '192.168.129.1';
+        const zone = zoneIdentityModel;
+        const remoteBgpAsn = 65010;
+        const createTransitGatewayGreTunnelParams = {
+          transitGatewayId,
+          id,
+          localGatewayIp,
+          localTunnelIp,
+          name,
+          remoteGatewayIp,
+          remoteTunnelIp,
+          zone,
+          remoteBgpAsn,
+        };
+
+        const createTransitGatewayGreTunnelResult = transitGatewayApisService.createTransitGatewayGreTunnel(createTransitGatewayGreTunnelParams);
+
+        // all methods should return a Promise
+        expectToBePromise(createTransitGatewayGreTunnelResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.local_gateway_ip).toEqual(localGatewayIp);
+        expect(mockRequestOptions.body.local_tunnel_ip).toEqual(localTunnelIp);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.remote_gateway_ip).toEqual(remoteGatewayIp);
+        expect(mockRequestOptions.body.remote_tunnel_ip).toEqual(remoteTunnelIp);
+        expect(mockRequestOptions.body.zone).toEqual(zone);
+        expect(mockRequestOptions.body.remote_bgp_asn).toEqual(remoteBgpAsn);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createTransitGatewayGreTunnelTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __createTransitGatewayGreTunnelTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __createTransitGatewayGreTunnelTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const localGatewayIp = '10.242.63.12';
+        const localTunnelIp = '192.168.100.20';
+        const name = 'gre1';
+        const remoteGatewayIp = '10.242.33.22';
+        const remoteTunnelIp = '192.168.129.1';
+        const zone = zoneIdentityModel;
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createTransitGatewayGreTunnelParams = {
+          transitGatewayId,
+          id,
+          localGatewayIp,
+          localTunnelIp,
+          name,
+          remoteGatewayIp,
+          remoteTunnelIp,
+          zone,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        transitGatewayApisService.createTransitGatewayGreTunnel(createTransitGatewayGreTunnelParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.createTransitGatewayGreTunnel({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.createTransitGatewayGreTunnel();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('deleteTransitGatewayConnectionTunnels', () => {
+    describe('positive tests', () => {
+      function __deleteTransitGatewayConnectionTunnelsTest() {
+        // Construct the params object for operation deleteTransitGatewayConnectionTunnels
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const greTunnelId = 'testString';
+        const deleteTransitGatewayConnectionTunnelsParams = {
+          transitGatewayId,
+          id,
+          greTunnelId,
+        };
+
+        const deleteTransitGatewayConnectionTunnelsResult = transitGatewayApisService.deleteTransitGatewayConnectionTunnels(deleteTransitGatewayConnectionTunnelsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(deleteTransitGatewayConnectionTunnelsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}', 'DELETE');
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+        expect(mockRequestOptions.path.gre_tunnel_id).toEqual(greTunnelId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteTransitGatewayConnectionTunnelsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __deleteTransitGatewayConnectionTunnelsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __deleteTransitGatewayConnectionTunnelsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const greTunnelId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteTransitGatewayConnectionTunnelsParams = {
+          transitGatewayId,
+          id,
+          greTunnelId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        transitGatewayApisService.deleteTransitGatewayConnectionTunnels(deleteTransitGatewayConnectionTunnelsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.deleteTransitGatewayConnectionTunnels({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.deleteTransitGatewayConnectionTunnels();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getTransitGatewayConnectionTunnels', () => {
+    describe('positive tests', () => {
+      function __getTransitGatewayConnectionTunnelsTest() {
+        // Construct the params object for operation getTransitGatewayConnectionTunnels
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const greTunnelId = 'testString';
+        const getTransitGatewayConnectionTunnelsParams = {
+          transitGatewayId,
+          id,
+          greTunnelId,
+        };
+
+        const getTransitGatewayConnectionTunnelsResult = transitGatewayApisService.getTransitGatewayConnectionTunnels(getTransitGatewayConnectionTunnelsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getTransitGatewayConnectionTunnelsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+        expect(mockRequestOptions.path.gre_tunnel_id).toEqual(greTunnelId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getTransitGatewayConnectionTunnelsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __getTransitGatewayConnectionTunnelsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __getTransitGatewayConnectionTunnelsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const greTunnelId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getTransitGatewayConnectionTunnelsParams = {
+          transitGatewayId,
+          id,
+          greTunnelId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        transitGatewayApisService.getTransitGatewayConnectionTunnels(getTransitGatewayConnectionTunnelsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.getTransitGatewayConnectionTunnels({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.getTransitGatewayConnectionTunnels();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateTransitGatewayConnectionTunnels', () => {
+    describe('positive tests', () => {
+      function __updateTransitGatewayConnectionTunnelsTest() {
+        // Construct the params object for operation updateTransitGatewayConnectionTunnels
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const greTunnelId = 'testString';
+        const name = 'gre2';
+        const updateTransitGatewayConnectionTunnelsParams = {
+          transitGatewayId,
+          id,
+          greTunnelId,
+          name,
+        };
+
+        const updateTransitGatewayConnectionTunnelsResult = transitGatewayApisService.updateTransitGatewayConnectionTunnels(updateTransitGatewayConnectionTunnelsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(updateTransitGatewayConnectionTunnelsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}', 'PATCH');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
+        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+        expect(mockRequestOptions.path.gre_tunnel_id).toEqual(greTunnelId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateTransitGatewayConnectionTunnelsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.enableRetries();
+        __updateTransitGatewayConnectionTunnelsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        transitGatewayApisService.disableRetries();
+        __updateTransitGatewayConnectionTunnelsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const transitGatewayId = 'testString';
+        const id = 'testString';
+        const greTunnelId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateTransitGatewayConnectionTunnelsParams = {
+          transitGatewayId,
+          id,
+          greTunnelId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        transitGatewayApisService.updateTransitGatewayConnectionTunnels(updateTransitGatewayConnectionTunnelsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.updateTransitGatewayConnectionTunnels({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await transitGatewayApisService.updateTransitGatewayConnectionTunnels();
         } catch (e) {
           err = e;
         }
