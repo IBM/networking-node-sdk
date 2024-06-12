@@ -1,3 +1,10 @@
+# [0.35.0](https://github.com/IBM/networking-node-sdk/compare/v0.34.0...v0.35.0) (2024-06-12)
+
+
+### Features
+
+* Added the new connection type - Redundant GRE ([#131](https://github.com/IBM/networking-node-sdk/issues/131)) ([64ae6ab](https://github.com/IBM/networking-node-sdk/commit/64ae6abe973e3c9ac3cfb3b497af10ec07dd003d))
+
 # [0.34.0](https://github.com/IBM/networking-node-sdk/compare/v0.33.0...v0.34.0) (2024-03-22)
 
 
