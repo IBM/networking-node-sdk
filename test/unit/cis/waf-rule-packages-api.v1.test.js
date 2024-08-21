@@ -21,7 +21,13 @@ const { NoAuthAuthenticator, unitTestUtils } = core;
 
 const WafRulePackagesApiV1 = require('../../../dist/cis/wafrulepackagesapiv1/v1');
 
-const {getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise, checkForSuccessfulExecution } = unitTestUtils;
+const {
+  getOptions,
+  checkUrlAndMethod,
+  checkMediaHeaders,
+  expectToBePromise,
+  checkForSuccessfulExecution,
+} = unitTestUtils;
 
 const service = {
   authenticator: new NoAuthAuthenticator(),
