@@ -17,8 +17,6 @@
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const core = require('ibm-cloud-sdk-core');
 
-const { NoAuthAuthenticator, unitTestUtils } = core;
-
 const FiltersV1 = require('../../../dist/cis/filtersv1/v1');
 
 const {
@@ -27,7 +25,7 @@ const {
   checkMediaHeaders,
   expectToBePromise,
   checkUserHeader,
-} = unitTestUtils;
+} = require('@ibm-cloud/sdk-test-utilities');
 
 const filtersServiceOptions = {
   authenticator: new NoAuthAuthenticator(),

@@ -17,8 +17,6 @@
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const core = require('ibm-cloud-sdk-core');
 
-const { NoAuthAuthenticator, unitTestUtils } = core;
-
 const LogpushJobsApiV1 = require('../../../dist/cis/logpushjobsapiv1/v1');
 
 const {
@@ -27,7 +25,7 @@ const {
   checkMediaHeaders,
   expectToBePromise,
   checkForSuccessfulExecution,
-} = unitTestUtils;
+} = require('@ibm-cloud/sdk-test-utilities');
 
 const logpushJobsApiServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
