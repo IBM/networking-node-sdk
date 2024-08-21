@@ -20,6 +20,7 @@ const nock = require('nock');
 
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const sdkCorePackage = require('ibm-cloud-sdk-core');
+const { NoAuthAuthenticator, unitTestUtils } = core;
 
 const TransitGatewayApisV1 = require('../../dist/transit-gateway-apis/v1');
 

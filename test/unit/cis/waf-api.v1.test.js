@@ -17,6 +17,7 @@
 
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const core = require('ibm-cloud-sdk-core');
+const { NoAuthAuthenticator, unitTestUtils } = core;
 
 const WafApiV1 = require('../../../dist/cis/wafapiv1/v1');
 
