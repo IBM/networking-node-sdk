@@ -27,7 +27,8 @@ const {
   checkMediaHeaders,
   expectToBePromise,
   checkForSuccessfulExecution,
-} = unitTestUtils;
+} = require('@ibm-cloud/sdk-test-utilities');
+
 
 const alertsServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
