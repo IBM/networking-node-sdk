@@ -21,7 +21,7 @@ const { NoAuthAuthenticator, unitTestUtils } = core;
 
 const WafRulesApiV1 = require('../../../dist/cis/wafrulesapiv1/v1');
 
-const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise } = unitTestUtils;
+const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise } = require('@ibm-cloud/sdk-test-utilities');
 
 const service = {
   authenticator: new NoAuthAuthenticator(),

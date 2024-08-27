@@ -20,8 +20,8 @@ const nock = require('nock');
 
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const sdkCorePackage = require('ibm-cloud-sdk-core');
-
 const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
+
 const DirectLinkProviderV2 = require('../../dist/direct-link-provider/v2');
 
 const {
@@ -30,7 +30,7 @@ const {
   checkMediaHeaders,
   expectToBePromise,
   checkForSuccessfulExecution,
-} = unitTestUtils;
+} = require('@ibm-cloud/sdk-test-utilities');
 
 const directLinkProviderServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
