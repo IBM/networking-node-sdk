@@ -1,3 +1,15 @@
+## [0.35.1](https://github.com/IBM/networking-node-sdk/compare/v0.35.0...v0.35.1) (2024-08-27)
+
+
+### Bug Fixes
+
+* Updating ibm-cloud-sdk-core npm package version to fix vulnerability ([#136](https://github.com/IBM/networking-node-sdk/issues/136)) ([b3fd3a3](https://github.com/IBM/networking-node-sdk/commit/b3fd3a3c89dc793a577cc4c44abc6ca9797241be))
+
+
+### Reverts
+
+* Revert "fix: Updating ibm-cloud-sdk-core npm package version to fix vulnerabi…" (#137) ([e1b193e](https://github.com/IBM/networking-node-sdk/commit/e1b193e07fdc80795740146b868d9a85c4733f15)), closes [#137](https://github.com/IBM/networking-node-sdk/issues/137)
+
 # [0.35.0](https://github.com/IBM/networking-node-sdk/compare/v0.34.0...v0.35.0) (2024-06-12)
 
 
