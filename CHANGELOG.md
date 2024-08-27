@@ -1,3 +1,10 @@
+## [0.35.2](https://github.com/IBM/networking-node-sdk/compare/v0.35.1...v0.35.2) (2024-08-27)
+
+
+### Bug Fixes
+
+* fixing vulnerability: server-side request forgery in axios ([#135](https://github.com/IBM/networking-node-sdk/issues/135)) ([b31748f](https://github.com/IBM/networking-node-sdk/commit/b31748f421e27fad05434bc8f82e97c54b90b86b))
+
 ## [0.35.1](https://github.com/IBM/networking-node-sdk/compare/v0.35.0...v0.35.1) (2024-08-27)
 
 
