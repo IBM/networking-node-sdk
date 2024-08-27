@@ -32,21 +32,22 @@
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@types/extend": "^3.0.4",
     "@types/node": "^20.11.28",
     "extend": "^3.0.2",
-    "ibm-cloud-sdk-core": "^4.2.4"
+    "ibm-cloud-sdk-core": "^5.0.1"
   },
   "devDependencies": {
+    "@ibm-cloud/sdk-test-utilities": "^1.0.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "ansi-regex": "^6.0.1",
-    "axios": "^1.6.7",
+    "axios": "^1.7.4",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-google": "^0.14.0",
