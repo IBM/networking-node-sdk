@@ -38,26 +38,26 @@ import { getSdkHeaders } from '../lib/common';
  * API Version: __VERSION__
  */
 
-class TransitGatewayApisV1 extends BaseService {
+class TransitGatewayApiV1 extends BaseService {
   static DEFAULT_SERVICE_URL: string = 'https://transit.cloud.ibm.com/v1';
 
-  static DEFAULT_SERVICE_NAME: string = 'transit_gateway_apis';
+  static DEFAULT_SERVICE_NAME: string = 'transit_gateway_api';
 
   /*************************
    * Factory method
    ************************/
 
   /**
-   * Constructs an instance of TransitGatewayApisV1 with passed in options and external configuration.
+   * Constructs an instance of TransitGatewayApiV1 with passed in options and external configuration.
    *
    * @param {UserOptions} [options] - The parameters to send to the service.
    * @param {string} [options.serviceName] - The name of the service to configure
    * @param {Authenticator} [options.authenticator] - The Authenticator object used to authenticate requests to the service
    * @param {string} [options.serviceUrl] - The URL for the service
-   * @returns {TransitGatewayApisV1}
+   * @returns {TransitGatewayApiV1}
    */
 
-  public static newInstance(options: UserOptions): TransitGatewayApisV1 {
+  public static newInstance(options: UserOptions): TransitGatewayApiV1 {
     options = options || {};
 
     if (!options.serviceName) {
@@ -66,7 +66,7 @@ class TransitGatewayApisV1 extends BaseService {
     if (!options.authenticator) {
       options.authenticator = getAuthenticatorFromEnvironment(options.serviceName);
     }
-    const service = new TransitGatewayApisV1(options);
+    const service = new TransitGatewayApiV1(options);
     service.configureService(options.serviceName);
     if (options.serviceUrl) {
       service.setServiceUrl(options.serviceUrl);
@@ -80,7 +80,7 @@ class TransitGatewayApisV1 extends BaseService {
   version: string;
 
   /**
-   * Construct a TransitGatewayApisV1 object.
+   * Construct a TransitGatewayApiV1 object.
    *
    * @param {Object} options - Options for the service.
    * @param {string} options.version - Requests the version of the API as of a date in the format `YYYY-MM-DD`. Any date
@@ -89,7 +89,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [options.headers] - Default headers that shall be included with every request to the service.
    * @param {Authenticator} options.authenticator - The Authenticator object used to authenticate requests to the service
    * @constructor
-   * @returns {TransitGatewayApisV1}
+   * @returns {TransitGatewayApiV1}
    */
   constructor(options: UserOptions) {
     options = options || {};
@@ -103,7 +103,7 @@ class TransitGatewayApisV1 extends BaseService {
     if (options.serviceUrl) {
       this.setServiceUrl(options.serviceUrl);
     } else {
-      this.setServiceUrl(TransitGatewayApisV1.DEFAULT_SERVICE_URL);
+      this.setServiceUrl(TransitGatewayApiV1.DEFAULT_SERVICE_URL);
     }
     this.version = options.version;
   }
@@ -121,11 +121,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {number} [params.limit] - The maximum number of resources to return per page.
    * @param {string} [params.start] - A server supplied token determining which resource to start the page on.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayCollection>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayCollection>>}
    */
   public listTransitGateways(
-    params?: TransitGatewayApisV1.ListTransitGatewaysParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayCollection>> {
+    params?: TransitGatewayApiV1.ListTransitGatewaysParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayCollection>> {
     const _params = { ...params };
     const _requiredParams = [];
     const _validParams = ['limit', 'start', 'headers'];
@@ -141,7 +141,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'listTransitGateways'
     );
@@ -172,33 +172,33 @@ class TransitGatewayApisV1 extends BaseService {
    *
    * Create a Transit Gateway based on the supplied input template.
    *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.location - Location of Transit Gateway Services.
-   * @param {string} params.name - A human readable name for the transit gateway.
+   * @param {Object} [params] - The parameters to send to the service.
    * @param {boolean} [params.allowGreTrafficAcrossZones] - Allow GRE traffic in this gateway to flow across zones.
    * @param {boolean} [params.global] - Allow global routing for a Transit Gateway. If unspecified, the default value is
    * false.
+   * @param {string} [params.location] - Location of Transit Gateway Services.
+   * @param {string} [params.name] - A human readable name for the transit gateway.
    * @param {ResourceGroupIdentity} [params.resourceGroup] - The resource group to use. If unspecified, the account's
    * [default resource group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGateway>>}
    */
   public createTransitGateway(
-    params: TransitGatewayApisV1.CreateTransitGatewayParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
+    params?: TransitGatewayApiV1.CreateTransitGatewayParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGateway>> {
     const _params = { ...params };
-    const _requiredParams = ['location', 'name'];
-    const _validParams = ['location', 'name', 'allowGreTrafficAcrossZones', 'global', 'resourceGroup', 'headers'];
+    const _requiredParams = [];
+    const _validParams = ['allowGreTrafficAcrossZones', 'global', 'location', 'name', 'resourceGroup', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
 
     const body = {
-      'location': _params.location,
-      'name': _params.name,
       'allow_gre_traffic_across_zones': _params.allowGreTrafficAcrossZones,
       'global': _params.global,
+      'location': _params.location,
+      'name': _params.name,
       'resource_group': _params.resourceGroup,
     };
 
@@ -207,7 +207,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'createTransitGateway'
     );
@@ -244,11 +244,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - The Transit Gateway identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>>}
    */
   public deleteTransitGateway(
-    params: TransitGatewayApisV1.DeleteTransitGatewayParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>> {
+    params: TransitGatewayApiV1.DeleteTransitGatewayParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
     const _validParams = ['id', 'headers'];
@@ -266,7 +266,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'deleteTransitGateway'
     );
@@ -300,11 +300,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - The Transit Gateway identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGateway>>}
    */
   public getTransitGateway(
-    params: TransitGatewayApisV1.GetTransitGatewayParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
+    params: TransitGatewayApiV1.GetTransitGatewayParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGateway>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
     const _validParams = ['id', 'headers'];
@@ -322,7 +322,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'getTransitGateway'
     );
@@ -360,11 +360,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {boolean} [params.global] - Allow global routing for a Transit Gateway.
    * @param {string} [params.name] - A human readable name for a resource.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGateway>>}
    */
   public updateTransitGateway(
-    params: TransitGatewayApisV1.UpdateTransitGatewayParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
+    params: TransitGatewayApiV1.UpdateTransitGatewayParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGateway>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
     const _validParams = ['id', 'allowGreTrafficAcrossZones', 'global', 'name', 'headers'];
@@ -388,7 +388,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'updateTransitGateway'
     );
@@ -430,11 +430,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} [params.start] - A server supplied token determining which resource to start the page on.
    * @param {string} [params.networkId] - Search for connections with the given network_id value.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitConnectionCollection>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitConnectionCollection>>}
    */
   public listConnections(
-    params?: TransitGatewayApisV1.ListConnectionsParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitConnectionCollection>> {
+    params?: TransitGatewayApiV1.ListConnectionsParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitConnectionCollection>> {
     const _params = { ...params };
     const _requiredParams = [];
     const _validParams = ['limit', 'start', 'networkId', 'headers'];
@@ -451,7 +451,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'listConnections'
     );
@@ -491,11 +491,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {number} [params.limit] - The maximum number of resources to return per page.
    * @param {string} [params.name] - Search for connections with the given name.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCollection>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayConnectionCollection>>}
    */
   public listTransitGatewayConnections(
-    params: TransitGatewayApisV1.ListTransitGatewayConnectionsParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCollection>> {
+    params: TransitGatewayApiV1.ListTransitGatewayConnectionsParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayConnectionCollection>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId'];
     const _validParams = ['transitGatewayId', 'start', 'limit', 'name', 'headers'];
@@ -516,7 +516,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'listTransitGatewayConnections'
     );
@@ -637,11 +637,11 @@ class TransitGatewayApisV1 extends BaseService {
    * This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
    * `power_virtual_server` and `redundant_gre` connections.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayConnection>>}
    */
   public createTransitGatewayConnection(
-    params: TransitGatewayApisV1.CreateTransitGatewayConnectionParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
+    params: TransitGatewayApiV1.CreateTransitGatewayConnectionParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayConnection>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'networkType'];
     const _validParams = ['transitGatewayId', 'networkType', 'baseConnectionId', 'baseNetworkType', 'cidr', 'localGatewayIp', 'localTunnelIp', 'name', 'networkAccountId', 'networkId', 'prefixFilters', 'prefixFiltersDefault', 'remoteBgpAsn', 'remoteGatewayIp', 'remoteTunnelIp', 'tunnels', 'zone', 'headers'];
@@ -678,7 +678,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'createTransitGatewayConnection'
     );
@@ -717,11 +717,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.id - The connection identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>>}
    */
   public deleteTransitGatewayConnection(
-    params: TransitGatewayApisV1.DeleteTransitGatewayConnectionParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>> {
+    params: TransitGatewayApiV1.DeleteTransitGatewayConnectionParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id'];
     const _validParams = ['transitGatewayId', 'id', 'headers'];
@@ -740,7 +740,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'deleteTransitGatewayConnection'
     );
@@ -775,11 +775,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.id - The connection identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayConnection>>}
    */
   public getTransitGatewayConnection(
-    params: TransitGatewayApisV1.GetTransitGatewayConnectionParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
+    params: TransitGatewayApiV1.GetTransitGatewayConnectionParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayConnection>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id'];
     const _validParams = ['transitGatewayId', 'id', 'headers'];
@@ -798,7 +798,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'getTransitGatewayConnection'
     );
@@ -839,11 +839,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} [params.prefixFiltersDefault] - Default setting of permit or deny which applies to any routes that
    * don't match a specified filter.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayConnection>>}
    */
   public updateTransitGatewayConnection(
-    params: TransitGatewayApisV1.UpdateTransitGatewayConnectionParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
+    params: TransitGatewayApiV1.UpdateTransitGatewayConnectionParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayConnection>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id'];
     const _validParams = ['transitGatewayId', 'id', 'name', 'prefixFiltersDefault', 'headers'];
@@ -867,7 +867,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'updateTransitGatewayConnection'
     );
@@ -906,11 +906,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.id - The connection identifier.
    * @param {string} params.action - The action that is to be performed against the connection request.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>>}
    */
   public createTransitGatewayConnectionActions(
-    params: TransitGatewayApisV1.CreateTransitGatewayConnectionActionsParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>> {
+    params: TransitGatewayApiV1.CreateTransitGatewayConnectionActionsParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'action'];
     const _validParams = ['transitGatewayId', 'id', 'action', 'headers'];
@@ -933,7 +933,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'createTransitGatewayConnectionActions'
     );
@@ -970,11 +970,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.id - The connection identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnelCollection>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayTunnelCollection>>}
    */
   public listTransitGatewayGreTunnel(
-    params: TransitGatewayApisV1.ListTransitGatewayGreTunnelParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnelCollection>> {
+    params: TransitGatewayApiV1.ListTransitGatewayGreTunnelParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayTunnelCollection>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id'];
     const _validParams = ['transitGatewayId', 'id', 'headers'];
@@ -993,7 +993,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'listTransitGatewayGreTunnel'
     );
@@ -1042,11 +1042,11 @@ class TransitGatewayApisV1 extends BaseService {
    * unavailable 0, 13884, 36351, 64512-64513, 65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
    * `remote_bgp_asn` is omitted on create requests, IBM will assign an ASN.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayTunnel>>}
    */
   public createTransitGatewayGreTunnel(
-    params: TransitGatewayApisV1.CreateTransitGatewayGreTunnelParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>> {
+    params: TransitGatewayApiV1.CreateTransitGatewayGreTunnelParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayTunnel>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'localGatewayIp', 'localTunnelIp', 'name', 'remoteGatewayIp', 'remoteTunnelIp', 'zone'];
     const _validParams = ['transitGatewayId', 'id', 'localGatewayIp', 'localTunnelIp', 'name', 'remoteGatewayIp', 'remoteTunnelIp', 'zone', 'remoteBgpAsn', 'headers'];
@@ -1075,7 +1075,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'createTransitGatewayGreTunnel'
     );
@@ -1114,11 +1114,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.id - The connection identifier.
    * @param {string} params.greTunnelId - The tunnel identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>>}
    */
   public deleteTransitGatewayConnectionTunnels(
-    params: TransitGatewayApisV1.DeleteTransitGatewayConnectionTunnelsParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>> {
+    params: TransitGatewayApiV1.DeleteTransitGatewayConnectionTunnelsParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'greTunnelId'];
     const _validParams = ['transitGatewayId', 'id', 'greTunnelId', 'headers'];
@@ -1138,7 +1138,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'deleteTransitGatewayConnectionTunnels'
     );
@@ -1174,11 +1174,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.id - The connection identifier.
    * @param {string} params.greTunnelId - The tunnel identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayTunnel>>}
    */
   public getTransitGatewayConnectionTunnels(
-    params: TransitGatewayApisV1.GetTransitGatewayConnectionTunnelsParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>> {
+    params: TransitGatewayApiV1.GetTransitGatewayConnectionTunnelsParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayTunnel>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'greTunnelId'];
     const _validParams = ['transitGatewayId', 'id', 'greTunnelId', 'headers'];
@@ -1198,7 +1198,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'getTransitGatewayConnectionTunnels'
     );
@@ -1236,11 +1236,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.greTunnelId - The tunnel identifier.
    * @param {string} [params.name] - The user-defined name for this connection tunnel.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayTunnel>>}
    */
   public updateTransitGatewayConnectionTunnels(
-    params: TransitGatewayApisV1.UpdateTransitGatewayConnectionTunnelsParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>> {
+    params: TransitGatewayApiV1.UpdateTransitGatewayConnectionTunnelsParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TransitGatewayTunnel>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'greTunnelId'];
     const _validParams = ['transitGatewayId', 'id', 'greTunnelId', 'name', 'headers'];
@@ -1264,7 +1264,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'updateTransitGatewayConnectionTunnels'
     );
@@ -1303,11 +1303,11 @@ class TransitGatewayApisV1 extends BaseService {
    *
    * @param {Object} [params] - The parameters to send to the service.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSCollection>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TSCollection>>}
    */
   public listGatewayLocations(
-    params?: TransitGatewayApisV1.ListGatewayLocationsParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSCollection>> {
+    params?: TransitGatewayApiV1.ListGatewayLocationsParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TSCollection>> {
     const _params = { ...params };
     const _requiredParams = [];
     const _validParams = ['headers'];
@@ -1321,7 +1321,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'listGatewayLocations'
     );
@@ -1355,11 +1355,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.name - The Transit Gateway location Name.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSLocation>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TSLocation>>}
    */
   public getGatewayLocation(
-    params: TransitGatewayApisV1.GetGatewayLocationParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TSLocation>> {
+    params: TransitGatewayApiV1.GetGatewayLocationParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.TSLocation>> {
     const _params = { ...params };
     const _requiredParams = ['name'];
     const _validParams = ['name', 'headers'];
@@ -1377,7 +1377,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'getGatewayLocation'
     );
@@ -1416,11 +1416,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.id - The connection identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCollection>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.PrefixFilterCollection>>}
    */
   public listTransitGatewayConnectionPrefixFilters(
-    params: TransitGatewayApisV1.ListTransitGatewayConnectionPrefixFiltersParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCollection>> {
+    params: TransitGatewayApiV1.ListTransitGatewayConnectionPrefixFiltersParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.PrefixFilterCollection>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id'];
     const _validParams = ['transitGatewayId', 'id', 'headers'];
@@ -1439,7 +1439,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'listTransitGatewayConnectionPrefixFilters'
     );
@@ -1501,11 +1501,11 @@ class TransitGatewayApisV1 extends BaseService {
    * or less then or equal to 32. If this value is set to zero, the filter will not use the `le` route matching
    * behavior. If the `ge` value is non-zero the the `le` value must between the `ge` value and 32, inclusive.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.PrefixFilterCust>>}
    */
   public createTransitGatewayConnectionPrefixFilter(
-    params: TransitGatewayApisV1.CreateTransitGatewayConnectionPrefixFilterParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>> {
+    params: TransitGatewayApiV1.CreateTransitGatewayConnectionPrefixFilterParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.PrefixFilterCust>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'action', 'prefix'];
     const _validParams = ['transitGatewayId', 'id', 'action', 'prefix', 'before', 'ge', 'le', 'headers'];
@@ -1532,7 +1532,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'createTransitGatewayConnectionPrefixFilter'
     );
@@ -1571,11 +1571,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.id - The connection identifier.
    * @param {PrefixFilterPut[]} params.prefixFilters - Array of prefix filters.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCollection>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.PrefixFilterCollection>>}
    */
   public replaceTransitGatewayConnectionPrefixFilter(
-    params: TransitGatewayApisV1.ReplaceTransitGatewayConnectionPrefixFilterParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCollection>> {
+    params: TransitGatewayApiV1.ReplaceTransitGatewayConnectionPrefixFilterParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.PrefixFilterCollection>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'prefixFilters'];
     const _validParams = ['transitGatewayId', 'id', 'prefixFilters', 'headers'];
@@ -1598,7 +1598,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'replaceTransitGatewayConnectionPrefixFilter'
     );
@@ -1637,11 +1637,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.id - The connection identifier.
    * @param {string} params.filterId - Prefix filter identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>>}
    */
   public deleteTransitGatewayConnectionPrefixFilter(
-    params: TransitGatewayApisV1.DeleteTransitGatewayConnectionPrefixFilterParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>> {
+    params: TransitGatewayApiV1.DeleteTransitGatewayConnectionPrefixFilterParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'filterId'];
     const _validParams = ['transitGatewayId', 'id', 'filterId', 'headers'];
@@ -1661,7 +1661,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'deleteTransitGatewayConnectionPrefixFilter'
     );
@@ -1697,11 +1697,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.id - The connection identifier.
    * @param {string} params.filterId - Prefix filter identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.PrefixFilterCust>>}
    */
   public getTransitGatewayConnectionPrefixFilter(
-    params: TransitGatewayApisV1.GetTransitGatewayConnectionPrefixFilterParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>> {
+    params: TransitGatewayApiV1.GetTransitGatewayConnectionPrefixFilterParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.PrefixFilterCust>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'filterId'];
     const _validParams = ['transitGatewayId', 'id', 'filterId', 'headers'];
@@ -1721,7 +1721,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'getTransitGatewayConnectionPrefixFilter'
     );
@@ -1781,11 +1781,11 @@ class TransitGatewayApisV1 extends BaseService {
    * behavior. If the `ge` value is non-zero the the `le` value must between the `ge` value and 32, inclusive.
    * @param {string} [params.prefix] - The IPv4 Prefix to be matched by this filter.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.PrefixFilterCust>>}
    */
   public updateTransitGatewayConnectionPrefixFilter(
-    params: TransitGatewayApisV1.UpdateTransitGatewayConnectionPrefixFilterParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>> {
+    params: TransitGatewayApiV1.UpdateTransitGatewayConnectionPrefixFilterParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.PrefixFilterCust>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'filterId'];
     const _validParams = ['transitGatewayId', 'id', 'filterId', 'action', 'before', 'ge', 'le', 'prefix', 'headers'];
@@ -1813,7 +1813,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'updateTransitGatewayConnectionPrefixFilter'
     );
@@ -1854,11 +1854,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RouteReportCollection>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.RouteReportCollection>>}
    */
   public listTransitGatewayRouteReports(
-    params: TransitGatewayApisV1.ListTransitGatewayRouteReportsParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RouteReportCollection>> {
+    params: TransitGatewayApiV1.ListTransitGatewayRouteReportsParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.RouteReportCollection>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId'];
     const _validParams = ['transitGatewayId', 'headers'];
@@ -1876,7 +1876,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'listTransitGatewayRouteReports'
     );
@@ -1912,11 +1912,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RouteReport>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.RouteReport>>}
    */
   public createTransitGatewayRouteReport(
-    params: TransitGatewayApisV1.CreateTransitGatewayRouteReportParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RouteReport>> {
+    params: TransitGatewayApiV1.CreateTransitGatewayRouteReportParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.RouteReport>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId'];
     const _validParams = ['transitGatewayId', 'headers'];
@@ -1934,7 +1934,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'createTransitGatewayRouteReport'
     );
@@ -1970,11 +1970,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.id - Route report identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>>}
    */
   public deleteTransitGatewayRouteReport(
-    params: TransitGatewayApisV1.DeleteTransitGatewayRouteReportParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.EmptyObject>> {
+    params: TransitGatewayApiV1.DeleteTransitGatewayRouteReportParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id'];
     const _validParams = ['transitGatewayId', 'id', 'headers'];
@@ -1993,7 +1993,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'deleteTransitGatewayRouteReport'
     );
@@ -2028,11 +2028,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.id - Route report identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RouteReport>>}
+   * @returns {Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.RouteReport>>}
    */
   public getTransitGatewayRouteReport(
-    params: TransitGatewayApisV1.GetTransitGatewayRouteReportParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RouteReport>> {
+    params: TransitGatewayApiV1.GetTransitGatewayRouteReportParams
+  ): Promise<TransitGatewayApiV1.Response<TransitGatewayApiV1.RouteReport>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id'];
     const _validParams = ['transitGatewayId', 'id', 'headers'];
@@ -2051,7 +2051,7 @@ class TransitGatewayApisV1 extends BaseService {
     };
 
     const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      TransitGatewayApiV1.DEFAULT_SERVICE_NAME,
       'v1',
       'getTransitGatewayRouteReport'
     );
@@ -2083,8 +2083,8 @@ class TransitGatewayApisV1 extends BaseService {
  * interfaces
  ************************/
 
-namespace TransitGatewayApisV1 {
-  /** Options for the `TransitGatewayApisV1` constructor. */
+namespace TransitGatewayApiV1 {
+  /** Options for the `TransitGatewayApiV1` constructor. */
   export interface Options extends UserOptions {
     /** Requests the version of the API as of a date in the format `YYYY-MM-DD`. Any date up to the current date may
      *  be provided. Specify the current date to request the latest version.
@@ -2126,14 +2126,14 @@ namespace TransitGatewayApisV1 {
 
   /** Parameters for the `createTransitGateway` operation. */
   export interface CreateTransitGatewayParams {
-    /** Location of Transit Gateway Services. */
-    location: string;
-    /** A human readable name for the transit gateway. */
-    name: string;
     /** Allow GRE traffic in this gateway to flow across zones. */
     allowGreTrafficAcrossZones?: boolean;
     /** Allow global routing for a Transit Gateway. If unspecified, the default value is false. */
     global?: boolean;
+    /** Location of Transit Gateway Services. */
+    location?: string;
+    /** A human readable name for the transit gateway. */
+    name?: string;
     /** The resource group to use. If unspecified, the account's [default resource
      *  group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
      */
@@ -3089,98 +3089,6 @@ namespace TransitGatewayApisV1 {
 
   /** Connection included in transit gateway. */
   export interface TransitGatewayConnectionCust {
-    /** Deprecated: network_type `gre_tunnel` connections use `base_connection_id` to specify the ID of a
-     *  network_type `classic` connection the tunnel is configured over. The specified connection must reside in the
-     *  same transit gateway and be in an active state. The `classic` connection cannot be deleted until any
-     *  `gre_tunnel` connections using it are deleted. This field only applies to and is required for network type
-     *  `gre_tunnel` connections.
-     */
-    base_connection_id?: string;
-    /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type
-     *  `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required
-     *  and can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `vmware`,
-     *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
-     */
-    base_network_type?: string;
-    /** network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels. */
-    cidr?: string;
-    /** The date and time that this connection was created. */
-    created_at: string;
-    /** The unique identifier for this Transit Gateway connection. */
-    id: string;
-    /** Local network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
-     *  connections.
-     */
-    local_bgp_asn?: number;
-    /** Local gateway IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
-     *  connections.
-     */
-    local_gateway_ip?: string;
-    /** Local tunnel IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
-     *  connections.
-     */
-    local_tunnel_ip?: string;
-    /** GRE tunnel MTU.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections. */
-    mtu?: number;
-    /** The user-defined name for this transit gateway connection. Network type `vpc`  connections are defaulted to
-     *  the name of the VPC.  Network type `classic` connections are named `classic`.
-     *
-     *  This field is required for network type `power_virtual_server`, `directlink`, `vmware`, `gre_tunnel`,
-     *  `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
-     *
-     *  This field is optional for network type `classic`, `vpc` connections.
-     */
-    name?: string;
-    /** The ID of the account which owns the connected network. Generally only used if the network is in a different
-     *  IBM Cloud account than the gateway.
-     */
-    network_account_id?: string;
-    /** The ID of the network being connected via this connection. For network types `vpc`,`power_virtual_server`,
-     *  `vmware`, `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC / Direct Link / VPN gateway
-     *  respectively. This field is required for network type `vpc`, `power_virtual_server`, `vmware`, `vpn_gateway`,
-     *  and `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is
-     *  set to VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and
-     *  `unbound_gre_tunnel` connections.
-     */
-    network_id?: string;
-    /** Defines what type of network is connected via this connection. */
-    network_type?: string;
-    /** Array of prefix route filters for a transit gateway connection. This is order dependent with those first in
-     *  the array being applied first, and those at the end of the array is applied last, or just before the default.
-     *  This field does not apply to the `redundant_gre` network type.
-     */
-    prefix_filters?: TransitGatewayConnectionPrefixFilterReference[];
-    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This
-     *  field does not apply to the `redundant_gre` network type.
-     */
-    prefix_filters_default?: string;
-    /** Remote network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
-     *  connections.
-     */
-    remote_bgp_asn?: number;
-    /** Remote gateway IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
-     *  connections.
-     */
-    remote_gateway_ip?: string;
-    /** Remote tunnel IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
-     *  connections.
-     */
-    remote_tunnel_ip?: string;
-    /** Only visible for cross account connections, this field represents the status of a connection request between
-     *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
-     *  using this field must tolerate unexpected values.
-     */
-    request_status: string;
-    /** Connection's current configuration state. The list of enumerated values for this property may expand in the
-     *  future. Code and processes using this field must tolerate unexpected values.
-     */
-    status: string;
-    /** Collection of all tunnels for `redundant_gre` connection. */
-    tunnels?: TransitGatewayTunnel[];
-    /** The date and time that this connection was last updated. */
-    updated_at: string;
-    /** Location of GRE tunnel. This field only applies to network type `gre_tunnel` connections. */
-    zone?: ZoneReference;
   }
 
   /** A prefix filter for a Transit Gateway connection. */
@@ -3349,21 +3257,21 @@ namespace TransitGatewayApisV1 {
     protected _hasNext: boolean;
     protected pageContext: any;
 
-    protected client: TransitGatewayApisV1;
+    protected client: TransitGatewayApiV1;
 
-    protected params: TransitGatewayApisV1.ListTransitGatewaysParams;
+    protected params: TransitGatewayApiV1.ListTransitGatewaysParams;
 
     /**
      * Construct a TransitGatewaysPager object.
      *
-     * @param {TransitGatewayApisV1}  client - The service client instance used to invoke listTransitGateways()
+     * @param {TransitGatewayApiV1}  client - The service client instance used to invoke listTransitGateways()
      * @param {Object} [params] - The parameters to be passed to listTransitGateways()
      * @constructor
      * @returns {TransitGatewaysPager}
      */
     constructor(
-      client: TransitGatewayApisV1,
-      params?: TransitGatewayApisV1.ListTransitGatewaysParams
+      client: TransitGatewayApiV1,
+      params?: TransitGatewayApiV1.ListTransitGatewaysParams
     ) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
@@ -3385,9 +3293,9 @@ namespace TransitGatewayApisV1 {
 
     /**
      * Returns the next page of results by invoking listTransitGateways().
-     * @returns {Promise<TransitGatewayApisV1.TransitGateway[]>}
+     * @returns {Promise<TransitGatewayApiV1.TransitGateway[]>}
      */
-    public async getNext(): Promise<TransitGatewayApisV1.TransitGateway[]> {
+    public async getNext(): Promise<TransitGatewayApiV1.TransitGateway[]> {
       if (!this.hasNext()) {
         throw new Error('No more results available');
       }
@@ -3411,9 +3319,9 @@ namespace TransitGatewayApisV1 {
 
     /**
      * Returns all results by invoking listTransitGateways() repeatedly until all pages of results have been retrieved.
-     * @returns {Promise<TransitGatewayApisV1.TransitGateway[]>}
+     * @returns {Promise<TransitGatewayApiV1.TransitGateway[]>}
      */
-    public async getAll(): Promise<TransitGatewayApisV1.TransitGateway[]> {
+    public async getAll(): Promise<TransitGatewayApiV1.TransitGateway[]> {
       const results: TransitGateway[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
@@ -3430,21 +3338,21 @@ namespace TransitGatewayApisV1 {
     protected _hasNext: boolean;
     protected pageContext: any;
 
-    protected client: TransitGatewayApisV1;
+    protected client: TransitGatewayApiV1;
 
-    protected params: TransitGatewayApisV1.ListConnectionsParams;
+    protected params: TransitGatewayApiV1.ListConnectionsParams;
 
     /**
      * Construct a ConnectionsPager object.
      *
-     * @param {TransitGatewayApisV1}  client - The service client instance used to invoke listConnections()
+     * @param {TransitGatewayApiV1}  client - The service client instance used to invoke listConnections()
      * @param {Object} [params] - The parameters to be passed to listConnections()
      * @constructor
      * @returns {ConnectionsPager}
      */
     constructor(
-      client: TransitGatewayApisV1,
-      params?: TransitGatewayApisV1.ListConnectionsParams
+      client: TransitGatewayApiV1,
+      params?: TransitGatewayApiV1.ListConnectionsParams
     ) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
@@ -3466,9 +3374,9 @@ namespace TransitGatewayApisV1 {
 
     /**
      * Returns the next page of results by invoking listConnections().
-     * @returns {Promise<TransitGatewayApisV1.TransitConnection[]>}
+     * @returns {Promise<TransitGatewayApiV1.TransitConnection[]>}
      */
-    public async getNext(): Promise<TransitGatewayApisV1.TransitConnection[]> {
+    public async getNext(): Promise<TransitGatewayApiV1.TransitConnection[]> {
       if (!this.hasNext()) {
         throw new Error('No more results available');
       }
@@ -3492,9 +3400,9 @@ namespace TransitGatewayApisV1 {
 
     /**
      * Returns all results by invoking listConnections() repeatedly until all pages of results have been retrieved.
-     * @returns {Promise<TransitGatewayApisV1.TransitConnection[]>}
+     * @returns {Promise<TransitGatewayApiV1.TransitConnection[]>}
      */
-    public async getAll(): Promise<TransitGatewayApisV1.TransitConnection[]> {
+    public async getAll(): Promise<TransitGatewayApiV1.TransitConnection[]> {
       const results: TransitConnection[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
@@ -3511,21 +3419,21 @@ namespace TransitGatewayApisV1 {
     protected _hasNext: boolean;
     protected pageContext: any;
 
-    protected client: TransitGatewayApisV1;
+    protected client: TransitGatewayApiV1;
 
-    protected params: TransitGatewayApisV1.ListTransitGatewayConnectionsParams;
+    protected params: TransitGatewayApiV1.ListTransitGatewayConnectionsParams;
 
     /**
      * Construct a TransitGatewayConnectionsPager object.
      *
-     * @param {TransitGatewayApisV1}  client - The service client instance used to invoke listTransitGatewayConnections()
+     * @param {TransitGatewayApiV1}  client - The service client instance used to invoke listTransitGatewayConnections()
      * @param {Object} params - The parameters to be passed to listTransitGatewayConnections()
      * @constructor
      * @returns {TransitGatewayConnectionsPager}
      */
     constructor(
-      client: TransitGatewayApisV1,
-      params: TransitGatewayApisV1.ListTransitGatewayConnectionsParams
+      client: TransitGatewayApiV1,
+      params: TransitGatewayApiV1.ListTransitGatewayConnectionsParams
     ) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
@@ -3547,9 +3455,9 @@ namespace TransitGatewayApisV1 {
 
     /**
      * Returns the next page of results by invoking listTransitGatewayConnections().
-     * @returns {Promise<TransitGatewayApisV1.TransitGatewayConnectionCust[]>}
+     * @returns {Promise<TransitGatewayApiV1.TransitGatewayConnectionCust[]>}
      */
-    public async getNext(): Promise<TransitGatewayApisV1.TransitGatewayConnectionCust[]> {
+    public async getNext(): Promise<TransitGatewayApiV1.TransitGatewayConnectionCust[]> {
       if (!this.hasNext()) {
         throw new Error('No more results available');
       }
@@ -3573,9 +3481,9 @@ namespace TransitGatewayApisV1 {
 
     /**
      * Returns all results by invoking listTransitGatewayConnections() repeatedly until all pages of results have been retrieved.
-     * @returns {Promise<TransitGatewayApisV1.TransitGatewayConnectionCust[]>}
+     * @returns {Promise<TransitGatewayApiV1.TransitGatewayConnectionCust[]>}
      */
-    public async getAll(): Promise<TransitGatewayApisV1.TransitGatewayConnectionCust[]> {
+    public async getAll(): Promise<TransitGatewayApiV1.TransitGatewayConnectionCust[]> {
       const results: TransitGatewayConnectionCust[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
@@ -3586,4 +3494,4 @@ namespace TransitGatewayApisV1 {
   }
 }
 
-export = TransitGatewayApisV1;
+export = TransitGatewayApiV1;
