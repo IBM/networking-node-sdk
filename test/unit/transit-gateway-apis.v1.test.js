@@ -16,6 +16,7 @@
 
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const sdkCorePackage = require('ibm-cloud-sdk-core');
+
 const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
 
 const TransitGatewayApisV1 = require('../../dist/transit-gateway-apis/v1');
@@ -29,7 +30,7 @@ const {
   checkMediaHeaders,
   expectToBePromise,
   checkForSuccessfulExecution,
-} = require('@ibm-cloud/sdk-test-utilities');
+} = unitTestUtils;
 
 const transitGatewayApisServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
