@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.90.0-5aad763d-20240506-203857
+ * IBM OpenAPI SDK Code Generator Version: 3.73.0-eeee85a9-20230607-165104
  */
 
 /* eslint-disable max-classes-per-file */
@@ -26,9 +26,9 @@ import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import {
   Authenticator,
   BaseService,
-  UserOptions,
   getAuthenticatorFromEnvironment,
   validateParams,
+  UserOptions,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
 
@@ -53,7 +53,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {UserOptions} [options] - The parameters to send to the service.
    * @param {string} [options.serviceName] - The name of the service to configure
    * @param {Authenticator} [options.authenticator] - The Authenticator object used to authenticate requests to the service
-   * @param {string} [options.serviceUrl] - The base URL for the service
+   * @param {string} [options.serviceUrl] - The URL for the service
    * @returns {TransitGatewayApisV1}
    */
 
@@ -85,7 +85,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {Object} options - Options for the service.
    * @param {string} options.version - Requests the version of the API as of a date in the format `YYYY-MM-DD`. Any date
    * up to the current date may be provided. Specify the current date to request the latest version.
-   * @param {string} [options.serviceUrl] - The base URL for the service
+   * @param {string} [options.serviceUrl] - The base url to use when contacting the service. The base url may differ between IBM Cloud regions.
    * @param {OutgoingHttpHeaders} [options.headers] - Default headers that shall be included with every request to the service.
    * @param {Authenticator} options.authenticator - The Authenticator object used to authenticate requests to the service
    * @constructor
@@ -140,7 +140,11 @@ class TransitGatewayApisV1 extends BaseService {
       'start': _params.start,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listTransitGateways');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listTransitGateways'
+    );
 
     const parameters = {
       options: {
@@ -170,7 +174,8 @@ class TransitGatewayApisV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.location - Location of Transit Gateway Services.
-   * @param {string} params.name - Name Transit Gateway Services.
+   * @param {string} params.name - A human readable name for the transit gateway.
+   * @param {boolean} [params.allowGreTrafficAcrossZones] - Allow GRE traffic in this gateway to flow across zones.
    * @param {boolean} [params.global] - Allow global routing for a Transit Gateway. If unspecified, the default value is
    * false.
    * @param {ResourceGroupIdentity} [params.resourceGroup] - The resource group to use. If unspecified, the account's
@@ -183,7 +188,7 @@ class TransitGatewayApisV1 extends BaseService {
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
     const _params = { ...params };
     const _requiredParams = ['location', 'name'];
-    const _validParams = ['location', 'name', 'global', 'resourceGroup', 'headers'];
+    const _validParams = ['location', 'name', 'allowGreTrafficAcrossZones', 'global', 'resourceGroup', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -192,6 +197,7 @@ class TransitGatewayApisV1 extends BaseService {
     const body = {
       'location': _params.location,
       'name': _params.name,
+      'allow_gre_traffic_across_zones': _params.allowGreTrafficAcrossZones,
       'global': _params.global,
       'resource_group': _params.resourceGroup,
     };
@@ -200,7 +206,11 @@ class TransitGatewayApisV1 extends BaseService {
       'version': this.version,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGateway');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createTransitGateway'
+    );
 
     const parameters = {
       options: {
@@ -255,7 +265,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteTransitGateway');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteTransitGateway'
+    );
 
     const parameters = {
       options: {
@@ -307,7 +321,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGateway');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getTransitGateway'
+    );
 
     const parameters = {
       options: {
@@ -338,8 +356,9 @@ class TransitGatewayApisV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - The Transit Gateway identifier.
+   * @param {boolean} [params.allowGreTrafficAcrossZones] - Allow GRE traffic in this gateway to flow across zones.
    * @param {boolean} [params.global] - Allow global routing for a Transit Gateway.
-   * @param {string} [params.name] - The user-defined name for this transit gateway.
+   * @param {string} [params.name] - A human readable name for a resource.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>>}
    */
@@ -348,13 +367,14 @@ class TransitGatewayApisV1 extends BaseService {
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'global', 'name', 'headers'];
+    const _validParams = ['id', 'allowGreTrafficAcrossZones', 'global', 'name', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
 
     const body = {
+      'allow_gre_traffic_across_zones': _params.allowGreTrafficAcrossZones,
       'global': _params.global,
       'name': _params.name,
     };
@@ -367,7 +387,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'updateTransitGateway');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateTransitGateway'
+    );
 
     const parameters = {
       options: {
@@ -426,7 +450,11 @@ class TransitGatewayApisV1 extends BaseService {
       'network_id': _params.networkId,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listConnections');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listConnections'
+    );
 
     const parameters = {
       options: {
@@ -487,7 +515,11 @@ class TransitGatewayApisV1 extends BaseService {
       'transit_gateway_id': _params.transitGatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listTransitGatewayConnections');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listTransitGatewayConnections'
+    );
 
     const parameters = {
       options: {
@@ -512,89 +544,98 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Add connection to a Transit Gateway.
+   * Adds a connection to a Transit Gateway.
    *
    * Add a connection to Transit Gateway.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.networkType - Defines what type of network is connected via this connection.
-   * @param {string} [params.baseConnectionId] - Deprecated: network_type 'gre_tunnel' connections must be created over
-   * an existing network_type 'classic' connection. This field must specify the ID of an active transit gateway
-   * network_type 'classic' connection in the same transit gateway.
+   * @param {string} [params.baseConnectionId] - Deprecated: network_type `gre_tunnel` connections must be created over
+   * an existing network_type `classic` connection. This field must specify the ID of an active transit gateway
+   * network_type `classic` connection in the same transit gateway.
    *
-   * This field is required for network type 'gre_tunnel' connections.
+   * This field is required for network type `gre_tunnel` connections.
    *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
-   * 'power_virtual_server', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+   * `power_virtual_server`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
    * @param {string} [params.baseNetworkType] - The type of network the Unbound GRE tunnel is targeting. This field is
-   * required for network type 'unbound_gre_tunnel' and must be set to 'classic'.  For a 'redundant_gre' network type,
+   * required for network type `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type,
    * the value is required and can be either VPC or Classic. This field is required to be unspecified for network type
-   * 'classic', 'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
+   * `classic`, `vmware`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
+   * @param {string} [params.cidr] - network_type 'vpn_gateway' connections use 'cdr' to specify the CIDR to use for the
+   * VPN GRE tunnels.
+   *
+   * This field is required for network type `vpn_gateway` connections.
+   *
+   * This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+   * `power_virtual_server`, `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
    * @param {string} [params.localGatewayIp] - Local gateway IP address. This field is required for network type
-   * 'gre_tunnel' and 'unbound_gre_tunnel' connections. This field is required to be unspecified for network type
-   * 'classic', 'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre' connections.
+   * `gre_tunnel` and `unbound_gre_tunnel` connections. This field is required to be unspecified for network type
+   * `classic`, `vmware`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
    * @param {string} [params.localTunnelIp] - Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip
    * addresses must be in the same /30 network. Neither can be the network nor broadcast addresses.
    *
-   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
-   * and 'redundant_gre' connections.
-   * @param {string} [params.name] - The user-defined name for this transit gateway connection. Network type 'vpc'
-   * connections are defaulted to the name of the VPC.  Network type 'classic' connections are named 'Classic'.
+   * This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+   * `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
+   * @param {string} [params.name] - The user-defined name for this transit gateway connection. Network type `vpc`
+   * connections are defaulted to the name of the VPC.  Network type `classic` connections are named `classic`.
    *
-   * This field is required for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * This field is required for network type `power_virtual_server`, `directlink`, `vmware`, `gre_tunnel`,
+   * `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
    *
-   * This field is optional for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
+   * This field is optional for network type `classic`, `vpc` connections.
    * @param {string} [params.networkAccountId] - The ID of the account which owns the network that is being connected.
    * Generally only used if the network is in a different account than the gateway. This field is required for type
-   * 'unbound_gre_tunnel' when the associated_network_type is 'classic' or network_type is 'redundant_gre' and the GRE
+   * `unbound_gre_tunnel` when the associated_network_type is `classic` or network_type is `redundant_gre` and the GRE
    * tunnel is in a different account than the gateway.
    * @param {string} [params.networkId] - The ID of the network being connected via this connection. For network types
-   * 'vpc','power_virtual_server' and 'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway
-   * respectively. This field is required for network type 'vpc', 'power_virtual_server' and 'directlink' connections.
-   * It is also required for 'redundant_gre' connections when the base_network_type is set to VPC. This field is
-   * required to be unspecified for network type 'classic', 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * `vpc`,`power_virtual_server`, `vmware`, `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC /
+   * Direct Link / VPN gateway respectively. This field is required for network type `vpc`, `power_virtual_server`,
+   * `vmware`, `vpn_gateway`, and `directlink` connections.  It is also required for `redundant_gre` connections when
+   * the base_network_type is set to VPC. This field is required to be unspecified for network type `classic`,
+   * `gre_tunnel` and `unbound_gre_tunnel` connections.
    * @param {TransitGatewayConnectionPrefixFilter[]} [params.prefixFilters] - Array of prefix route filters for a
-   * transit gateway connection. Prefix filters can be specified for netowrk type 'vpc', 'classic',
-   * 'power_virtual_server' and 'directlink' connections. They are not allowed for type 'gre_tunnel' connections. This
+   * transit gateway connection. Prefix filters can be specified for netowrk type `vpc`, `classic`,
+   * `power_virtual_server` and `directlink` connections. They are not allowed for type `gre_tunnel` connections. This
    * is order dependent with those first in the array being applied first, and those at the end of the array being
-   * applied last, or just before applying the default. This field is optional for network type 'classic', 'vpc',
-   * 'directlink', and 'power_virtual_server' connections. This field is required to be unspecified for network type
-   * 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * applied last, or just before applying the default. This field is optional for network type `classic`, `vpc`,
+   * `directlink`, and `power_virtual_server` connections. This field is required to be unspecified for network type
+   * `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
    * @param {string} [params.prefixFiltersDefault] - Default setting of permit or deny which applies to any routes that
-   * don't match a specified filter. This field is optional for network type 'classic', 'vpc', 'directlink', and
-   * 'power_virtual_server' connections. This field is required to be unspecified for network type 'gre_tunnel',
-   * 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * don't match a specified filter. This field is optional for network type `classic`, `vpc`, `directlink`, and
+   * `power_virtual_server` connections. This field is required to be unspecified for network type `gre_tunnel`,
+   * `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
    * @param {number} [params.remoteBgpAsn] - Remote network BGP ASN. The following ASN values are reserved and
    * unavailable 0, 13884, 36351, 64512-64513, 65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
-   * 'remote_bgp_asn' is omitted on gre_tunnel or unbound_gre_tunnel connection create requests IBM will assign an ASN.
+   * `remote_bgp_asn` is omitted on gre_tunnel or unbound_gre_tunnel connection create requests IBM will assign an ASN.
    *
-   * This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * This field is optional for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
-   * and 'gre_tunnel' connections.
+   * This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+   * `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
    * @param {string} [params.remoteGatewayIp] - Remote gateway IP address. This field is required for network type
-   * 'gre_tunnel' and 'unbound_gre_tunnel' connections. This field is required to be unspecified for network type
-   * 'classic', 'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre' connections.
+   * `gre_tunnel` and `unbound_gre_tunnel` connections. This field is required to be unspecified for network type
+   * `classic`, `vmware`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
    * @param {string} [params.remoteTunnelIp] - Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip
    * addresses must be in the same /30 network. Neither can be the network nor broadcast addresses.
    *
-   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',  'power_virtual_server'
-   * and 'redundant_gre' connections.
-   * @param {TransitGatewayRedundantGRETunnelTemplate[]} [params.tunnels] - Array of GRE tunnels for a transit gateway
-   * redundant GRE tunnel connection.  This field is required for 'redundant_gre' connections.
+   * This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+   * `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
+   * @param {TransitGatewayTunnelTemplate[]} [params.tunnels] - Array of GRE tunnels for a transit gateway redundant GRE
+   * tunnel connection.  This field is required for `redundant_gre` connections.
    * @param {ZoneIdentity} [params.zone] - Specify the connection's location.  The specified availability zone must
    * reside in the gateway's region.
    * Use the IBM Cloud global catalog to list zones within the desired region.
    *
-   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * This field is required for network type `gre_tunnel`, `unbound_gre_tunnel` and `vpn_gateway` connections.
    *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
-   * and 'redundant_gre' connections.
+   * This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+   * `power_virtual_server` and `redundant_gre` connections.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
    */
@@ -603,7 +644,7 @@ class TransitGatewayApisV1 extends BaseService {
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'networkType'];
-    const _validParams = ['transitGatewayId', 'networkType', 'baseConnectionId', 'baseNetworkType', 'localGatewayIp', 'localTunnelIp', 'name', 'networkAccountId', 'networkId', 'prefixFilters', 'prefixFiltersDefault', 'remoteBgpAsn', 'remoteGatewayIp', 'remoteTunnelIp', 'tunnels', 'zone', 'headers'];
+    const _validParams = ['transitGatewayId', 'networkType', 'baseConnectionId', 'baseNetworkType', 'cidr', 'localGatewayIp', 'localTunnelIp', 'name', 'networkAccountId', 'networkId', 'prefixFilters', 'prefixFiltersDefault', 'remoteBgpAsn', 'remoteGatewayIp', 'remoteTunnelIp', 'tunnels', 'zone', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -613,6 +654,7 @@ class TransitGatewayApisV1 extends BaseService {
       'network_type': _params.networkType,
       'base_connection_id': _params.baseConnectionId,
       'base_network_type': _params.baseNetworkType,
+      'cidr': _params.cidr,
       'local_gateway_ip': _params.localGatewayIp,
       'local_tunnel_ip': _params.localTunnelIp,
       'name': _params.name,
@@ -635,7 +677,11 @@ class TransitGatewayApisV1 extends BaseService {
       'transit_gateway_id': _params.transitGatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGatewayConnection');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createTransitGatewayConnection'
+    );
 
     const parameters = {
       options: {
@@ -662,7 +708,7 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Remove connection from Transit Gateway.
+   * Removes a connection from Transit Gateway.
    *
    * After the specified connection is detached, entities still within the Transit Gateway will no longer be able to
    * communicate directly to it through the IBM Cloud private backbone.
@@ -693,7 +739,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteTransitGatewayConnection');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteTransitGatewayConnection'
+    );
 
     const parameters = {
       options: {
@@ -747,7 +797,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGatewayConnection');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getTransitGatewayConnection'
+    );
 
     const parameters = {
       options: {
@@ -780,8 +834,8 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.id - The connection identifier.
    * @param {string} [params.name] - The user-defined name for this transit gateway. If specified as empty string or
-   * nil,  the name will be the network name (the name of the VPC in the case of network type 'vpc',  and the word
-   * Classic, in the case of network type 'classic').
+   * nil,  the name will be the network name (the name of the VPC in the case of network type `vpc`,  and the word
+   * Classic, in the case of network type `classic`).
    * @param {string} [params.prefixFiltersDefault] - Default setting of permit or deny which applies to any routes that
    * don't match a specified filter.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
@@ -812,7 +866,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'updateTransitGatewayConnection');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateTransitGatewayConnection'
+    );
 
     const parameters = {
       options: {
@@ -839,7 +897,7 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Perform actions on a connection for a Transit Gateway.
+   * Performs actions on a connection for a Transit Gateway.
    *
    * Allow a network owner to approve or reject a cross-account connection request.
    *
@@ -874,7 +932,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGatewayConnectionActions');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createTransitGatewayConnectionActions'
+    );
 
     const parameters = {
       options: {
@@ -902,17 +964,17 @@ class TransitGatewayApisV1 extends BaseService {
   /**
    * Retrieves specified Transit Gateway redundant gre connection tunnels.
    *
-   * This request retrieves a list of all the tunnels for the redundant gre conneciton.
+   * This request retrieves a list of all the tunnels for the redundant gre connection.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.id - The connection identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundantGRETunnelCollection>>}
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnelCollection>>}
    */
-  public getTransitGatewayGreTunnel(
-    params: TransitGatewayApisV1.GetTransitGatewayGreTunnelParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundantGRETunnelCollection>> {
+  public listTransitGatewayGreTunnel(
+    params: TransitGatewayApisV1.ListTransitGatewayGreTunnelParams
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnelCollection>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id'];
     const _validParams = ['transitGatewayId', 'id', 'headers'];
@@ -930,7 +992,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGatewayGreTunnel');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listTransitGatewayGreTunnel'
+    );
 
     const parameters = {
       options: {
@@ -955,7 +1021,7 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Create Transit Gateway redundant GRE tunnel.
+   * Creates a Transit Gateway redundant GRE tunnel.
    *
    * Add a tunnel to an existing Redundant GRE connection.
    *
@@ -974,13 +1040,13 @@ class TransitGatewayApisV1 extends BaseService {
    * Use the IBM Cloud global catalog to list zones within the desired region.
    * @param {number} [params.remoteBgpAsn] - Remote network BGP ASN. The following ASN values are reserved and
    * unavailable 0, 13884, 36351, 64512-64513, 65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
-   * 'remote_bgp_asn' is omitted on create requests, IBM will assign an ASN.
+   * `remote_bgp_asn` is omitted on create requests, IBM will assign an ASN.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundantGRETunnelReference>>}
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>>}
    */
   public createTransitGatewayGreTunnel(
     params: TransitGatewayApisV1.CreateTransitGatewayGreTunnelParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundantGRETunnelReference>> {
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'localGatewayIp', 'localTunnelIp', 'name', 'remoteGatewayIp', 'remoteTunnelIp', 'zone'];
     const _validParams = ['transitGatewayId', 'id', 'localGatewayIp', 'localTunnelIp', 'name', 'remoteGatewayIp', 'remoteTunnelIp', 'zone', 'remoteBgpAsn', 'headers'];
@@ -1008,7 +1074,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGatewayGreTunnel');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createTransitGatewayGreTunnel'
+    );
 
     const parameters = {
       options: {
@@ -1035,7 +1105,7 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Delete specified Transit Gateway redundant GRE tunnel.
+   * Deletes a specified Transit Gateway redundant GRE tunnel.
    *
    * Remove a tunnel from a redundant GRE connection.
    *
@@ -1067,7 +1137,11 @@ class TransitGatewayApisV1 extends BaseService {
       'gre_tunnel_id': _params.greTunnelId,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteTransitGatewayConnectionTunnels');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteTransitGatewayConnectionTunnels'
+    );
 
     const parameters = {
       options: {
@@ -1093,18 +1167,18 @@ class TransitGatewayApisV1 extends BaseService {
   /**
    * Retrieves specified Transit Gateway connection tunnel.
    *
-   * This request retrieves a connection tunnel from the Transit Gateway Connection.
+   * This request retrieves a connection tunnel from the Transit Gateway connection.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.id - The connection identifier.
    * @param {string} params.greTunnelId - The tunnel identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundantGRETunnelReference>>}
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>>}
    */
   public getTransitGatewayConnectionTunnels(
     params: TransitGatewayApisV1.GetTransitGatewayConnectionTunnelsParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundantGRETunnelReference>> {
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'greTunnelId'];
     const _validParams = ['transitGatewayId', 'id', 'greTunnelId', 'headers'];
@@ -1123,7 +1197,11 @@ class TransitGatewayApisV1 extends BaseService {
       'gre_tunnel_id': _params.greTunnelId,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGatewayConnectionTunnels');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getTransitGatewayConnectionTunnels'
+    );
 
     const parameters = {
       options: {
@@ -1158,11 +1236,11 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.greTunnelId - The tunnel identifier.
    * @param {string} [params.name] - The user-defined name for this connection tunnel.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundantGRETunnelReference>>}
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>>}
    */
   public updateTransitGatewayConnectionTunnels(
     params: TransitGatewayApisV1.UpdateTransitGatewayConnectionTunnelsParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundantGRETunnelReference>> {
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>> {
     const _params = { ...params };
     const _requiredParams = ['transitGatewayId', 'id', 'greTunnelId'];
     const _validParams = ['transitGatewayId', 'id', 'greTunnelId', 'name', 'headers'];
@@ -1185,7 +1263,11 @@ class TransitGatewayApisV1 extends BaseService {
       'gre_tunnel_id': _params.greTunnelId,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'updateTransitGatewayConnectionTunnels');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateTransitGatewayConnectionTunnels'
+    );
 
     const parameters = {
       options: {
@@ -1201,7 +1283,7 @@ class TransitGatewayApisV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/merge-patch+json',
           },
           _params.headers
         ),
@@ -1211,11 +1293,11 @@ class TransitGatewayApisV1 extends BaseService {
     return this.createRequest(parameters);
   }
   /*************************
-   * transitLocation
+   * transitLocations
    ************************/
 
   /**
-   * List all locations that support Transit Gateways.
+   * Lists all locations that support Transit Gateways.
    *
    * List all locations that support Transit Gateways.
    *
@@ -1238,7 +1320,11 @@ class TransitGatewayApisV1 extends BaseService {
       'version': this.version,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayLocations');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listGatewayLocations'
+    );
 
     const parameters = {
       options: {
@@ -1262,7 +1348,7 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Show the details of a given Transit Gateway location.
+   * Shows the details of a given Transit Gateway location.
    *
    * Get the details of a Transit Gateway Location.
    *
@@ -1290,7 +1376,11 @@ class TransitGatewayApisV1 extends BaseService {
       'name': _params.name,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayLocation');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getGatewayLocation'
+    );
 
     const parameters = {
       options: {
@@ -1348,7 +1438,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listTransitGatewayConnectionPrefixFilters');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listTransitGatewayConnectionPrefixFilters'
+    );
 
     const parameters = {
       options: {
@@ -1373,19 +1467,19 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Add a prefix filter to a Transit Gateway Connection.
+   * Add a prefix filter to a Transit Gateway connection.
    *
-   * Add a prefix filter to a Transit Gateway Connection.
+   * Add a prefix filter to a Transit Gateway connection.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
    * @param {string} params.id - The connection identifier.
    * @param {string} params.action - Whether or not this prefix filter should allow or deny prefixes matching this
    * filter's prefix definition.
-   * @param {string} params.prefix - The IPv4 Prefix to be matched by this filter. If both the 'le' and 'ge' are zero,
-   * then this filter will only apply to routes that exactly match this prefix, while a non-zero value for either 'le'
-   * or 'ge', this filter can apply to multiple routes with different prefix lengths, but will still only apply to
-   * prefixes contained in the address space defined by 'prefix'.
+   * @param {string} params.prefix - The IPv4 Prefix to be matched by this filter. If both the `le` and `ge` are zero,
+   * then this filter will only apply to routes that exactly match this prefix, while a non-zero value for either `le`
+   * or `ge`, this filter can apply to multiple routes with different prefix lengths, but will still only apply to
+   * prefixes contained in the address space defined by `prefix`.
    * @param {string} [params.before] - A reference to the prefix filter that will be the next filter applied to the
    * Transit Gateway connection.
    *
@@ -1394,18 +1488,18 @@ class TransitGatewayApisV1 extends BaseService {
    * When a prefix filter is created with the same before field as an existing prefix filter, the existing filter will
    * be applied before the new filter, and the existing filter's before field will be updated accordingly.
    * @param {number} [params.ge] - Defines the minimum matched prefix precision. If this field is non-zero then the
-   * filter will match all routes within the 'prefix' that have a prefix length greater than or equal to this value.
+   * filter will match all routes within the `prefix` that have a prefix length greater than or equal to this value.
    *
    * This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's prefix
-   * or less then or equal to 32. If this value is set to zero, the filter will not use the 'ge' route matching
-   * behavior. If the 'le' value is non-zero the the 'ge' value must between the prefix length and the
-   * 'le' value, inclusive.
+   * or less then or equal to 32. If this value is set to zero, the filter will not use the `ge` route matching
+   * behavior. If the `le` value is non-zero the the `ge` value must between the prefix length and the
+   * `le` value, inclusive.
    * @param {number} [params.le] - Defines the maximum matched prefix precision. If this field is non-zero then the
-   * filter will match all routes within the 'prefix' that have a prefix length less than or equal to this value.
+   * filter will match all routes within the `prefix` that have a prefix length less than or equal to this value.
    *
    * This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's prefix
-   * or less then or equal to 32. If this value is set to zero, the filter will not use the 'le' route matching
-   * behavior. If the 'ge' value is non-zero the the 'le' value must between the 'ge' value and 32, inclusive.
+   * or less then or equal to 32. If this value is set to zero, the filter will not use the `le` route matching
+   * behavior. If the `ge` value is non-zero the the `le` value must between the `ge` value and 32, inclusive.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>>}
    */
@@ -1437,7 +1531,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGatewayConnectionPrefixFilter');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createTransitGatewayConnectionPrefixFilter'
+    );
 
     const parameters = {
       options: {
@@ -1464,9 +1562,9 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Replaces the prefix filters of the Transit Gateway Connection.
+   * Replaces the prefix filters of the Transit Gateway connection.
    *
-   * Replaces the prefix filters of the Transit Gateway Connection.
+   * Replaces the prefix filters of the Transit Gateway connection.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
@@ -1499,7 +1597,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'replaceTransitGatewayConnectionPrefixFilter');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'replaceTransitGatewayConnectionPrefixFilter'
+    );
 
     const parameters = {
       options: {
@@ -1526,7 +1628,7 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Remove prefix filter from Transit Gateway Connection.
+   * Remove prefix filter from Transit Gateway connection.
    *
    * Delete a prefix filter.
    *
@@ -1558,7 +1660,11 @@ class TransitGatewayApisV1 extends BaseService {
       'filter_id': _params.filterId,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteTransitGatewayConnectionPrefixFilter');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteTransitGatewayConnectionPrefixFilter'
+    );
 
     const parameters = {
       options: {
@@ -1584,7 +1690,7 @@ class TransitGatewayApisV1 extends BaseService {
   /**
    * Retrieves specified Transit Gateway connection prefix filter.
    *
-   * This request retrieves a prefix filter from the Transit Gateway Connection.
+   * This request retrieves a prefix filter from the Transit Gateway connection.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
@@ -1614,7 +1720,11 @@ class TransitGatewayApisV1 extends BaseService {
       'filter_id': _params.filterId,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGatewayConnectionPrefixFilter');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getTransitGatewayConnectionPrefixFilter'
+    );
 
     const parameters = {
       options: {
@@ -1657,18 +1767,18 @@ class TransitGatewayApisV1 extends BaseService {
    * When a prefix filter is created with the same before field as an existing prefix filter, the existing filter will
    * be applied before the new filter, and the existing filter's before field will be updated accordingly.
    * @param {number} [params.ge] - Defines the minimum matched prefix precision. If this field is non-zero then the
-   * filter will match all routes within the 'prefix' that have a prefix length greater or equal to this value.
+   * filter will match all routes within the `prefix` that have a prefix length greater or equal to this value.
    *
    * This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's prefix
-   * or less then or equal to 32. If this value is set to zero, the filter will not use the 'ge' route matching
-   * behavior. If the 'le' value is non-zero the the 'ge' value must between the prefix length and the
-   * 'le' value, inclusive.
+   * or less then or equal to 32. If this value is set to zero, the filter will not use the `ge` route matching
+   * behavior. If the `le` value is non-zero the the `ge` value must between the prefix length and the
+   * `le` value, inclusive.
    * @param {number} [params.le] - Defines the maximum matched prefix precision. If this field is non-zero then the
-   * filter will match all routes within the 'prefix' that have a prefix length less than or equal to this value.
+   * filter will match all routes within the `prefix` that have a prefix length less than or equal to this value.
    *
    * This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's prefix
-   * or less then or equal to 32. If this value is set to zero, the filter will not use the 'le' route matching
-   * behavior. If the 'ge' value is non-zero the the 'le' value must between the 'ge' value and 32, inclusive.
+   * or less then or equal to 32. If this value is set to zero, the filter will not use the `le` route matching
+   * behavior. If the `ge` value is non-zero the the `le` value must between the `ge` value and 32, inclusive.
    * @param {string} [params.prefix] - The IPv4 Prefix to be matched by this filter.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCust>>}
@@ -1702,7 +1812,11 @@ class TransitGatewayApisV1 extends BaseService {
       'filter_id': _params.filterId,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'updateTransitGatewayConnectionPrefixFilter');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateTransitGatewayConnectionPrefixFilter'
+    );
 
     const parameters = {
       options: {
@@ -1732,7 +1846,7 @@ class TransitGatewayApisV1 extends BaseService {
    ************************/
 
   /**
-   * List route reports.
+   * Lists route reports.
    *
    * Retrieve all route reports for the specified Transit Gateway.  There will normally be at most one completed report
    * and one pending report.  Additionally, completed route reports are written to IBM Cloud Activity Tracker.
@@ -1761,7 +1875,11 @@ class TransitGatewayApisV1 extends BaseService {
       'transit_gateway_id': _params.transitGatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listTransitGatewayRouteReports');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listTransitGatewayRouteReports'
+    );
 
     const parameters = {
       options: {
@@ -1786,7 +1904,7 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Request a route report.
+   * Requests a route report.
    *
    * Request route report generation.  While report generation is in progress, additional requests to generate a report
    * are ignored and return the current pending report.
@@ -1815,7 +1933,11 @@ class TransitGatewayApisV1 extends BaseService {
       'transit_gateway_id': _params.transitGatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGatewayRouteReport');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createTransitGatewayRouteReport'
+    );
 
     const parameters = {
       options: {
@@ -1840,7 +1962,7 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Delete route report.
+   * Deletes a route report.
    *
    * Delete a route report.
    *
@@ -1870,7 +1992,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteTransitGatewayRouteReport');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteTransitGatewayRouteReport'
+    );
 
     const parameters = {
       options: {
@@ -1894,7 +2020,7 @@ class TransitGatewayApisV1 extends BaseService {
   }
 
   /**
-   * Retrieve route report.
+   * Retrieves a route report.
    *
    * Retrieve a route report.
    *
@@ -1924,7 +2050,11 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGatewayRouteReport');
+    const sdkHeaders = getSdkHeaders(
+      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getTransitGatewayRouteReport'
+    );
 
     const parameters = {
       options: {
@@ -1998,8 +2128,10 @@ namespace TransitGatewayApisV1 {
   export interface CreateTransitGatewayParams {
     /** Location of Transit Gateway Services. */
     location: string;
-    /** Name Transit Gateway Services. */
+    /** A human readable name for the transit gateway. */
     name: string;
+    /** Allow GRE traffic in this gateway to flow across zones. */
+    allowGreTrafficAcrossZones?: boolean;
     /** Allow global routing for a Transit Gateway. If unspecified, the default value is false. */
     global?: boolean;
     /** The resource group to use. If unspecified, the account's [default resource
@@ -2027,9 +2159,11 @@ namespace TransitGatewayApisV1 {
   export interface UpdateTransitGatewayParams {
     /** The Transit Gateway identifier. */
     id: string;
+    /** Allow GRE traffic in this gateway to flow across zones. */
+    allowGreTrafficAcrossZones?: boolean;
     /** Allow global routing for a Transit Gateway. */
     global?: boolean;
-    /** The user-defined name for this transit gateway. */
+    /** A human readable name for a resource. */
     name?: string;
     headers?: OutgoingHttpHeaders;
   }
@@ -2064,106 +2198,117 @@ namespace TransitGatewayApisV1 {
     transitGatewayId: string;
     /** Defines what type of network is connected via this connection. */
     networkType: CreateTransitGatewayConnectionConstants.NetworkType | string;
-    /** Deprecated: network_type 'gre_tunnel' connections must be created over an existing network_type 'classic'
-     *  connection. This field must specify the ID of an active transit gateway network_type 'classic' connection in the
+    /** Deprecated: network_type `gre_tunnel` connections must be created over an existing network_type `classic`
+     *  connection. This field must specify the ID of an active transit gateway network_type `classic` connection in the
      *  same transit gateway.
      *
-     *  This field is required for network type 'gre_tunnel' connections.
+     *  This field is required for network type `gre_tunnel` connections.
      *
-     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
-     *  'power_virtual_server', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+     *  This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+     *  `power_virtual_server`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
      */
     baseConnectionId?: string;
     /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type
-     *  'unbound_gre_tunnel' and must be set to 'classic'.  For a 'redundant_gre' network type, the value is required
-     *  and can be either VPC or Classic. This field is required to be unspecified for network type 'classic',
-     *  'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
+     *  `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required
+     *  and can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `vmware`,
+     *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
      */
     baseNetworkType?: CreateTransitGatewayConnectionConstants.BaseNetworkType | string;
-    /** Local gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
-     *  'power_virtual_server' and 'redundant_gre' connections.
+    /** network_type 'vpn_gateway' connections use 'cdr' to specify the CIDR to use for the VPN GRE tunnels.
+     *
+     *  This field is required for network type `vpn_gateway` connections.
+     *
+     *  This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+     *  `power_virtual_server`, `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
+     */
+    cidr?: string;
+    /** Local gateway IP address. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel`
+     *  connections. This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+     *  `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
      */
     localGatewayIp?: string;
     /** Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
      *  Neither can be the network nor broadcast addresses.
      *
-     *  This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+     *  This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
      *
-     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
-     *  and 'redundant_gre' connections.
+     *  This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+     *  `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
      */
     localTunnelIp?: string;
-    /** The user-defined name for this transit gateway connection. Network type 'vpc'  connections are defaulted to
-     *  the name of the VPC.  Network type 'classic' connections are named 'Classic'.
+    /** The user-defined name for this transit gateway connection. Network type `vpc`  connections are defaulted to
+     *  the name of the VPC.  Network type `classic` connections are named `classic`.
      *
-     *  This field is required for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+     *  This field is required for network type `power_virtual_server`, `directlink`, `vmware`, `gre_tunnel`,
+     *  `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
      *
-     *  This field is optional for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
+     *  This field is optional for network type `classic`, `vpc` connections.
      */
     name?: string;
     /** The ID of the account which owns the network that is being connected. Generally only used if the network is
-     *  in a different account than the gateway. This field is required for type 'unbound_gre_tunnel' when the
-     *  associated_network_type is 'classic' or network_type is 'redundant_gre' and the GRE tunnel is in a different
+     *  in a different account than the gateway. This field is required for type `unbound_gre_tunnel` when the
+     *  associated_network_type is `classic` or network_type is `redundant_gre` and the GRE tunnel is in a different
      *  account than the gateway.
      */
     networkAccountId?: string;
-    /** The ID of the network being connected via this connection. For network types 'vpc','power_virtual_server'
-     *  and 'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway respectively. This field is required
-     *  for network type 'vpc', 'power_virtual_server' and 'directlink' connections.  It is also required for
-     *  'redundant_gre' connections when the base_network_type is set to VPC. This field is required to be unspecified
-     *  for network type 'classic', 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    /** The ID of the network being connected via this connection. For network types `vpc`,`power_virtual_server`,
+     *  `vmware`, `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC / Direct Link / VPN gateway
+     *  respectively. This field is required for network type `vpc`, `power_virtual_server`, `vmware`, `vpn_gateway`,
+     *  and `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is
+     *  set to VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and
+     *  `unbound_gre_tunnel` connections.
      */
     networkId?: string;
     /** Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk
-     *  type 'vpc', 'classic', 'power_virtual_server' and 'directlink' connections. They are not allowed for type
-     *  'gre_tunnel' connections. This is order dependent with those first in the array being applied first, and those
+     *  type `vpc`, `classic`, `power_virtual_server` and `directlink` connections. They are not allowed for type
+     *  `gre_tunnel` connections. This is order dependent with those first in the array being applied first, and those
      *  at the end of the array being applied last, or just before applying the default. This field is optional for
-     *  network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is required to
-     *  be unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+     *  network type `classic`, `vpc`, `directlink`, and `power_virtual_server` connections. This field is required to
+     *  be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre`
+     *  connections.
      */
     prefixFilters?: TransitGatewayConnectionPrefixFilter[];
     /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This
-     *  field is optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This
-     *  field is required to be unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre'
-     *  connections.
+     *  field is optional for network type `classic`, `vpc`, `directlink`, and `power_virtual_server` connections. This
+     *  field is required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and
+     *  `redundant_gre` connections.
      */
     prefixFiltersDefault?: CreateTransitGatewayConnectionConstants.PrefixFiltersDefault | string;
     /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel
+     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on gre_tunnel
      *  or unbound_gre_tunnel connection create requests IBM will assign an ASN.
      *
-     *  This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+     *  This field is optional for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
      *
-     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
-     *  and 'gre_tunnel' connections.
+     *  This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+     *  `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
      */
     remoteBgpAsn?: number;
-    /** Remote gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-     *  connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
-     *  'power_virtual_server' and 'redundant_gre' connections.
+    /** Remote gateway IP address. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel`
+     *  connections. This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+     *  `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
      */
     remoteGatewayIp?: string;
     /** Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
      *  network. Neither can be the network nor broadcast addresses.
      *
-     *  This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+     *  This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
      *
-     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
-     *  'power_virtual_server' and 'redundant_gre' connections.
+     *  This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+     *  `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
      */
     remoteTunnelIp?: string;
     /** Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.  This field is required for
-     *  'redundant_gre' connections.
+     *  `redundant_gre` connections.
      */
-    tunnels?: TransitGatewayRedundantGRETunnelTemplate[];
+    tunnels?: TransitGatewayTunnelTemplate[];
     /** Specify the connection's location.  The specified availability zone must reside in the gateway's region.
      *  Use the IBM Cloud global catalog to list zones within the desired region.
      *
-     *  This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+     *  This field is required for network type `gre_tunnel`, `unbound_gre_tunnel` and `vpn_gateway` connections.
      *
-     *  This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
-     *  and 'redundant_gre' connections.
+     *  This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`,
+     *  `power_virtual_server` and `redundant_gre` connections.
      */
     zone?: ZoneIdentity;
     headers?: OutgoingHttpHeaders;
@@ -2180,13 +2325,15 @@ namespace TransitGatewayApisV1 {
       VPC = 'vpc',
       POWER_VIRTUAL_SERVER = 'power_virtual_server',
       REDUNDANT_GRE = 'redundant_gre',
+      VMWARE = 'vmware',
+      VPN_GATEWAY = 'vpn_gateway',
     }
-    /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type 'unbound_gre_tunnel' and must be set to 'classic'.  For a 'redundant_gre' network type, the value is required and can be either VPC or Classic. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections. */
+    /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `vmware`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections. */
     export enum BaseNetworkType {
       CLASSIC = 'classic',
       VPC = 'vpc',
     }
-    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is required to be unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections. */
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is optional for network type `classic`, `vpc`, `directlink`, and `power_virtual_server` connections. This field is required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections. */
     export enum PrefixFiltersDefault {
       PERMIT = 'permit',
       DENY = 'deny',
@@ -2218,8 +2365,8 @@ namespace TransitGatewayApisV1 {
     /** The connection identifier. */
     id: string;
     /** The user-defined name for this transit gateway. If specified as empty string or nil,  the name will be the
-     *  network name (the name of the VPC in the case of network type 'vpc',  and the word Classic, in the case of
-     *  network type 'classic').
+     *  network name (the name of the VPC in the case of network type `vpc`,  and the word Classic, in the case of
+     *  network type `classic`).
      */
     name?: string;
     /** Default setting of permit or deny which applies to any routes that don't match a specified filter. */
@@ -2256,8 +2403,8 @@ namespace TransitGatewayApisV1 {
     }
   }
 
-  /** Parameters for the `getTransitGatewayGreTunnel` operation. */
-  export interface GetTransitGatewayGreTunnelParams {
+  /** Parameters for the `listTransitGatewayGreTunnel` operation. */
+  export interface ListTransitGatewayGreTunnelParams {
     /** The Transit Gateway identifier. */
     transitGatewayId: string;
     /** The connection identifier. */
@@ -2290,7 +2437,7 @@ namespace TransitGatewayApisV1 {
      */
     zone: ZoneIdentity;
     /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on create
+     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create
      *  requests, IBM will assign an ASN.
      */
     remoteBgpAsn?: number;
@@ -2361,10 +2508,10 @@ namespace TransitGatewayApisV1 {
     id: string;
     /** Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition. */
     action: CreateTransitGatewayConnectionPrefixFilterConstants.Action | string;
-    /** The IPv4 Prefix to be matched by this filter. If both the 'le' and 'ge' are zero, then this filter will only
-     *  apply to routes that exactly match this prefix, while a non-zero value for either 'le' or 'ge', this filter can
+    /** The IPv4 Prefix to be matched by this filter. If both the `le` and `ge` are zero, then this filter will only
+     *  apply to routes that exactly match this prefix, while a non-zero value for either `le` or `ge`, this filter can
      *  apply to multiple routes with different prefix lengths, but will still only apply to prefixes contained in the
-     *  address space defined by 'prefix'.
+     *  address space defined by `prefix`.
      */
     prefix: string;
     /** A reference to the prefix filter that will be the next filter applied to the Transit Gateway connection.
@@ -2376,20 +2523,20 @@ namespace TransitGatewayApisV1 {
      */
     before?: string;
     /** Defines the minimum matched prefix precision. If this field is non-zero then the filter will match all
-     *  routes within the 'prefix' that have a prefix length greater than or equal to this value.
+     *  routes within the `prefix` that have a prefix length greater than or equal to this value.
      *
      *  This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's
-     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the 'ge' route
-     *  matching behavior. If the 'le' value is non-zero the the 'ge' value must between the prefix length and the
-     *  'le' value, inclusive.
+     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the `ge` route
+     *  matching behavior. If the `le` value is non-zero the the `ge` value must between the prefix length and the
+     *  `le` value, inclusive.
      */
     ge?: number;
     /** Defines the maximum matched prefix precision. If this field is non-zero then the filter will match all
-     *  routes within the 'prefix' that have a prefix length less than or equal to this value.
+     *  routes within the `prefix` that have a prefix length less than or equal to this value.
      *
      *  This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's
-     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the 'le' route
-     *  matching behavior. If the 'ge' value is non-zero the the 'le' value must between the 'ge' value and 32,
+     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the `le` route
+     *  matching behavior. If the `ge` value is non-zero the the `le` value must between the `ge` value and 32,
      *  inclusive.
      */
     le?: number;
@@ -2457,20 +2604,20 @@ namespace TransitGatewayApisV1 {
      */
     before?: string;
     /** Defines the minimum matched prefix precision. If this field is non-zero then the filter will match all
-     *  routes within the 'prefix' that have a prefix length greater or equal to this value.
+     *  routes within the `prefix` that have a prefix length greater or equal to this value.
      *
      *  This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's
-     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the 'ge' route
-     *  matching behavior. If the 'le' value is non-zero the the 'ge' value must between the prefix length and the
-     *  'le' value, inclusive.
+     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the `ge` route
+     *  matching behavior. If the `le` value is non-zero the the `ge` value must between the prefix length and the
+     *  `le` value, inclusive.
      */
     ge?: number;
     /** Defines the maximum matched prefix precision. If this field is non-zero then the filter will match all
-     *  routes within the 'prefix' that have a prefix length less than or equal to this value.
+     *  routes within the `prefix` that have a prefix length less than or equal to this value.
      *
      *  This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's
-     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the 'le' route
-     *  matching behavior. If the 'ge' value is non-zero the the 'le' value must between the 'ge' value and 32,
+     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the `le` route
+     *  matching behavior. If the `ge` value is non-zero the the `le` value must between the `ge` value and 32,
      *  inclusive.
      */
     le?: number;
@@ -2524,12 +2671,6 @@ namespace TransitGatewayApisV1 {
    * model interfaces
    ************************/
 
-  /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
-  export interface GreTunnelZoneReference {
-    /** Availability zone name. */
-    name: string;
-  }
-
   /** A reference to the first page of resources. */
   export interface PaginationFirstConnection {
     /** url. */
@@ -2581,7 +2722,7 @@ namespace TransitGatewayApisV1 {
   /** prefix filter. */
   export interface PrefixFilterCust {
     /** Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition. */
-    action: PrefixFilterCust.Constants.Action | string;
+    action: string;
     /** A reference to the prefix filter that will be the next filter applied to the Transit Gateway connection.
      *
      *  If this field is blank, this prefix filter will be the last rule applied before the connection's default rule.
@@ -2593,156 +2734,63 @@ namespace TransitGatewayApisV1 {
     /** The date and time that this prefix filter was created. */
     created_at: string;
     /** Defines the minimum matched prefix precision. If this field is non-zero then the filter will match all
-     *  routes within the 'prefix' that have a prefix length greater or equal to this value.
+     *  routes within the `prefix` that have a prefix length greater or equal to this value.
      *
      *  This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's
-     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the 'ge' route
-     *  matching behavior. If the 'le' value is non-zero the the 'ge' value must between the prefix length and the
-     *  'le' value, inclusive.
+     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the `ge` route
+     *  matching behavior. If the `le` value is non-zero the the `ge` value must between the prefix length and the
+     *  `le` value, inclusive.
      */
     ge?: number;
     /** Prefix Filter identifier. */
     id: string;
     /** Defines the maximum matched prefix precision. If this field is non-zero then the filter will match all
-     *  routes within the 'prefix' that have a prefix length less than or equal to this value.
+     *  routes within the `prefix` that have a prefix length less than or equal to this value.
      *
      *  This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's
-     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the 'le' route
-     *  matching behavior. If the 'ge' value is non-zero the the 'le' value must between the 'ge' value and 32,
+     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the `le` route
+     *  matching behavior. If the `ge` value is non-zero the the `le` value must between the `ge` value and 32,
      *  inclusive.
      */
     le?: number;
-    /** The IPv4 Prefix to be matched by this filter. If both the 'le' and 'ge' are zero, then this filter will only
-     *  apply to routes that exactly match this prefix, while a non-zero value for either 'le' or 'ge', this filter can
+    /** The IPv4 Prefix to be matched by this filter. If both the `le` and `ge` are zero, then this filter will only
+     *  apply to routes that exactly match this prefix, while a non-zero value for either `le` or `ge`, this filter can
      *  apply to multiple routes with different prefix lengths, but will still only apply to prefixes contained in the
-     *  address space defined by 'prefix'.
+     *  address space defined by `prefix`.
      */
     prefix: string;
     /** The date and time that this prefix filter was last updated. */
     updated_at?: string;
   }
-  export namespace PrefixFilterCust {
-    export namespace Constants {
-      /** Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition. */
-      export enum Action {
-        PERMIT = 'permit',
-        DENY = 'deny',
-      }
-    }
-  }
 
   /** A prefix filter update template. */
   export interface PrefixFilterPut {
     /** Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition. */
-    action: PrefixFilterPut.Constants.Action | string;
+    action: string;
     /** Defines the minimum matched prefix precision. If this field is non-zero then the filter will match all
-     *  routes within the 'prefix' that have a prefix length greater or equal to this value.
+     *  routes within the `prefix` that have a prefix length greater or equal to this value.
      *
      *  This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's
-     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the 'ge' route
-     *  matching behavior. If the 'le' value is non-zero the the 'ge' value must between the prefix length and the
-     *  'le' value, inclusive.
+     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the `ge` route
+     *  matching behavior. If the `le` value is non-zero the the `ge` value must between the prefix length and the
+     *  `le` value, inclusive.
      */
     ge?: number;
     /** Defines the maximum matched prefix precision. If this field is non-zero then the filter will match all
-     *  routes within the 'prefix' that have a prefix length less than or equal to this value.
+     *  routes within the `prefix` that have a prefix length less than or equal to this value.
      *
      *  This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's
-     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the 'le' route
-     *  matching behavior. If the 'ge' value is non-zero the the 'le' value must between the 'ge' value and 32,
+     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the `le` route
+     *  matching behavior. If the `ge` value is non-zero the the `le` value must between the `ge` value and 32,
      *  inclusive.
      */
     le?: number;
-    /** The IPv4 Prefix to be matched by this filter. If both the 'le' and 'ge' are zero, then this filter will only
-     *  apply to routes that exactly match this prefix, while a non-zero value for either 'le' or 'ge', this filter can
+    /** The IPv4 Prefix to be matched by this filter. If both the `le` and `ge` are zero, then this filter will only
+     *  apply to routes that exactly match this prefix, while a non-zero value for either `le` or `ge`, this filter can
      *  apply to multiple routes with different prefix lengths, but will still only apply to prefixes contained in the
-     *  address space defined by 'prefix'.
+     *  address space defined by `prefix`.
      */
     prefix: string;
-  }
-  export namespace PrefixFilterPut {
-    export namespace Constants {
-      /** Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition. */
-      export enum Action {
-        PERMIT = 'permit',
-        DENY = 'deny',
-      }
-    }
-  }
-
-  /** Collection of all tunnels for redundant gre connection. */
-  export interface RedundantGRETunnelCollection {
-    /** Collection of all tunnels for redundant gre connection. */
-    tunnels: RedundantGRETunnelReference[];
-  }
-
-  /** Details for a redundant GRE tunnel. */
-  export interface RedundantGRETunnelReference {
-    /** The type of network the redundant GRE tunnel is targeting. */
-    base_network_type: RedundantGRETunnelReference.Constants.BaseNetworkType | string;
-    /** The date and time that this GRE tunnel was created. */
-    created_at: string;
-    /** The unique identifier for this redundant GRE tunnel. */
-    id: string;
-    /** Local network BGP ASN.  It is assigned by IBM when the tunnel is created. */
-    local_bgp_asn: number;
-    /** Local gateway IP address. */
-    local_gateway_ip: string;
-    /** Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
-     *  Neither can be the network nor broadcast addresses.
-     */
-    local_tunnel_ip: string;
-    /** GRE tunnel MTU. */
-    mtu: number;
-    /** The user-defined name for this tunnel. */
-    name: string;
-    /** The ID of the account for cross account Classic connections.  This field is required when the GRE tunnel is
-     *  in a different account than the gateway and the base network is Classic.
-     */
-    network_account_id?: string;
-    /** The ID of the network VPC being connected via this connection. */
-    network_id?: string;
-    /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on create
-     *  requests, IBM will assign an ASN.
-     */
-    remote_bgp_asn: number;
-    /** Remote gateway IP address. */
-    remote_gateway_ip: string;
-    /** Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
-     *  network. Neither can be the network nor broadcast addresses.
-     */
-    remote_tunnel_ip: string;
-    /** Tunnel's current configuration state. The list of enumerated values for this property may expand in the
-     *  future. Code and processes using this field must tolerate unexpected values.
-     */
-    status: RedundantGRETunnelReference.Constants.Status | string;
-    /** The date and time that this tunnel was last updated. */
-    updated_at: string;
-    /** The tunnel's location.  The specified availability zone must reside in the gateway's region. Use the IBM
-     *  Cloud global catalog to list zones within the desired region.
-     */
-    zone: RgreTunnelZoneReference;
-  }
-  export namespace RedundantGRETunnelReference {
-    export namespace Constants {
-      /** The type of network the redundant GRE tunnel is targeting. */
-      export enum BaseNetworkType {
-        CLASSIC = 'classic',
-        VPC = 'vpc',
-      }
-      /** Tunnel's current configuration state. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
-      export enum Status {
-        ATTACHED = 'attached',
-        FAILED = 'failed',
-        PENDING = 'pending',
-        DELETING = 'deleting',
-        DETACHING = 'detaching',
-        DETACHED = 'detached',
-        SUSPENDING = 'suspending',
-        SUSPENDED = 'suspended',
-      }
-    }
   }
 
   /** The resource group to use. If unspecified, the account's [default resource group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used. */
@@ -2759,12 +2807,6 @@ namespace TransitGatewayApisV1 {
     id: string;
   }
 
-  /** The tunnel's location.  The specified availability zone must reside in the gateway's region. Use the IBM Cloud global catalog to list zones within the desired region. */
-  export interface RgreTunnelZoneReference {
-    /** Availability zone name. */
-    name: string;
-  }
-
   /** route report. */
   export interface RouteReport {
     /** Array of connections with their routes. */
@@ -2778,18 +2820,9 @@ namespace TransitGatewayApisV1 {
     /** Route report status. The list of enumerated values for this property may expand in the future. Code and
      *  processes using this field must tolerate unexpected values.
      */
-    status: RouteReport.Constants.Status | string;
+    status: string;
     /** Date and time route report was last modified. */
     updated_at?: string;
-  }
-  export namespace RouteReport {
-    export namespace Constants {
-      /** Route report status. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
-      export enum Status {
-        COMPLETE = 'complete',
-        PENDING = 'pending',
-      }
-    }
   }
 
   /** route reports. */
@@ -2862,16 +2895,7 @@ namespace TransitGatewayApisV1 {
      *  presence. The list of enumerated values for this property may expand in the future. Code and processes using
      *  this field must tolerate unexpected values.
      */
-    type: TSLocalLocation.Constants.Type | string;
-  }
-  export namespace TSLocalLocation {
-    export namespace Constants {
-      /** The type of the location, determining is this a multi-zone region, a single data center, or a point of presence. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
-      export enum Type {
-        REGION = 'region',
-        DC = 'dc',
-      }
-    }
+    type: string;
   }
 
   /** Details of a Transit Gateway location. */
@@ -2887,7 +2911,7 @@ namespace TransitGatewayApisV1 {
     /** The set of network locations that are considered local for this Transit Gateway location. */
     local_connection_locations: TSLocalLocation[];
     /** List of valid zones for GRE tunnels. */
-    zones: ZoneReferenceCollection[];
+    zones: ZoneReference[];
   }
 
   /** Details of a Transit Gateway location. */
@@ -2905,43 +2929,43 @@ namespace TransitGatewayApisV1 {
   /** Connection included in transit gateway. */
   export interface TransitConnection {
     /** The type of network the GRE tunnel is targeting. */
-    base_network_type?: TransitConnection.Constants.BaseNetworkType | string;
+    base_network_type?: string;
     /** The user-defined name for this transit gateway connection. */
     name: string;
     /** The ID of the network being connected via this connection. This field is required for some types, such as
-     *  'vpc', 'power_virtual_server', 'directlink' and 'redundant_gre'. For network types 'vpc', 'redundant_gre',
-     *  'power_virtual_server' and 'directlink' this is the CRN of the VPC  / PowerVS / Direct Link gateway
-     *  respectively.
+     *  `vpc`, `vmware`, `power_virtual_server`, `directlink`, `vpn_gateway` and `redundant_gre`. For network types
+     *  `vpc`, `redundant_gre`, `power_virtual_server`, `vmware` and `directlink` this is the CRN of the VPC  / PowerVS
+     *  / VDC / Direct Link gateway respectively.
      */
     network_id?: string;
     /** Defines what type of network is connected via this connection. The list of enumerated values for this
      *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
      */
-    network_type: TransitConnection.Constants.NetworkType | string;
-    /** The unique identifier for this Transit Gateway Connection. */
+    network_type: string;
+    /** The unique identifier for this Transit Gateway connection. */
     id: string;
-    /** Deprecated: network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
-     *  network_type 'classic' connection the tunnel is configured over. The specified connection must reside in the
-     *  same transit gateway and be in an active state. The 'classic' connection cannot be deleted until any
-     *  'gre_tunnel' connections using it are deleted. This field only applies to and is required for network type
-     *  'gre_tunnel' connections.
+    /** Deprecated: network_type `gre_tunnel` connections use `base_connection_id` to specify the ID of a
+     *  network_type `classic` connection the tunnel is configured over. The specified connection must reside in the
+     *  same transit gateway and be in an active state. The `classic` connection cannot be deleted until any
+     *  `gre_tunnel` connections using it are deleted. This field only applies to and is required for network type
+     *  `gre_tunnel` connections.
      */
     base_connection_id?: string;
     /** The date and time that this connection was created. */
     created_at: string;
-    /** Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    /** Local network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     local_bgp_asn?: number;
-    /** Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    /** Local gateway IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     local_gateway_ip?: string;
-    /** Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    /** Local tunnel IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     local_tunnel_ip?: string;
-    /** GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections. */
+    /** GRE tunnel MTU.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections. */
     mtu?: number;
     /** The ID of the account which owns the connected network. Generally only used if the network is in a different
      *  IBM Cloud account than the gateway.
@@ -2950,23 +2974,23 @@ namespace TransitGatewayApisV1 {
     /** Array of prefix route filters for a transit gateway connection. This is order dependent with those first in
      *  the array being applied first, and those at the end of the array is applied last, or just before the default.
      *
-     *  This field does not apply to the 'redundant_gre' network type.
+     *  This field does not apply to the `redundant_gre` or `vmware` network types.
      */
     prefix_filters?: TransitGatewayConnectionPrefixFilterReference[];
     /** Default setting of permit or deny which applies to any routes that don't match a specified filter.
      *
-     *  This field does not apply to the 'redundant_gre' network type.
+     *  This field does not apply to the `redundant_gre` or `vmware` network types.
      */
-    prefix_filters_default?: TransitConnection.Constants.PrefixFiltersDefault | string;
-    /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    prefix_filters_default?: string;
+    /** Remote network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     remote_bgp_asn?: number;
-    /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    /** Remote gateway IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     remote_gateway_ip?: string;
-    /** Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    /** Remote tunnel IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     remote_tunnel_ip?: string;
@@ -2974,63 +2998,19 @@ namespace TransitGatewayApisV1 {
      *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
      *  using this field must tolerate unexpected values.
      */
-    request_status: TransitConnection.Constants.RequestStatus | string;
+    request_status: string;
     /** Connection's current configuration state. The list of enumerated values for this property may expand in the
      *  future. Code and processes using this field must tolerate unexpected values.
      */
-    status: TransitConnection.Constants.Status | string;
+    status: string;
     /** Transit gateway reference. */
     transit_gateway: TransitGatewayReference;
-    /** Collection of all tunnels for 'redundant_gre' connection. */
-    tunnels?: TransitGatewayRedundantGRETunnelReference[];
+    /** Collection of all tunnels for `redundant_gre` connection. */
+    tunnels?: TransitGatewayTunnel[];
     /** The date and time that this connection was last updated. */
     updated_at: string;
-    /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
-    zone?: GreTunnelZoneReference;
-  }
-  export namespace TransitConnection {
-    export namespace Constants {
-      /** The type of network the GRE tunnel is targeting. */
-      export enum BaseNetworkType {
-        CLASSIC = 'classic',
-        VPC = 'vpc',
-      }
-      /** Defines what type of network is connected via this connection. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
-      export enum NetworkType {
-        CLASSIC = 'classic',
-        DIRECTLINK = 'directlink',
-        GRE_TUNNEL = 'gre_tunnel',
-        UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel',
-        VPC = 'vpc',
-        POWER_VIRTUAL_SERVER = 'power_virtual_server',
-        REDUNDANT_GRE = 'redundant_gre',
-      }
-      /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does not apply to the 'redundant_gre' network type. */
-      export enum PrefixFiltersDefault {
-        PERMIT = 'permit',
-        DENY = 'deny',
-      }
-      /** Only visible for cross account connections, this field represents the status of a connection request between IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
-      export enum RequestStatus {
-        PENDING = 'pending',
-        APPROVED = 'approved',
-        REJECTED = 'rejected',
-        EXPIRED = 'expired',
-        DETACHED = 'detached',
-      }
-      /** Connection's current configuration state. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
-      export enum Status {
-        ATTACHED = 'attached',
-        FAILED = 'failed',
-        PENDING = 'pending',
-        NETWORK_PENDING = 'network_pending',
-        DELETING = 'deleting',
-        DETACHING = 'detaching',
-        DETACHED = 'detached',
-        SUSPENDING = 'suspending',
-        SUSPENDED = 'suspended',
-      }
-    }
+    /** Availability zone reference. */
+    zone?: ZoneReference;
   }
 
   /** Transit gateway connections. */
@@ -3047,18 +3027,24 @@ namespace TransitGatewayApisV1 {
 
   /** Details of a Transit Gateway. */
   export interface TransitGateway {
-    /** The unique identifier for this Transit Gateway. */
-    id: string;
-    /** The CRN for this Transit Gateway. */
-    crn: string;
-    /** A human readable name for the transit gateway. */
-    name: string;
-    /** Location of Transit Gateway Services. */
-    location: string;
+    /** Allow GRE traffic in this gateway to flow across zones. */
+    allow_gre_traffic_across_zones?: boolean;
+    /** The number of connections associated with this Transit Gateway. */
+    connection_count?: number;
+    /** Indicates if this Transit Gateway has a connection that needs attention (Such as cross account approval). */
+    connection_needs_attention?: boolean;
     /** The date and time that this gateway was created. */
     created_at: string;
+    /** Cloud Resource Name of a transit gateway. */
+    crn?: string;
     /** Allow global routing for a Transit Gateway. */
     global: boolean;
+    /** A unique identifier for this transit gateway. */
+    id: string;
+    /** Location of Transit Gateway Services. */
+    location: string;
+    /** A human readable name for the transit gateway. */
+    name: string;
     /** The resource group to use. If unspecified, the account's [default resource
      *  group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
      */
@@ -3066,22 +3052,9 @@ namespace TransitGatewayApisV1 {
     /** The status of the Transit Gateway. The list of enumerated values for this property may expand in the future.
      *  Code and processes using this field must tolerate unexpected values.
      */
-    status: TransitGateway.Constants.Status | string;
+    status: string;
     /** The date and time that this gateway was last updated. */
     updated_at?: string;
-  }
-  export namespace TransitGateway {
-    export namespace Constants {
-      /** The status of the Transit Gateway. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
-      export enum Status {
-        AVAILABLE = 'available',
-        FAILED = 'failed',
-        PENDING = 'pending',
-        DELETING = 'deleting',
-        SUSPENDING = 'suspending',
-        SUSPENDED = 'suspended',
-      }
-    }
   }
 
   /** A list of Transit Gateways. */
@@ -3116,67 +3089,80 @@ namespace TransitGatewayApisV1 {
 
   /** Connection included in transit gateway. */
   export interface TransitGatewayConnectionCust {
-    /** The type of network the GRE tunnel is targeting. */
-    base_network_type?: TransitGatewayConnectionCust.Constants.BaseNetworkType | string;
-    /** The user-defined name for this transit gateway connection. */
-    name: string;
-    /** The ID of the network being connected via this connection. This field is required for some types, such as
-     *  'vpc', 'power_virtual_server', 'directlink' and 'redundant_gre'. For network types 'vpc', 'redundant_gre',
-     *  'power_virtual_server' and 'directlink' this is the CRN of the VPC  / PowerVS / Direct Link gateway
-     *  respectively.
-     */
-    network_id?: string;
-    /** Defines what type of network is connected via this connection. The list of enumerated values for this
-     *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
-     */
-    network_type: TransitGatewayConnectionCust.Constants.NetworkType | string;
-    /** The unique identifier for this Transit Gateway Connection. */
-    id: string;
-    /** Deprecated: network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
-     *  network_type 'classic' connection the tunnel is configured over. The specified connection must reside in the
-     *  same transit gateway and be in an active state. The 'classic' connection cannot be deleted until any
-     *  'gre_tunnel' connections using it are deleted. This field only applies to and is required for network type
-     *  'gre_tunnel' connections.
+    /** Deprecated: network_type `gre_tunnel` connections use `base_connection_id` to specify the ID of a
+     *  network_type `classic` connection the tunnel is configured over. The specified connection must reside in the
+     *  same transit gateway and be in an active state. The `classic` connection cannot be deleted until any
+     *  `gre_tunnel` connections using it are deleted. This field only applies to and is required for network type
+     *  `gre_tunnel` connections.
      */
     base_connection_id?: string;
+    /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type
+     *  `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required
+     *  and can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `vmware`,
+     *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
+     */
+    base_network_type?: string;
+    /** network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels. */
+    cidr?: string;
     /** The date and time that this connection was created. */
     created_at: string;
-    /** Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    /** The unique identifier for this Transit Gateway connection. */
+    id: string;
+    /** Local network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     local_bgp_asn?: number;
-    /** Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    /** Local gateway IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     local_gateway_ip?: string;
-    /** Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    /** Local tunnel IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     local_tunnel_ip?: string;
-    /** GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections. */
+    /** GRE tunnel MTU.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections. */
     mtu?: number;
+    /** The user-defined name for this transit gateway connection. Network type `vpc`  connections are defaulted to
+     *  the name of the VPC.  Network type `classic` connections are named `classic`.
+     *
+     *  This field is required for network type `power_virtual_server`, `directlink`, `vmware`, `gre_tunnel`,
+     *  `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
+     *
+     *  This field is optional for network type `classic`, `vpc` connections.
+     */
+    name?: string;
     /** The ID of the account which owns the connected network. Generally only used if the network is in a different
      *  IBM Cloud account than the gateway.
      */
     network_account_id?: string;
+    /** The ID of the network being connected via this connection. For network types `vpc`,`power_virtual_server`,
+     *  `vmware`, `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC / Direct Link / VPN gateway
+     *  respectively. This field is required for network type `vpc`, `power_virtual_server`, `vmware`, `vpn_gateway`,
+     *  and `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is
+     *  set to VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and
+     *  `unbound_gre_tunnel` connections.
+     */
+    network_id?: string;
+    /** Defines what type of network is connected via this connection. */
+    network_type?: string;
     /** Array of prefix route filters for a transit gateway connection. This is order dependent with those first in
      *  the array being applied first, and those at the end of the array is applied last, or just before the default.
-     *  This field does not apply to the 'redundant_gre' network type.
+     *  This field does not apply to the `redundant_gre` network type.
      */
     prefix_filters?: TransitGatewayConnectionPrefixFilterReference[];
     /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This
-     *  field does not apply to the 'redundant_gre' network type.
+     *  field does not apply to the `redundant_gre` network type.
      */
-    prefix_filters_default?: TransitGatewayConnectionCust.Constants.PrefixFiltersDefault | string;
-    /** Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    prefix_filters_default?: string;
+    /** Remote network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     remote_bgp_asn?: number;
-    /** Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    /** Remote gateway IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     remote_gateway_ip?: string;
-    /** Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+    /** Remote tunnel IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
     remote_tunnel_ip?: string;
@@ -3184,67 +3170,23 @@ namespace TransitGatewayApisV1 {
      *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
      *  using this field must tolerate unexpected values.
      */
-    request_status: TransitGatewayConnectionCust.Constants.RequestStatus | string;
+    request_status: string;
     /** Connection's current configuration state. The list of enumerated values for this property may expand in the
      *  future. Code and processes using this field must tolerate unexpected values.
      */
-    status: TransitGatewayConnectionCust.Constants.Status | string;
-    /** Collection of all tunnels for 'redundant_gre' connection. */
-    tunnels?: TransitGatewayRedundantGRETunnelReference[];
+    status: string;
+    /** Collection of all tunnels for `redundant_gre` connection. */
+    tunnels?: TransitGatewayTunnel[];
     /** The date and time that this connection was last updated. */
     updated_at: string;
-    /** Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections. */
-    zone?: GreTunnelZoneReference;
-  }
-  export namespace TransitGatewayConnectionCust {
-    export namespace Constants {
-      /** The type of network the GRE tunnel is targeting. */
-      export enum BaseNetworkType {
-        CLASSIC = 'classic',
-        VPC = 'vpc',
-      }
-      /** Defines what type of network is connected via this connection. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
-      export enum NetworkType {
-        CLASSIC = 'classic',
-        DIRECTLINK = 'directlink',
-        GRE_TUNNEL = 'gre_tunnel',
-        UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel',
-        VPC = 'vpc',
-        POWER_VIRTUAL_SERVER = 'power_virtual_server',
-        REDUNDANT_GRE = 'redundant_gre',
-      }
-      /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does not apply to the 'redundant_gre' network type. */
-      export enum PrefixFiltersDefault {
-        PERMIT = 'permit',
-        DENY = 'deny',
-      }
-      /** Only visible for cross account connections, this field represents the status of a connection request between IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
-      export enum RequestStatus {
-        PENDING = 'pending',
-        APPROVED = 'approved',
-        REJECTED = 'rejected',
-        EXPIRED = 'expired',
-        DETACHED = 'detached',
-      }
-      /** Connection's current configuration state. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
-      export enum Status {
-        ATTACHED = 'attached',
-        FAILED = 'failed',
-        PENDING = 'pending',
-        NETWORK_PENDING = 'network_pending',
-        DELETING = 'deleting',
-        DETACHING = 'detaching',
-        DETACHED = 'detached',
-        SUSPENDING = 'suspending',
-        SUSPENDED = 'suspended',
-      }
-    }
+    /** Location of GRE tunnel. This field only applies to network type `gre_tunnel` connections. */
+    zone?: ZoneReference;
   }
 
   /** A prefix filter for a Transit Gateway connection. */
   export interface TransitGatewayConnectionPrefixFilter {
     /** Whether to permit or deny prefix filter. */
-    action: TransitGatewayConnectionPrefixFilter.Constants.Action | string;
+    action: string;
     /** IP Prefix GE. */
     ge?: number;
     /** IP Prefix LE. */
@@ -3252,20 +3194,11 @@ namespace TransitGatewayApisV1 {
     /** IP Prefix. */
     prefix: string;
   }
-  export namespace TransitGatewayConnectionPrefixFilter {
-    export namespace Constants {
-      /** Whether to permit or deny prefix filter. */
-      export enum Action {
-        PERMIT = 'permit',
-        DENY = 'deny',
-      }
-    }
-  }
 
   /** A prefix filter reference object for a Transit Gateway connection. */
   export interface TransitGatewayConnectionPrefixFilterReference {
     /** Whether to permit or deny prefix filter. */
-    action: TransitGatewayConnectionPrefixFilterReference.Constants.Action | string;
+    action: string;
     /** Identifier of prefix filter that handles the ordering and follow semantics:
      *  - When a filter reference another filter in it's before field, then the filter making the reference is applied
      *  before
@@ -3298,18 +3231,21 @@ namespace TransitGatewayApisV1 {
     /** The date and time that this prefix filter was last updated. */
     updated_at?: string;
   }
-  export namespace TransitGatewayConnectionPrefixFilterReference {
-    export namespace Constants {
-      /** Whether to permit or deny prefix filter. */
-      export enum Action {
-        PERMIT = 'permit',
-        DENY = 'deny',
-      }
-    }
+
+  /** Transit gateway reference. */
+  export interface TransitGatewayReference {
+    /** gateway CRN. */
+    crn: string;
+    /** gateway ID. */
+    id: string;
+    /** transit gateway name. */
+    name: string;
   }
 
   /** Details for a redundant GRE tunnel. */
-  export interface TransitGatewayRedundantGRETunnelReference {
+  export interface TransitGatewayTunnel {
+    /** The type of network the redundant GRE tunnel is targeting. */
+    base_network_type: string;
     /** The date and time that this GRE tunnel was created. */
     created_at: string;
     /** The unique identifier for this redundant GRE tunnel. */
@@ -3326,8 +3262,14 @@ namespace TransitGatewayApisV1 {
     mtu: number;
     /** The user-defined name for this tunnel. */
     name: string;
+    /** The ID of the account for cross account Classic connections.  This field is required when the GRE tunnel is
+     *  in a different account than the gateway and the base network is Classic.
+     */
+    network_account_id?: string;
+    /** The ID of the network VPC being connected via this connection. */
+    network_id?: string;
     /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on create
+     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create
      *  requests, IBM will assign an ASN.
      */
     remote_bgp_asn: number;
@@ -3340,32 +3282,21 @@ namespace TransitGatewayApisV1 {
     /** Tunnel's current configuration state. The list of enumerated values for this property may expand in the
      *  future. Code and processes using this field must tolerate unexpected values.
      */
-    status: TransitGatewayRedundantGRETunnelReference.Constants.Status | string;
+    status: string;
     /** The date and time that this tunnel was last updated. */
     updated_at: string;
-    /** The tunnel's location.  The specified availability zone must reside in the gateway's region. Use the IBM
-     *  Cloud global catalog to list zones within the desired region.
-     */
-    zone: RgreTunnelZoneReference;
+    /** Availability zone reference. */
+    zone: ZoneReference;
   }
-  export namespace TransitGatewayRedundantGRETunnelReference {
-    export namespace Constants {
-      /** Tunnel's current configuration state. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
-      export enum Status {
-        ATTACHED = 'attached',
-        FAILED = 'failed',
-        PENDING = 'pending',
-        DELETING = 'deleting',
-        DETACHING = 'detaching',
-        DETACHED = 'detached',
-        SUSPENDING = 'suspending',
-        SUSPENDED = 'suspended',
-      }
-    }
+
+  /** Collection of all tunnels for redundant gre connection. */
+  export interface TransitGatewayTunnelCollection {
+    /** Collection of all tunnels for redundant gre connection. */
+    tunnels: TransitGatewayTunnel[];
   }
 
   /** A create template with information for redundant GRE tunnel. */
-  export interface TransitGatewayRedundantGRETunnelTemplate {
+  export interface TransitGatewayTunnelTemplate {
     /** Local gateway IP address. */
     local_gateway_ip: string;
     /** Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
@@ -3375,7 +3306,7 @@ namespace TransitGatewayApisV1 {
     /** The user-defined name for this tunnel connection. */
     name: string;
     /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on create
+     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create
      *  requests, IBM will assign an ASN.
      */
     remote_bgp_asn?: number;
@@ -3391,16 +3322,6 @@ namespace TransitGatewayApisV1 {
     zone: ZoneIdentity;
   }
 
-  /** Transit gateway reference. */
-  export interface TransitGatewayReference {
-    /** gateway CRN. */
-    crn: string;
-    /** gateway ID. */
-    id: string;
-    /** transit gateway name. */
-    name: string;
-  }
-
   /** ZoneIdentity. */
   export interface ZoneIdentity {
   }
@@ -3409,12 +3330,6 @@ namespace TransitGatewayApisV1 {
   export interface ZoneReference {
     /** Availability zone name. */
     name: string;
-  }
-
-  /** Collection of availability zones. */
-  export interface ZoneReferenceCollection {
-    /** Array of valid zones for GRE tunnels. */
-    zones: ZoneReference[];
   }
 
   /** Availability zone. */
@@ -3432,7 +3347,6 @@ namespace TransitGatewayApisV1 {
    */
   export class TransitGatewaysPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: TransitGatewayApisV1;
@@ -3447,7 +3361,10 @@ namespace TransitGatewayApisV1 {
      * @constructor
      * @returns {TransitGatewaysPager}
      */
-    constructor(client: TransitGatewayApisV1, params?: TransitGatewayApisV1.ListTransitGatewaysParams) {
+    constructor(
+      client: TransitGatewayApisV1,
+      params?: TransitGatewayApisV1.ListTransitGatewaysParams
+    ) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
       }
@@ -3481,9 +3398,9 @@ namespace TransitGatewayApisV1 {
       const response = await this.client.listTransitGateways(this.params);
       const { result } = response;
 
-      let next;
+      let next = null;
       if (result && result.next) {
-        next = result.next.start;
+        next = result.next.start
       }
       this.pageContext.next = next;
       if (!this.pageContext.next) {
@@ -3511,7 +3428,6 @@ namespace TransitGatewayApisV1 {
    */
   export class ConnectionsPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: TransitGatewayApisV1;
@@ -3526,7 +3442,10 @@ namespace TransitGatewayApisV1 {
      * @constructor
      * @returns {ConnectionsPager}
      */
-    constructor(client: TransitGatewayApisV1, params?: TransitGatewayApisV1.ListConnectionsParams) {
+    constructor(
+      client: TransitGatewayApisV1,
+      params?: TransitGatewayApisV1.ListConnectionsParams
+    ) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
       }
@@ -3560,9 +3479,9 @@ namespace TransitGatewayApisV1 {
       const response = await this.client.listConnections(this.params);
       const { result } = response;
 
-      let next;
+      let next = null;
       if (result && result.next) {
-        next = result.next.start;
+        next = result.next.start
       }
       this.pageContext.next = next;
       if (!this.pageContext.next) {
@@ -3590,7 +3509,6 @@ namespace TransitGatewayApisV1 {
    */
   export class TransitGatewayConnectionsPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: TransitGatewayApisV1;
@@ -3605,7 +3523,10 @@ namespace TransitGatewayApisV1 {
      * @constructor
      * @returns {TransitGatewayConnectionsPager}
      */
-    constructor(client: TransitGatewayApisV1, params: TransitGatewayApisV1.ListTransitGatewayConnectionsParams) {
+    constructor(
+      client: TransitGatewayApisV1,
+      params: TransitGatewayApisV1.ListTransitGatewayConnectionsParams
+    ) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
       }
@@ -3639,9 +3560,9 @@ namespace TransitGatewayApisV1 {
       const response = await this.client.listTransitGatewayConnections(this.params);
       const { result } = response;
 
-      let next;
+      let next = null;
       if (result && result.next) {
-        next = result.next.start;
+        next = result.next.start
       }
       this.pageContext.next = next;
       if (!this.pageContext.next) {

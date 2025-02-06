@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-/* eslint-disable no-await-in-loop */
-
-const nock = require('nock');
-
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const sdkCorePackage = require('ibm-cloud-sdk-core');
 
 const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
+
 const TransitGatewayApiV1 = require('../../dist/transit-gateway-api/v1');
+const nock = require('nock');
+
+/* eslint-disable no-await-in-loop */
 
 const {
   getOptions,
@@ -62,6 +62,7 @@ getAuthenticatorMock.mockImplementation(() => new NoAuthAuthenticator());
 let requiredGlobals;
 
 describe('TransitGatewayApiV1', () => {
+
   beforeEach(() => {
     mock_createRequest();
     // these are changed when passed into the factory/constructor, so re-init
@@ -76,7 +77,7 @@ describe('TransitGatewayApiV1', () => {
     }
     getAuthenticatorMock.mockClear();
   });
-
+  
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = TransitGatewayApiV1.newInstance(requiredGlobals);
@@ -215,16 +216,16 @@ describe('TransitGatewayApiV1', () => {
       const serviceUrl = transitGatewayApiServiceOptions.url;
       const path = '/transit_gateways';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
+        '{"next":{"start":"1"},"transit_gateways":[{"allow_gre_traffic_across_zones":true,"connection_count":5,"connection_needs_attention":true,"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","global":true,"id":"0a06fb9b-820f-4c44-8a31-77f1f0806d28","location":"us-south","name":"my-transit-gateway-in-TransitGateway","resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
       const mockPagerResponse2 =
-        '{"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
+        '{"transit_gateways":[{"allow_gre_traffic_across_zones":true,"connection_count":5,"connection_needs_attention":true,"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","global":true,"id":"0a06fb9b-820f-4c44-8a31-77f1f0806d28","location":"us-south","name":"my-transit-gateway-in-TransitGateway","resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
 
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -271,14 +272,16 @@ describe('TransitGatewayApiV1', () => {
 
       function __createTransitGatewayTest() {
         // Construct the params object for operation createTransitGateway
-        const location = 'us-south';
-        const name = 'Transit_Service_BWTN_SJ_DL';
+        const allowGreTrafficAcrossZones = true;
         const global = true;
+        const location = 'us-south';
+        const name = 'my-transit-gateway-in-TransitGateway';
         const resourceGroup = resourceGroupIdentityModel;
         const createTransitGatewayParams = {
+          allowGreTrafficAcrossZones,
+          global,
           location,
           name,
-          global,
           resourceGroup,
         };
 
@@ -296,9 +299,10 @@ describe('TransitGatewayApiV1', () => {
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.allow_gre_traffic_across_zones).toEqual(allowGreTrafficAcrossZones);
+        expect(mockRequestOptions.body.global).toEqual(global);
         expect(mockRequestOptions.body.location).toEqual(location);
         expect(mockRequestOptions.body.name).toEqual(name);
-        expect(mockRequestOptions.body.global).toEqual(global);
         expect(mockRequestOptions.body.resource_group).toEqual(resourceGroup);
         expect(mockRequestOptions.qs.version).toEqual(transitGatewayApiServiceOptions.version);
       }
@@ -320,13 +324,9 @@ describe('TransitGatewayApiV1', () => {
 
       test('should prioritize user-given headers', () => {
         // parameters
-        const location = 'us-south';
-        const name = 'Transit_Service_BWTN_SJ_DL';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const createTransitGatewayParams = {
-          location,
-          name,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
@@ -336,29 +336,11 @@ describe('TransitGatewayApiV1', () => {
         transitGatewayApiService.createTransitGateway(createTransitGatewayParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
-    });
 
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await transitGatewayApiService.createTransitGateway({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApiService.createTransitGateway();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        transitGatewayApiService.createTransitGateway({});
+        checkForSuccessfulExecution(createRequestMock);
       });
     });
   });
@@ -538,10 +520,12 @@ describe('TransitGatewayApiV1', () => {
       function __updateTransitGatewayTest() {
         // Construct the params object for operation updateTransitGateway
         const id = 'testString';
+        const allowGreTrafficAcrossZones = true;
         const global = true;
-        const name = 'my-transit-gateway';
+        const name = 'my-resource';
         const updateTransitGatewayParams = {
           id,
+          allowGreTrafficAcrossZones,
           global,
           name,
         };
@@ -560,6 +544,7 @@ describe('TransitGatewayApiV1', () => {
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.allow_gre_traffic_across_zones).toEqual(allowGreTrafficAcrossZones);
         expect(mockRequestOptions.body.global).toEqual(global);
         expect(mockRequestOptions.body.name).toEqual(name);
         expect(mockRequestOptions.qs.version).toEqual(transitGatewayApiServiceOptions.version);
@@ -705,9 +690,9 @@ describe('TransitGatewayApiV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -842,16 +827,16 @@ describe('TransitGatewayApiV1', () => {
       const serviceUrl = transitGatewayApiServiceOptions.url;
       const path = '/transit_gateways/testString/connections';
       const mockPagerResponse1 =
-        '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"network_account_id","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"base_network_type":"classic","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":13,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","network_account_id":"network_account_id","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
+        '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{}]}';
       const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"network_account_id","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"base_network_type":"classic","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":13,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","network_account_id":"network_account_id","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}';
+        '{"total_count":2,"limit":1,"connections":[{}]}';
 
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -925,6 +910,7 @@ describe('TransitGatewayApiV1', () => {
         const networkType = 'vpc';
         const baseConnectionId = '975f58c1-afe7-469a-9727-7f3d720f2d32';
         const baseNetworkType = 'classic';
+        const cidr = '192.168.0.0/24';
         const localGatewayIp = '192.168.100.1';
         const localTunnelIp = '192.168.129.2';
         const name = 'Transit_Service_BWTN_SJ_DL';
@@ -942,6 +928,7 @@ describe('TransitGatewayApiV1', () => {
           networkType,
           baseConnectionId,
           baseNetworkType,
+          cidr,
           localGatewayIp,
           localTunnelIp,
           name,
@@ -973,6 +960,7 @@ describe('TransitGatewayApiV1', () => {
         expect(mockRequestOptions.body.network_type).toEqual(networkType);
         expect(mockRequestOptions.body.base_connection_id).toEqual(baseConnectionId);
         expect(mockRequestOptions.body.base_network_type).toEqual(baseNetworkType);
+        expect(mockRequestOptions.body.cidr).toEqual(cidr);
         expect(mockRequestOptions.body.local_gateway_ip).toEqual(localGatewayIp);
         expect(mockRequestOptions.body.local_tunnel_ip).toEqual(localTunnelIp);
         expect(mockRequestOptions.body.name).toEqual(name);
