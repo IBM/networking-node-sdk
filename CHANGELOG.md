@@ -1,3 +1,10 @@
+## [0.35.3](https://github.com/IBM/networking-node-sdk/compare/v0.35.2...v0.35.3) (2025-03-11)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/node to v20.17.24 ([#157](https://github.com/IBM/networking-node-sdk/issues/157)) ([5bc7d66](https://github.com/IBM/networking-node-sdk/commit/5bc7d66b4e83aa2a6fa7adc093f8a1fce28523fa))
+
 ## [0.35.2](https://github.com/IBM/networking-node-sdk/compare/v0.35.1...v0.35.2) (2024-08-27)
 
 
