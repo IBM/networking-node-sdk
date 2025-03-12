@@ -61,7 +61,7 @@
     "nock": "^13.5.4",
     "node-notifier": "^10.0.1",
     "prettier": "^3.2.5",
-    "semantic-release": "^23.0.3",
+    "semantic-release": "^24.0.0",
     "set-value": "^4.1.0",
     "tsc-publish": "^0.5.2",
     "tslint": "^5.20.1",
