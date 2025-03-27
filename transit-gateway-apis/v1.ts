@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.73.0-eeee85a9-20230607-165104
+ * IBM OpenAPI SDK Code Generator Version: 3.90.0-5aad763d-20240506-203857
  */
 
 /* eslint-disable max-classes-per-file */
@@ -26,9 +26,9 @@ import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import {
   Authenticator,
   BaseService,
+  UserOptions,
   getAuthenticatorFromEnvironment,
   validateParams,
-  UserOptions,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
 
@@ -53,7 +53,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {UserOptions} [options] - The parameters to send to the service.
    * @param {string} [options.serviceName] - The name of the service to configure
    * @param {Authenticator} [options.authenticator] - The Authenticator object used to authenticate requests to the service
-   * @param {string} [options.serviceUrl] - The URL for the service
+   * @param {string} [options.serviceUrl] - The base URL for the service
    * @returns {TransitGatewayApisV1}
    */
 
@@ -85,7 +85,7 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {Object} options - Options for the service.
    * @param {string} options.version - Requests the version of the API as of a date in the format `YYYY-MM-DD`. Any date
    * up to the current date may be provided. Specify the current date to request the latest version.
-   * @param {string} [options.serviceUrl] - The base url to use when contacting the service. The base url may differ between IBM Cloud regions.
+   * @param {string} [options.serviceUrl] - The base URL for the service
    * @param {OutgoingHttpHeaders} [options.headers] - Default headers that shall be included with every request to the service.
    * @param {Authenticator} options.authenticator - The Authenticator object used to authenticate requests to the service
    * @constructor
@@ -140,11 +140,7 @@ class TransitGatewayApisV1 extends BaseService {
       'start': _params.start,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listTransitGateways'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listTransitGateways');
 
     const parameters = {
       options: {
@@ -206,11 +202,7 @@ class TransitGatewayApisV1 extends BaseService {
       'version': this.version,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createTransitGateway'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGateway');
 
     const parameters = {
       options: {
@@ -265,11 +257,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteTransitGateway'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteTransitGateway');
 
     const parameters = {
       options: {
@@ -321,11 +309,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getTransitGateway'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGateway');
 
     const parameters = {
       options: {
@@ -387,11 +371,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateTransitGateway'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'updateTransitGateway');
 
     const parameters = {
       options: {
@@ -452,11 +432,7 @@ class TransitGatewayApisV1 extends BaseService {
       'network_type': _params.networkType,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listConnections'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listConnections');
 
     const parameters = {
       options: {
@@ -517,11 +493,7 @@ class TransitGatewayApisV1 extends BaseService {
       'transit_gateway_id': _params.transitGatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listTransitGatewayConnections'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listTransitGatewayConnections');
 
     const parameters = {
       options: {
@@ -680,11 +652,7 @@ class TransitGatewayApisV1 extends BaseService {
       'transit_gateway_id': _params.transitGatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createTransitGatewayConnection'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGatewayConnection');
 
     const parameters = {
       options: {
@@ -742,11 +710,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteTransitGatewayConnection'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteTransitGatewayConnection');
 
     const parameters = {
       options: {
@@ -800,11 +764,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getTransitGatewayConnection'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGatewayConnection');
 
     const parameters = {
       options: {
@@ -869,11 +829,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateTransitGatewayConnection'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'updateTransitGatewayConnection');
 
     const parameters = {
       options: {
@@ -935,11 +891,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createTransitGatewayConnectionActions'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGatewayConnectionActions');
 
     const parameters = {
       options: {
@@ -995,11 +947,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listTransitGatewayGreTunnel'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listTransitGatewayGreTunnel');
 
     const parameters = {
       options: {
@@ -1077,11 +1025,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createTransitGatewayGreTunnel'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGatewayGreTunnel');
 
     const parameters = {
       options: {
@@ -1140,11 +1084,7 @@ class TransitGatewayApisV1 extends BaseService {
       'gre_tunnel_id': _params.greTunnelId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteTransitGatewayConnectionTunnels'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteTransitGatewayConnectionTunnels');
 
     const parameters = {
       options: {
@@ -1200,11 +1140,7 @@ class TransitGatewayApisV1 extends BaseService {
       'gre_tunnel_id': _params.greTunnelId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getTransitGatewayConnectionTunnels'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGatewayConnectionTunnels');
 
     const parameters = {
       options: {
@@ -1266,11 +1202,7 @@ class TransitGatewayApisV1 extends BaseService {
       'gre_tunnel_id': _params.greTunnelId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateTransitGatewayConnectionTunnels'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'updateTransitGatewayConnectionTunnels');
 
     const parameters = {
       options: {
@@ -1323,11 +1255,7 @@ class TransitGatewayApisV1 extends BaseService {
       'version': this.version,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listGatewayLocations'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayLocations');
 
     const parameters = {
       options: {
@@ -1379,11 +1307,7 @@ class TransitGatewayApisV1 extends BaseService {
       'name': _params.name,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getGatewayLocation'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayLocation');
 
     const parameters = {
       options: {
@@ -1441,11 +1365,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listTransitGatewayConnectionPrefixFilters'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listTransitGatewayConnectionPrefixFilters');
 
     const parameters = {
       options: {
@@ -1534,11 +1454,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createTransitGatewayConnectionPrefixFilter'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGatewayConnectionPrefixFilter');
 
     const parameters = {
       options: {
@@ -1600,11 +1516,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'replaceTransitGatewayConnectionPrefixFilter'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'replaceTransitGatewayConnectionPrefixFilter');
 
     const parameters = {
       options: {
@@ -1663,11 +1575,7 @@ class TransitGatewayApisV1 extends BaseService {
       'filter_id': _params.filterId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteTransitGatewayConnectionPrefixFilter'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteTransitGatewayConnectionPrefixFilter');
 
     const parameters = {
       options: {
@@ -1723,11 +1631,7 @@ class TransitGatewayApisV1 extends BaseService {
       'filter_id': _params.filterId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getTransitGatewayConnectionPrefixFilter'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGatewayConnectionPrefixFilter');
 
     const parameters = {
       options: {
@@ -1815,11 +1719,7 @@ class TransitGatewayApisV1 extends BaseService {
       'filter_id': _params.filterId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateTransitGatewayConnectionPrefixFilter'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'updateTransitGatewayConnectionPrefixFilter');
 
     const parameters = {
       options: {
@@ -1878,11 +1778,7 @@ class TransitGatewayApisV1 extends BaseService {
       'transit_gateway_id': _params.transitGatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listTransitGatewayRouteReports'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listTransitGatewayRouteReports');
 
     const parameters = {
       options: {
@@ -1936,11 +1832,7 @@ class TransitGatewayApisV1 extends BaseService {
       'transit_gateway_id': _params.transitGatewayId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createTransitGatewayRouteReport'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'createTransitGatewayRouteReport');
 
     const parameters = {
       options: {
@@ -1995,11 +1887,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteTransitGatewayRouteReport'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteTransitGatewayRouteReport');
 
     const parameters = {
       options: {
@@ -2053,11 +1941,7 @@ class TransitGatewayApisV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      TransitGatewayApisV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getTransitGatewayRouteReport'
-    );
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getTransitGatewayRouteReport');
 
     const parameters = {
       options: {
@@ -2726,7 +2610,7 @@ namespace TransitGatewayApisV1 {
   /** prefix filter. */
   export interface PrefixFilterCust {
     /** Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition. */
-    action: string;
+    action: PrefixFilterCust.Constants.Action | string;
     /** A reference to the prefix filter that will be the next filter applied to the Transit Gateway connection.
      *
      *  If this field is blank, this prefix filter will be the last rule applied before the connection's default rule.
@@ -2766,11 +2650,20 @@ namespace TransitGatewayApisV1 {
     /** The date and time that this prefix filter was last updated. */
     updated_at?: string;
   }
+  export namespace PrefixFilterCust {
+    export namespace Constants {
+      /** Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition. */
+      export enum Action {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+    }
+  }
 
   /** A prefix filter update template. */
   export interface PrefixFilterPut {
     /** Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition. */
-    action: string;
+    action: PrefixFilterPut.Constants.Action | string;
     /** Defines the minimum matched prefix precision. If this field is non-zero then the filter will match all
      *  routes within the `prefix` that have a prefix length greater or equal to this value.
      *
@@ -2795,6 +2688,15 @@ namespace TransitGatewayApisV1 {
      *  address space defined by `prefix`.
      */
     prefix: string;
+  }
+  export namespace PrefixFilterPut {
+    export namespace Constants {
+      /** Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition. */
+      export enum Action {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+    }
   }
 
   /** The resource group to use. If unspecified, the account's [default resource group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used. */
@@ -2824,9 +2726,19 @@ namespace TransitGatewayApisV1 {
     /** Route report status. The list of enumerated values for this property may expand in the future. Code and
      *  processes using this field must tolerate unexpected values.
      */
-    status: string;
+    status: RouteReport.Constants.Status | string;
     /** Date and time route report was last modified. */
     updated_at?: string;
+  }
+  export namespace RouteReport {
+    export namespace Constants {
+      /** Route report status. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
+      export enum Status {
+        COMPLETE = 'complete',
+        PENDING = 'pending',
+        FAILED = 'failed',
+      }
+    }
   }
 
   /** route reports. */
@@ -2899,7 +2811,16 @@ namespace TransitGatewayApisV1 {
      *  presence. The list of enumerated values for this property may expand in the future. Code and processes using
      *  this field must tolerate unexpected values.
      */
-    type: string;
+    type: TSLocalLocation.Constants.Type | string;
+  }
+  export namespace TSLocalLocation {
+    export namespace Constants {
+      /** The type of the location, determining is this a multi-zone region, a single data center, or a point of presence. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
+      export enum Type {
+        REGION = 'region',
+        DC = 'dc',
+      }
+    }
   }
 
   /** Details of a Transit Gateway location. */
@@ -2933,7 +2854,7 @@ namespace TransitGatewayApisV1 {
   /** Connection included in transit gateway. */
   export interface TransitConnection {
     /** The type of network the GRE tunnel is targeting. */
-    base_network_type?: string;
+    base_network_type?: TransitConnection.Constants.BaseNetworkType | string;
     /** The user-defined name for this transit gateway connection. */
     name: string;
     /** The ID of the network being connected via this connection. This field is required for some types, such as
@@ -2945,7 +2866,7 @@ namespace TransitGatewayApisV1 {
     /** Defines what type of network is connected via this connection. The list of enumerated values for this
      *  property may expand in the future. Code and processes using this field must tolerate unexpected values.
      */
-    network_type: string;
+    network_type: TransitConnection.Constants.NetworkType | string;
     /** The unique identifier for this Transit Gateway connection. */
     id: string;
     /** Deprecated: network_type `gre_tunnel` connections use `base_connection_id` to specify the ID of a
@@ -2985,7 +2906,7 @@ namespace TransitGatewayApisV1 {
      *
      *  This field does not apply to the `redundant_gre` network types.
      */
-    prefix_filters_default?: string;
+    prefix_filters_default?: TransitConnection.Constants.PrefixFiltersDefault | string;
     /** Remote network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
@@ -3002,11 +2923,11 @@ namespace TransitGatewayApisV1 {
      *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
      *  using this field must tolerate unexpected values.
      */
-    request_status: string;
+    request_status: TransitConnection.Constants.RequestStatus | string;
     /** Connection's current configuration state. The list of enumerated values for this property may expand in the
      *  future. Code and processes using this field must tolerate unexpected values.
      */
-    status: string;
+    status: TransitConnection.Constants.Status | string;
     /** Transit gateway reference. */
     transit_gateway: TransitGatewayReference;
     /** Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections. */
@@ -3015,6 +2936,51 @@ namespace TransitGatewayApisV1 {
     updated_at: string;
     /** Availability zone reference. */
     zone?: ZoneReference;
+  }
+  export namespace TransitConnection {
+    export namespace Constants {
+      /** The type of network the GRE tunnel is targeting. */
+      export enum BaseNetworkType {
+        CLASSIC = 'classic',
+        VPC = 'vpc',
+      }
+      /** Defines what type of network is connected via this connection. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
+      export enum NetworkType {
+        CLASSIC = 'classic',
+        DIRECTLINK = 'directlink',
+        GRE_TUNNEL = 'gre_tunnel',
+        UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel',
+        VPC = 'vpc',
+        POWER_VIRTUAL_SERVER = 'power_virtual_server',
+        REDUNDANT_GRE = 'redundant_gre',
+        VPN_GATEWAY = 'vpn_gateway',
+      }
+      /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does not apply to the `redundant_gre` network types. */
+      export enum PrefixFiltersDefault {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** Only visible for cross account connections, this field represents the status of a connection request between IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
+      export enum RequestStatus {
+        PENDING = 'pending',
+        APPROVED = 'approved',
+        REJECTED = 'rejected',
+        EXPIRED = 'expired',
+        DETACHED = 'detached',
+      }
+      /** Connection's current configuration state. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
+      export enum Status {
+        ATTACHED = 'attached',
+        FAILED = 'failed',
+        PENDING = 'pending',
+        NETWORK_PENDING = 'network_pending',
+        DELETING = 'deleting',
+        DETACHING = 'detaching',
+        DETACHED = 'detached',
+        SUSPENDING = 'suspending',
+        SUSPENDED = 'suspended',
+      }
+    }
   }
 
   /** Transit gateway connections. */
@@ -3056,9 +3022,22 @@ namespace TransitGatewayApisV1 {
     /** The status of the Transit Gateway. The list of enumerated values for this property may expand in the future.
      *  Code and processes using this field must tolerate unexpected values.
      */
-    status: string;
+    status: TransitGateway.Constants.Status | string;
     /** The date and time that this gateway was last updated. */
     updated_at?: string;
+  }
+  export namespace TransitGateway {
+    export namespace Constants {
+      /** The status of the Transit Gateway. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
+      export enum Status {
+        AVAILABLE = 'available',
+        FAILED = 'failed',
+        PENDING = 'pending',
+        DELETING = 'deleting',
+        SUSPENDING = 'suspending',
+        SUSPENDED = 'suspended',
+      }
+    }
   }
 
   /** A list of Transit Gateways. */
@@ -3105,7 +3084,7 @@ namespace TransitGatewayApisV1 {
      *  and can be either VPC or Classic. This field is required to be unspecified for network type `classic`,
      *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
      */
-    base_network_type?: string;
+    base_network_type?: TransitGatewayConnectionCust.Constants.BaseNetworkType | string;
     /** network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels. */
     cidr?: string;
     /** The date and time that this connection was created. */
@@ -3148,7 +3127,7 @@ namespace TransitGatewayApisV1 {
      */
     network_id?: string;
     /** Defines what type of network is connected via this connection. */
-    network_type?: string;
+    network_type?: TransitGatewayConnectionCust.Constants.NetworkType | string;
     /** Array of prefix route filters for a transit gateway connection. This is order dependent with those first in
      *  the array being applied first, and those at the end of the array is applied last, or just before the default.
      *  This field does not apply to the `redundant_gre` network type.
@@ -3157,7 +3136,7 @@ namespace TransitGatewayApisV1 {
     /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This
      *  field does not apply to the `redundant_gre` network type.
      */
-    prefix_filters_default?: string;
+    prefix_filters_default?: TransitGatewayConnectionCust.Constants.PrefixFiltersDefault | string;
     /** Remote network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
@@ -3174,11 +3153,11 @@ namespace TransitGatewayApisV1 {
      *  IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes
      *  using this field must tolerate unexpected values.
      */
-    request_status: string;
+    request_status: TransitGatewayConnectionCust.Constants.RequestStatus | string;
     /** Connection's current configuration state. The list of enumerated values for this property may expand in the
      *  future. Code and processes using this field must tolerate unexpected values.
      */
-    status: string;
+    status: TransitGatewayConnectionCust.Constants.Status | string;
     /** Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections. */
     tunnels?: TransitGatewayTunnel[];
     /** The date and time that this connection was last updated. */
@@ -3186,11 +3165,56 @@ namespace TransitGatewayApisV1 {
     /** Location of GRE tunnel. This field is required for network type `gre_tunnel` and `vpn_gateway` connections. */
     zone?: ZoneReference;
   }
+  export namespace TransitGatewayConnectionCust {
+    export namespace Constants {
+      /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections. */
+      export enum BaseNetworkType {
+        CLASSIC = 'classic',
+        VPC = 'vpc',
+      }
+      /** Defines what type of network is connected via this connection. */
+      export enum NetworkType {
+        CLASSIC = 'classic',
+        DIRECTLINK = 'directlink',
+        GRE_TUNNEL = 'gre_tunnel',
+        UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel',
+        VPC = 'vpc',
+        POWER_VIRTUAL_SERVER = 'power_virtual_server',
+        REDUNDANT_GRE = 'redundant_gre',
+        VPN_GATEWAY = 'vpn_gateway',
+      }
+      /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does not apply to the `redundant_gre` network type. */
+      export enum PrefixFiltersDefault {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** Only visible for cross account connections, this field represents the status of a connection request between IBM Cloud accounts. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
+      export enum RequestStatus {
+        PENDING = 'pending',
+        APPROVED = 'approved',
+        REJECTED = 'rejected',
+        EXPIRED = 'expired',
+        DETACHED = 'detached',
+      }
+      /** Connection's current configuration state. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
+      export enum Status {
+        ATTACHED = 'attached',
+        FAILED = 'failed',
+        PENDING = 'pending',
+        NETWORK_PENDING = 'network_pending',
+        DELETING = 'deleting',
+        DETACHING = 'detaching',
+        DETACHED = 'detached',
+        SUSPENDING = 'suspending',
+        SUSPENDED = 'suspended',
+      }
+    }
+  }
 
   /** A prefix filter for a Transit Gateway connection. */
   export interface TransitGatewayConnectionPrefixFilter {
     /** Whether to permit or deny prefix filter. */
-    action: string;
+    action: TransitGatewayConnectionPrefixFilter.Constants.Action | string;
     /** IP Prefix GE. */
     ge?: number;
     /** IP Prefix LE. */
@@ -3198,11 +3222,20 @@ namespace TransitGatewayApisV1 {
     /** IP Prefix. */
     prefix: string;
   }
+  export namespace TransitGatewayConnectionPrefixFilter {
+    export namespace Constants {
+      /** Whether to permit or deny prefix filter. */
+      export enum Action {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+    }
+  }
 
   /** A prefix filter reference object for a Transit Gateway connection. */
   export interface TransitGatewayConnectionPrefixFilterReference {
     /** Whether to permit or deny prefix filter. */
-    action: string;
+    action: TransitGatewayConnectionPrefixFilterReference.Constants.Action | string;
     /** Identifier of prefix filter that handles the ordering and follow semantics:
      *  - When a filter reference another filter in it's before field, then the filter making the reference is applied
      *  before
@@ -3235,6 +3268,15 @@ namespace TransitGatewayApisV1 {
     /** The date and time that this prefix filter was last updated. */
     updated_at?: string;
   }
+  export namespace TransitGatewayConnectionPrefixFilterReference {
+    export namespace Constants {
+      /** Whether to permit or deny prefix filter. */
+      export enum Action {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+    }
+  }
 
   /** Transit gateway reference. */
   export interface TransitGatewayReference {
@@ -3249,7 +3291,7 @@ namespace TransitGatewayApisV1 {
   /** Details for a redundant GRE tunnel. */
   export interface TransitGatewayTunnel {
     /** The type of network the redundant GRE tunnel is targeting. */
-    base_network_type: string;
+    base_network_type: TransitGatewayTunnel.Constants.BaseNetworkType | string;
     /** The date and time that this GRE tunnel was created. */
     created_at: string;
     /** The unique identifier for this redundant GRE tunnel. */
@@ -3286,11 +3328,31 @@ namespace TransitGatewayApisV1 {
     /** Tunnel's current configuration state. The list of enumerated values for this property may expand in the
      *  future. Code and processes using this field must tolerate unexpected values.
      */
-    status: string;
+    status: TransitGatewayTunnel.Constants.Status | string;
     /** The date and time that this tunnel was last updated. */
     updated_at: string;
     /** Availability zone reference. */
     zone: ZoneReference;
+  }
+  export namespace TransitGatewayTunnel {
+    export namespace Constants {
+      /** The type of network the redundant GRE tunnel is targeting. */
+      export enum BaseNetworkType {
+        CLASSIC = 'classic',
+        VPC = 'vpc',
+      }
+      /** Tunnel's current configuration state. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
+      export enum Status {
+        ATTACHED = 'attached',
+        FAILED = 'failed',
+        PENDING = 'pending',
+        DELETING = 'deleting',
+        DETACHING = 'detaching',
+        DETACHED = 'detached',
+        SUSPENDING = 'suspending',
+        SUSPENDED = 'suspended',
+      }
+    }
   }
 
   /** Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections. */
@@ -3351,6 +3413,7 @@ namespace TransitGatewayApisV1 {
    */
   export class TransitGatewaysPager {
     protected _hasNext: boolean;
+
     protected pageContext: any;
 
     protected client: TransitGatewayApisV1;
@@ -3365,10 +3428,7 @@ namespace TransitGatewayApisV1 {
      * @constructor
      * @returns {TransitGatewaysPager}
      */
-    constructor(
-      client: TransitGatewayApisV1,
-      params?: TransitGatewayApisV1.ListTransitGatewaysParams
-    ) {
+    constructor(client: TransitGatewayApisV1, params?: TransitGatewayApisV1.ListTransitGatewaysParams) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
       }
@@ -3402,9 +3462,9 @@ namespace TransitGatewayApisV1 {
       const response = await this.client.listTransitGateways(this.params);
       const { result } = response;
 
-      let next = null;
+      let next;
       if (result && result.next) {
-        next = result.next.start
+        next = result.next.start;
       }
       this.pageContext.next = next;
       if (!this.pageContext.next) {
@@ -3432,6 +3492,7 @@ namespace TransitGatewayApisV1 {
    */
   export class ConnectionsPager {
     protected _hasNext: boolean;
+
     protected pageContext: any;
 
     protected client: TransitGatewayApisV1;
@@ -3446,10 +3507,7 @@ namespace TransitGatewayApisV1 {
      * @constructor
      * @returns {ConnectionsPager}
      */
-    constructor(
-      client: TransitGatewayApisV1,
-      params?: TransitGatewayApisV1.ListConnectionsParams
-    ) {
+    constructor(client: TransitGatewayApisV1, params?: TransitGatewayApisV1.ListConnectionsParams) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
       }
@@ -3483,9 +3541,9 @@ namespace TransitGatewayApisV1 {
       const response = await this.client.listConnections(this.params);
       const { result } = response;
 
-      let next = null;
+      let next;
       if (result && result.next) {
-        next = result.next.start
+        next = result.next.start;
       }
       this.pageContext.next = next;
       if (!this.pageContext.next) {
@@ -3513,6 +3571,7 @@ namespace TransitGatewayApisV1 {
    */
   export class TransitGatewayConnectionsPager {
     protected _hasNext: boolean;
+
     protected pageContext: any;
 
     protected client: TransitGatewayApisV1;
@@ -3527,10 +3586,7 @@ namespace TransitGatewayApisV1 {
      * @constructor
      * @returns {TransitGatewayConnectionsPager}
      */
-    constructor(
-      client: TransitGatewayApisV1,
-      params: TransitGatewayApisV1.ListTransitGatewayConnectionsParams
-    ) {
+    constructor(client: TransitGatewayApisV1, params: TransitGatewayApisV1.ListTransitGatewayConnectionsParams) {
       if (params && params.start) {
         throw new Error(`the params.start field should not be set`);
       }
@@ -3564,9 +3620,9 @@ namespace TransitGatewayApisV1 {
       const response = await this.client.listTransitGatewayConnections(this.params);
       const { result } = response;
 
-      let next = null;
+      let next;
       if (result && result.next) {
-        next = result.next.start
+        next = result.next.start;
       }
       this.pageContext.next = next;
       if (!this.pageContext.next) {
