@@ -30,7 +30,7 @@ const {
   checkMediaHeaders,
   expectToBePromise,
   checkForSuccessfulExecution,
-} = unitTestUtils;
+} = require('@ibm-cloud/sdk-test-utilities');
 
 const transitGatewayApisServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
