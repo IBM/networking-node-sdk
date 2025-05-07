@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ const nock = require('nock');
 
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const sdkCorePackage = require('ibm-cloud-sdk-core');
-const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
 
+const { NoAuthAuthenticator } = sdkCorePackage;
 const DirectLinkV1 = require('../../dist/direct-link/v1');
 
 const {
@@ -218,9 +218,9 @@ describe('DirectLinkV1', () => {
         specific_prefixes: ['192.168.3.0/24'],
       };
 
-      // GatewayTemplateAuthenticationKey
-      const gatewayTemplateAuthenticationKeyModel = {
-        crn: 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
+      // AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
+      const authenticationKeyIdentityModel = {
+        crn: 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayBfdConfigTemplate
@@ -242,28 +242,37 @@ describe('DirectLinkV1', () => {
         id: '56969d6043e9465c883cb9f7363e78e8',
       };
 
-      // GatewayMacsecConfigTemplateFallbackCak
-      const gatewayMacsecConfigTemplateFallbackCakModel = {
+      // HpcsKeyIdentity
+      const hpcsKeyIdentityModel = {
         crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
-      // GatewayMacsecConfigTemplatePrimaryCak
-      const gatewayMacsecConfigTemplatePrimaryCakModel = {
-        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+      // GatewayMacsecCakPrototype
+      const gatewayMacsecCakPrototypeModel = {
+        key: hpcsKeyIdentityModel,
+        name: '1000',
+        session: 'primary',
       };
 
-      // GatewayMacsecConfigTemplate
-      const gatewayMacsecConfigTemplateModel = {
+      // SakRekeyPrototypeSakRekeyTimerModePrototype
+      const sakRekeyPrototypeModel = {
+        interval: 3600,
+        mode: 'timer',
+      };
+
+      // GatewayMacsecPrototype
+      const gatewayMacsecPrototypeModel = {
         active: true,
-        fallback_cak: gatewayMacsecConfigTemplateFallbackCakModel,
-        primary_cak: gatewayMacsecConfigTemplatePrimaryCakModel,
-        window_size: 148809600,
+        caks: [gatewayMacsecCakPrototypeModel],
+        sak_rekey: sakRekeyPrototypeModel,
+        security_policy: 'must_secure',
+        window_size: 64,
       };
 
       // GatewayTemplateGatewayTypeDedicatedTemplate
       const gatewayTemplateModel = {
         as_prepends: [asPrependTemplateModel],
-        authentication_key: gatewayTemplateAuthenticationKeyModel,
+        authentication_key: authenticationKeyIdentityModel,
         bfd_config: gatewayBfdConfigTemplateModel,
         bgp_asn: 64999,
         bgp_base_cidr: 'testString',
@@ -285,7 +294,8 @@ describe('DirectLinkV1', () => {
         cross_connect_router: 'xcr01.dal03',
         customer_name: 'newCustomerName',
         location_name: 'dal03',
-        macsec_config: gatewayMacsecConfigTemplateModel,
+        macsec: gatewayMacsecPrototypeModel,
+        macsec_capability: 'non_macsec',
         vlan: 10,
       };
 
@@ -546,9 +556,9 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // GatewayPatchTemplateAuthenticationKey
-      const gatewayPatchTemplateAuthenticationKeyModel = {
-        crn: 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
+      // AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
+      const authenticationKeyIdentityModel = {
+        crn: 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayBfdPatchTemplate
@@ -557,28 +567,10 @@ describe('DirectLinkV1', () => {
         multiplier: 10,
       };
 
-      // GatewayMacsecConfigPatchTemplateFallbackCak
-      const gatewayMacsecConfigPatchTemplateFallbackCakModel = {
-        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
-      };
-
-      // GatewayMacsecConfigPatchTemplatePrimaryCak
-      const gatewayMacsecConfigPatchTemplatePrimaryCakModel = {
-        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
-      };
-
-      // GatewayMacsecConfigPatchTemplate
-      const gatewayMacsecConfigPatchTemplateModel = {
-        active: true,
-        fallback_cak: gatewayMacsecConfigPatchTemplateFallbackCakModel,
-        primary_cak: gatewayMacsecConfigPatchTemplatePrimaryCakModel,
-        window_size: 512,
-      };
-
       function __updateGatewayTest() {
         // Construct the params object for operation updateGateway
         const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
-        const authenticationKey = gatewayPatchTemplateAuthenticationKeyModel;
+        const authenticationKey = authenticationKeyIdentityModel;
         const bfdConfig = gatewayBfdPatchTemplateModel;
         const bgpAsn = 64999;
         const bgpCerCidr = '169.254.0.10/30';
@@ -588,7 +580,6 @@ describe('DirectLinkV1', () => {
         const defaultImportRouteFilter = 'permit';
         const global = true;
         const loaRejectReason = 'The port mentioned was incorrect';
-        const macsecConfig = gatewayMacsecConfigPatchTemplateModel;
         const metered = false;
         const name = 'testGateway';
         const operationalStatus = 'loa_accepted';
@@ -607,7 +598,6 @@ describe('DirectLinkV1', () => {
           defaultImportRouteFilter,
           global,
           loaRejectReason,
-          macsecConfig,
           metered,
           name,
           operationalStatus,
@@ -640,7 +630,6 @@ describe('DirectLinkV1', () => {
         expect(mockRequestOptions.body.default_import_route_filter).toEqual(defaultImportRouteFilter);
         expect(mockRequestOptions.body.global).toEqual(global);
         expect(mockRequestOptions.body.loa_reject_reason).toEqual(loaRejectReason);
-        expect(mockRequestOptions.body.macsec_config).toEqual(macsecConfig);
         expect(mockRequestOptions.body.metered).toEqual(metered);
         expect(mockRequestOptions.body.name).toEqual(name);
         expect(mockRequestOptions.body.operational_status).toEqual(operationalStatus);
@@ -721,9 +710,9 @@ describe('DirectLinkV1', () => {
         specific_prefixes: ['192.168.3.0/24'],
       };
 
-      // GatewayActionTemplateAuthenticationKey
-      const gatewayActionTemplateAuthenticationKeyModel = {
-        crn: 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c',
+      // AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
+      const authenticationKeyIdentityModel = {
+        crn: 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayBfdConfigActionTemplate
@@ -755,7 +744,7 @@ describe('DirectLinkV1', () => {
         const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
         const action = 'create_gateway_approve';
         const asPrepends = [asPrependTemplateModel];
-        const authenticationKey = gatewayActionTemplateAuthenticationKeyModel;
+        const authenticationKey = authenticationKeyIdentityModel;
         const bfdConfig = gatewayBfdConfigActionTemplateModel;
         const connectionMode = 'transit';
         const defaultExportRouteFilter = 'permit';
@@ -1304,6 +1293,193 @@ describe('DirectLinkV1', () => {
         let err;
         try {
           await directLinkService.getGatewayStatus();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('listGatewayAsPrepends', () => {
+    describe('positive tests', () => {
+      function __listGatewayAsPrependsTest() {
+        // Construct the params object for operation listGatewayAsPrepends
+        const gatewayId = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const listGatewayAsPrependsParams = {
+          gatewayId,
+        };
+
+        const listGatewayAsPrependsResult = directLinkService.listGatewayAsPrepends(listGatewayAsPrependsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(listGatewayAsPrependsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/as_prepends', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.gateway_id).toEqual(gatewayId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listGatewayAsPrependsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __listGatewayAsPrependsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __listGatewayAsPrependsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const gatewayId = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listGatewayAsPrependsParams = {
+          gatewayId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.listGatewayAsPrepends(listGatewayAsPrependsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.listGatewayAsPrepends({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.listGatewayAsPrepends();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('replaceGatewayAsPrepends', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // AsPrependPrefixArrayTemplate
+      const asPrependPrefixArrayTemplateModel = {
+        length: 4,
+        policy: 'import',
+        specific_prefixes: ['192.168.3.0/24'],
+      };
+
+      function __replaceGatewayAsPrependsTest() {
+        // Construct the params object for operation replaceGatewayAsPrepends
+        const gatewayId = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const ifMatch = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"';
+        const asPrepends = [asPrependPrefixArrayTemplateModel];
+        const replaceGatewayAsPrependsParams = {
+          gatewayId,
+          ifMatch,
+          asPrepends,
+        };
+
+        const replaceGatewayAsPrependsResult = directLinkService.replaceGatewayAsPrepends(replaceGatewayAsPrependsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(replaceGatewayAsPrependsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/as_prepends', 'PUT');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'If-Match', ifMatch);
+        expect(mockRequestOptions.body.as_prepends).toEqual(asPrepends);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.gateway_id).toEqual(gatewayId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __replaceGatewayAsPrependsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __replaceGatewayAsPrependsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __replaceGatewayAsPrependsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const gatewayId = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const ifMatch = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const replaceGatewayAsPrependsParams = {
+          gatewayId,
+          ifMatch,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.replaceGatewayAsPrepends(replaceGatewayAsPrependsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.replaceGatewayAsPrepends({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.replaceGatewayAsPrepends();
         } catch (e) {
           err = e;
         }
@@ -2467,6 +2643,887 @@ describe('DirectLinkV1', () => {
     });
   });
 
+  describe('unsetGatewayMacsec', () => {
+    describe('positive tests', () => {
+      function __unsetGatewayMacsecTest() {
+        // Construct the params object for operation unsetGatewayMacsec
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const unsetGatewayMacsecParams = {
+          id,
+        };
+
+        const unsetGatewayMacsecResult = directLinkService.unsetGatewayMacsec(unsetGatewayMacsecParams);
+
+        // all methods should return a Promise
+        expectToBePromise(unsetGatewayMacsecResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{id}/macsec', 'DELETE');
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __unsetGatewayMacsecTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __unsetGatewayMacsecTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __unsetGatewayMacsecTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const unsetGatewayMacsecParams = {
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.unsetGatewayMacsec(unsetGatewayMacsecParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.unsetGatewayMacsec({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.unsetGatewayMacsec();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getGatewayMacsec', () => {
+    describe('positive tests', () => {
+      function __getGatewayMacsecTest() {
+        // Construct the params object for operation getGatewayMacsec
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const getGatewayMacsecParams = {
+          id,
+        };
+
+        const getGatewayMacsecResult = directLinkService.getGatewayMacsec(getGatewayMacsecParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getGatewayMacsecResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{id}/macsec', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getGatewayMacsecTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __getGatewayMacsecTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __getGatewayMacsecTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getGatewayMacsecParams = {
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.getGatewayMacsec(getGatewayMacsecParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.getGatewayMacsec({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.getGatewayMacsec();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateGatewayMacsec', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // SakRekeyPatchSakRekeyTimerModePatch
+      const sakRekeyPatchModel = {
+        interval: 3600,
+        mode: 'timer',
+      };
+
+      function __updateGatewayMacsecTest() {
+        // Construct the params object for operation updateGatewayMacsec
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const active = true;
+        const sakRekey = sakRekeyPatchModel;
+        const securityPolicy = 'must_secure';
+        const windowSize = 64;
+        const updateGatewayMacsecParams = {
+          id,
+          active,
+          sakRekey,
+          securityPolicy,
+          windowSize,
+        };
+
+        const updateGatewayMacsecResult = directLinkService.updateGatewayMacsec(updateGatewayMacsecParams);
+
+        // all methods should return a Promise
+        expectToBePromise(updateGatewayMacsecResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{id}/macsec', 'PATCH');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/merge-patch+json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.active).toEqual(active);
+        expect(mockRequestOptions.body.sak_rekey).toEqual(sakRekey);
+        expect(mockRequestOptions.body.security_policy).toEqual(securityPolicy);
+        expect(mockRequestOptions.body.window_size).toEqual(windowSize);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateGatewayMacsecTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __updateGatewayMacsecTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __updateGatewayMacsecTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateGatewayMacsecParams = {
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.updateGatewayMacsec(updateGatewayMacsecParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.updateGatewayMacsec({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.updateGatewayMacsec();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('setGatewayMacsec', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // HpcsKeyIdentity
+      const hpcsKeyIdentityModel = {
+        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+      };
+
+      // GatewayMacsecCakPrototype
+      const gatewayMacsecCakPrototypeModel = {
+        key: hpcsKeyIdentityModel,
+        name: '1000',
+        session: 'primary',
+      };
+
+      // SakRekeyPrototypeSakRekeyTimerModePrototype
+      const sakRekeyPrototypeModel = {
+        interval: 3600,
+        mode: 'timer',
+      };
+
+      function __setGatewayMacsecTest() {
+        // Construct the params object for operation setGatewayMacsec
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const active = true;
+        const caks = [gatewayMacsecCakPrototypeModel];
+        const sakRekey = sakRekeyPrototypeModel;
+        const securityPolicy = 'must_secure';
+        const windowSize = 64;
+        const ifMatch = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"';
+        const setGatewayMacsecParams = {
+          id,
+          active,
+          caks,
+          sakRekey,
+          securityPolicy,
+          windowSize,
+          ifMatch,
+        };
+
+        const setGatewayMacsecResult = directLinkService.setGatewayMacsec(setGatewayMacsecParams);
+
+        // all methods should return a Promise
+        expectToBePromise(setGatewayMacsecResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{id}/macsec', 'PUT');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'If-Match', ifMatch);
+        expect(mockRequestOptions.body.active).toEqual(active);
+        expect(mockRequestOptions.body.caks).toEqual(caks);
+        expect(mockRequestOptions.body.sak_rekey).toEqual(sakRekey);
+        expect(mockRequestOptions.body.security_policy).toEqual(securityPolicy);
+        expect(mockRequestOptions.body.window_size).toEqual(windowSize);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __setGatewayMacsecTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __setGatewayMacsecTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __setGatewayMacsecTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const active = true;
+        const caks = [gatewayMacsecCakPrototypeModel];
+        const sakRekey = sakRekeyPrototypeModel;
+        const securityPolicy = 'must_secure';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const setGatewayMacsecParams = {
+          id,
+          active,
+          caks,
+          sakRekey,
+          securityPolicy,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.setGatewayMacsec(setGatewayMacsecParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.setGatewayMacsec({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.setGatewayMacsec();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('listGatewayMacsecCaks', () => {
+    describe('positive tests', () => {
+      function __listGatewayMacsecCaksTest() {
+        // Construct the params object for operation listGatewayMacsecCaks
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const listGatewayMacsecCaksParams = {
+          id,
+        };
+
+        const listGatewayMacsecCaksResult = directLinkService.listGatewayMacsecCaks(listGatewayMacsecCaksParams);
+
+        // all methods should return a Promise
+        expectToBePromise(listGatewayMacsecCaksResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{id}/macsec/caks', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listGatewayMacsecCaksTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __listGatewayMacsecCaksTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __listGatewayMacsecCaksTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listGatewayMacsecCaksParams = {
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.listGatewayMacsecCaks(listGatewayMacsecCaksParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.listGatewayMacsecCaks({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.listGatewayMacsecCaks();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('createGatewayMacsecCak', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // HpcsKeyIdentity
+      const hpcsKeyIdentityModel = {
+        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+      };
+
+      function __createGatewayMacsecCakTest() {
+        // Construct the params object for operation createGatewayMacsecCak
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const key = hpcsKeyIdentityModel;
+        const name = '1000';
+        const session = 'primary';
+        const createGatewayMacsecCakParams = {
+          id,
+          key,
+          name,
+          session,
+        };
+
+        const createGatewayMacsecCakResult = directLinkService.createGatewayMacsecCak(createGatewayMacsecCakParams);
+
+        // all methods should return a Promise
+        expectToBePromise(createGatewayMacsecCakResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{id}/macsec/caks', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.key).toEqual(key);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.session).toEqual(session);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createGatewayMacsecCakTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __createGatewayMacsecCakTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __createGatewayMacsecCakTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const key = hpcsKeyIdentityModel;
+        const name = '1000';
+        const session = 'primary';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createGatewayMacsecCakParams = {
+          id,
+          key,
+          name,
+          session,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.createGatewayMacsecCak(createGatewayMacsecCakParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.createGatewayMacsecCak({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.createGatewayMacsecCak();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('deleteGatewayMacsecCak', () => {
+    describe('positive tests', () => {
+      function __deleteGatewayMacsecCakTest() {
+        // Construct the params object for operation deleteGatewayMacsecCak
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const cakId = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4';
+        const deleteGatewayMacsecCakParams = {
+          id,
+          cakId,
+        };
+
+        const deleteGatewayMacsecCakResult = directLinkService.deleteGatewayMacsecCak(deleteGatewayMacsecCakParams);
+
+        // all methods should return a Promise
+        expectToBePromise(deleteGatewayMacsecCakResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{id}/macsec/caks/{cak_id}', 'DELETE');
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+        expect(mockRequestOptions.path.cak_id).toEqual(cakId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteGatewayMacsecCakTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __deleteGatewayMacsecCakTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __deleteGatewayMacsecCakTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const cakId = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteGatewayMacsecCakParams = {
+          id,
+          cakId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.deleteGatewayMacsecCak(deleteGatewayMacsecCakParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.deleteGatewayMacsecCak({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.deleteGatewayMacsecCak();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getGatewayMacsecCak', () => {
+    describe('positive tests', () => {
+      function __getGatewayMacsecCakTest() {
+        // Construct the params object for operation getGatewayMacsecCak
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const cakId = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4';
+        const getGatewayMacsecCakParams = {
+          id,
+          cakId,
+        };
+
+        const getGatewayMacsecCakResult = directLinkService.getGatewayMacsecCak(getGatewayMacsecCakParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getGatewayMacsecCakResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{id}/macsec/caks/{cak_id}', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+        expect(mockRequestOptions.path.cak_id).toEqual(cakId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getGatewayMacsecCakTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __getGatewayMacsecCakTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __getGatewayMacsecCakTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const cakId = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getGatewayMacsecCakParams = {
+          id,
+          cakId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.getGatewayMacsecCak(getGatewayMacsecCakParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.getGatewayMacsecCak({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.getGatewayMacsecCak();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateGatewayMacsecCak', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // HpcsKeyIdentity
+      const hpcsKeyIdentityModel = {
+        crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
+      };
+
+      function __updateGatewayMacsecCakTest() {
+        // Construct the params object for operation updateGatewayMacsecCak
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const cakId = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4';
+        const key = hpcsKeyIdentityModel;
+        const name = '1000';
+        const updateGatewayMacsecCakParams = {
+          id,
+          cakId,
+          key,
+          name,
+        };
+
+        const updateGatewayMacsecCakResult = directLinkService.updateGatewayMacsecCak(updateGatewayMacsecCakParams);
+
+        // all methods should return a Promise
+        expectToBePromise(updateGatewayMacsecCakResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/gateways/{id}/macsec/caks/{cak_id}', 'PATCH');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/merge-patch+json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.key).toEqual(key);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
+        expect(mockRequestOptions.path.id).toEqual(id);
+        expect(mockRequestOptions.path.cak_id).toEqual(cakId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateGatewayMacsecCakTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.enableRetries();
+        __updateGatewayMacsecCakTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        directLinkService.disableRetries();
+        __updateGatewayMacsecCakTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
+        const cakId = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateGatewayMacsecCakParams = {
+          id,
+          cakId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        directLinkService.updateGatewayMacsecCak(updateGatewayMacsecCakParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await directLinkService.updateGatewayMacsecCak({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await directLinkService.updateGatewayMacsecCak();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
   describe('listGatewayRouteReports', () => {
     describe('positive tests', () => {
       function __listGatewayRouteReportsTest() {
@@ -3207,7 +4264,7 @@ describe('DirectLinkV1', () => {
 
         checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/virtual_connections/{id}', 'PATCH');
         const expectedAccept = 'application/json';
-        const expectedContentType = 'application/json';
+        const expectedContentType = 'application/merge-patch+json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.body.name).toEqual(name);
         expect(mockRequestOptions.body.status).toEqual(status);
@@ -3733,193 +4790,6 @@ describe('DirectLinkV1', () => {
         let err;
         try {
           await directLinkService.getPort();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
-
-  describe('listGatewayAsPrepends', () => {
-    describe('positive tests', () => {
-      function __listGatewayAsPrependsTest() {
-        // Construct the params object for operation listGatewayAsPrepends
-        const gatewayId = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
-        const listGatewayAsPrependsParams = {
-          gatewayId,
-        };
-
-        const listGatewayAsPrependsResult = directLinkService.listGatewayAsPrepends(listGatewayAsPrependsParams);
-
-        // all methods should return a Promise
-        expectToBePromise(listGatewayAsPrependsResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/as_prepends', 'GET');
-        const expectedAccept = 'application/json';
-        const expectedContentType = undefined;
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
-        expect(mockRequestOptions.path.gateway_id).toEqual(gatewayId);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __listGatewayAsPrependsTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        directLinkService.enableRetries();
-        __listGatewayAsPrependsTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        directLinkService.disableRetries();
-        __listGatewayAsPrependsTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const gatewayId = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const listGatewayAsPrependsParams = {
-          gatewayId,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        directLinkService.listGatewayAsPrepends(listGatewayAsPrependsParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await directLinkService.listGatewayAsPrepends({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.listGatewayAsPrepends();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
-
-  describe('replaceGatewayAsPrepends', () => {
-    describe('positive tests', () => {
-      // Request models needed by this operation.
-
-      // AsPrependPrefixArrayTemplate
-      const asPrependPrefixArrayTemplateModel = {
-        length: 4,
-        policy: 'import',
-        specific_prefixes: ['192.168.3.0/24'],
-      };
-
-      function __replaceGatewayAsPrependsTest() {
-        // Construct the params object for operation replaceGatewayAsPrepends
-        const gatewayId = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
-        const ifMatch = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"';
-        const asPrepends = [asPrependPrefixArrayTemplateModel];
-        const replaceGatewayAsPrependsParams = {
-          gatewayId,
-          ifMatch,
-          asPrepends,
-        };
-
-        const replaceGatewayAsPrependsResult = directLinkService.replaceGatewayAsPrepends(replaceGatewayAsPrependsParams);
-
-        // all methods should return a Promise
-        expectToBePromise(replaceGatewayAsPrependsResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(mockRequestOptions, '/gateways/{gateway_id}/as_prepends', 'PUT');
-        const expectedAccept = 'application/json';
-        const expectedContentType = 'application/json';
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        checkUserHeader(createRequestMock, 'If-Match', ifMatch);
-        expect(mockRequestOptions.body.as_prepends).toEqual(asPrepends);
-        expect(mockRequestOptions.qs.version).toEqual(directLinkServiceOptions.version);
-        expect(mockRequestOptions.path.gateway_id).toEqual(gatewayId);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __replaceGatewayAsPrependsTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        directLinkService.enableRetries();
-        __replaceGatewayAsPrependsTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        directLinkService.disableRetries();
-        __replaceGatewayAsPrependsTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const gatewayId = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
-        const ifMatch = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"';
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const replaceGatewayAsPrependsParams = {
-          gatewayId,
-          ifMatch,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        directLinkService.replaceGatewayAsPrepends(replaceGatewayAsPrependsParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await directLinkService.replaceGatewayAsPrepends({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await directLinkService.replaceGatewayAsPrepends();
         } catch (e) {
           err = e;
         }
