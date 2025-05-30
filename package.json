@@ -67,7 +67,7 @@
     "tslint": "^6.0.0",
     "typedoc": "^0.28.0",
     "typescript": "^5.4.2",
-    "yargs-parser": "^21.1.1"
+    "yargs-parser": "^22.0.0"
   },
   "jest": {
     "collectCoverage": true,
