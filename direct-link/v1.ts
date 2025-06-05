@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.80.0-29334a73-20230925-151553
+ * IBM OpenAPI SDK Code Generator Version: 3.99.0-d27cee72-20250129-204831
  */
 
 /* eslint-disable max-classes-per-file */
@@ -53,7 +53,7 @@ class DirectLinkV1 extends BaseService {
    * @param {UserOptions} [options] - The parameters to send to the service.
    * @param {string} [options.serviceName] - The name of the service to configure
    * @param {Authenticator} [options.authenticator] - The Authenticator object used to authenticate requests to the service
-   * @param {string} [options.serviceUrl] - The URL for the service
+   * @param {string} [options.serviceUrl] - The base URL for the service
    * @returns {DirectLinkV1}
    */
 
@@ -85,7 +85,7 @@ class DirectLinkV1 extends BaseService {
    * @param {Object} options - Options for the service.
    * @param {string} options.version - Requests the version of the API as a date in the format `YYYY-MM-DD`. Any date
    * from 2019-12-13 up to the current date may be provided. Specify the current date to request the latest version.
-   * @param {string} [options.serviceUrl] - The base url to use when contacting the service. The base url may differ between IBM Cloud regions.
+   * @param {string} [options.serviceUrl] - The base URL for the service
    * @param {OutgoingHttpHeaders} [options.headers] - Default headers that shall be included with every request to the service.
    * @param {Authenticator} options.authenticator - The Authenticator object used to authenticate requests to the service
    * @constructor
@@ -323,11 +323,10 @@ class DirectLinkV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link gateway identifier.
-   * @param {GatewayPatchTemplateAuthenticationKey} [params.authenticationKey] - The identity of the standard key to use
-   * for BGP MD5 authentication key.
-   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
-   * in length.
-   * To clear the optional `authentication_key` field patch its crn to `""`.
+   * @param {AuthenticationKeyIdentity} [params.authenticationKey] - A reference to a key to use as the BGP MD5
+   * authentication key.
+   *
+   * Patch to `null` to disable BGP MD5 authentication.
    * @param {GatewayBfdPatchTemplate} [params.bfdConfig] - BFD configuration information.
    * @param {number} [params.bgpAsn] - The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration
    * for the IBM side of the DL 2.0 gateway.
@@ -359,11 +358,6 @@ class DirectLinkV1 extends BaseService {
    * rejection.
    *
    * Only allowed for type=dedicated gateways.
-   * @param {GatewayMacsecConfigPatchTemplate} [params.macsecConfig] - MACsec configuration information.  When patching
-   * any macsec_config fields, no other fields may be specified in the patch request.  Contact IBM support for access to
-   * MACsec.
-   *
-   * A MACsec config cannot be added to a gateway created without MACsec.
    * @param {boolean} [params.metered] - Metered billing option.  When `true` gateway usage is billed per gigabyte.
    * When `false` there is no per gigabyte usage charge, instead a flat rate is charged for the gateway.
    * @param {string} [params.name] - The unique user-defined name for this gateway.
@@ -389,7 +383,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'authenticationKey', 'bfdConfig', 'bgpAsn', 'bgpCerCidr', 'bgpIbmCidr', 'connectionMode', 'defaultExportRouteFilter', 'defaultImportRouteFilter', 'global', 'loaRejectReason', 'macsecConfig', 'metered', 'name', 'operationalStatus', 'patchPanelCompletionNotice', 'speedMbps', 'vlan', 'headers'];
+    const _validParams = ['id', 'authenticationKey', 'bfdConfig', 'bgpAsn', 'bgpCerCidr', 'bgpIbmCidr', 'connectionMode', 'defaultExportRouteFilter', 'defaultImportRouteFilter', 'global', 'loaRejectReason', 'metered', 'name', 'operationalStatus', 'patchPanelCompletionNotice', 'speedMbps', 'vlan', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -406,7 +400,6 @@ class DirectLinkV1 extends BaseService {
       'default_import_route_filter': _params.defaultImportRouteFilter,
       'global': _params.global,
       'loa_reject_reason': _params.loaRejectReason,
-      'macsec_config': _params.macsecConfig,
       'metered': _params.metered,
       'name': _params.name,
       'operational_status': _params.operationalStatus,
@@ -462,11 +455,7 @@ class DirectLinkV1 extends BaseService {
    * @param {string} [params.action] - Action request.
    * @param {AsPrependTemplate[]} [params.asPrepends] - Applicable for create_gateway_approve requests to create AS
    * Prepends. Contains an array of AS Prepend configuration information.
-   * @param {GatewayActionTemplateAuthenticationKey} [params.authenticationKey] - Applicable for create_gateway_approve
-   * requests to select the gateway's BGP MD5 authentication key.
-   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
-   * in length.
-   * To clear the optional `authentication_key` field patch its crn to `""`.
+   * @param {AuthenticationKeyIdentity} [params.authenticationKey] -
    * @param {GatewayBfdConfigActionTemplate} [params.bfdConfig] - Applicable for create_gateway_approve requests to
    * select the gateway's BFD configuration information.
    * @param {string} [params.connectionMode] - Applicable for create_gateway_approve requests to select the type of
@@ -832,6 +821,126 @@ class DirectLinkV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
+   * gatewayASPrepends
+   ************************/
+
+  /**
+   * List AS Prepends.
+   *
+   * Retrieve all AS Prepends for the specified Direct Link gateway.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>>}
+   */
+  public listGatewayAsPrepends(
+    params: DirectLinkV1.ListGatewayAsPrependsParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId'];
+    const _validParams = ['gatewayId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayAsPrepends');
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/as_prepends',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Replace existing AS Prepends.
+   *
+   * Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the
+   * individual AS Prepend item is unchanged.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.gatewayId - Direct Link gateway identifier.
+   * @param {string} params.ifMatch - If present, the request will fail if the specified ETag value does not match the
+   * resource's current ETag value.
+   * @param {AsPrependPrefixArrayTemplate[]} [params.asPrepends] - array of AS Prepend configuration information.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>>}
+   */
+  public replaceGatewayAsPrepends(
+    params: DirectLinkV1.ReplaceGatewayAsPrependsParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['gatewayId', 'ifMatch'];
+    const _validParams = ['gatewayId', 'ifMatch', 'asPrepends', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'as_prepends': _params.asPrepends,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'gateway_id': _params.gatewayId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'replaceGatewayAsPrepends');
+
+    const parameters = {
+      options: {
+        url: '/gateways/{gateway_id}/as_prepends',
+        method: 'PUT',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'If-Match': _params.ifMatch,
           },
           _params.headers
         ),
@@ -1682,6 +1791,586 @@ class DirectLinkV1 extends BaseService {
     return this.createRequest(parameters);
   }
   /*************************
+   * gatewayMACsec
+   ************************/
+
+  /**
+   * Unset MACsec configuration.
+   *
+   * Removes the MACsec configuration from a direct link, disabling the features.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - Direct Link gateway identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
+   */
+  public unsetGatewayMacsec(
+    params: DirectLinkV1.UnsetGatewayMacsecParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
+    const _params = { ...params };
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'unsetGatewayMacsec');
+
+    const parameters = {
+      options: {
+        url: '/gateways/{id}/macsec',
+        method: 'DELETE',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get MACsec configuration.
+   *
+   * Retrieve the MACsec configuration of a direct link.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - Direct Link gateway identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsec>>}
+   */
+  public getGatewayMacsec(
+    params: DirectLinkV1.GetGatewayMacsecParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsec>> {
+    const _params = { ...params };
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayMacsec');
+
+    const parameters = {
+      options: {
+        url: '/gateways/{id}/macsec',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update MACsec configuration.
+   *
+   * Updates the MACsec configuration on a direct link.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - Direct Link gateway identifier.
+   * @param {boolean} [params.active] - Sets the MACsec feature to be active (true) or inactive (false) for a gateway.
+   * @param {SakRekeyPatch} [params.sakRekey] - Determines how SAK rekeying occurs. It is either timer based or based on
+   * the amount of used packet numbers.
+   * @param {string} [params.securityPolicy] - Determines how packets without MACsec headers are handled.
+   *
+   * `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
+   * network availability.
+   * `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
+   * availability over security.
+   * @param {number} [params.windowSize] - The window size determines the number of frames in a window for replay
+   * protection.
+   *
+   * Replay protection is used to counter replay attacks. Frames within a window size can be out of order and are not
+   * replay protected.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsec>>}
+   */
+  public updateGatewayMacsec(
+    params: DirectLinkV1.UpdateGatewayMacsecParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsec>> {
+    const _params = { ...params };
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'active', 'sakRekey', 'securityPolicy', 'windowSize', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'active': _params.active,
+      'sak_rekey': _params.sakRekey,
+      'security_policy': _params.securityPolicy,
+      'window_size': _params.windowSize,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'updateGatewayMacsec');
+
+    const parameters = {
+      options: {
+        url: '/gateways/{id}/macsec',
+        method: 'PATCH',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/merge-patch+json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Set MACsec configuration.
+   *
+   * Sets the MACsec configuration on a direct link, enabling the feature.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - Direct Link gateway identifier.
+   * @param {boolean} params.active - Determines if the MACsec feature should initially be active (true) or inactive
+   * (false) for a gateway.
+   * @param {GatewayMacsecCakPrototype[]} params.caks - List of all connectivity association keys (CAKs) to be
+   * associated associated with the MACsec feature on a direct link.
+   *
+   * There must be at least one CAK with `session`: `primary`. There can be at most one CAK with `session`: `fallback`
+   *
+   * All CAKs must reference a unique key.
+   * @param {SakRekeyPrototype} params.sakRekey - Determines how SAK rekeying occurs. It is either timer based or based
+   * on the amount of used packet numbers.
+   * @param {string} params.securityPolicy - Determines how packets without MACsec headers are handled.
+   *
+   * `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
+   * network availability.
+   * `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
+   * availability over security.
+   * @param {number} [params.windowSize] - The window size determines the number of frames in a window for replay
+   * protection.
+   *
+   * Replay protection is used to counter replay attacks. Frames within a window size can be out of order and are not
+   * replay protected.
+   * @param {string} [params.ifMatch] - If present, the request will fail if the specified ETag value does not match the
+   * resource's current ETag value.
+   *
+   * `If-Match` is required when the resource exists and has an ETag value.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsec>>}
+   */
+  public setGatewayMacsec(
+    params: DirectLinkV1.SetGatewayMacsecParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsec>> {
+    const _params = { ...params };
+    const _requiredParams = ['id', 'active', 'caks', 'sakRekey', 'securityPolicy'];
+    const _validParams = ['id', 'active', 'caks', 'sakRekey', 'securityPolicy', 'windowSize', 'ifMatch', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'active': _params.active,
+      'caks': _params.caks,
+      'sak_rekey': _params.sakRekey,
+      'security_policy': _params.securityPolicy,
+      'window_size': _params.windowSize,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'setGatewayMacsec');
+
+    const parameters = {
+      options: {
+        url: '/gateways/{id}/macsec',
+        method: 'PUT',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'If-Match': _params.ifMatch,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * List MACsec CAKs.
+   *
+   * List the CAKs associated with the MACsec configuration of a direct link.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - Direct Link gateway identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCakCollection>>}
+   */
+  public listGatewayMacsecCaks(
+    params: DirectLinkV1.ListGatewayMacsecCaksParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCakCollection>> {
+    const _params = { ...params };
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayMacsecCaks');
+
+    const parameters = {
+      options: {
+        url: '/gateways/{id}/macsec/caks',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Create MACsec CAK.
+   *
+   * Creates a CAK associated with the MACsec configuration of a direct link.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - Direct Link gateway identifier.
+   * @param {HpcsKeyIdentity} params.key - A [Hyper Protect Crypto Service Standard
+   * Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   * @param {string} params.name - The name identifies the connectivity association key (CAK) within the MACsec key
+   * chain.
+   *
+   * The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
+   *
+   * This value, along with the material of the `key`, must match on the MACsec peers.
+   * @param {string} params.session - The intended session the key will be used to secure.
+   *
+   * If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can take
+   * over.
+   *
+   * There must be a `primary` session CAK. A `fallback` CAK is optional.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCak>>}
+   */
+  public createGatewayMacsecCak(
+    params: DirectLinkV1.CreateGatewayMacsecCakParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCak>> {
+    const _params = { ...params };
+    const _requiredParams = ['id', 'key', 'name', 'session'];
+    const _validParams = ['id', 'key', 'name', 'session', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'key': _params.key,
+      'name': _params.name,
+      'session': _params.session,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'createGatewayMacsecCak');
+
+    const parameters = {
+      options: {
+        url: '/gateways/{id}/macsec/caks',
+        method: 'POST',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Delete MACsec CAK.
+   *
+   * Deletes the CAK from the MACsec configuration of a direct link.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - Direct Link gateway identifier.
+   * @param {string} params.cakId - MACsec CAK identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>>}
+   */
+  public deleteGatewayMacsecCak(
+    params: DirectLinkV1.DeleteGatewayMacsecCakParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
+    const _params = { ...params };
+    const _requiredParams = ['id', 'cakId'];
+    const _validParams = ['id', 'cakId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+      'cak_id': _params.cakId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteGatewayMacsecCak');
+
+    const parameters = {
+      options: {
+        url: '/gateways/{id}/macsec/caks/{cak_id}',
+        method: 'DELETE',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get MACsec CAK.
+   *
+   * Get a MACsec CAK by its identifier.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - Direct Link gateway identifier.
+   * @param {string} params.cakId - MACsec CAK identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCak>>}
+   */
+  public getGatewayMacsecCak(
+    params: DirectLinkV1.GetGatewayMacsecCakParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCak>> {
+    const _params = { ...params };
+    const _requiredParams = ['id', 'cakId'];
+    const _validParams = ['id', 'cakId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+      'cak_id': _params.cakId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'getGatewayMacsecCak');
+
+    const parameters = {
+      options: {
+        url: '/gateways/{id}/macsec/caks/{cak_id}',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update MACsec CAK.
+   *
+   * Updates the CAK on the MACsec configuration of a direct link.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - Direct Link gateway identifier.
+   * @param {string} params.cakId - MACsec CAK identifier.
+   * @param {HpcsKeyIdentity} [params.key] - A [Hyper Protect Crypto Service Standard
+   * Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   * @param {string} [params.name] - The name identifies the connectivity association key (CAK) within the MACsec key
+   * chain.
+   *
+   * The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
+   *
+   * This value, along with the material of the `key`, must match on the MACsec peers.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCak>>}
+   */
+  public updateGatewayMacsecCak(
+    params: DirectLinkV1.UpdateGatewayMacsecCakParams
+  ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCak>> {
+    const _params = { ...params };
+    const _requiredParams = ['id', 'cakId'];
+    const _validParams = ['id', 'cakId', 'key', 'name', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'key': _params.key,
+      'name': _params.name,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+      'cak_id': _params.cakId,
+    };
+
+    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'updateGatewayMacsecCak');
+
+    const parameters = {
+      options: {
+        url: '/gateways/{id}/macsec/caks/{cak_id}',
+        method: 'PATCH',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/merge-patch+json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
    * gatewayRouteReports
    ************************/
 
@@ -2195,7 +2884,7 @@ class DirectLinkV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/merge-patch+json',
           },
           _params.headers
         ),
@@ -2481,126 +3170,6 @@ class DirectLinkV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
-  /*************************
-   * gatewayASPrepends
-   ************************/
-
-  /**
-   * List AS Prepends.
-   *
-   * Retrieve all AS Prepends for the specified Direct Link gateway.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.gatewayId - Direct Link gateway identifier.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>>}
-   */
-  public listGatewayAsPrepends(
-    params: DirectLinkV1.ListGatewayAsPrependsParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
-    const _params = { ...params };
-    const _requiredParams = ['gatewayId'];
-    const _validParams = ['gatewayId', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const query = {
-      'version': this.version,
-    };
-
-    const path = {
-      'gateway_id': _params.gatewayId,
-    };
-
-    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'listGatewayAsPrepends');
-
-    const parameters = {
-      options: {
-        url: '/gateways/{gateway_id}/as_prepends',
-        method: 'GET',
-        qs: query,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Replace existing AS Prepends.
-   *
-   * Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the
-   * individual AS Prepend item is unchanged.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.gatewayId - Direct Link gateway identifier.
-   * @param {string} params.ifMatch - If present, the request will fail if the specified ETag value does not match the
-   * resource's current ETag value.
-   * @param {AsPrependPrefixArrayTemplate[]} [params.asPrepends] - array of AS Prepend configuration information.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>>}
-   */
-  public replaceGatewayAsPrepends(
-    params: DirectLinkV1.ReplaceGatewayAsPrependsParams
-  ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
-    const _params = { ...params };
-    const _requiredParams = ['gatewayId', 'ifMatch'];
-    const _validParams = ['gatewayId', 'ifMatch', 'asPrepends', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'as_prepends': _params.asPrepends,
-    };
-
-    const query = {
-      'version': this.version,
-    };
-
-    const path = {
-      'gateway_id': _params.gatewayId,
-    };
-
-    const sdkHeaders = getSdkHeaders(DirectLinkV1.DEFAULT_SERVICE_NAME, 'v1', 'replaceGatewayAsPrepends');
-
-    const parameters = {
-      options: {
-        url: '/gateways/{gateway_id}/as_prepends',
-        method: 'PUT',
-        body,
-        qs: query,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'If-Match': _params.ifMatch,
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
 }
 
 /*************************
@@ -2669,12 +3238,11 @@ namespace DirectLinkV1 {
   export interface UpdateGatewayParams {
     /** Direct Link gateway identifier. */
     id: string;
-    /** The identity of the standard key to use for BGP MD5 authentication key.
-     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
-     *  characters in length.
-     *  To clear the optional `authentication_key` field patch its crn to `""`.
+    /** A reference to a key to use as the BGP MD5 authentication key.
+     *
+     *  Patch to `null` to disable BGP MD5 authentication.
      */
-    authenticationKey?: GatewayPatchTemplateAuthenticationKey;
+    authenticationKey?: AuthenticationKeyIdentity;
     /** BFD configuration information. */
     bfdConfig?: GatewayBfdPatchTemplate;
     /** The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL
@@ -2721,12 +3289,6 @@ namespace DirectLinkV1 {
      *  Only allowed for type=dedicated gateways.
      */
     loaRejectReason?: string;
-    /** MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified
-     *  in the patch request.  Contact IBM support for access to MACsec.
-     *
-     *  A MACsec config cannot be added to a gateway created without MACsec.
-     */
-    macsecConfig?: GatewayMacsecConfigPatchTemplate;
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
      *  gigabyte usage charge, instead a flat rate is charged for the gateway.
      */
@@ -2789,12 +3351,7 @@ namespace DirectLinkV1 {
      *  configuration information.
      */
     asPrepends?: AsPrependTemplate[];
-    /** Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key.
-     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
-     *  characters in length.
-     *  To clear the optional `authentication_key` field patch its crn to `""`.
-     */
-    authenticationKey?: GatewayActionTemplateAuthenticationKey;
+    authenticationKey?: AuthenticationKeyIdentity;
     /** Applicable for create_gateway_approve requests to select the gateway's BFD configuration information. */
     bfdConfig?: GatewayBfdConfigActionTemplate;
     /** Applicable for create_gateway_approve requests to select the type of services this gateway is attached to.
@@ -2931,6 +3488,26 @@ namespace DirectLinkV1 {
       BFD = 'bfd',
       LINK = 'link',
     }
+  }
+
+  /** Parameters for the `listGatewayAsPrepends` operation. */
+  export interface ListGatewayAsPrependsParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `replaceGatewayAsPrepends` operation. */
+  export interface ReplaceGatewayAsPrependsParams {
+    /** Direct Link gateway identifier. */
+    gatewayId: string;
+    /** If present, the request will fail if the specified ETag value does not match the resource's current ETag
+     *  value.
+     */
+    ifMatch: string;
+    /** array of AS Prepend configuration information. */
+    asPrepends?: AsPrependPrefixArrayTemplate[];
+    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `listGatewayExportRouteFilters` operation. */
@@ -3177,6 +3754,183 @@ namespace DirectLinkV1 {
     }
   }
 
+  /** Parameters for the `unsetGatewayMacsec` operation. */
+  export interface UnsetGatewayMacsecParams {
+    /** Direct Link gateway identifier. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getGatewayMacsec` operation. */
+  export interface GetGatewayMacsecParams {
+    /** Direct Link gateway identifier. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateGatewayMacsec` operation. */
+  export interface UpdateGatewayMacsecParams {
+    /** Direct Link gateway identifier. */
+    id: string;
+    /** Sets the MACsec feature to be active (true) or inactive (false) for a gateway. */
+    active?: boolean;
+    /** Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers. */
+    sakRekey?: SakRekeyPatch;
+    /** Determines how packets without MACsec headers are handled.
+     *
+     *  `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
+     *  network availability.
+     *  `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
+     *  availability over security.
+     */
+    securityPolicy?: UpdateGatewayMacsecConstants.SecurityPolicy | string;
+    /** The window size determines the number of frames in a window for replay protection.
+     *
+     *  Replay protection is used to counter replay attacks. Frames within a window size can be out of order and are not
+     *  replay protected.
+     */
+    windowSize?: number;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `updateGatewayMacsec` operation. */
+  export namespace UpdateGatewayMacsecConstants {
+    /** Determines how packets without MACsec headers are handled. `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over network availability. `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network availability over security. */
+    export enum SecurityPolicy {
+      MUST_SECURE = 'must_secure',
+      SHOULD_SECURE = 'should_secure',
+    }
+  }
+
+  /** Parameters for the `setGatewayMacsec` operation. */
+  export interface SetGatewayMacsecParams {
+    /** Direct Link gateway identifier. */
+    id: string;
+    /** Determines if the MACsec feature should initially be active (true) or inactive (false) for a gateway. */
+    active: boolean;
+    /** List of all connectivity association keys (CAKs) to be associated associated with the MACsec feature on a
+     *  direct link.
+     *
+     *  There must be at least one CAK with `session`: `primary`. There can be at most one CAK with `session`:
+     *  `fallback`
+     *
+     *  All CAKs must reference a unique key.
+     */
+    caks: GatewayMacsecCakPrototype[];
+    /** Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers. */
+    sakRekey: SakRekeyPrototype;
+    /** Determines how packets without MACsec headers are handled.
+     *
+     *  `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
+     *  network availability.
+     *  `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
+     *  availability over security.
+     */
+    securityPolicy: SetGatewayMacsecConstants.SecurityPolicy | string;
+    /** The window size determines the number of frames in a window for replay protection.
+     *
+     *  Replay protection is used to counter replay attacks. Frames within a window size can be out of order and are not
+     *  replay protected.
+     */
+    windowSize?: number;
+    /** If present, the request will fail if the specified ETag value does not match the resource's current ETag
+     *  value.
+     *
+     *  `If-Match` is required when the resource exists and has an ETag value.
+     */
+    ifMatch?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `setGatewayMacsec` operation. */
+  export namespace SetGatewayMacsecConstants {
+    /** Determines how packets without MACsec headers are handled. `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over network availability. `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network availability over security. */
+    export enum SecurityPolicy {
+      MUST_SECURE = 'must_secure',
+      SHOULD_SECURE = 'should_secure',
+    }
+  }
+
+  /** Parameters for the `listGatewayMacsecCaks` operation. */
+  export interface ListGatewayMacsecCaksParams {
+    /** Direct Link gateway identifier. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createGatewayMacsecCak` operation. */
+  export interface CreateGatewayMacsecCakParams {
+    /** Direct Link gateway identifier. */
+    id: string;
+    /** A [Hyper Protect Crypto Service Standard
+     *  Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+     */
+    key: HpcsKeyIdentity;
+    /** The name identifies the connectivity association key (CAK) within the MACsec key chain.
+     *
+     *  The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
+     *
+     *  This value, along with the material of the `key`, must match on the MACsec peers.
+     */
+    name: string;
+    /** The intended session the key will be used to secure.
+     *
+     *  If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can
+     *  take over.
+     *
+     *  There must be a `primary` session CAK. A `fallback` CAK is optional.
+     */
+    session: CreateGatewayMacsecCakConstants.Session | string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `createGatewayMacsecCak` operation. */
+  export namespace CreateGatewayMacsecCakConstants {
+    /** The intended session the key will be used to secure. If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can take over. There must be a `primary` session CAK. A `fallback` CAK is optional. */
+    export enum Session {
+      PRIMARY = 'primary',
+      FALLBACK = 'fallback',
+    }
+  }
+
+  /** Parameters for the `deleteGatewayMacsecCak` operation. */
+  export interface DeleteGatewayMacsecCakParams {
+    /** Direct Link gateway identifier. */
+    id: string;
+    /** MACsec CAK identifier. */
+    cakId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getGatewayMacsecCak` operation. */
+  export interface GetGatewayMacsecCakParams {
+    /** Direct Link gateway identifier. */
+    id: string;
+    /** MACsec CAK identifier. */
+    cakId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateGatewayMacsecCak` operation. */
+  export interface UpdateGatewayMacsecCakParams {
+    /** Direct Link gateway identifier. */
+    id: string;
+    /** MACsec CAK identifier. */
+    cakId: string;
+    /** A [Hyper Protect Crypto Service Standard
+     *  Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+     */
+    key?: HpcsKeyIdentity;
+    /** The name identifies the connectivity association key (CAK) within the MACsec key chain.
+     *
+     *  The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
+     *
+     *  This value, along with the material of the `key`, must match on the MACsec peers.
+     */
+    name?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `listGatewayRouteReports` operation. */
   export interface ListGatewayRouteReportsParams {
     /** Direct Link gateway identifier. */
@@ -3355,31 +4109,13 @@ namespace DirectLinkV1 {
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Parameters for the `listGatewayAsPrepends` operation. */
-  export interface ListGatewayAsPrependsParams {
-    /** Direct Link gateway identifier. */
-    gatewayId: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `replaceGatewayAsPrepends` operation. */
-  export interface ReplaceGatewayAsPrependsParams {
-    /** Direct Link gateway identifier. */
-    gatewayId: string;
-    /** If present, the request will fail if the specified ETag value does not match the resource's current ETag
-     *  value.
-     */
-    ifMatch: string;
-    /** array of AS Prepend configuration information. */
-    asPrepends?: AsPrependPrefixArrayTemplate[];
-    headers?: OutgoingHttpHeaders;
-  }
-
   /*************************
    * model interfaces
    ************************/
 
-  /** Gateway AS Prepend object. */
+  /**
+   * Gateway AS Prepend object.
+   */
   export interface AsPrepend {
     /** The date and time resource was created. */
     created_at?: string;
@@ -3388,7 +4124,7 @@ namespace DirectLinkV1 {
     /** Number of times the ASN to appended to the AS Path. */
     length?: number;
     /** Route type this AS Prepend applies to. */
-    policy?: string;
+    policy?: AsPrepend.Constants.Policy | string;
     /** Deprecated: Comma separated list of prefixes this AS Prepend applies to.  If empty, this applies to all
      *  prefixes.
      */
@@ -3400,14 +4136,27 @@ namespace DirectLinkV1 {
     /** The date and time resource was last updated. */
     updated_at?: string;
   }
+  export namespace AsPrepend {
+    export namespace Constants {
+      /** Route type this AS Prepend applies to. */
+      export enum Policy {
+        IMPORT = 'import',
+        EXPORT = 'export',
+      }
+    }
+  }
 
-  /** array of AS Prepends. */
+  /**
+   * array of AS Prepends.
+   */
   export interface AsPrependCollection {
     /** array of AS Prepend information. */
     as_prepends?: AsPrependEntry[];
   }
 
-  /** AS Prepends API object. */
+  /**
+   * AS Prepends API object.
+   */
   export interface AsPrependEntry {
     /** The date and time resource was created. */
     created_at?: string;
@@ -3416,7 +4165,7 @@ namespace DirectLinkV1 {
     /** Number of times the ASN to appended to the AS Path. */
     length?: number;
     /** Route type this AS Prepend applies to. */
-    policy?: string;
+    policy?: AsPrependEntry.Constants.Policy | string;
     /** Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
      *  prefixes.  Note that ordering is not significant and may differ from request order.
      */
@@ -3424,25 +4173,47 @@ namespace DirectLinkV1 {
     /** The date and time resource was last updated. */
     updated_at?: string;
   }
+  export namespace AsPrependEntry {
+    export namespace Constants {
+      /** Route type this AS Prepend applies to. */
+      export enum Policy {
+        IMPORT = 'import',
+        EXPORT = 'export',
+      }
+    }
+  }
 
-  /** Create AS Prepend Configuration template. */
+  /**
+   * Create AS Prepend Configuration template.
+   */
   export interface AsPrependPrefixArrayTemplate {
     /** Number of times the ASN to be prepended to the AS Path. */
     length: number;
     /** Route type this AS Prepend applies to. */
-    policy: string;
+    policy: AsPrependPrefixArrayTemplate.Constants.Policy | string;
     /** Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all
      *  prefixes.  Note that ordering is not significant and may differ from request order.
      */
     specific_prefixes?: string[];
   }
+  export namespace AsPrependPrefixArrayTemplate {
+    export namespace Constants {
+      /** Route type this AS Prepend applies to. */
+      export enum Policy {
+        IMPORT = 'import',
+        EXPORT = 'export',
+      }
+    }
+  }
 
-  /** Create AS Prepend Configuration template. */
+  /**
+   * Create AS Prepend Configuration template.
+   */
   export interface AsPrependTemplate {
     /** Number of times the ASN to be prepended to the AS Path. */
     length: number;
     /** Route type this AS Prepend applies to. */
-    policy: string;
+    policy: AsPrependTemplate.Constants.Policy | string;
     /** Deprecated: Comma separated list of prefixes this AS Prepend applies to.  Maximum of 10 prefixes.  If not
      *  specified, this AS Prepend applies to all prefixes.
      */
@@ -3452,16 +4223,37 @@ namespace DirectLinkV1 {
      */
     specific_prefixes?: string[];
   }
-
-  /** gateway port for type=connect gateways. */
-  export interface CrossAccountGatewayPort {
-    /** Port Identifier. */
-    id: string;
+  export namespace AsPrependTemplate {
+    export namespace Constants {
+      /** Route type this AS Prepend applies to. */
+      export enum Policy {
+        IMPORT = 'import',
+        EXPORT = 'export',
+      }
+    }
   }
 
-  /** Cross Connect Router details. */
+  /**
+   * AuthenticationKeyIdentity.
+   */
+  export interface AuthenticationKeyIdentity {
+  }
+
+  /**
+   * AuthenticationKeyReference.
+   */
+  export interface AuthenticationKeyReference {
+  }
+
+  /**
+   * Cross Connect Router details.
+   */
   export interface CrossConnectRouter {
-    /** Array of capabilities for this router. */
+    /** List of capabilities for this router.
+     *
+     *  Listed `MacsecCapability` values indicate the router is associated with switch ports with that capability, and
+     *  is able to provision direct links with that capability. Multiple `MacsecCapability` values may be listed.
+     */
     capabilities?: string[];
     /** The name of the Router. */
     router_name?: string;
@@ -3469,22 +4261,21 @@ namespace DirectLinkV1 {
     total_connections?: number;
   }
 
-  /** Collection of export route filters. */
+  /**
+   * Collection of export route filters.
+   */
   export interface ExportRouteFilterCollection {
     /** Array of export route filters. */
     export_route_filters: RouteFilter[];
   }
 
-  /** gateway. */
+  /**
+   * gateway.
+   */
   export interface Gateway {
     /** array of AS Prepend information. */
     as_prepends?: AsPrepend[];
-    /** The identity of the standard key to use for BGP MD5 authentication key.
-     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
-     *  characters in length.
-     *  To clear the optional `authentication_key` field patch its crn to `""`.
-     */
-    authentication_key?: GatewayAuthenticationKey;
+    authentication_key?: AuthenticationKeyReference;
     /** BFD configuration information. */
     bfd_config?: GatewayBfdConfig;
     /** Customer BGP ASN. */
@@ -3493,7 +4284,7 @@ namespace DirectLinkV1 {
      *
      *  See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
      *
-     *  Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
+     *  Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
      */
     bgp_base_cidr?: string;
     /** BGP customer edge router CIDR. */
@@ -3505,7 +4296,7 @@ namespace DirectLinkV1 {
     /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and
      *  processes using this field  must tolerate unexpected values.
      */
-    bgp_status?: string;
+    bgp_status?: Gateway.Constants.BgpStatus | string;
     /** Date and time bgp status was updated. */
     bgp_status_updated_at?: string;
     /** Carrier name.  Only set for type=dedicated gateways. */
@@ -3521,25 +4312,25 @@ namespace DirectLinkV1 {
      *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
      *  unexpected values.
      */
-    connection_mode?: string;
+    connection_mode?: Gateway.Constants.ConnectionMode | string;
     /** The date and time resource was created. */
     created_at: string;
     /** The CRN (Cloud Resource Name) of this gateway. */
     crn: string;
     /** Indicates whether this gateway is cross account gateway. */
     cross_account: boolean;
-    /** Cross connect router.  Only included on type=dedicated gateways. */
+    /** Cross connect router. Only included on type=dedicated gateways. */
     cross_connect_router?: string;
     /** Customer name.  Only set for type=dedicated gateways. */
     customer_name?: string;
     /** The default directional route filter action that applies to routes that do not match any directional route
      *  filters.
      */
-    default_export_route_filter: string;
+    default_export_route_filter: Gateway.Constants.DefaultExportRouteFilter | string;
     /** The default directional route filter action that applies to routes that do not match any directional route
      *  filters.
      */
-    default_import_route_filter: string;
+    default_import_route_filter: Gateway.Constants.DefaultImportRouteFilter | string;
     /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
     global: boolean;
     /** The unique identifier of this gateway. */
@@ -3547,17 +4338,26 @@ namespace DirectLinkV1 {
     /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this
      *  property may expand in the future. Code and processes using this field  must tolerate unexpected values.
      */
-    link_status?: string;
+    link_status?: Gateway.Constants.LinkStatus | string;
     /** Date and time link status was updated. */
     link_status_updated_at?: string;
     /** Gateway location long name. */
     location_display_name: string;
     /** Gateway location. */
     location_name: string;
-    /** MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration
-     *  information.  Contact IBM support for access to MACsec.
+    /** MACsec configuration information of a Direct Link gateway. */
+    macsec?: GatewayMacsecReference;
+    /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
+     *  `cross_connect_router`.
+     *
+     *  Only included on type=dedicated direct links.
+     *
+     *  - non_macsec: The direct link does not support MACsec.
+     *  - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
+     *  - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+     *  direct link creation.
      */
-    macsec_config?: GatewayMacsecConfig;
+    macsec_capability?: Gateway.Constants.MacsecCapability | string;
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
      *  gigabyte usage charge, instead a flat rate is charged for the gateway.
      */
@@ -3566,56 +4366,105 @@ namespace DirectLinkV1 {
     name: string;
     /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code
      *  and processes using this field  must tolerate unexpected values.
+     *
+     *  See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
      */
-    operational_status: string;
-    /** gateway port for type=connect gateways. */
-    port?: GatewayPort;
+    operational_status: Gateway.Constants.OperationalStatus | string;
+    /** Context for certain values of `operational_status`. */
+    operational_status_reasons: GatewayStatusReason[];
+    /** Gateway patch panel complete notification from implementation team. */
+    patch_panel_completion_notice?: string;
+    /** Port information for type=connect gateways. */
+    port?: GatewayPortReference;
     /** Indicates whether gateway changes must be made via a provider portal. */
     provider_api_managed?: boolean;
     /** Resource group reference. */
     resource_group?: ResourceGroupReference;
     /** Gateway speed in megabits per second. */
     speed_mbps: number;
-    /** Gateway patch panel complete notification from implementation team. */
-    patch_panel_completion_notice?: string;
     /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes
      *  using this field  must tolerate unexpected values.
      */
-    type: string;
+    type: Gateway.Constants.Type | string;
     /** VLAN configured for this gateway. If there is no vlan configured for the gateway, the vlan will be absent.
      *  This property will also be absent if this gateway's `crn` is in another account.
      */
     vlan?: number;
   }
-
-  /** Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
-  export interface GatewayActionTemplateAuthenticationKey {
-    /** The CRN of the [Key Protect Standard
-     *  Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
-     *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
-     */
-    crn: string;
+  export namespace Gateway {
+    export namespace Constants {
+      /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum BgpStatus {
+        ACTIVE = 'active',
+        CONNECT = 'connect',
+        ESTABLISHED = 'established',
+        IDLE = 'idle',
+      }
+      /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum ConnectionMode {
+        DIRECT = 'direct',
+        TRANSIT = 'transit',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultExportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultImportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum LinkStatus {
+        DOWN = 'down',
+        UP = 'up',
+      }
+      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. Only included on type=dedicated direct links. - non_macsec: The direct link does not support MACsec. - macsec: The direct link supports MACsec. The MACsec feature must be enabled. - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. */
+      export enum MacsecCapability {
+        NON_MACSEC = 'non_macsec',
+        MACSEC = 'macsec',
+        MACSEC_OPTIONAL = 'macsec_optional',
+      }
+      /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`. */
+      export enum OperationalStatus {
+        AWAITING_COMPLETION_NOTICE = 'awaiting_completion_notice',
+        AWAITING_LOA = 'awaiting_loa',
+        CONFIGURING = 'configuring',
+        CREATE_PENDING = 'create_pending',
+        CREATE_REJECTED = 'create_rejected',
+        COMPLETION_NOTICE_APPROVED = 'completion_notice_approved',
+        COMPLETION_NOTICE_RECEIVED = 'completion_notice_received',
+        COMPLETION_NOTICE_REJECTED = 'completion_notice_rejected',
+        DELETE_PENDING = 'delete_pending',
+        LOA_ACCEPTED = 'loa_accepted',
+        LOA_CREATED = 'loa_created',
+        LOA_REJECTED = 'loa_rejected',
+        PROVISIONED = 'provisioned',
+        FAILED = 'failed',
+      }
+      /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum Type {
+        CONNECT = 'connect',
+        DEDICATED = 'dedicated',
+      }
+    }
   }
 
-  /** GatewayActionTemplateUpdatesItem. */
+  /**
+   * GatewayActionTemplateUpdatesItem.
+   */
   export interface GatewayActionTemplateUpdatesItem {
   }
 
-  /** The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
-  export interface GatewayAuthenticationKey {
-    /** The CRN of the [Key Protect Standard
-     *  Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
-     *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
-     */
-    crn: string;
-  }
-
-  /** BFD configuration information. */
+  /**
+   * BFD configuration information.
+   */
   export interface GatewayBfdConfig {
     /** Gateway BFD status. The list of enumerated values for this property may expand in the future. Code and
      *  processes using this field must tolerate unexpected values.
      */
-    bfd_status?: string;
+    bfd_status?: GatewayBfdConfig.Constants.BfdStatus | string;
     /** Date and time bfd status was updated. */
     bfd_status_updated_at?: string;
     /** Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects
@@ -3627,8 +4476,20 @@ namespace DirectLinkV1 {
      */
     multiplier: number;
   }
+  export namespace GatewayBfdConfig {
+    export namespace Constants {
+      /** Gateway BFD status. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
+      export enum BfdStatus {
+        INIT = 'init',
+        UP = 'up',
+        DOWN = 'down',
+      }
+    }
+  }
 
-  /** Applicable for create_gateway_approve requests to select the gateway's BFD configuration information. */
+  /**
+   * Applicable for create_gateway_approve requests to select the gateway's BFD configuration information.
+   */
   export interface GatewayBfdConfigActionTemplate {
     /** Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects
      *  to receive a reply from a neighbor with which it has established a BFD session.
@@ -3640,7 +4501,9 @@ namespace DirectLinkV1 {
     multiplier?: number;
   }
 
-  /** BFD configuration information. */
+  /**
+   * BFD configuration information.
+   */
   export interface GatewayBfdConfigTemplate {
     /** Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects
      *  to receive a reply from a neighbor with which it has established a BFD session.
@@ -3652,7 +4515,9 @@ namespace DirectLinkV1 {
     multiplier?: number;
   }
 
-  /** BFD configuration information. */
+  /**
+   * BFD configuration information.
+   */
   export interface GatewayBfdPatchTemplate {
     /** Minimum interval in milliseconds at which the local routing device transmits hello packets and then expects
      *  to receive a reply from a neighbor with which it has established a BFD session.
@@ -3666,221 +4531,493 @@ namespace DirectLinkV1 {
     multiplier?: number;
   }
 
-  /** GatewayChangeRequest. */
+  /**
+   * GatewayChangeRequest.
+   */
   export interface GatewayChangeRequest {
   }
 
-  /** GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem. */
+  /**
+   * GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem.
+   */
   export interface GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem {
   }
 
-  /** List of gateways. */
+  /**
+   * List of gateways.
+   */
   export interface GatewayCollection {
     /** Collection of Direct Link gateways. */
     gateways: GatewayCollectionGatewaysItem[];
   }
 
-  /** GatewayCollectionGatewaysItem. */
+  /**
+   * GatewayCollectionGatewaysItem.
+   */
   export interface GatewayCollectionGatewaysItem {
   }
 
-  /** MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.  Contact IBM support for access to MACsec. */
-  export interface GatewayMacsecConfig {
-    /** Indicate whether MACsec should currently be active (true) or inactive (false) for a MACsec enabled gateway.
-     *   To be MACsec enabled a `macsec_config` must be specified at gateway create time.
-     */
+  /**
+   * MACsec configuration information of a Direct Link gateway.
+   */
+  export interface GatewayMacsec {
+    /** Indicates if the MACsec feature is currently active (true) or inactive (false) for a gateway. */
     active: boolean;
-    /** Active connectivity association key.
+    /** The cipher suite used in generating the security association key (SAK). */
+    cipher_suite: GatewayMacsec.Constants.CipherSuite | string;
+    /** The confidentiality offset determines the number of octets in an Ethernet frame that are not encrypted. */
+    confidentiality_offset: number;
+    /** The date and time the resource was created. */
+    created_at: string;
+    /** Used in the MACsec Key Agreement (MKA) protocol to determine which peer acts as the key server.
      *
-     *  During normal operation `active_cak` will match the desired `primary_cak`.  During CAK changes this field can be
-     *  used to indicate which key is currently active on the gateway.
-     */
-    active_cak?: GatewayMacsecConfigActiveCak;
-    /** SAK cipher suite. */
-    cipher_suite?: string;
-    /** confidentiality offset. */
-    confidentiality_offset?: number;
-    /** cryptographic algorithm. */
-    cryptographic_algorithm?: string;
-    /** fallback connectivity association key. */
-    fallback_cak?: GatewayMacsecConfigFallbackCak;
-    /** key server priority. */
-    key_server_priority?: number;
-    /** desired primary connectivity association key. */
-    primary_cak: GatewayMacsecConfigPrimaryCak;
-    /** Secure Association Key (SAK) expiry time in seconds. */
-    sak_expiry_time?: number;
-    /** Packets without MACsec headers are dropped when security_policy is `must_secure`. */
-    security_policy?: string;
-    /** Current status of MACsec on this gateway.
+     *  Lower values indicate a higher preference to be the key server.
      *
-     *  Status 'offline' is returned during gateway creation and deletion.
+     *  The MACsec configuration on the direct link will always set this value to 255.
      */
-    status: string;
-    /** replay protection window size. */
-    window_size?: number;
-  }
-
-  /** Active connectivity association key. During normal operation `active_cak` will match the desired `primary_cak`.  During CAK changes this field can be used to indicate which key is currently active on the gateway. */
-  export interface GatewayMacsecConfigActiveCak {
-    /** connectivity association key crn. */
-    crn: string;
-    /** connectivity association key status. */
-    status: string;
-  }
-
-  /** fallback connectivity association key. */
-  export interface GatewayMacsecConfigFallbackCak {
-    /** connectivity association key crn. */
-    crn: string;
-    /** connectivity association key status. */
-    status: string;
-  }
-
-  /** MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified in the patch request.  Contact IBM support for access to MACsec. A MACsec config cannot be added to a gateway created without MACsec. */
-  export interface GatewayMacsecConfigPatchTemplate {
-    /** Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled
-     *  gateway.
-     */
-    active?: boolean;
-    /** Fallback connectivity association key.
+    key_server_priority: number;
+    /** Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers. */
+    sak_rekey: SakRekey;
+    /** Determines how packets without MACsec headers are handled.
      *
-     *  MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
-     *  [a-fA-F0-9].
-     *  The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
-     *
-     *  To clear the optional `fallback_cak` field patch its crn to `""`.
-     *
-     *  A gateway's `fallback_cak` crn cannot match its `primary_cak` crn.
+     *  `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
+     *  network availability.
+     *  `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
+     *  availability over security.
      */
-    fallback_cak?: GatewayMacsecConfigPatchTemplateFallbackCak;
-    /** Desired primary connectivity association key.
+    security_policy: GatewayMacsec.Constants.SecurityPolicy | string;
+    /** Current status of MACsec on this direct link.
      *
-     *  MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
-     *  [a-fA-F0-9].
-     *  The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+     *  Status `offline` is returned when MACsec is inactive and during direct link creation.
      *
-     *  A gateway's `primary_cak` crn cannot match its `fallback_cak` crn.
-     */
-    primary_cak?: GatewayMacsecConfigPatchTemplatePrimaryCak;
-    /** replay protection window size. */
-    window_size?: number;
-  }
-
-  /** Fallback connectivity association key. MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9]. To clear the optional `fallback_cak` field patch its crn to `""`. A gateway's `fallback_cak` crn cannot match its `primary_cak` crn. */
-  export interface GatewayMacsecConfigPatchTemplateFallbackCak {
-    /** connectivity association key crn. */
-    crn: string;
-  }
-
-  /** Desired primary connectivity association key. MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9]. A gateway's `primary_cak` crn cannot match its `fallback_cak` crn. */
-  export interface GatewayMacsecConfigPatchTemplatePrimaryCak {
-    /** connectivity association key crn. */
-    crn: string;
-  }
-
-  /** desired primary connectivity association key. */
-  export interface GatewayMacsecConfigPrimaryCak {
-    /** connectivity association key crn. */
-    crn: string;
-    /** connectivity association key status. */
-    status: string;
-  }
-
-  /** MACsec configuration information.  Contact IBM support for access to MACsec. */
-  export interface GatewayMacsecConfigTemplate {
-    /** Indicate whether MACsec protection should be active (true) or inactive (false) for this MACsec enabled
-     *  gateway.
-     */
-    active: boolean;
-    /** Fallback connectivity association key.
+     *  Status `deleting` is returned when MACsec during removal of MACsec from the direct link and during direct link
+     *  deletion.
      *
-     *  The `fallback_cak` crn cannot match the `primary_cak` crn.
-     *  MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
-     *  [a-fA-F0-9].
-     *  The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+     *  See `status_reasons[]` for possible remediation of the `failed` `status`.
      */
-    fallback_cak?: GatewayMacsecConfigTemplateFallbackCak;
-    /** Desired primary connectivity association key.
+    status: GatewayMacsec.Constants.Status | string;
+    /** Context for certain values of `status`. */
+    status_reasons: GatewayMacsecStatusReason[];
+    /** The date and time the resource was last updated. */
+    updated_at: string;
+    /** The window size determines the number of frames in a window for replay protection.
      *
-     *  MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
-     *  [a-fA-F0-9].
-     *  The key material must be exactly 64 characters in length and contain only [a-fA-F0-9].
+     *  Replay protection is used to counter replay attacks. Frames within a window size can be out of order and are not
+     *  replay protected.
      */
-    primary_cak: GatewayMacsecConfigTemplatePrimaryCak;
-    /** replay protection window size. */
-    window_size?: number;
+    window_size: number;
+  }
+  export namespace GatewayMacsec {
+    export namespace Constants {
+      /** The cipher suite used in generating the security association key (SAK). */
+      export enum CipherSuite {
+        GCM_AES_XPN_256 = 'gcm_aes_xpn_256',
+      }
+      /** Determines how packets without MACsec headers are handled. `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over network availability. `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network availability over security. */
+      export enum SecurityPolicy {
+        MUST_SECURE = 'must_secure',
+        SHOULD_SECURE = 'should_secure',
+      }
+      /** Current status of MACsec on this direct link. Status `offline` is returned when MACsec is inactive and during direct link creation. Status `deleting` is returned when MACsec during removal of MACsec from the direct link and during direct link deletion. See `status_reasons[]` for possible remediation of the `failed` `status`. */
+      export enum Status {
+        INIT = 'init',
+        PENDING = 'pending',
+        OFFLINE = 'offline',
+        SECURED = 'secured',
+        FAILED = 'failed',
+        DELETING = 'deleting',
+      }
+    }
   }
 
-  /** Fallback connectivity association key. The `fallback_cak` crn cannot match the `primary_cak` crn. MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9]. */
-  export interface GatewayMacsecConfigTemplateFallbackCak {
-    /** connectivity association key crn. */
-    crn: string;
-  }
-
-  /** Desired primary connectivity association key. MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in length and contain only [a-fA-F0-9]. */
-  export interface GatewayMacsecConfigTemplatePrimaryCak {
-    /** connectivity association key crn. */
-    crn: string;
-  }
-
-  /** The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
-  export interface GatewayPatchTemplateAuthenticationKey {
-    /** The CRN of the [Key Protect Standard
-     *  Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
-     *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
+  /**
+   * A connectivity association key (CAK) used in the MACsec Key Agreement (MKA) protocol.
+   *
+   * MACsec CAKs consist of both a name and key. The CAK's `name` must be a hexadecimal string of even lengths between 2
+   * to 64 inclusive. The CAK's `key` must be a [Hyper Protect Crypto Service Standard
+   * Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) type=standard with key material a
+   * hexadecimal string exactly 64 characters in length.
+   */
+  export interface GatewayMacsecCak {
+    /** This field will be present when the `status` of the MACsec CAK is `rotating` or `inactive`. It may be
+     *  present when the CAK `status` is `failed`.
+     *
+     *  This object denotes the MACsec CAK's values prior to beginning a CAK rotation and represents the previous key
+     *  still configured in the direct link's MACsec key chain.
+     *
+     *  This object will be removed when the MACsec CAK rotation completes, indicating that the previous key has been
+     *  removed from the key chain, and the current CAK's values are in use.
      */
-    crn: string;
-  }
-
-  /** gateway port for type=connect gateways. */
-  export interface GatewayPort {
-    /** Port Identifier. */
+    active_delta?: GatewayMacsecCakActiveDelta;
+    /** The date and time the resource was created. */
+    created_at: string;
+    /** The unique identifier for this connectivity association key (CAK). */
     id: string;
+    /** A reference to a [Hyper Protect Crypto Service Standard
+     *  Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+     */
+    key: HpcsKeyReference;
+    /** The name identifies the connectivity association key (CAK) within the MACsec key chain.
+     *
+     *  The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
+     *
+     *  This value, along with the material of the `key`, must match on the MACsec peers.
+     */
+    name: string;
+    /** The intended session the key will be used to secure.
+     *
+     *  If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can
+     *  take over.
+     *
+     *  There must be a `primary` session CAK. A `fallback` CAK is optional.
+     */
+    session: GatewayMacsecCak.Constants.Session | string;
+    /** Current status of the CAK.
+     *
+     *  Status `operational` is returned when the CAK is configured successfully.
+     *
+     *  Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on
+     *  the device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating`
+     *  for a period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the
+     *  CAK will either enter `active` or `inactive` status.
+     *
+     *  Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec
+     *  session.
+     *
+     *  Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the
+     *  MACsec session. The CAK may enter `rotating` status, and ultimately the `active` status, if it is found to be
+     *  used to secure the MACsec session. The CAK may never leave this status on its own (e.g. if there is a key/key
+     *  name mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again.
+     *
+     *  Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your
+     *  HPCS key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the
+     *  `fallback` session.
+     */
+    status: GatewayMacsecCak.Constants.Status | string;
+    /** The date and time the resource was last updated. */
+    updated_at: string;
+  }
+  export namespace GatewayMacsecCak {
+    export namespace Constants {
+      /** The intended session the key will be used to secure. If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can take over. There must be a `primary` session CAK. A `fallback` CAK is optional. */
+      export enum Session {
+        PRIMARY = 'primary',
+        FALLBACK = 'fallback',
+      }
+      /** Current status of the CAK. Status `operational` is returned when the CAK is configured successfully. Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on the device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating` for a period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the CAK will either enter `active` or `inactive` status. Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec session. Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the MACsec session. The CAK may enter `rotating` status, and ultimately the `active` status, if it is found to be used to secure the MACsec session. The CAK may never leave this status on its own (e.g. if there is a key/key name mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again. Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback` session. */
+      export enum Status {
+        OPERATIONAL = 'operational',
+        ROTATING = 'rotating',
+        ACTIVE = 'active',
+        INACTIVE = 'inactive',
+        FAILED = 'failed',
+      }
+    }
   }
 
-  /** Select Port Label for new type=connect gateway. */
+  /**
+   * This field will be present when the `status` of the MACsec CAK is `rotating` or `inactive`. It may be present when
+   * the CAK `status` is `failed`.
+   *
+   * This object denotes the MACsec CAK's values prior to beginning a CAK rotation and represents the previous key still
+   * configured in the direct link's MACsec key chain.
+   *
+   * This object will be removed when the MACsec CAK rotation completes, indicating that the previous key has been
+   * removed from the key chain, and the current CAK's values are in use.
+   */
+  export interface GatewayMacsecCakActiveDelta {
+    /** A reference to a [Hyper Protect Crypto Service Standard
+     *  Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+     */
+    key: HpcsKeyReference;
+    /** The name identifies the connectivity association key (CAK) within the MACsec key chain.
+     *
+     *  The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
+     *
+     *  This value, along with the material of the `key`, must match on the MACsec peers.
+     */
+    name: string;
+    /** Current status of the CAK.
+     *
+     *  Status `operational` is returned when the CAK is configured successfully.
+     *
+     *  Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on
+     *  the device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating`
+     *  for a period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the
+     *  CAK will either enter `active` or `inactive` status.
+     *
+     *  Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec
+     *  session.
+     *
+     *  Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the
+     *  MACsec session. The CAK may enter `rotating` status, and ultimately the `active` status, if it is found to be
+     *  used to secure the MACsec session. The CAK may never leave this status on its own (e.g. if there is a key/key
+     *  name mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again.
+     *
+     *  Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your
+     *  HPCS key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the
+     *  `fallback` session.
+     */
+    status: GatewayMacsecCakActiveDelta.Constants.Status | string;
+  }
+  export namespace GatewayMacsecCakActiveDelta {
+    export namespace Constants {
+      /** Current status of the CAK. Status `operational` is returned when the CAK is configured successfully. Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on the device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating` for a period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the CAK will either enter `active` or `inactive` status. Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec session. Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the MACsec session. The CAK may enter `rotating` status, and ultimately the `active` status, if it is found to be used to secure the MACsec session. The CAK may never leave this status on its own (e.g. if there is a key/key name mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again. Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback` session. */
+      export enum Status {
+        OPERATIONAL = 'operational',
+        ROTATING = 'rotating',
+        ACTIVE = 'active',
+        INACTIVE = 'inactive',
+        FAILED = 'failed',
+      }
+    }
+  }
+
+  /**
+   * List of all connectivity association keys (CAKs) associated with the MACsec feature on a direct link.
+   */
+  export interface GatewayMacsecCakCollection {
+    /** List of all connectivity association keys (CAKs) associated with the MACsec feature on a direct link. */
+    caks?: GatewayMacsecCak[];
+  }
+
+  /**
+   * The prototype for a connectivity association key (CAK) used in the MACsec Key Agreement (MKA) protocol.
+   */
+  export interface GatewayMacsecCakPrototype {
+    /** A [Hyper Protect Crypto Service Standard
+     *  Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+     */
+    key: HpcsKeyIdentity;
+    /** The name identifies the connectivity association key (CAK) within the MACsec key chain.
+     *
+     *  The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
+     *
+     *  This value, along with the material of the `key`, must match on the MACsec peers.
+     */
+    name: string;
+    /** The intended session the key will be used to secure.
+     *
+     *  If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can
+     *  take over.
+     *
+     *  There must be a `primary` session CAK. A `fallback` CAK is optional.
+     */
+    session: GatewayMacsecCakPrototype.Constants.Session | string;
+  }
+  export namespace GatewayMacsecCakPrototype {
+    export namespace Constants {
+      /** The intended session the key will be used to secure. If the `primary` MACsec session fails due to a key/key name mismatch on the peers, the `fallback` session can take over. There must be a `primary` session CAK. A `fallback` CAK is optional. */
+      export enum Session {
+        PRIMARY = 'primary',
+        FALLBACK = 'fallback',
+      }
+    }
+  }
+
+  /**
+   * MACsec configuration information of a Direct Link gateway.
+   */
+  export interface GatewayMacsecPrototype {
+    /** Determines if the MACsec feature should initially be active (true) or inactive (false) for a gateway. */
+    active: boolean;
+    /** List of all connectivity association keys (CAKs) to be associated associated with the MACsec feature on a
+     *  direct link.
+     *
+     *  There must be at least one CAK with `session`: `primary`. There can be at most one CAK with `session`:
+     *  `fallback`
+     *
+     *  All CAKs must reference a unique key.
+     */
+    caks: GatewayMacsecCakPrototype[];
+    /** Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers. */
+    sak_rekey: SakRekeyPrototype;
+    /** Determines how packets without MACsec headers are handled.
+     *
+     *  `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
+     *  network availability.
+     *  `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
+     *  availability over security.
+     */
+    security_policy: GatewayMacsecPrototype.Constants.SecurityPolicy | string;
+    /** The window size determines the number of frames in a window for replay protection.
+     *
+     *  Replay protection is used to counter replay attacks. Frames within a window size can be out of order and are not
+     *  replay protected.
+     */
+    window_size?: number;
+  }
+  export namespace GatewayMacsecPrototype {
+    export namespace Constants {
+      /** Determines how packets without MACsec headers are handled. `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over network availability. `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network availability over security. */
+      export enum SecurityPolicy {
+        MUST_SECURE = 'must_secure',
+        SHOULD_SECURE = 'should_secure',
+      }
+    }
+  }
+
+  /**
+   * MACsec configuration information of a Direct Link gateway.
+   */
+  export interface GatewayMacsecReference {
+    /** Indicates if the MACsec feature is currently active (true) or inactive (false) for a gateway. */
+    active: boolean;
+    /** Determines how packets without MACsec headers are handled.
+     *
+     *  `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
+     *  network availability.
+     *  `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
+     *  availability over security.
+     */
+    security_policy: GatewayMacsecReference.Constants.SecurityPolicy | string;
+    /** Current status of MACsec on this direct link.
+     *
+     *  Status `offline` is returned when MACsec is inactive and during direct link creation.
+     *
+     *  Status `deleting` is returned when MACsec during removal of MACsec from the direct link and during direct link
+     *  deletion.
+     *
+     *  See `status_reasons[]` for possible remediation of the `failed` `status`.
+     */
+    status: GatewayMacsecReference.Constants.Status | string;
+    /** Context for certain values of `status`. */
+    status_reasons: GatewayMacsecStatusReason[];
+  }
+  export namespace GatewayMacsecReference {
+    export namespace Constants {
+      /** Determines how packets without MACsec headers are handled. `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over network availability. `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network availability over security. */
+      export enum SecurityPolicy {
+        MUST_SECURE = 'must_secure',
+        SHOULD_SECURE = 'should_secure',
+      }
+      /** Current status of MACsec on this direct link. Status `offline` is returned when MACsec is inactive and during direct link creation. Status `deleting` is returned when MACsec during removal of MACsec from the direct link and during direct link deletion. See `status_reasons[]` for possible remediation of the `failed` `status`. */
+      export enum Status {
+        INIT = 'init',
+        PENDING = 'pending',
+        OFFLINE = 'offline',
+        SECURED = 'secured',
+        FAILED = 'failed',
+        DELETING = 'deleting',
+      }
+    }
+  }
+
+  /**
+   * A reason for the current `status`.
+   */
+  export interface GatewayMacsecStatusReason {
+    /** A reason code for the status:
+     *  - `macsec_cak_failed`: At least one of the connectivity association keys (CAKs) associated with the MACsec
+     *  configuration was unable to be configured on the direct link gateway. Refer to the `status` of the CAKs
+     *  associated with the MACsec configuration to find the the source of this reason.
+     */
+    code: GatewayMacsecStatusReason.Constants.Code | string;
+    /** An explanation of the status reason. */
+    message: string;
+    /** Link to documentation about this status reason. */
+    more_info?: string;
+  }
+  export namespace GatewayMacsecStatusReason {
+    export namespace Constants {
+      /** A reason code for the status: - `macsec_cak_failed`: At least one of the connectivity association keys (CAKs) associated with the MACsec configuration was unable to be configured on the direct link gateway. Refer to the `status` of the CAKs associated with the MACsec configuration to find the the source of this reason. */
+      export enum Code {
+        MACSEC_CAK_FAILED = 'macsec_cak_failed',
+      }
+    }
+  }
+
+  /**
+   * Select Port Label for new type=connect gateway.
+   */
   export interface GatewayPortIdentity {
     /** port id. */
     id: string;
   }
 
-  /** Gateway statistics and debug commands. */
+  /**
+   * Port information for type=connect gateways.
+   */
+  export interface GatewayPortReference {
+    /** Port Identifier. */
+    id: string;
+  }
+
+  /**
+   * Gateway statistics and debug commands.
+   */
   export interface GatewayStatistic {
     /** Date and time data was collected. */
     created_at: string;
     /** statistics output. */
     data: string;
     /** statistic type. */
-    type: string;
+    type: GatewayStatistic.Constants.Type | string;
+  }
+  export namespace GatewayStatistic {
+    export namespace Constants {
+      /** statistic type. */
+      export enum Type {
+        MACSEC_MKA_SESSION = 'macsec_mka_session',
+        MACSEC_POLICY = 'macsec_policy',
+        MACSEC_MKA_STATISTICS = 'macsec_mka_statistics',
+        BFD_SESSION = 'bfd_session',
+      }
+    }
   }
 
-  /** gateway statistics. */
+  /**
+   * gateway statistics.
+   */
   export interface GatewayStatisticCollection {
     /** Collection of gateway statistics. */
     statistics: GatewayStatistic[];
   }
 
-  /** GatewayStatus. */
+  /**
+   * GatewayStatus.
+   */
   export interface GatewayStatus {
   }
 
-  /** gateway status. */
+  /**
+   * gateway status.
+   */
   export interface GatewayStatusCollection {
     /** array of status. */
     status?: GatewayStatus[];
   }
 
-  /** Create gateway template. */
+  /**
+   * A reason for the current `operational_status`.
+   */
+  export interface GatewayStatusReason {
+    /** A reason code for the status:
+     *  - `authentication_key_failed`: `authentication_key` was unable to be configured on the direct link gateway. To
+     *  recover, first resolve any issues with your key, then patch the gateway with the same or new key.
+     */
+    code: GatewayStatusReason.Constants.Code | string;
+    /** An explanation of the status reason. */
+    message: string;
+    /** Link to documentation about this status reason. */
+    more_info?: string;
+  }
+  export namespace GatewayStatusReason {
+    export namespace Constants {
+      /** A reason code for the status: - `authentication_key_failed`: `authentication_key` was unable to be configured on the direct link gateway. To recover, first resolve any issues with your key, then patch the gateway with the same or new key. */
+      export enum Code {
+        AUTHENTICATION_KEY_FAILED = 'authentication_key_failed',
+      }
+    }
+  }
+
+  /**
+   * Create gateway template.
+   */
   export interface GatewayTemplate {
     /** array of AS Prepend configuration information. */
     as_prepends?: AsPrependTemplate[];
-    /** The identity of the standard key to use for BGP MD5 authentication key.
-     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
-     *  characters in length.
-     *  To clear the optional `authentication_key` field patch its crn to `""`.
-     */
-    authentication_key?: GatewayTemplateAuthenticationKey;
+    authentication_key?: AuthenticationKeyIdentity;
     /** BFD configuration information. */
     bfd_config?: GatewayBfdConfigTemplate;
     /** BGP ASN. */
@@ -3890,7 +5027,7 @@ namespace DirectLinkV1 {
      *  Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to create a gateway using either
      *  automatic or explicit IP assignment.  Any bgp_base_cidr value set will be ignored.
      *
-     *  Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
+     *  Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
      */
     bgp_base_cidr?: string;
     /** BGP customer edge router CIDR.
@@ -3918,15 +5055,15 @@ namespace DirectLinkV1 {
      *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
      *  unexpected values.
      */
-    connection_mode?: string;
+    connection_mode?: GatewayTemplate.Constants.ConnectionMode | string;
     /** The default directional route filter action that applies to routes that do not match any directional route
      *  filters.
      */
-    default_export_route_filter?: string;
+    default_export_route_filter?: GatewayTemplate.Constants.DefaultExportRouteFilter | string;
     /** The default directional route filter action that applies to routes that do not match any directional route
      *  filters.
      */
-    default_import_route_filter?: string;
+    default_import_route_filter?: GatewayTemplate.Constants.DefaultImportRouteFilter | string;
     /** Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing
      *  route filters, the order of the items in the array will set the ordering of the list of route filters.
      */
@@ -3952,24 +5089,41 @@ namespace DirectLinkV1 {
     /** Gateway speed in megabits per second. */
     speed_mbps: number;
     /** Offering type. */
-    type: string;
+    type: GatewayTemplate.Constants.Type | string;
+  }
+  export namespace GatewayTemplate {
+    export namespace Constants {
+      /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum ConnectionMode {
+        DIRECT = 'direct',
+        TRANSIT = 'transit',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultExportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultImportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** Offering type. */
+      export enum Type {
+        CONNECT = 'connect',
+        DEDICATED = 'dedicated',
+      }
+    }
   }
 
-  /** The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional `authentication_key` field patch its crn to `""`. */
-  export interface GatewayTemplateAuthenticationKey {
-    /** The CRN of the [Key Protect Standard
-     *  Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
-     *  Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
-     */
-    crn: string;
-  }
-
-  /** The route filter create template within the Direct Link gateway create template. */
+  /**
+   * The route filter create template within the Direct Link gateway create template.
+   */
   export interface GatewayTemplateRouteFilter {
     /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the
      *  filter.
      */
-    action: string;
+    action: GatewayTemplateRouteFilter.Constants.Action | string;
     /** The minimum matching length of the prefix-set (mnemonic for greater than or equal to). */
     ge?: number;
     /** The maximum matching length of the prefix-set (mnemonic for less than or equal to). */
@@ -3977,8 +5131,19 @@ namespace DirectLinkV1 {
     /** IP prefix representing an address and mask length of the prefix-set. */
     prefix: string;
   }
+  export namespace GatewayTemplateRouteFilter {
+    export namespace Constants {
+      /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter. */
+      export enum Action {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+    }
+  }
 
-  /** Virtual connection. */
+  /**
+   * Virtual connection.
+   */
   export interface GatewayVirtualConnection {
     /** The date and time resource was created. */
     created_at: string;
@@ -4001,44 +5166,94 @@ namespace DirectLinkV1 {
      *  The list of enumerated values for this property may expand in the future. Code and processes using this field
      *  must tolerate unexpected values.
      */
-    status: string;
+    status: GatewayVirtualConnection.Constants.Status | string;
     /** Virtual connection type.
      *
      *  The list of enumerated values for this property may expand in the future. Code and processes using this field
      *  must tolerate unexpected values.
      */
-    type: string;
+    type: GatewayVirtualConnection.Constants.Type | string;
+  }
+  export namespace GatewayVirtualConnection {
+    export namespace Constants {
+      /** Status of the virtual connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum Status {
+        PENDING = 'pending',
+        ATTACHED = 'attached',
+        APPROVAL_PENDING = 'approval_pending',
+        REJECTED = 'rejected',
+        EXPIRED = 'expired',
+        DELETING = 'deleting',
+        DETACHED_BY_NETWORK_PENDING = 'detached_by_network_pending',
+        DETACHED_BY_NETWORK = 'detached_by_network',
+      }
+      /** Virtual connection type. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum Type {
+        CLASSIC = 'classic',
+        VPC = 'vpc',
+        TRANSIT = 'transit',
+      }
+    }
   }
 
-  /** Virtual connection collection. */
+  /**
+   * Virtual connection collection.
+   */
   export interface GatewayVirtualConnectionCollection {
     /** virtual connection array. */
     virtual_connections: GatewayVirtualConnection[];
   }
 
-  /** GetGatewayResponse. */
+  /**
+   * GetGatewayResponse.
+   */
   export interface GetGatewayResponse {
   }
 
-  /** Collection of import route filters. */
+  /**
+   * A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   */
+  export interface HpcsKeyIdentity {
+    /** The CRN of the key. */
+    crn: string;
+  }
+
+  /**
+   * A reference to a [Hyper Protect Crypto Service Standard
+   * Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   */
+  export interface HpcsKeyReference {
+    /** The CRN of the referenced key. */
+    crn: string;
+  }
+
+  /**
+   * Collection of import route filters.
+   */
   export interface ImportRouteFilterCollection {
     /** Array of import route filters. */
     import_route_filters: RouteFilter[];
   }
 
-  /** location collection. */
+  /**
+   * location collection.
+   */
   export interface LocationCollection {
     /** Collection of Direct Link locations. */
     locations: LocationOutput[];
   }
 
-  /** List of cross connect router details. */
+  /**
+   * List of cross connect router details.
+   */
   export interface LocationCrossConnectRouterCollection {
     /** Array of Routers for this location. */
     cross_connect_routers?: CrossConnectRouter[];
   }
 
-  /** location. */
+  /**
+   * location.
+   */
   export interface LocationOutput {
     /** Billing location.  Only present for locations where provisioning is enabled. */
     billing_location?: string;
@@ -4070,7 +5285,9 @@ namespace DirectLinkV1 {
     vpc_region?: string;
   }
 
-  /** Speed. */
+  /**
+   * Speed.
+   */
   export interface OfferingSpeed {
     /** Array of capabilities for billing option. */
     capabilities: string[];
@@ -4082,13 +5299,17 @@ namespace DirectLinkV1 {
     macsec_enabled?: boolean;
   }
 
-  /** List of speeds. */
+  /**
+   * List of speeds.
+   */
   export interface OfferingSpeedCollection {
     /** speed list. */
     speeds: OfferingSpeed[];
   }
 
-  /** Provider port details. */
+  /**
+   * Provider port details.
+   */
   export interface Port {
     /** Count of existing Direct Link gateways in this account on this port. */
     direct_link_count: number;
@@ -4106,7 +5327,9 @@ namespace DirectLinkV1 {
     supported_link_speeds: number[];
   }
 
-  /** List of port label details. */
+  /**
+   * List of port label details.
+   */
   export interface PortCollection {
     /** A reference to the first page of resources. */
     first: PortsPaginatedCollectionFirst;
@@ -4120,13 +5343,17 @@ namespace DirectLinkV1 {
     ports?: Port[];
   }
 
-  /** A reference to the first page of resources. */
+  /**
+   * A reference to the first page of resources.
+   */
   export interface PortsPaginatedCollectionFirst {
     /** The URL for the first page of resources. */
     href: string;
   }
 
-  /** A reference to the next page of resources; this reference is included for all pages except the last page. */
+  /**
+   * A reference to the next page of resources; this reference is included for all pages except the last page.
+   */
   export interface PortsPaginatedCollectionNext {
     /** URL for the next page of resources. */
     href: string;
@@ -4134,24 +5361,31 @@ namespace DirectLinkV1 {
     start?: string;
   }
 
-  /** Resource group for this resource. If unspecified, the account's [default resource group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used. */
+  /**
+   * Resource group for this resource. If unspecified, the account's [default resource
+   * group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
+   */
   export interface ResourceGroupIdentity {
     /** Resource group identifier. */
     id: string;
   }
 
-  /** Resource group reference. */
+  /**
+   * Resource group reference.
+   */
   export interface ResourceGroupReference {
     /** Resource group identifier. */
     id: string;
   }
 
-  /** Route filter. */
+  /**
+   * Route filter.
+   */
   export interface RouteFilter {
     /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the
      *  filter.
      */
-    action: string;
+    action: RouteFilter.Constants.Action | string;
     /** Identifier of the next route filter considered if a route does not match the current filter. This property
      *  builds the ordering among route filters and follows semantics:
      *  - When before is an identifier of a route filter that exists and is in the same collection, a route will first
@@ -4176,8 +5410,19 @@ namespace DirectLinkV1 {
     /** The date and time the route filter was last updated. */
     updated_at: string;
   }
+  export namespace RouteFilter {
+    export namespace Constants {
+      /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the filter. */
+      export enum Action {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+    }
+  }
 
-  /** route report. */
+  /**
+   * route report.
+   */
   export interface RouteReport {
     /** Array of connection prefixes advertised to the on-prem network. This parameter is not returned when the
      *  route report was generated prior to inclusion of this parameter.
@@ -4196,14 +5441,25 @@ namespace DirectLinkV1 {
     /** Route report status. The list of enumerated values for this property may expand in the future. Code and
      *  processes using this field must tolerate unexpected values.
      */
-    status: string;
+    status: RouteReport.Constants.Status | string;
     /** Date and time route report was last modified. */
     updated_at?: string;
     /** Array of routes on virtual connections. */
     virtual_connection_routes: RouteReportConnection[];
   }
+  export namespace RouteReport {
+    export namespace Constants {
+      /** Route report status. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
+      export enum Status {
+        COMPLETE = 'complete',
+        PENDING = 'pending',
+      }
+    }
+  }
 
-  /** Route advertised to the on-prem network. */
+  /**
+   * Route advertised to the on-prem network.
+   */
   export interface RouteReportAdvertisedRoute {
     /** The BGP AS path of the route. */
     as_path: string;
@@ -4211,13 +5467,17 @@ namespace DirectLinkV1 {
     prefix: string;
   }
 
-  /** route reports. */
+  /**
+   * route reports.
+   */
   export interface RouteReportCollection {
     /** Array of route reports. */
     route_reports: RouteReport[];
   }
 
-  /** Routes of a virtual connection. */
+  /**
+   * Routes of a virtual connection.
+   */
   export interface RouteReportConnection {
     /** Array of virtual connection's routes. */
     routes: RouteReportVirtualConnectionRoute[];
@@ -4229,7 +5489,9 @@ namespace DirectLinkV1 {
     virtual_connection_type?: string;
   }
 
-  /** on-prem route. */
+  /**
+   * on-prem route.
+   */
   export interface RouteReportOnPremRoute {
     /** The BGP AS path of the route. */
     as_path?: string;
@@ -4239,23 +5501,31 @@ namespace DirectLinkV1 {
     prefix?: string;
   }
 
-  /** overlapping route details. */
+  /**
+   * overlapping route details.
+   */
   export interface RouteReportOverlappingRoute {
   }
 
-  /** Collection of overlapping route. */
+  /**
+   * Collection of overlapping route.
+   */
   export interface RouteReportOverlappingRouteGroup {
     /** Array of overlapping connection/prefix pairs. */
     routes?: RouteReportOverlappingRoute[];
   }
 
-  /** route. */
+  /**
+   * route.
+   */
   export interface RouteReportRoute {
     /** prefix. */
     prefix?: string;
   }
 
-  /** A route originating from an attached virtual connection. */
+  /**
+   * A route originating from an attached virtual connection.
+   */
   export interface RouteReportVirtualConnectionRoute {
     /** Indicates whether the route is the preferred path of the prefix. */
     active?: boolean;
@@ -4265,13 +5535,70 @@ namespace DirectLinkV1 {
     prefix: string;
   }
 
-  /** The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL 2.0 gateway. */
+  /**
+   * Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers.
+   */
+  export interface SakRekey {
+  }
+
+  /**
+   * Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers.
+   */
+  export interface SakRekeyPatch {
+  }
+
+  /**
+   * Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers.
+   */
+  export interface SakRekeyPrototype {
+  }
+
+  /**
+   * A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   */
+  export interface AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity extends AuthenticationKeyIdentity {
+    /** The CRN of the key. */
+    crn: string;
+  }
+
+  /**
+   * A [Key Protect Standard Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial).
+   */
+  export interface AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity extends AuthenticationKeyIdentity {
+    /** The CRN of the key. */
+    crn: string;
+  }
+
+  /**
+   * A reference to a [Hyper Protect Crypto Service Standard
+   * Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   */
+  export interface AuthenticationKeyReferenceHpcsAuthenticationKeyReference extends AuthenticationKeyReference {
+    /** The CRN of the referenced key. */
+    crn: string;
+  }
+
+  /**
+   * A reference to a [Key Protect Standard
+   * Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial).
+   */
+  export interface AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference extends AuthenticationKeyReference {
+    /** The CRN of the referenced key. */
+    crn: string;
+  }
+
+  /**
+   * The autonomous system number (ASN) of Border Gateway Protocol
+   * (BGP) configuration for the IBM side of the DL 2.0 gateway.
+   */
   export interface GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate extends GatewayActionTemplateUpdatesItem {
     /** New gateway BGP ASN. */
     bgp_asn?: number;
   }
 
-  /** Update BGP customer and IBM CIDR. */
+  /**
+   * Update BGP customer and IBM CIDR.
+   */
   export interface GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate extends GatewayActionTemplateUpdatesItem {
     /** BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on
      *  customer edge router for the DL 2.0 gateway.
@@ -4294,25 +5621,36 @@ namespace DirectLinkV1 {
     bgp_ibm_cidr?: string;
   }
 
-  /** gateway speed change. */
+  /**
+   * gateway speed change.
+   */
   export interface GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate extends GatewayActionTemplateUpdatesItem {
     /** New gateway speed in megabits per second. */
     speed_mbps?: number;
   }
 
-  /** Update VLAN for this gateway VLAN provided should be in the range 2 to 3967. */
+  /**
+   * Update VLAN for this gateway
+   *
+   * VLAN provided should be in the range 2 to 3967.
+   */
   export interface GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate extends GatewayActionTemplateUpdatesItem {
     /** VLAN to be updated for this gateway. */
     vlan?: number;
   }
 
-  /** The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL 2.0 gateway. */
+  /**
+   * The autonomous system number (ASN) of Border Gateway Protocol
+   * (BGP) configuration for the IBM side of the DL 2.0 gateway.
+   */
   export interface GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate extends GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem {
     /** New gateway BGP ASN. */
     bgp_asn?: number;
   }
 
-  /** Update BGP customer and IBM CIDR. */
+  /**
+   * Update BGP customer and IBM CIDR.
+   */
   export interface GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate extends GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem {
     /** BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on
      *  customer edge router for the DL 2.0 gateway.
@@ -4335,44 +5673,82 @@ namespace DirectLinkV1 {
     bgp_ibm_cidr?: string;
   }
 
-  /** gateway speed change. */
+  /**
+   * gateway speed change.
+   */
   export interface GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate extends GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem {
     /** New gateway speed in megabits per second. */
     speed_mbps?: number;
   }
 
-  /** Update VLAN for this gateway VLAN provided should be in the range 2 to 3967. */
+  /**
+   * Update VLAN for this gateway
+   *
+   * VLAN provided should be in the range 2 to 3967.
+   */
   export interface GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate extends GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem {
     /** VLAN to be updated for this gateway. */
     vlan?: number;
   }
 
-  /** gateway create. */
+  /**
+   * gateway create.
+   */
   export interface GatewayChangeRequestGatewayClientGatewayCreate extends GatewayChangeRequest {
     /** type of gateway change request. */
-    type: string;
+    type: GatewayChangeRequestGatewayClientGatewayCreate.Constants.Type | string;
+  }
+  export namespace GatewayChangeRequestGatewayClientGatewayCreate {
+    export namespace Constants {
+      /** type of gateway change request. */
+      export enum Type {
+        CREATE_GATEWAY = 'create_gateway',
+      }
+    }
   }
 
-  /** gateway delete. */
+  /**
+   * gateway delete.
+   */
   export interface GatewayChangeRequestGatewayClientGatewayDelete extends GatewayChangeRequest {
     /** type of gateway change request. */
-    type: string;
+    type: GatewayChangeRequestGatewayClientGatewayDelete.Constants.Type | string;
+  }
+  export namespace GatewayChangeRequestGatewayClientGatewayDelete {
+    export namespace Constants {
+      /** type of gateway change request. */
+      export enum Type {
+        DELETE_GATEWAY = 'delete_gateway',
+      }
+    }
   }
 
-  /** gateway attributes update. */
+  /**
+   * gateway attributes update.
+   */
   export interface GatewayChangeRequestGatewayClientGatewayUpdateAttributes extends GatewayChangeRequest {
     /** type of gateway change request. */
-    type: string;
+    type: GatewayChangeRequestGatewayClientGatewayUpdateAttributes.Constants.Type | string;
     /** array of pending updates. */
     updates: GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem[];
   }
+  export namespace GatewayChangeRequestGatewayClientGatewayUpdateAttributes {
+    export namespace Constants {
+      /** type of gateway change request. */
+      export enum Type {
+        UPDATE_ATTRIBUTES = 'update_attributes',
+      }
+    }
+  }
 
-  /** cross-account gateway read-only view. */
+  /**
+   * cross-account gateway read-only view.
+   */
   export interface GatewayCollectionGatewaysItemCrossAccountGateway extends GatewayCollectionGatewaysItem {
     /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and
      *  processes using this field  must tolerate unexpected values.
      */
-    bgp_status?: string;
+    bgp_status?: GatewayCollectionGatewaysItemCrossAccountGateway.Constants.BgpStatus | string;
     /** Date and time bgp status was updated. */
     bgp_status_updated_at?: string;
     /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
@@ -4380,14 +5756,14 @@ namespace DirectLinkV1 {
      *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
      *  unexpected values.
      */
-    connection_mode?: string;
+    connection_mode?: GatewayCollectionGatewaysItemCrossAccountGateway.Constants.ConnectionMode | string;
     /** The date and time resource was created. */
     created_at: string;
     /** The CRN (Cloud Resource Name) of this gateway. */
     crn: string;
     /** Indicates whether this gateway is cross account gateway. */
     cross_account: boolean;
-    /** Cross connect router.  Only included on type=dedicated gateways. */
+    /** Cross connect router. Only included on type=dedicated gateways. */
     cross_connect_router?: string;
     /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
     global: boolean;
@@ -4396,7 +5772,7 @@ namespace DirectLinkV1 {
     /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this
      *  property may expand in the future. Code and processes using this field  must tolerate unexpected values.
      */
-    link_status?: string;
+    link_status?: GatewayCollectionGatewaysItemCrossAccountGateway.Constants.LinkStatus | string;
     /** Date and time link status was updated. */
     link_status_updated_at?: string;
     /** Gateway location long name. */
@@ -4408,27 +5784,66 @@ namespace DirectLinkV1 {
     /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code
      *  and processes using this field  must tolerate unexpected values.
      */
-    operational_status: string;
-    /** gateway port for type=connect gateways. */
-    port?: CrossAccountGatewayPort;
+    operational_status: GatewayCollectionGatewaysItemCrossAccountGateway.Constants.OperationalStatus | string;
+    /** Port information for type=connect gateways. */
+    port?: GatewayPortReference;
     /** Gateway speed in megabits per second. */
     speed_mbps: number;
     /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes
      *  using this field  must tolerate unexpected values.
      */
-    type: string;
+    type: GatewayCollectionGatewaysItemCrossAccountGateway.Constants.Type | string;
+  }
+  export namespace GatewayCollectionGatewaysItemCrossAccountGateway {
+    export namespace Constants {
+      /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum BgpStatus {
+        ACTIVE = 'active',
+        CONNECT = 'connect',
+        ESTABLISHED = 'established',
+        IDLE = 'idle',
+      }
+      /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum ConnectionMode {
+        DIRECT = 'direct',
+        TRANSIT = 'transit',
+      }
+      /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum LinkStatus {
+        DOWN = 'down',
+        UP = 'up',
+      }
+      /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum OperationalStatus {
+        AWAITING_COMPLETION_NOTICE = 'awaiting_completion_notice',
+        AWAITING_LOA = 'awaiting_loa',
+        CONFIGURING = 'configuring',
+        CREATE_PENDING = 'create_pending',
+        CREATE_REJECTED = 'create_rejected',
+        COMPLETION_NOTICE_APPROVED = 'completion_notice_approved',
+        COMPLETION_NOTICE_RECEIVED = 'completion_notice_received',
+        COMPLETION_NOTICE_REJECTED = 'completion_notice_rejected',
+        DELETE_PENDING = 'delete_pending',
+        LOA_ACCEPTED = 'loa_accepted',
+        LOA_CREATED = 'loa_created',
+        LOA_REJECTED = 'loa_rejected',
+        PROVISIONED = 'provisioned',
+      }
+      /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum Type {
+        CONNECT = 'connect',
+        DEDICATED = 'dedicated',
+      }
+    }
   }
 
-  /** gateway. */
+  /**
+   * gateway.
+   */
   export interface GatewayCollectionGatewaysItemGateway extends GatewayCollectionGatewaysItem {
     /** array of AS Prepend information. */
     as_prepends?: AsPrepend[];
-    /** The identity of the standard key to use for BGP MD5 authentication key.
-     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
-     *  characters in length.
-     *  To clear the optional `authentication_key` field patch its crn to `""`.
-     */
-    authentication_key?: GatewayAuthenticationKey;
+    authentication_key?: AuthenticationKeyReference;
     /** BFD configuration information. */
     bfd_config?: GatewayBfdConfig;
     /** Customer BGP ASN. */
@@ -4437,7 +5852,7 @@ namespace DirectLinkV1 {
      *
      *  See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
      *
-     *  Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
+     *  Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
      */
     bgp_base_cidr?: string;
     /** BGP customer edge router CIDR. */
@@ -4449,7 +5864,7 @@ namespace DirectLinkV1 {
     /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and
      *  processes using this field  must tolerate unexpected values.
      */
-    bgp_status?: string;
+    bgp_status?: GatewayCollectionGatewaysItemGateway.Constants.BgpStatus | string;
     /** Date and time bgp status was updated. */
     bgp_status_updated_at?: string;
     /** Carrier name.  Only set for type=dedicated gateways. */
@@ -4465,25 +5880,25 @@ namespace DirectLinkV1 {
      *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
      *  unexpected values.
      */
-    connection_mode?: string;
+    connection_mode?: GatewayCollectionGatewaysItemGateway.Constants.ConnectionMode | string;
     /** The date and time resource was created. */
     created_at: string;
     /** The CRN (Cloud Resource Name) of this gateway. */
     crn: string;
     /** Indicates whether this gateway is cross account gateway. */
     cross_account: boolean;
-    /** Cross connect router.  Only included on type=dedicated gateways. */
+    /** Cross connect router. Only included on type=dedicated gateways. */
     cross_connect_router?: string;
     /** Customer name.  Only set for type=dedicated gateways. */
     customer_name?: string;
     /** The default directional route filter action that applies to routes that do not match any directional route
      *  filters.
      */
-    default_export_route_filter: string;
+    default_export_route_filter: GatewayCollectionGatewaysItemGateway.Constants.DefaultExportRouteFilter | string;
     /** The default directional route filter action that applies to routes that do not match any directional route
      *  filters.
      */
-    default_import_route_filter: string;
+    default_import_route_filter: GatewayCollectionGatewaysItemGateway.Constants.DefaultImportRouteFilter | string;
     /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
     global: boolean;
     /** The unique identifier of this gateway. */
@@ -4491,17 +5906,26 @@ namespace DirectLinkV1 {
     /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this
      *  property may expand in the future. Code and processes using this field  must tolerate unexpected values.
      */
-    link_status?: string;
+    link_status?: GatewayCollectionGatewaysItemGateway.Constants.LinkStatus | string;
     /** Date and time link status was updated. */
     link_status_updated_at?: string;
     /** Gateway location long name. */
     location_display_name: string;
     /** Gateway location. */
     location_name: string;
-    /** MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration
-     *  information.  Contact IBM support for access to MACsec.
+    /** MACsec configuration information of a Direct Link gateway. */
+    macsec?: GatewayMacsecReference;
+    /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
+     *  `cross_connect_router`.
+     *
+     *  Only included on type=dedicated direct links.
+     *
+     *  - non_macsec: The direct link does not support MACsec.
+     *  - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
+     *  - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+     *  direct link creation.
      */
-    macsec_config?: GatewayMacsecConfig;
+    macsec_capability?: GatewayCollectionGatewaysItemGateway.Constants.MacsecCapability | string;
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
      *  gigabyte usage charge, instead a flat rate is charged for the gateway.
      */
@@ -4510,65 +5934,205 @@ namespace DirectLinkV1 {
     name: string;
     /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code
      *  and processes using this field  must tolerate unexpected values.
+     *
+     *  See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
      */
-    operational_status: string;
-    /** gateway port for type=connect gateways. */
-    port?: GatewayPort;
+    operational_status: GatewayCollectionGatewaysItemGateway.Constants.OperationalStatus | string;
+    /** Context for certain values of `operational_status`. */
+    operational_status_reasons: GatewayStatusReason[];
+    /** Gateway patch panel complete notification from implementation team. */
+    patch_panel_completion_notice?: string;
+    /** Port information for type=connect gateways. */
+    port?: GatewayPortReference;
     /** Indicates whether gateway changes must be made via a provider portal. */
     provider_api_managed?: boolean;
     /** Resource group reference. */
     resource_group?: ResourceGroupReference;
     /** Gateway speed in megabits per second. */
     speed_mbps: number;
-    /** Gateway patch panel complete notification from implementation team. */
-    patch_panel_completion_notice?: string;
     /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes
      *  using this field  must tolerate unexpected values.
      */
-    type: string;
+    type: GatewayCollectionGatewaysItemGateway.Constants.Type | string;
     /** VLAN configured for this gateway. If there is no vlan configured for the gateway, the vlan will be absent.
      *  This property will also be absent if this gateway's `crn` is in another account.
      */
     vlan?: number;
   }
+  export namespace GatewayCollectionGatewaysItemGateway {
+    export namespace Constants {
+      /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum BgpStatus {
+        ACTIVE = 'active',
+        CONNECT = 'connect',
+        ESTABLISHED = 'established',
+        IDLE = 'idle',
+      }
+      /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum ConnectionMode {
+        DIRECT = 'direct',
+        TRANSIT = 'transit',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultExportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultImportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum LinkStatus {
+        DOWN = 'down',
+        UP = 'up',
+      }
+      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. Only included on type=dedicated direct links. - non_macsec: The direct link does not support MACsec. - macsec: The direct link supports MACsec. The MACsec feature must be enabled. - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. */
+      export enum MacsecCapability {
+        NON_MACSEC = 'non_macsec',
+        MACSEC = 'macsec',
+        MACSEC_OPTIONAL = 'macsec_optional',
+      }
+      /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`. */
+      export enum OperationalStatus {
+        AWAITING_COMPLETION_NOTICE = 'awaiting_completion_notice',
+        AWAITING_LOA = 'awaiting_loa',
+        CONFIGURING = 'configuring',
+        CREATE_PENDING = 'create_pending',
+        CREATE_REJECTED = 'create_rejected',
+        COMPLETION_NOTICE_APPROVED = 'completion_notice_approved',
+        COMPLETION_NOTICE_RECEIVED = 'completion_notice_received',
+        COMPLETION_NOTICE_REJECTED = 'completion_notice_rejected',
+        DELETE_PENDING = 'delete_pending',
+        LOA_ACCEPTED = 'loa_accepted',
+        LOA_CREATED = 'loa_created',
+        LOA_REJECTED = 'loa_rejected',
+        PROVISIONED = 'provisioned',
+        FAILED = 'failed',
+      }
+      /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum Type {
+        CONNECT = 'connect',
+        DEDICATED = 'dedicated',
+      }
+    }
+  }
 
-  /** Gateway bfd status. */
+  /**
+   * Gateway bfd status.
+   */
   export interface GatewayStatusGatewayBFDStatus extends GatewayStatus {
     /** Status type. */
-    type: string;
+    type: GatewayStatusGatewayBFDStatus.Constants.Type | string;
     /** Date and time status was collected. */
     updated_at: string;
     /** Status. */
-    value: string;
+    value: GatewayStatusGatewayBFDStatus.Constants.Value | string;
+  }
+  export namespace GatewayStatusGatewayBFDStatus {
+    export namespace Constants {
+      /** Status type. */
+      export enum Type {
+        BFD = 'bfd',
+      }
+      /** Status. */
+      export enum Value {
+        NOT_AVAILABLE = 'not_available',
+        INIT = 'init',
+        UP = 'up',
+        DOWN = 'down',
+      }
+    }
   }
 
-  /** Gateway bgp status. */
+  /**
+   * Gateway bgp status.
+   */
   export interface GatewayStatusGatewayBGPStatus extends GatewayStatus {
     /** Status type. */
-    type: string;
+    type: GatewayStatusGatewayBGPStatus.Constants.Type | string;
     /** Date and time status was collected. */
     updated_at: string;
     /** Status. */
-    value: string;
+    value: GatewayStatusGatewayBGPStatus.Constants.Value | string;
+  }
+  export namespace GatewayStatusGatewayBGPStatus {
+    export namespace Constants {
+      /** Status type. */
+      export enum Type {
+        BGP = 'bgp',
+      }
+      /** Status. */
+      export enum Value {
+        ACTIVE = 'active',
+        CONNECT = 'connect',
+        ESTABLISHED = 'established',
+        IDLE = 'idle',
+      }
+    }
   }
 
-  /** Gateway link status. Only available for dedicated gateways. */
+  /**
+   * Gateway link status. Only available for dedicated gateways.
+   */
   export interface GatewayStatusGatewayLinkStatus extends GatewayStatus {
     /** Status type. */
-    type: string;
+    type: GatewayStatusGatewayLinkStatus.Constants.Type | string;
     /** Date and time status was collected. */
     updated_at: string;
     /** Status. */
-    value: string;
+    value: GatewayStatusGatewayLinkStatus.Constants.Value | string;
+  }
+  export namespace GatewayStatusGatewayLinkStatus {
+    export namespace Constants {
+      /** Status type. */
+      export enum Type {
+        LINK = 'link',
+      }
+      /** Status. */
+      export enum Value {
+        UP = 'up',
+        DOWN = 'down',
+      }
+    }
   }
 
-  /** Gateway fields specific to type=connect gateway create. */
+  /**
+   * Gateway fields specific to type=connect gateway create.
+   */
   export interface GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
     /** Select Port Label for new type=connect gateway. */
     port: GatewayPortIdentity;
   }
+  export namespace GatewayTemplateGatewayTypeConnectTemplate {
+    export namespace Constants {
+      /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum ConnectionMode {
+        DIRECT = 'direct',
+        TRANSIT = 'transit',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultExportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultImportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** Offering type. */
+      export enum Type {
+        CONNECT = 'connect',
+        DEDICATED = 'dedicated',
+      }
+    }
+  }
 
-  /** Gateway fields specific to type=dedicated gateway create. */
+  /**
+   * Gateway fields specific to type=dedicated gateway create.
+   */
   export interface GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate {
     /** Carrier name. */
     carrier_name: string;
@@ -4578,18 +6142,68 @@ namespace DirectLinkV1 {
     customer_name: string;
     /** Gateway location. */
     location_name: string;
-    /** MACsec configuration information.  Contact IBM support for access to MACsec. */
-    macsec_config?: GatewayMacsecConfigTemplate;
+    /** MACsec configuration information of a Direct Link gateway. */
+    macsec?: GatewayMacsecPrototype;
+    /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
+     *  `cross_connect_router`.
+     *
+     *  - non_macsec: The direct link does not support MACsec.
+     *  - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
+     *  - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+     *  direct link creation.
+     *
+     *  If not explicitly provided, the field will be assigned with the following priorities based on
+     *  `cross_connect_router` capabilities and available ports:
+     *    - `macsec` was not provided in the request
+     *      - `non_macsec`
+     *      - `macsec_optional`
+     *    - `macsec` was provided in the request
+     *      - `macsec_optional`
+     *      - `macsec`.
+     */
+    macsec_capability?: GatewayTemplateGatewayTypeDedicatedTemplate.Constants.MacsecCapability | string;
     /** The VLAN to configure for this gateway. */
     vlan?: number;
   }
+  export namespace GatewayTemplateGatewayTypeDedicatedTemplate {
+    export namespace Constants {
+      /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum ConnectionMode {
+        DIRECT = 'direct',
+        TRANSIT = 'transit',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultExportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultImportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** Offering type. */
+      export enum Type {
+        CONNECT = 'connect',
+        DEDICATED = 'dedicated',
+      }
+      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. - non_macsec: The direct link does not support MACsec. - macsec: The direct link supports MACsec. The MACsec feature must be enabled. - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router` capabilities and available ports: - `macsec` was not provided in the request - `non_macsec` - `macsec_optional` - `macsec` was provided in the request - `macsec_optional` - `macsec`. */
+      export enum MacsecCapability {
+        NON_MACSEC = 'non_macsec',
+        MACSEC = 'macsec',
+        MACSEC_OPTIONAL = 'macsec_optional',
+      }
+    }
+  }
 
-  /** cross-account gateway read-only view. */
+  /**
+   * cross-account gateway read-only view.
+   */
   export interface GetGatewayResponseCrossAccountGateway extends GetGatewayResponse {
     /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and
      *  processes using this field  must tolerate unexpected values.
      */
-    bgp_status?: string;
+    bgp_status?: GetGatewayResponseCrossAccountGateway.Constants.BgpStatus | string;
     /** Date and time bgp status was updated. */
     bgp_status_updated_at?: string;
     /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit
@@ -4597,14 +6211,14 @@ namespace DirectLinkV1 {
      *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
      *  unexpected values.
      */
-    connection_mode?: string;
+    connection_mode?: GetGatewayResponseCrossAccountGateway.Constants.ConnectionMode | string;
     /** The date and time resource was created. */
     created_at: string;
     /** The CRN (Cloud Resource Name) of this gateway. */
     crn: string;
     /** Indicates whether this gateway is cross account gateway. */
     cross_account: boolean;
-    /** Cross connect router.  Only included on type=dedicated gateways. */
+    /** Cross connect router. Only included on type=dedicated gateways. */
     cross_connect_router?: string;
     /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
     global: boolean;
@@ -4613,7 +6227,7 @@ namespace DirectLinkV1 {
     /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this
      *  property may expand in the future. Code and processes using this field  must tolerate unexpected values.
      */
-    link_status?: string;
+    link_status?: GetGatewayResponseCrossAccountGateway.Constants.LinkStatus | string;
     /** Date and time link status was updated. */
     link_status_updated_at?: string;
     /** Gateway location long name. */
@@ -4625,27 +6239,66 @@ namespace DirectLinkV1 {
     /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code
      *  and processes using this field  must tolerate unexpected values.
      */
-    operational_status: string;
-    /** gateway port for type=connect gateways. */
-    port?: CrossAccountGatewayPort;
+    operational_status: GetGatewayResponseCrossAccountGateway.Constants.OperationalStatus | string;
+    /** Port information for type=connect gateways. */
+    port?: GatewayPortReference;
     /** Gateway speed in megabits per second. */
     speed_mbps: number;
     /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes
      *  using this field  must tolerate unexpected values.
      */
-    type: string;
+    type: GetGatewayResponseCrossAccountGateway.Constants.Type | string;
+  }
+  export namespace GetGatewayResponseCrossAccountGateway {
+    export namespace Constants {
+      /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum BgpStatus {
+        ACTIVE = 'active',
+        CONNECT = 'connect',
+        ESTABLISHED = 'established',
+        IDLE = 'idle',
+      }
+      /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum ConnectionMode {
+        DIRECT = 'direct',
+        TRANSIT = 'transit',
+      }
+      /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum LinkStatus {
+        DOWN = 'down',
+        UP = 'up',
+      }
+      /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum OperationalStatus {
+        AWAITING_COMPLETION_NOTICE = 'awaiting_completion_notice',
+        AWAITING_LOA = 'awaiting_loa',
+        CONFIGURING = 'configuring',
+        CREATE_PENDING = 'create_pending',
+        CREATE_REJECTED = 'create_rejected',
+        COMPLETION_NOTICE_APPROVED = 'completion_notice_approved',
+        COMPLETION_NOTICE_RECEIVED = 'completion_notice_received',
+        COMPLETION_NOTICE_REJECTED = 'completion_notice_rejected',
+        DELETE_PENDING = 'delete_pending',
+        LOA_ACCEPTED = 'loa_accepted',
+        LOA_CREATED = 'loa_created',
+        LOA_REJECTED = 'loa_rejected',
+        PROVISIONED = 'provisioned',
+      }
+      /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum Type {
+        CONNECT = 'connect',
+        DEDICATED = 'dedicated',
+      }
+    }
   }
 
-  /** gateway. */
+  /**
+   * gateway.
+   */
   export interface GetGatewayResponseGateway extends GetGatewayResponse {
     /** array of AS Prepend information. */
     as_prepends?: AsPrepend[];
-    /** The identity of the standard key to use for BGP MD5 authentication key.
-     *  The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII
-     *  characters in length.
-     *  To clear the optional `authentication_key` field patch its crn to `""`.
-     */
-    authentication_key?: GatewayAuthenticationKey;
+    authentication_key?: AuthenticationKeyReference;
     /** BFD configuration information. */
     bfd_config?: GatewayBfdConfig;
     /** Customer BGP ASN. */
@@ -4654,7 +6307,7 @@ namespace DirectLinkV1 {
      *
      *  See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
      *
-     *  Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
+     *  Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
      */
     bgp_base_cidr?: string;
     /** BGP customer edge router CIDR. */
@@ -4666,7 +6319,7 @@ namespace DirectLinkV1 {
     /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and
      *  processes using this field  must tolerate unexpected values.
      */
-    bgp_status?: string;
+    bgp_status?: GetGatewayResponseGateway.Constants.BgpStatus | string;
     /** Date and time bgp status was updated. */
     bgp_status_updated_at?: string;
     /** Carrier name.  Only set for type=dedicated gateways. */
@@ -4682,25 +6335,25 @@ namespace DirectLinkV1 {
      *  enumerated values for this property may expand in the future. Code and processes using this field  must tolerate
      *  unexpected values.
      */
-    connection_mode?: string;
+    connection_mode?: GetGatewayResponseGateway.Constants.ConnectionMode | string;
     /** The date and time resource was created. */
     created_at: string;
     /** The CRN (Cloud Resource Name) of this gateway. */
     crn: string;
     /** Indicates whether this gateway is cross account gateway. */
     cross_account: boolean;
-    /** Cross connect router.  Only included on type=dedicated gateways. */
+    /** Cross connect router. Only included on type=dedicated gateways. */
     cross_connect_router?: string;
     /** Customer name.  Only set for type=dedicated gateways. */
     customer_name?: string;
     /** The default directional route filter action that applies to routes that do not match any directional route
      *  filters.
      */
-    default_export_route_filter: string;
+    default_export_route_filter: GetGatewayResponseGateway.Constants.DefaultExportRouteFilter | string;
     /** The default directional route filter action that applies to routes that do not match any directional route
      *  filters.
      */
-    default_import_route_filter: string;
+    default_import_route_filter: GetGatewayResponseGateway.Constants.DefaultImportRouteFilter | string;
     /** Gateways with global routing (`true`) can connect to networks outside their associated region. */
     global: boolean;
     /** The unique identifier of this gateway. */
@@ -4708,17 +6361,26 @@ namespace DirectLinkV1 {
     /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this
      *  property may expand in the future. Code and processes using this field  must tolerate unexpected values.
      */
-    link_status?: string;
+    link_status?: GetGatewayResponseGateway.Constants.LinkStatus | string;
     /** Date and time link status was updated. */
     link_status_updated_at?: string;
     /** Gateway location long name. */
     location_display_name: string;
     /** Gateway location. */
     location_name: string;
-    /** MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration
-     *  information.  Contact IBM support for access to MACsec.
+    /** MACsec configuration information of a Direct Link gateway. */
+    macsec?: GatewayMacsecReference;
+    /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
+     *  `cross_connect_router`.
+     *
+     *  Only included on type=dedicated direct links.
+     *
+     *  - non_macsec: The direct link does not support MACsec.
+     *  - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
+     *  - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+     *  direct link creation.
      */
-    macsec_config?: GatewayMacsecConfig;
+    macsec_capability?: GetGatewayResponseGateway.Constants.MacsecCapability | string;
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
      *  gigabyte usage charge, instead a flat rate is charged for the gateway.
      */
@@ -4727,44 +6389,233 @@ namespace DirectLinkV1 {
     name: string;
     /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code
      *  and processes using this field  must tolerate unexpected values.
+     *
+     *  See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
      */
-    operational_status: string;
-    /** gateway port for type=connect gateways. */
-    port?: GatewayPort;
+    operational_status: GetGatewayResponseGateway.Constants.OperationalStatus | string;
+    /** Context for certain values of `operational_status`. */
+    operational_status_reasons: GatewayStatusReason[];
+    /** Gateway patch panel complete notification from implementation team. */
+    patch_panel_completion_notice?: string;
+    /** Port information for type=connect gateways. */
+    port?: GatewayPortReference;
     /** Indicates whether gateway changes must be made via a provider portal. */
     provider_api_managed?: boolean;
     /** Resource group reference. */
     resource_group?: ResourceGroupReference;
     /** Gateway speed in megabits per second. */
     speed_mbps: number;
-    /** Gateway patch panel complete notification from implementation team. */
-    patch_panel_completion_notice?: string;
     /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes
      *  using this field  must tolerate unexpected values.
      */
-    type: string;
+    type: GetGatewayResponseGateway.Constants.Type | string;
     /** VLAN configured for this gateway. If there is no vlan configured for the gateway, the vlan will be absent.
      *  This property will also be absent if this gateway's `crn` is in another account.
      */
     vlan?: number;
   }
+  export namespace GetGatewayResponseGateway {
+    export namespace Constants {
+      /** Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum BgpStatus {
+        ACTIVE = 'active',
+        CONNECT = 'connect',
+        ESTABLISHED = 'established',
+        IDLE = 'idle',
+      }
+      /** Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum ConnectionMode {
+        DIRECT = 'direct',
+        TRANSIT = 'transit',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultExportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** The default directional route filter action that applies to routes that do not match any directional route filters. */
+      export enum DefaultImportRouteFilter {
+        PERMIT = 'permit',
+        DENY = 'deny',
+      }
+      /** Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum LinkStatus {
+        DOWN = 'down',
+        UP = 'up',
+      }
+      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. Only included on type=dedicated direct links. - non_macsec: The direct link does not support MACsec. - macsec: The direct link supports MACsec. The MACsec feature must be enabled. - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. */
+      export enum MacsecCapability {
+        NON_MACSEC = 'non_macsec',
+        MACSEC = 'macsec',
+        MACSEC_OPTIONAL = 'macsec_optional',
+      }
+      /** Gateway operational status. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`. */
+      export enum OperationalStatus {
+        AWAITING_COMPLETION_NOTICE = 'awaiting_completion_notice',
+        AWAITING_LOA = 'awaiting_loa',
+        CONFIGURING = 'configuring',
+        CREATE_PENDING = 'create_pending',
+        CREATE_REJECTED = 'create_rejected',
+        COMPLETION_NOTICE_APPROVED = 'completion_notice_approved',
+        COMPLETION_NOTICE_RECEIVED = 'completion_notice_received',
+        COMPLETION_NOTICE_REJECTED = 'completion_notice_rejected',
+        DELETE_PENDING = 'delete_pending',
+        LOA_ACCEPTED = 'loa_accepted',
+        LOA_CREATED = 'loa_created',
+        LOA_REJECTED = 'loa_rejected',
+        PROVISIONED = 'provisioned',
+        FAILED = 'failed',
+      }
+      /** Offering type. The list of enumerated values for this property may expand in the future. Code and processes using this field  must tolerate unexpected values. */
+      export enum Type {
+        CONNECT = 'connect',
+        DEDICATED = 'dedicated',
+      }
+    }
+  }
 
-  /** overlapping route details. */
+  /**
+   * overlapping route details.
+   */
   export interface RouteReportOverlappingRouteForConnection extends RouteReportOverlappingRoute {
     /** overlapping prefix. */
     prefix: string;
     /** type of the route. */
-    type: string;
+    type: RouteReportOverlappingRouteForConnection.Constants.Type | string;
     /** virtual connection ID. */
     virtual_connection_id: string;
   }
+  export namespace RouteReportOverlappingRouteForConnection {
+    export namespace Constants {
+      /** type of the route. */
+      export enum Type {
+        VIRTUAL_CONNECTION = 'virtual_connection',
+      }
+    }
+  }
 
-  /** overlapping route details. */
+  /**
+   * overlapping route details.
+   */
   export interface RouteReportOverlappingRouteForOthers extends RouteReportOverlappingRoute {
     /** overlapping prefix. */
     prefix: string;
     /** type of the route. */
-    type: string;
+    type: RouteReportOverlappingRouteForOthers.Constants.Type | string;
+  }
+  export namespace RouteReportOverlappingRouteForOthers {
+    export namespace Constants {
+      /** type of the route. */
+      export enum Type {
+        GATEWAY = 'gateway',
+        ON_PREM = 'on_prem',
+      }
+    }
+  }
+
+  /**
+   * SAK rekey mode based on a high proportion of used packet numbers with the current SAK (the exact threshold
+   * determined at the system's discretion).
+   */
+  export interface SakRekeyPacketNumberRolloverMode extends SakRekey {
+    /** Determines that the SAK rekey occurs based on the used packet numbers. */
+    mode: SakRekeyPacketNumberRolloverMode.Constants.Mode | string;
+  }
+  export namespace SakRekeyPacketNumberRolloverMode {
+    export namespace Constants {
+      /** Determines that the SAK rekey occurs based on the used packet numbers. */
+      export enum Mode {
+        PACKET_NUMBER_ROLLOVER = 'packet_number_rollover',
+      }
+    }
+  }
+
+  /**
+   * SAK rekey mode based on a high proportion of used packet numbers with the current SAK (the exact threshold
+   * determined at the system's discretion).
+   */
+  export interface SakRekeyPatchSakRekeyPacketNumberRolloverModePatch extends SakRekeyPatch {
+    /** Determines that the SAK rekey occurs based on the used packet numbers. */
+    mode: SakRekeyPatchSakRekeyPacketNumberRolloverModePatch.Constants.Mode | string;
+  }
+  export namespace SakRekeyPatchSakRekeyPacketNumberRolloverModePatch {
+    export namespace Constants {
+      /** Determines that the SAK rekey occurs based on the used packet numbers. */
+      export enum Mode {
+        PACKET_NUMBER_ROLLOVER = 'packet_number_rollover',
+      }
+    }
+  }
+
+  /**
+   * SAK rekey mode based on length of time since last rekey.
+   */
+  export interface SakRekeyPatchSakRekeyTimerModePatch extends SakRekeyPatch {
+    /** The time, in seconds, to force a Secure Association Key (SAK) rekey. */
+    interval: number;
+    /** Determines that the SAK rekey occurs based on a timer. */
+    mode: SakRekeyPatchSakRekeyTimerModePatch.Constants.Mode | string;
+  }
+  export namespace SakRekeyPatchSakRekeyTimerModePatch {
+    export namespace Constants {
+      /** Determines that the SAK rekey occurs based on a timer. */
+      export enum Mode {
+        TIMER = 'timer',
+      }
+    }
+  }
+
+  /**
+   * Packet number (PN) rollover SAK rekey mode. The SAK is rekeyed based on the proportion of used packet numbers with
+   * the current SAK.
+   */
+  export interface SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype extends SakRekeyPrototype {
+    /** Determines that the SAK rekey occurs based on the used packet numbers. */
+    mode: SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype.Constants.Mode | string;
+  }
+  export namespace SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype {
+    export namespace Constants {
+      /** Determines that the SAK rekey occurs based on the used packet numbers. */
+      export enum Mode {
+        PACKET_NUMBER_ROLLOVER = 'packet_number_rollover',
+      }
+    }
+  }
+
+  /**
+   * SAK rekey mode based on length of time since last rekey.
+   */
+  export interface SakRekeyPrototypeSakRekeyTimerModePrototype extends SakRekeyPrototype {
+    /** The time, in seconds, to force a Secure Association Key (SAK) rekey. */
+    interval: number;
+    /** Determines that the SAK rekey occurs based on a timer. */
+    mode: SakRekeyPrototypeSakRekeyTimerModePrototype.Constants.Mode | string;
+  }
+  export namespace SakRekeyPrototypeSakRekeyTimerModePrototype {
+    export namespace Constants {
+      /** Determines that the SAK rekey occurs based on a timer. */
+      export enum Mode {
+        TIMER = 'timer',
+      }
+    }
+  }
+
+  /**
+   * SAK rekey mode based on length of time since last rekey.
+   */
+  export interface SakRekeyTimerMode extends SakRekey {
+    /** The time, in seconds, to force a Secure Association Key (SAK) rekey. */
+    interval: number;
+    /** Determines that the SAK rekey occurs based on a timer. */
+    mode: SakRekeyTimerMode.Constants.Mode | string;
+  }
+  export namespace SakRekeyTimerMode {
+    export namespace Constants {
+      /** Determines that the SAK rekey occurs based on a timer. */
+      export enum Mode {
+        TIMER = 'timer',
+      }
+    }
   }
 
   /*************************
