@@ -1,6 +1,6 @@
 {
   "name": "ibm-networking-services",
-  "version": "0.35.10",
+  "version": "0.36.0",
   "description": "Node.js client library for IBM Cloud Networking Services",
   "repository": {
     "type": "git",

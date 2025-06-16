@@ -1,3 +1,10 @@
+# [0.36.0](https://github.com/IBM/networking-node-sdk/compare/v0.35.10...v0.36.0) (2025-06-16)
+
+
+### Features
+
+* direct link macsec changes ([#196](https://github.com/IBM/networking-node-sdk/issues/196)) ([6d935e9](https://github.com/IBM/networking-node-sdk/commit/6d935e95b86d219749fc761aa2c291fe418ba57c))
+
 ## [0.35.10](https://github.com/IBM/networking-node-sdk/compare/v0.35.9...v0.35.10) (2025-05-30)
 
 
