@@ -2375,7 +2375,302 @@ describe('DirectLinkV1', () => {
       }
     });
   });
+  describe.skip('Gateway MACsec', () => {
+    jest.setTimeout(timeout);
 
+    const gatewayTemplateModel = {
+      bgp_asn: 64999,
+      global: true,
+      metered: false,
+      name: 'NODE-SDK-IT-MACSEC-' + timestamp,
+      speed_mbps: 1000,
+      type: 'connect',
+      port: { id: 'dc7fdcf4-7d0e-461f-ba48-b67c174034be' },
+    };
+
+    let gatewayId = '';
+
+    // create a connect gateway and verify the results
+    it('Successfully create a connect gateway', async () => {
+      const gatewayTemplate = gatewayTemplateModel;
+      const params = {
+        gatewayTemplate,
+      };
+
+      dlService
+        .createGateway(params)
+        .then((response) => {
+          expect(response.status).toBe(201);
+          expect(response.result.id).toBeDefined();
+          if (null != response && null != response.result && null != response.result.id) {
+            gatewayId = response.result.id;
+          }
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+
+    // HpcsKeyIdentity
+    const hpcsKeyIdentity = {
+      crn: 'crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:ebc0fbe6-fd7c-4971-b127-71a385c8f602',
+    };
+
+    // GatewayMacsecCakPrototype
+    const gatewayMacsecCakPrototype = {
+      key: hpcsKeyIdentity,
+      name: 'AA01',
+      session: 'primary',
+    };
+
+    // SakRekeyPrototypeSakRekeyTimerModePrototype
+    const sakRekeyCreate = {
+      interval: 76,
+      mode: 'timer',
+    };
+
+    const active = true;
+    const caks = [gatewayMacsecCakPrototype];
+    const sakRekey = sakRekeyCreate;
+    const securityPolicy = 'must_secure';
+    const windowSize = 522;
+
+    // Test set MACsec configuration for Gateway
+    it('Successfully set MACsec for the gateway', async () => {
+      await wait(15000);
+      const setGatewayMacsecParams = {
+        id: gatewayId,
+        active,
+        caks,
+        sakRekey,
+        securityPolicy,
+        windowSize,
+      };
+
+      dlService
+        .setGatewayMacsec(setGatewayMacsecParams)
+        .then((response) => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(200);
+          expect(response.result).toBeDefined();
+          const macsecResponseResult = response.result;
+          expect(macsecResponseResult.active).toEqual(active);
+          expect(macsecResponseResult.caks).toEqual(caks);
+          expect(macsecResponseResult.sak_rekey).toEqual(sakRekey);
+          expect(macsecResponseResult.security_policy).toEqual(securityPolicy);
+          expect(macsecResponseResult.window_size).toEqual(windowSize);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+
+    // Test get MACsec configuration for Gateway
+    it('Successfully get MACsec for the gateway', async () => {
+      await wait(15000);
+      const getGatewayMacsecParams = {
+        id: gatewayId,
+      };
+
+      dlService
+        .getGatewayMacsec(getGatewayMacsecParams)
+        .then((response) => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(200);
+          expect(response.result).toBeDefined();
+          const macsecResponseResult = response.result;
+          expect(macsecResponseResult.active).toEqual(active);
+          expect(macsecResponseResult.sak_rekey).toEqual(sakRekey);
+          expect(macsecResponseResult.security_policy).toEqual(securityPolicy);
+          expect(macsecResponseResult.window_size).toEqual(windowSize);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+
+    // Test list MACsec CAKs for Gateway
+    it('Successfully list MACsec CAKs for the gateway', async () => {
+      await wait(15000);
+      const listGatewayMacsecCaksParams = {
+        id: gatewayId,
+      };
+
+      dlService
+        .listGatewayMacsecCaks(listGatewayMacsecCaksParams)
+        .then((response) => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(200);
+          expect(response.result).toBeDefined();
+          expect(response.result.caks.length).toEqual(1);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+
+    let cakId = '';
+
+    const createCakHpcsKeyIdentity = {
+      crn: 'crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6',
+    };
+
+    // Test create MACsec CAK for Gateway
+    it('Successfully create MACsec CAKs for the gateway', async () => {
+      await wait(15000);
+      const createGatewayMacsecCakParams = {
+        id: gatewayId,
+        key: createCakHpcsKeyIdentity,
+        name: 'BB02',
+        session: 'fallback',
+      };
+
+      dlService
+        .createGatewayMacsecCak(createGatewayMacsecCakParams)
+        .then((response) => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(201);
+          expect(response.result).toBeDefined();
+          expect(response.result.id).toBeDefined();
+          expect(response.result.name).toEqual('BB02');
+          expect(response.result.session).toEqual('fallback');
+          cakId = response.result.id; // set CAK from response
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+
+    // Test get MACsec CAK for Gateway
+    it('Successfully get MACsec CAK for the gateway', async () => {
+      await wait(15000);
+      const getGatewayMacsecCakParams = {
+        id: gatewayId,
+        cakId,
+      };
+
+      dlService
+        .getGatewayMacsecCak(getGatewayMacsecCakParams)
+        .then((response) => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(200);
+          expect(response.result).toBeDefined();
+          expect(response.result.id).toEqual(cakId);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+
+    const updateCakHpcsKeyIdentity = {
+      crn: 'crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6',
+    };
+
+    // Test update MACsec CAK for Gateway
+    it('Successfully update MACsec CAKs for the gateway', async () => {
+      await wait(15000);
+      const updateGatewayMacsecCakParams = {
+        id: gatewayId,
+        cakId,
+        key: updateCakHpcsKeyIdentity,
+        name: 'AA02',
+      };
+
+      dlService
+        .updateGatewayMacsecCak(updateGatewayMacsecCakParams)
+        .then((response) => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(200);
+          expect(response.result).toBeDefined();
+          expect(response.result.name).toEqual('AA02');
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+
+    // Test delete MACsec CAK for Gateway
+    it('Successfully delete MACsec CAK for the gateway', async () => {
+      await wait(15000);
+      const deleteGatewayMacsecCakParams = {
+        id: gatewayId,
+        cakId,
+      };
+
+      dlService
+        .deleteGatewayMacsecCak(deleteGatewayMacsecCakParams)
+        .then((response) => {
+          expect(response.status).toBe(204);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+
+    // SakRekeyPatchSakRekeyTimerModePatch
+    const sakRekeyPatch = {
+      interval: 3601,
+      mode: 'timer',
+    };
+
+    // Test update MACsec configuration for Gateway
+    it('Successfully update MACsec for the gateway', async () => {
+      await wait(15000);
+      const updateGatewayMacsecParams = {
+        id: gatewayId,
+        active,
+        sakRekey: sakRekeyPatch,
+        securityPolicy,
+        windowSize: 74,
+      };
+
+      dlService
+        .updateGatewayMacsec(updateGatewayMacsecParams)
+        .then((response) => {
+          expect(response).toBeDefined();
+          expect(response.status).toBe(200);
+          expect(response.result).toBeDefined();
+          const macsecResponseResult = response.result;
+          expect(macsecResponseResult.active).toEqual(active);
+          expect(macsecResponseResult.security_policy).toEqual(securityPolicy);
+          expect(macsecResponseResult.window_size).toEqual(74);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+
+    // Test unset MACsec configuration for Gateway
+    it('Successfully unset MACsec for the gateway', async () => {
+      await wait(15000);
+      const unsetGatewayMacsecParams = {
+        id: gatewayId,
+      };
+
+      dlService
+        .unsetGatewayMacsec(unsetGatewayMacsecParams)
+        .then((response) => {
+          expect(response.status).toBe(204);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+
+    // delete the gateway
+    it('Successfully delete the gateway', async () => {
+      await wait(15000);
+      dlService
+        .deleteGateway({ id: gatewayId })
+        .then((response) => {
+          expect(response.status).toBe(204);
+        })
+        .catch((err) => {
+          return err;
+        });
+    });
+  });
+  
   describe.skip('Gateway Route Reports', () => {
     jest.setTimeout(timeout);
 
