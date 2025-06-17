@@ -1,3 +1,11 @@
+## [0.36.1](https://github.com/IBM/networking-node-sdk/compare/v0.36.0...v0.36.1) (2025-06-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/node to v22.15.32 ([#212](https://github.com/IBM/networking-node-sdk/issues/212)) ([35fc6dc](https://github.com/IBM/networking-node-sdk/commit/35fc6dc59821a6f21ce87b9bbeaaf314c258c9a7))
+* **deps:** update dependency ibm-cloud-sdk-core to v5.4.0 ([#210](https://github.com/IBM/networking-node-sdk/issues/210)) ([f54b280](https://github.com/IBM/networking-node-sdk/commit/f54b280c2c78afc463d409bbe2db51861d1f282b))
+
 # [0.36.0](https://github.com/IBM/networking-node-sdk/compare/v0.35.10...v0.36.0) (2025-06-16)
 
 
