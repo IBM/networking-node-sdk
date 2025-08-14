@@ -1,3 +1,10 @@
+## [0.36.5](https://github.com/IBM/networking-node-sdk/compare/v0.36.4...v0.36.5) (2025-08-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @types/node to v22.17.1 ([#251](https://github.com/IBM/networking-node-sdk/issues/251)) ([fdb662e](https://github.com/IBM/networking-node-sdk/commit/fdb662e0c801e58d8d9d6c32371c10cf633852d7))
+
 ## [0.36.4](https://github.com/IBM/networking-node-sdk/compare/v0.36.3...v0.36.4) (2025-08-04)
 
 
