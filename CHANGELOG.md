@@ -1,3 +1,10 @@
+# [0.37.0](https://github.com/IBM/networking-node-sdk/compare/v0.36.5...v0.37.0) (2025-08-27)
+
+
+### Features
+
+* rename allow_gre_traffic_across_zones ([#170](https://github.com/IBM/networking-node-sdk/issues/170)) ([fb4ba5b](https://github.com/IBM/networking-node-sdk/commit/fb4ba5b0437d6333c5062743ab4333b710d5e7a1))
+
 ## [0.36.5](https://github.com/IBM/networking-node-sdk/compare/v0.36.4...v0.36.5) (2025-08-14)
 
 
