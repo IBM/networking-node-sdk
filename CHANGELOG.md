@@ -1,3 +1,10 @@
+# [0.38.0](https://github.com/IBM/networking-node-sdk/compare/v0.37.0...v0.38.0) (2025-09-03)
+
+
+### Features
+
+* add ruleset to modules ([#261](https://github.com/IBM/networking-node-sdk/issues/261)) ([6cd1258](https://github.com/IBM/networking-node-sdk/commit/6cd12582798428e277a98ef9b4a5771b0ae39d5e))
+
 # [0.37.0](https://github.com/IBM/networking-node-sdk/compare/v0.36.5...v0.37.0) (2025-08-27)
 
 
