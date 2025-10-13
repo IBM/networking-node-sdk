@@ -1,3 +1,10 @@
+# [0.39.0](https://github.com/IBM/networking-node-sdk/compare/v0.38.1...v0.39.0) (2025-10-13)
+
+
+### Features
+
+* Introduced prefix-filters for GRE connections ([#280](https://github.com/IBM/networking-node-sdk/issues/280)) ([203b0ec](https://github.com/IBM/networking-node-sdk/commit/203b0ecde1a914f9f351d32b21ed552d5bee02f3))
+
 ## [0.38.1](https://github.com/IBM/networking-node-sdk/compare/v0.38.0...v0.38.1) (2025-09-05)
 
 
