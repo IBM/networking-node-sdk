@@ -50,12 +50,14 @@ let VPC_CONN_INSTANCE_ID;
 let GRE_CONN_INSTANCE_ID;
 let UNBOUND_GRE_CONN_INSTANCE_ID;
 let CLASSIC_CONN_INSTANCE_ID;
+let VPN_CONN_INSTANCE_ID;
 
 let DL_CONN_INSTANCE_NAME;
 let VPC_CONN_INSTANCE_NAME;
 let GRE_CONN_INSTANCE_NAME;
 let UNBOUND_GRE_CONN_INSTANCE_NAME;
 let CLASSIC_CONN_INSTANCE_NAME;
+let VPN_CONN_INSTANCE_NAME;
 
 const poll = async (fn, fnCondition, sec) => {
   let result;
@@ -548,6 +550,59 @@ describe.skip('TransitGatewayApisV1', () => {
       }
     });
 
+    test('successfully creates VPN connection', async (done) => {
+      const type = 'vpn_gateway';
+      const crn = config.VPN_CRN;
+      const stamp = Math.floor(Math.random() * 1000);
+      const connectionName = 'VPN-' + config.GATEWAY_CONNECTION_NAME + '_' + stamp;
+      const cidr = '192.168.100.0/24';
+
+      try {
+        const response = await transitGateway.createTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          networkType: type,
+          name: connectionName,
+          networkId: crn,
+          cidr,
+        });
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(201);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        expect(result.name).toEqual(connectionName);
+
+        VPN_CONN_INSTANCE_ID = result.id;
+        VPN_CONN_INSTANCE_NAME = result.name;
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('successfully wait for the VPN connection to report as attached', async (done) => {
+      try {
+        const result = await poll(
+          () =>
+            transitGateway.getTransitGatewayConnection({
+              transitGatewayId: GATEWAY_INSTANCE_ID,
+              id: VPN_CONN_INSTANCE_ID,
+            }),
+          (result) => result.status === 'attached',
+          100
+        );
+
+        expect(result).toBeDefined();
+        expect(result.status).toEqual('attached');
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
     test('successfully creates GRE connection', async done => {
       const type = 'gre_tunnel';
       const testZone = { name: 'us-south-1' };
@@ -737,6 +792,25 @@ describe.skip('TransitGatewayApisV1', () => {
         done(err);
       }
     });
+    
+    test('sucessfully get VPN connection by id', async (done) => {
+      try {
+        const response = await transitGateway.getTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: VPN_CONN_INSTANCE_ID,
+        });
+
+        expect(response.status).toBe(200);
+
+        const { result } = response || {};
+        expect(result.id).toEqual(VPN_CONN_INSTANCE_ID);
+        expect(result.name).toEqual(VPN_CONN_INSTANCE_NAME);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
 
     test('sucessfully get GRE connection by id', async done => {
       try {
@@ -853,6 +927,26 @@ describe.skip('TransitGatewayApisV1', () => {
       }
     });
 
+    test('successfully update a VPN connection name by instance id', async (done) => {
+      VPN_CONN_INSTANCE_NAME = 'UPDATED-' + VPN_CONN_INSTANCE_NAME;
+      try {
+        const response = await transitGateway.updateTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: VPN_CONN_INSTANCE_ID,
+          name: VPN_CONN_INSTANCE_NAME,
+        });
+        expect(response.status).toBe(200);
+
+        const { result } = response || {};
+        expect(result.id).toEqual(VPN_CONN_INSTANCE_ID);
+        expect(result.name).toEqual(VPN_CONN_INSTANCE_NAME);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
     test('successfully update a GRE connection name by instance id', async done => {
       GRE_CONN_INSTANCE_NAME = 'UPDATED-' + GRE_CONN_INSTANCE_NAME;
       try {
@@ -922,6 +1016,7 @@ describe.skip('TransitGatewayApisV1', () => {
         const connections = result.connections;
         expect(connections.length).toBeGreaterThan(0);
 
+        let foundVPN = false;
         let foundDL = false;
         let foundVPC = false;
         let foundGRE = false;
@@ -937,6 +1032,9 @@ describe.skip('TransitGatewayApisV1', () => {
           } else if (connections[i].id === DL_CONN_INSTANCE_ID) {
             expect(connections[i].name).toEqual(DL_CONN_INSTANCE_NAME);
             foundDL = true;
+          } else if (connections[i].id === VPN_CONN_INSTANCE_ID) {
+            expect(connections[i].name).toEqual(VPN_CONN_INSTANCE_NAME);
+            foundVPN = true;
           } else if (connections[i].id === GRE_CONN_INSTANCE_ID) {
             expect(connections[i].name).toEqual(GRE_CONN_INSTANCE_NAME);
             foundGRE = true;
@@ -945,6 +1043,7 @@ describe.skip('TransitGatewayApisV1', () => {
             foundUnboundGRE = true;
           }
         }
+        expect(foundVPN).toEqual(true);
         expect(foundDL).toEqual(true);
         expect(foundVPC).toEqual(true);
         expect(foundGRE).toEqual(true);
@@ -1311,6 +1410,40 @@ describe.skip('TransitGatewayApisV1', () => {
               id: DL_CONN_INSTANCE_ID,
             }),
           result => result.status === 404,
+          200
+        );
+
+        expect(result).toBeDefined();
+        expect(result.status).toBe(404);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('successfully delete VPN connection by instanceID', async (done) => {
+      try {
+        const response = await transitGateway.deleteTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: VPN_CONN_INSTANCE_ID,
+        });
+
+        expect(response.status).toBe(204);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('successfully waits for the VPN connection to report as deleted', async (done) => {
+      try {
+        const result = await poll(
+          () =>
+            transitGateway.getTransitGatewayConnection({
+              transitGatewayId: GATEWAY_INSTANCE_ID,
+              id: VPN_CONN_INSTANCE_ID,
+            }),
+          (result) => result.status === 404,
           200
         );
 
