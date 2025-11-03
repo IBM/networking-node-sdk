@@ -178,7 +178,9 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} params.name - A human readable name for the transit gateway.
    * @param {boolean} [params.global] - Allow global routing for a Transit Gateway. If unspecified, the default value is
    * false.
-   * @param {boolean} [params.greEnhancedRoutePropagation] - Allow GRE Enhanced Route Propagation on this gateway.
+   * @param {boolean} [params.greEnhancedRoutePropagation] - Allow route propagation across all GREs connected to the
+   * same transit gateway. This affects connections on the gateway of type `redundant_gre`, `unbound_gre_tunnel` and
+   * `gre_tunnel`.
    * @param {ResourceGroupIdentity} [params.resourceGroup] - The resource group to use. If unspecified, the account's
    * [default resource group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
@@ -358,7 +360,9 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - The Transit Gateway identifier.
    * @param {boolean} [params.global] - Allow global routing for a Transit Gateway.
-   * @param {boolean} [params.greEnhancedRoutePropagation] - Allow GRE Enhanced Route Propagation on this gateway.
+   * @param {boolean} [params.greEnhancedRoutePropagation] - Allow route propagation across all GREs connected to the
+   * same transit gateway. This affects connections on the gateway of type `redundant_gre`, `unbound_gre_tunnel` and
+   * `gre_tunnel`. It takes a few minutes for the change to take effect.
    * @param {string} [params.name] - A human readable name for a resource.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>>}
@@ -612,8 +616,9 @@ class TransitGatewayApisV1 extends BaseService {
    * `power_virtual_server` connections. This field is required to be unspecified for network type `gre_tunnel`,
    * `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
    * @param {number} [params.remoteBgpAsn] - Remote network BGP ASN. The following ASN values are reserved and
-   * unavailable 0, 13884, 36351, 64512-64513, 65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
-   * `remote_bgp_asn` is omitted on gre_tunnel or unbound_gre_tunnel connection create requests IBM will assign an ASN.
+   * unavailable 0, 13884, 36351, 64512, 64513, 65100, 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and
+   * 4201065000-4201065999. If `remote_bgp_asn` is omitted on gre_tunnel or unbound_gre_tunnel connection create
+   * requests IBM will assign an ASN.
    *
    * This field is optional for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
@@ -630,13 +635,14 @@ class TransitGatewayApisV1 extends BaseService {
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,  `power_virtual_server`,
    * `vpn_gateway` and `redundant_gre` connections.
    * @param {TransitGatewayTunnelTemplate[]} [params.tunnels] - Array of GRE tunnels for a transit gateway
-   * `redundant_gre` and `vpn_gateway` connections.  This field is required for `redundant_gre` and `vpn_gateway`
-   * connections.
+   * `redundant_gre` connections.  This field is required for `redundant_gre` connections.
    * @param {ZoneIdentity} [params.zone] - Specify the connection's location.  The specified availability zone must
    * reside in the gateway's region.
    * Use the IBM Cloud global catalog to list zones within the desired region.
    *
-   * This field is required for network type `gre_tunnel`, `unbound_gre_tunnel` and `vpn_gateway` connections.
+   * This field is required for network type `gre_tunnel`, and `unbound_gre_tunnel` connections.
+   *
+   * This field is optional for network type `vpn_gateway` connections.
    *
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`
    * and `redundant_gre` connections.
@@ -1043,8 +1049,8 @@ class TransitGatewayApisV1 extends BaseService {
    * in the gateway's region.
    * Use the IBM Cloud global catalog to list zones within the desired region.
    * @param {number} [params.remoteBgpAsn] - Remote network BGP ASN. The following ASN values are reserved and
-   * unavailable 0, 13884, 36351, 64512-64513, 65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
-   * `remote_bgp_asn` is omitted on create requests, IBM will assign an ASN.
+   * unavailable 0, 13884, 36351, 64512, 64513, 65100, 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and
+   * 4201065000-4201065999 If `remote_bgp_asn` is omitted on create requests, IBM will assign an ASN.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayTunnel>>}
    */
@@ -1473,7 +1479,9 @@ class TransitGatewayApisV1 extends BaseService {
   /**
    * Add a prefix filter to a Transit Gateway connection.
    *
-   * Add a prefix filter to a Transit Gateway connection.
+   * Add a Prefix Filter to a Transit Gateway Connection. Prefix Filters can be added to `vpc`, `classic`, `directlink`,
+   * and `power_virtual_server` Connection types. Prefix Filters cannot be added to `gre_tunnel`, `unbound_gre_tunnel`,
+   * `redundant_gre` or `vpn_gateway` Connection types.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.transitGatewayId - The Transit Gateway identifier.
@@ -1541,72 +1549,6 @@ class TransitGatewayApisV1 extends BaseService {
       options: {
         url: '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters',
         method: 'POST',
-        body,
-        qs: query,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          this.baseOptions.headers,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          _params.headers
-        ),
-        axiosOptions: {
-          signal: _params.signal,
-        },
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Replaces the prefix filters of the Transit Gateway connection.
-   *
-   * Replaces the prefix filters of the Transit Gateway connection.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.transitGatewayId - The Transit Gateway identifier.
-   * @param {string} params.id - The connection identifier.
-   * @param {PrefixFilterPut[]} params.prefixFilters - Array of prefix filters.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCollection>>}
-   */
-  public replaceTransitGatewayConnectionPrefixFilter(
-    params: TransitGatewayApisV1.ReplaceTransitGatewayConnectionPrefixFilterParams
-  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.PrefixFilterCollection>> {
-    const _params = { ...params };
-    const _requiredParams = ['transitGatewayId', 'id', 'prefixFilters'];
-    const _validParams = ['transitGatewayId', 'id', 'prefixFilters', 'signal', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'prefix_filters': _params.prefixFilters,
-    };
-
-    const query = {
-      'version': this.version,
-    };
-
-    const path = {
-      'transit_gateway_id': _params.transitGatewayId,
-      'id': _params.id,
-    };
-
-    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'replaceTransitGatewayConnectionPrefixFilter');
-
-    const parameters = {
-      options: {
-        url: '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters',
-        method: 'PUT',
         body,
         qs: query,
         path,
@@ -2140,7 +2082,9 @@ namespace TransitGatewayApisV1 {
     name: string;
     /** Allow global routing for a Transit Gateway. If unspecified, the default value is false. */
     global?: boolean;
-    /** Allow GRE Enhanced Route Propagation on this gateway. */
+    /** Allow route propagation across all GREs connected to the same transit gateway. This affects connections on
+     *  the gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`.
+     */
     greEnhancedRoutePropagation?: boolean;
     /** The resource group to use. If unspecified, the account's [default resource
      *  group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
@@ -2166,7 +2110,10 @@ namespace TransitGatewayApisV1 {
     id: string;
     /** Allow global routing for a Transit Gateway. */
     global?: boolean;
-    /** Allow GRE Enhanced Route Propagation on this gateway. */
+    /** Allow route propagation across all GREs connected to the same transit gateway. This affects connections on
+     *  the gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`. It takes a few minutes for the
+     *  change to take effect.
+     */
     greEnhancedRoutePropagation?: boolean;
     /** A human readable name for a resource. */
     name?: string;
@@ -2278,9 +2225,10 @@ namespace TransitGatewayApisV1 {
      *  `redundant_gre` connections.
      */
     prefixFiltersDefault?: CreateTransitGatewayConnectionConstants.PrefixFiltersDefault | string;
-    /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on gre_tunnel
-     *  or unbound_gre_tunnel connection create requests IBM will assign an ASN.
+    /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513,
+     *  65100, 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999. If
+     *  `remote_bgp_asn` is omitted on gre_tunnel or unbound_gre_tunnel connection create requests IBM will assign an
+     *  ASN.
      *
      *  This field is optional for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
      *
@@ -2302,14 +2250,16 @@ namespace TransitGatewayApisV1 {
      *  `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
      */
     remoteTunnelIp?: string;
-    /** Array of GRE tunnels for a transit gateway `redundant_gre` and `vpn_gateway` connections.  This field is
-     *  required for `redundant_gre` and `vpn_gateway` connections.
+    /** Array of GRE tunnels for a transit gateway `redundant_gre` connections.  This field is required for
+     *  `redundant_gre` connections.
      */
     tunnels?: TransitGatewayTunnelTemplate[];
     /** Specify the connection's location.  The specified availability zone must reside in the gateway's region.
      *  Use the IBM Cloud global catalog to list zones within the desired region.
      *
-     *  This field is required for network type `gre_tunnel`, `unbound_gre_tunnel` and `vpn_gateway` connections.
+     *  This field is required for network type `gre_tunnel`, and `unbound_gre_tunnel` connections.
+     *
+     *  This field is optional for network type `vpn_gateway` connections.
      *
      *  This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`
      *  and `redundant_gre` connections.
@@ -2433,9 +2383,9 @@ namespace TransitGatewayApisV1 {
      *  Use the IBM Cloud global catalog to list zones within the desired region.
      */
     zone: ZoneIdentity;
-    /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create
-     *  requests, IBM will assign an ASN.
+    /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513,
+     *  65100, 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999 If `remote_bgp_asn`
+     *  is omitted on create requests, IBM will assign an ASN.
      */
     remoteBgpAsn?: number;
   }
@@ -2539,16 +2489,6 @@ namespace TransitGatewayApisV1 {
       PERMIT = 'permit',
       DENY = 'deny',
     }
-  }
-
-  /** Parameters for the `replaceTransitGatewayConnectionPrefixFilter` operation. */
-  export interface ReplaceTransitGatewayConnectionPrefixFilterParams extends DefaultParams {
-    /** The Transit Gateway identifier. */
-    transitGatewayId: string;
-    /** The connection identifier. */
-    id: string;
-    /** Array of prefix filters. */
-    prefixFilters: PrefixFilterPut[];
   }
 
   /** Parameters for the `deleteTransitGatewayConnectionPrefixFilter` operation. */
@@ -2771,47 +2711,6 @@ namespace TransitGatewayApisV1 {
   }
 
   /**
-   * A prefix filter update template.
-   */
-  export interface PrefixFilterPut {
-    /** Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition. */
-    action: PrefixFilterPut.Constants.Action | string;
-    /** Defines the minimum matched prefix precision. If this field is non-zero then the filter will match all
-     *  routes within the `prefix` that have a prefix length greater or equal to this value.
-     *
-     *  This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's
-     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the `ge` route
-     *  matching behavior. If the `le` value is non-zero the the `ge` value must between the prefix length and the
-     *  `le` value, inclusive.
-     */
-    ge?: number;
-    /** Defines the maximum matched prefix precision. If this field is non-zero then the filter will match all
-     *  routes within the `prefix` that have a prefix length less than or equal to this value.
-     *
-     *  This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's
-     *  prefix or less then or equal to 32. If this value is set to zero, the filter will not use the `le` route
-     *  matching behavior. If the `ge` value is non-zero the the `le` value must between the `ge` value and 32,
-     *  inclusive.
-     */
-    le?: number;
-    /** The IPv4 Prefix to be matched by this filter. If both the `le` and `ge` are zero, then this filter will only
-     *  apply to routes that exactly match this prefix, while a non-zero value for either `le` or `ge`, this filter can
-     *  apply to multiple routes with different prefix lengths, but will still only apply to prefixes contained in the
-     *  address space defined by `prefix`.
-     */
-    prefix: string;
-  }
-  export namespace PrefixFilterPut {
-    export namespace Constants {
-      /** Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition. */
-      export enum Action {
-        PERMIT = 'permit',
-        DENY = 'deny',
-      }
-    }
-  }
-
-  /**
    * The resource group to use. If unspecified, the account's [default resource
    * group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
    */
@@ -2892,7 +2791,7 @@ namespace TransitGatewayApisV1 {
     /** AS path. */
     as_path?: string;
     /** Indicates whether current route is used or not. */
-    is_used?: boolean;
+    is_used: boolean;
     /** local preference. */
     local_preference?: string;
     /** prefix. */
@@ -3048,7 +2947,7 @@ namespace TransitGatewayApisV1 {
      *
      *  This field does not apply to the `redundant_gre` network types.
      */
-    prefix_filters_default?: string;
+    prefix_filters_default?: TransitConnection.Constants.PrefixFiltersDefault | string;
     /** Remote network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections.
      */
@@ -3147,15 +3046,17 @@ namespace TransitGatewayApisV1 {
     /** The number of connections associated with this Transit Gateway. */
     connection_count?: number;
     /** Indicates if this Transit Gateway has a connection that needs attention (Such as cross account approval). */
-    connection_needs_attention?: boolean;
+    connection_needs_attention: boolean;
     /** The date and time that this gateway was created. */
     created_at: string;
     /** Cloud Resource Name of a transit gateway. */
     crn?: string;
     /** Allow global routing for a Transit Gateway. */
     global: boolean;
-    /** Allow GRE Enhanced Route Propagation on this gateway. */
-    gre_enhanced_route_propagation?: boolean;
+    /** Allow route propagation across all GREs connected to the same transit gateway. This affects connections on
+     *  the gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`.
+     */
+    gre_enhanced_route_propagation: boolean;
     /** A unique identifier for this transit gateway. */
     id: string;
     /** Location of Transit Gateway Services. */
@@ -3315,7 +3216,10 @@ namespace TransitGatewayApisV1 {
     tunnels?: TransitGatewayTunnel[];
     /** The date and time that this connection was last updated. */
     updated_at: string;
-    /** Location of GRE tunnel. This field is required for network type `gre_tunnel` and `vpn_gateway` connections. */
+    /** Location of GRE tunnel. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel`
+     *  connections.
+     *  This field is optional for network type `vpn_gateway` connections.
+     */
     zone?: ZoneReference;
   }
   export namespace TransitGatewayConnectionCust {
@@ -3467,7 +3371,7 @@ namespace TransitGatewayApisV1 {
      */
     local_tunnel_ip: string;
     /** GRE tunnel MTU. */
-    mtu: number;
+    mtu?: number;
     /** The user-defined name for this tunnel. */
     name: string;
     /** The ID of the account for cross account Classic connections.  This field is required when the GRE tunnel is
@@ -3476,9 +3380,9 @@ namespace TransitGatewayApisV1 {
     network_account_id?: string;
     /** The ID of the network VPC being connected via this connection. */
     network_id?: string;
-    /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create
-     *  requests, IBM will assign an ASN.
+    /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513,
+     *  65100, 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999 If `remote_bgp_asn`
+     *  is omitted on create requests, IBM will assign an ASN.
      */
     remote_bgp_asn: number;
     /** Remote gateway IP address. */
@@ -3538,9 +3442,9 @@ namespace TransitGatewayApisV1 {
     local_tunnel_ip: string;
     /** The user-defined name for this tunnel connection. */
     name: string;
-    /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-     *  65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create
-     *  requests, IBM will assign an ASN.
+    /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513,
+     *  65100, 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999 If `remote_bgp_asn`
+     *  is omitted on create requests, IBM will assign an ASN.
      */
     remote_bgp_asn?: number;
     /** Remote gateway IP address. */
