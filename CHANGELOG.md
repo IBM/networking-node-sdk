@@ -1,3 +1,10 @@
+## [0.39.1](https://github.com/IBM/networking-node-sdk/compare/v0.39.0...v0.39.1) (2025-10-16)
+
+
+### Reverts
+
+* Revert "feat: Introduced prefix-filters for GRE connections ([#280](https://github.com/IBM/networking-node-sdk/issues/280))" ([#288](https://github.com/IBM/networking-node-sdk/issues/288)) ([3678397](https://github.com/IBM/networking-node-sdk/commit/3678397a06e3b7b817ffa34be6db6e95f76f5574))
+
 # [0.39.0](https://github.com/IBM/networking-node-sdk/compare/v0.38.1...v0.39.0) (2025-10-13)
 
 
