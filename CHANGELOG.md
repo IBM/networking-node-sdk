@@ -1,3 +1,15 @@
+# [0.40.0](https://github.com/IBM/networking-node-sdk/compare/v0.39.1...v0.40.0) (2025-11-07)
+
+
+### Bug Fixes
+
+* updated with latest spec for tgw ([8bab838](https://github.com/IBM/networking-node-sdk/commit/8bab83893c55152d6175019ca3cf4d46f9d17e41))
+
+
+### Features
+
+* transit-gateway vpnaas changes ([1c62a97](https://github.com/IBM/networking-node-sdk/commit/1c62a971e1dd23d6d8c9cd87fe438cd456b40330))
+
 ## [0.39.1](https://github.com/IBM/networking-node-sdk/compare/v0.39.0...v0.39.1) (2025-10-16)
 
 
