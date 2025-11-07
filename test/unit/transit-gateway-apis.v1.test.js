@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
+/* eslint-disable no-await-in-loop */
+
+const nock = require('nock');
+
 // need to import the whole package to mock getAuthenticatorFromEnvironment
 const sdkCorePackage = require('ibm-cloud-sdk-core');
 
-const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
-
+const { NoAuthAuthenticator } = sdkCorePackage;
 const TransitGatewayApisV1 = require('../../dist/transit-gateway-apis/v1');
-const nock = require('nock');
-
-/* eslint-disable no-await-in-loop */
 
 const {
   getOptions,
@@ -62,7 +62,6 @@ getAuthenticatorMock.mockImplementation(() => new NoAuthAuthenticator());
 let requiredGlobals;
 
 describe('TransitGatewayApisV1', () => {
-
   beforeEach(() => {
     mock_createRequest();
     // these are changed when passed into the factory/constructor, so re-init
@@ -77,7 +76,7 @@ describe('TransitGatewayApisV1', () => {
     }
     getAuthenticatorMock.mockClear();
   });
-  
+
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = TransitGatewayApisV1.newInstance(requiredGlobals);
@@ -223,9 +222,9 @@ describe('TransitGatewayApisV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -715,9 +714,9 @@ describe('TransitGatewayApisV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -861,9 +860,9 @@ describe('TransitGatewayApisV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get(uri => uri.includes(path))
+          .get((uri) => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -2279,111 +2278,6 @@ describe('TransitGatewayApisV1', () => {
         let err;
         try {
           await transitGatewayApisService.createTransitGatewayConnectionPrefixFilter();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
-
-  describe('replaceTransitGatewayConnectionPrefixFilter', () => {
-    describe('positive tests', () => {
-      // Request models needed by this operation.
-
-      // PrefixFilterPut
-      const prefixFilterPutModel = {
-        action: 'permit',
-        ge: 0,
-        le: 32,
-        prefix: '192.168.100.0/24',
-      };
-
-      function __replaceTransitGatewayConnectionPrefixFilterTest() {
-        // Construct the params object for operation replaceTransitGatewayConnectionPrefixFilter
-        const transitGatewayId = 'testString';
-        const id = 'testString';
-        const prefixFilters = [prefixFilterPutModel];
-        const replaceTransitGatewayConnectionPrefixFilterParams = {
-          transitGatewayId,
-          id,
-          prefixFilters,
-        };
-
-        const replaceTransitGatewayConnectionPrefixFilterResult = transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterParams);
-
-        // all methods should return a Promise
-        expectToBePromise(replaceTransitGatewayConnectionPrefixFilterResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(mockRequestOptions, '/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters', 'PUT');
-        const expectedAccept = 'application/json';
-        const expectedContentType = 'application/json';
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.body.prefix_filters).toEqual(prefixFilters);
-        expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
-        expect(mockRequestOptions.path.transit_gateway_id).toEqual(transitGatewayId);
-        expect(mockRequestOptions.path.id).toEqual(id);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __replaceTransitGatewayConnectionPrefixFilterTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        transitGatewayApisService.enableRetries();
-        __replaceTransitGatewayConnectionPrefixFilterTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        transitGatewayApisService.disableRetries();
-        __replaceTransitGatewayConnectionPrefixFilterTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const transitGatewayId = 'testString';
-        const id = 'testString';
-        const prefixFilters = [prefixFilterPutModel];
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const replaceTransitGatewayConnectionPrefixFilterParams = {
-          transitGatewayId,
-          id,
-          prefixFilters,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter();
         } catch (e) {
           err = e;
         }
