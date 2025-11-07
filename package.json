@@ -58,7 +58,7 @@
     "highlight.js": "^11.9.0",
     "installed-check": "^9.0.0",
     "jest": "^30.0.0",
-    "marked": "^16.0.0",
+    "marked": "^17.0.0",
     "nock": "^14.0.0",
     "node-notifier": "^10.0.1",
     "prettier": "^3.2.5",
