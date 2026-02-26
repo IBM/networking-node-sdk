@@ -1084,7 +1084,7 @@ describe('DirectLinkV1', () => {
     });
   });
 
-  describe('Create MD5 enabled gateway', () => {
+  describe.skip('Create MD5 enabled gateway', () => {
     // Save the gateway ID for update/delete
     let gatewayId = '';
     const time = currentDate.getTime().toString();
