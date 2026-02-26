@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -242,14 +242,14 @@ describe('DirectLinkV1', () => {
         id: '56969d6043e9465c883cb9f7363e78e8',
       };
 
-      // HpcsKeyIdentity
-      const hpcsKeyIdentityModel = {
+      // GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+      const gatewayMacsecCakKeyReferenceModel = {
         crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecCakPrototype
       const gatewayMacsecCakPrototypeModel = {
-        key: hpcsKeyIdentityModel,
+        key: gatewayMacsecCakKeyReferenceModel,
         name: '1000',
         session: 'primary',
       };
@@ -2922,14 +2922,14 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // HpcsKeyIdentity
-      const hpcsKeyIdentityModel = {
+      // GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+      const gatewayMacsecCakKeyReferenceModel = {
         crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       // GatewayMacsecCakPrototype
       const gatewayMacsecCakPrototypeModel = {
-        key: hpcsKeyIdentityModel,
+        key: gatewayMacsecCakKeyReferenceModel,
         name: '1000',
         session: 'primary',
       };
@@ -3138,15 +3138,15 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // HpcsKeyIdentity
-      const hpcsKeyIdentityModel = {
+      // GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+      const gatewayMacsecCakKeyReferenceModel = {
         crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
       function __createGatewayMacsecCakTest() {
         // Construct the params object for operation createGatewayMacsecCak
         const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
-        const key = hpcsKeyIdentityModel;
+        const key = gatewayMacsecCakKeyReferenceModel;
         const name = '1000';
         const session = 'primary';
         const createGatewayMacsecCakParams = {
@@ -3195,7 +3195,7 @@ describe('DirectLinkV1', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
-        const key = hpcsKeyIdentityModel;
+        const key = gatewayMacsecCakKeyReferenceModel;
         const name = '1000';
         const session = 'primary';
         const userAccept = 'fake/accept';
@@ -3425,8 +3425,8 @@ describe('DirectLinkV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // HpcsKeyIdentity
-      const hpcsKeyIdentityModel = {
+      // GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+      const gatewayMacsecCakKeyReferenceModel = {
         crn: 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222',
       };
 
@@ -3434,7 +3434,7 @@ describe('DirectLinkV1', () => {
         // Construct the params object for operation updateGatewayMacsecCak
         const id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28';
         const cakId = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4';
-        const key = hpcsKeyIdentityModel;
+        const key = gatewayMacsecCakKeyReferenceModel;
         const name = '1000';
         const updateGatewayMacsecCakParams = {
           id,
