@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.99.0-d27cee72-20250129-204831
+ * IBM OpenAPI SDK Code Generator Version: 3.107.1-41b0fbd0-20250825-080732
  */
 
 /* eslint-disable max-classes-per-file */
@@ -24,6 +24,7 @@
 import * as extend from 'extend';
 import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import {
+  AbortSignal,
   Authenticator,
   BaseService,
   UserOptions,
@@ -127,7 +128,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayCollection>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['headers'];
+    const _validParams = ['signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -149,11 +150,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -175,7 +180,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayTemplate'];
-    const _validParams = ['gatewayTemplate', 'headers'];
+    const _validParams = ['gatewayTemplate', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -199,12 +204,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -226,7 +235,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'headers'];
+    const _validParams = ['id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -253,10 +262,14 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -278,7 +291,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GetGatewayResponse>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'headers'];
+    const _validParams = ['id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -305,11 +318,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -383,7 +400,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'authenticationKey', 'bfdConfig', 'bgpAsn', 'bgpCerCidr', 'bgpIbmCidr', 'connectionMode', 'defaultExportRouteFilter', 'defaultImportRouteFilter', 'global', 'loaRejectReason', 'metered', 'name', 'operationalStatus', 'patchPanelCompletionNotice', 'speedMbps', 'vlan', 'headers'];
+    const _validParams = ['id', 'authenticationKey', 'bfdConfig', 'bgpAsn', 'bgpCerCidr', 'bgpIbmCidr', 'connectionMode', 'defaultExportRouteFilter', 'defaultImportRouteFilter', 'global', 'loaRejectReason', 'metered', 'name', 'operationalStatus', 'patchPanelCompletionNotice', 'speedMbps', 'vlan', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -430,12 +447,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/merge-patch+json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -492,7 +513,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.Gateway>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'action', 'asPrepends', 'authenticationKey', 'bfdConfig', 'connectionMode', 'defaultExportRouteFilter', 'defaultImportRouteFilter', 'exportRouteFilters', 'global', 'importRouteFilters', 'metered', 'resourceGroup', 'updates', 'headers'];
+    const _validParams = ['id', 'action', 'asPrepends', 'authenticationKey', 'bfdConfig', 'connectionMode', 'defaultExportRouteFilter', 'defaultImportRouteFilter', 'exportRouteFilters', 'global', 'importRouteFilters', 'metered', 'resourceGroup', 'updates', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -536,12 +557,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -563,7 +588,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<NodeJS.ReadableStream>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'headers'];
+    const _validParams = ['id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -591,11 +616,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/pdf',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -619,7 +648,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'upload', 'uploadContentType', 'headers'];
+    const _validParams = ['id', 'upload', 'uploadContentType', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -648,17 +677,21 @@ class DirectLinkV1 extends BaseService {
         method: 'PUT',
         qs: query,
         path,
-        formData
+        formData,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Content-Type': 'multipart/form-data',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -680,7 +713,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<NodeJS.ReadableStream>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'headers'];
+    const _validParams = ['id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -708,11 +741,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/pdf',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -736,7 +773,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayStatisticCollection>> {
     const _params = { ...params };
     const _requiredParams = ['id', 'type'];
-    const _validParams = ['id', 'type', 'headers'];
+    const _validParams = ['id', 'type', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -764,11 +801,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -791,7 +832,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayStatusCollection>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'type', 'headers'];
+    const _validParams = ['id', 'type', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -819,11 +860,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -848,7 +893,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId'];
-    const _validParams = ['gatewayId', 'headers'];
+    const _validParams = ['gatewayId', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -875,11 +920,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -905,7 +954,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.AsPrependCollection>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'ifMatch'];
-    const _validParams = ['gatewayId', 'ifMatch', 'asPrepends', 'headers'];
+    const _validParams = ['gatewayId', 'ifMatch', 'asPrepends', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -937,6 +986,7 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -944,6 +994,9 @@ class DirectLinkV1 extends BaseService {
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -975,7 +1028,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.ExportRouteFilterCollection>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId'];
-    const _validParams = ['gatewayId', 'headers'];
+    const _validParams = ['gatewayId', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1002,11 +1055,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1053,7 +1110,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'action', 'prefix'];
-    const _validParams = ['gatewayId', 'action', 'prefix', 'before', 'ge', 'le', 'headers'];
+    const _validParams = ['gatewayId', 'action', 'prefix', 'before', 'ge', 'le', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1089,12 +1146,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1121,7 +1182,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.ExportRouteFilterCollection>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'ifMatch'];
-    const _validParams = ['gatewayId', 'ifMatch', 'exportRouteFilters', 'headers'];
+    const _validParams = ['gatewayId', 'ifMatch', 'exportRouteFilters', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1153,6 +1214,7 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -1160,6 +1222,9 @@ class DirectLinkV1 extends BaseService {
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1186,7 +1251,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'id'];
-    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validParams = ['gatewayId', 'id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1214,10 +1279,14 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1240,7 +1309,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'id'];
-    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validParams = ['gatewayId', 'id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1268,11 +1337,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1322,7 +1395,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'id'];
-    const _validParams = ['gatewayId', 'id', 'action', 'before', 'ge', 'le', 'prefix', 'headers'];
+    const _validParams = ['gatewayId', 'id', 'action', 'before', 'ge', 'le', 'prefix', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1359,12 +1432,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/merge-patch+json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1395,7 +1472,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.ImportRouteFilterCollection>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId'];
-    const _validParams = ['gatewayId', 'headers'];
+    const _validParams = ['gatewayId', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1422,11 +1499,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1473,7 +1554,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'action', 'prefix'];
-    const _validParams = ['gatewayId', 'action', 'prefix', 'before', 'ge', 'le', 'headers'];
+    const _validParams = ['gatewayId', 'action', 'prefix', 'before', 'ge', 'le', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1509,12 +1590,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1541,7 +1626,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.ImportRouteFilterCollection>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'ifMatch'];
-    const _validParams = ['gatewayId', 'ifMatch', 'importRouteFilters', 'headers'];
+    const _validParams = ['gatewayId', 'ifMatch', 'importRouteFilters', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1573,6 +1658,7 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -1580,6 +1666,9 @@ class DirectLinkV1 extends BaseService {
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1606,7 +1695,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'id'];
-    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validParams = ['gatewayId', 'id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1634,10 +1723,14 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1660,7 +1753,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'id'];
-    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validParams = ['gatewayId', 'id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1688,11 +1781,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1742,7 +1839,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteFilter>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'id'];
-    const _validParams = ['gatewayId', 'id', 'action', 'before', 'ge', 'le', 'prefix', 'headers'];
+    const _validParams = ['gatewayId', 'id', 'action', 'before', 'ge', 'le', 'prefix', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1779,12 +1876,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/merge-patch+json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1809,7 +1910,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'headers'];
+    const _validParams = ['id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1836,10 +1937,14 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1861,7 +1966,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsec>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'headers'];
+    const _validParams = ['id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1888,11 +1993,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1906,15 +2015,16 @@ class DirectLinkV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link gateway identifier.
-   * @param {boolean} [params.active] - Sets the MACsec feature to be active (true) or inactive (false) for a gateway.
+   * @param {boolean} [params.active] - Sets the MACsec feature to be active (true) or inactive (false) for a direct
+   * link.
    * @param {SakRekeyPatch} [params.sakRekey] - Determines how SAK rekeying occurs. It is either timer based or based on
    * the amount of used packet numbers.
    * @param {string} [params.securityPolicy] - Determines how packets without MACsec headers are handled.
    *
-   * `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-   * network availability.
-   * `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-   * availability over security.
+   * - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+   * availability.
+   * - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+   * security.
    * @param {number} [params.windowSize] - The window size determines the number of frames in a window for replay
    * protection.
    *
@@ -1928,7 +2038,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsec>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'active', 'sakRekey', 'securityPolicy', 'windowSize', 'headers'];
+    const _validParams = ['id', 'active', 'sakRekey', 'securityPolicy', 'windowSize', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1963,12 +2073,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/merge-patch+json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1982,8 +2096,8 @@ class DirectLinkV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link gateway identifier.
-   * @param {boolean} params.active - Determines if the MACsec feature should initially be active (true) or inactive
-   * (false) for a gateway.
+   * @param {boolean} params.active - Determines if the MACsec feature will initially be active (true) or inactive
+   * (false) for a direct link.
    * @param {GatewayMacsecCakPrototype[]} params.caks - List of all connectivity association keys (CAKs) to be
    * associated associated with the MACsec feature on a direct link.
    *
@@ -1994,10 +2108,10 @@ class DirectLinkV1 extends BaseService {
    * on the amount of used packet numbers.
    * @param {string} params.securityPolicy - Determines how packets without MACsec headers are handled.
    *
-   * `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-   * network availability.
-   * `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-   * availability over security.
+   * - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+   * availability.
+   * - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over
+   * security.
    * @param {number} [params.windowSize] - The window size determines the number of frames in a window for replay
    * protection.
    *
@@ -2015,7 +2129,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsec>> {
     const _params = { ...params };
     const _requiredParams = ['id', 'active', 'caks', 'sakRekey', 'securityPolicy'];
-    const _validParams = ['id', 'active', 'caks', 'sakRekey', 'securityPolicy', 'windowSize', 'ifMatch', 'headers'];
+    const _validParams = ['id', 'active', 'caks', 'sakRekey', 'securityPolicy', 'windowSize', 'ifMatch', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2051,6 +2165,7 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -2058,6 +2173,9 @@ class DirectLinkV1 extends BaseService {
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2079,7 +2197,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCakCollection>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'headers'];
+    const _validParams = ['id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2106,11 +2224,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2124,8 +2246,7 @@ class DirectLinkV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link gateway identifier.
-   * @param {HpcsKeyIdentity} params.key - A [Hyper Protect Crypto Service Standard
-   * Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   * @param {GatewayMacsecCakKeyReference} params.key -
    * @param {string} params.name - The name identifies the connectivity association key (CAK) within the MACsec key
    * chain.
    *
@@ -2146,7 +2267,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCak>> {
     const _params = { ...params };
     const _requiredParams = ['id', 'key', 'name', 'session'];
-    const _validParams = ['id', 'key', 'name', 'session', 'headers'];
+    const _validParams = ['id', 'key', 'name', 'session', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2180,12 +2301,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2208,7 +2333,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['id', 'cakId'];
-    const _validParams = ['id', 'cakId', 'headers'];
+    const _validParams = ['id', 'cakId', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2236,10 +2361,14 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2262,7 +2391,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCak>> {
     const _params = { ...params };
     const _requiredParams = ['id', 'cakId'];
-    const _validParams = ['id', 'cakId', 'headers'];
+    const _validParams = ['id', 'cakId', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2290,11 +2419,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2309,8 +2442,7 @@ class DirectLinkV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - Direct Link gateway identifier.
    * @param {string} params.cakId - MACsec CAK identifier.
-   * @param {HpcsKeyIdentity} [params.key] - A [Hyper Protect Crypto Service Standard
-   * Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   * @param {GatewayMacsecCakKeyReference} [params.key] -
    * @param {string} [params.name] - The name identifies the connectivity association key (CAK) within the MACsec key
    * chain.
    *
@@ -2325,7 +2457,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayMacsecCak>> {
     const _params = { ...params };
     const _requiredParams = ['id', 'cakId'];
-    const _validParams = ['id', 'cakId', 'key', 'name', 'headers'];
+    const _validParams = ['id', 'cakId', 'key', 'name', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2359,12 +2491,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/merge-patch+json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2389,7 +2525,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteReportCollection>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId'];
-    const _validParams = ['gatewayId', 'headers'];
+    const _validParams = ['gatewayId', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2416,11 +2552,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2446,7 +2586,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteReport>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId'];
-    const _validParams = ['gatewayId', 'headers'];
+    const _validParams = ['gatewayId', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2473,11 +2613,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2500,7 +2644,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'id'];
-    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validParams = ['gatewayId', 'id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2528,10 +2672,14 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2554,7 +2702,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.RouteReport>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'id'];
-    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validParams = ['gatewayId', 'id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2582,11 +2730,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2612,7 +2764,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayVirtualConnectionCollection>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId'];
-    const _validParams = ['gatewayId', 'headers'];
+    const _validParams = ['gatewayId', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2639,11 +2791,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2671,7 +2827,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayVirtualConnection>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'name', 'type'];
-    const _validParams = ['gatewayId', 'name', 'type', 'networkId', 'headers'];
+    const _validParams = ['gatewayId', 'name', 'type', 'networkId', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2705,12 +2861,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2733,7 +2893,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'id'];
-    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validParams = ['gatewayId', 'id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2761,10 +2921,14 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2787,7 +2951,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayVirtualConnection>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'id'];
-    const _validParams = ['gatewayId', 'id', 'headers'];
+    const _validParams = ['gatewayId', 'id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2815,11 +2979,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2848,7 +3016,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.GatewayVirtualConnection>> {
     const _params = { ...params };
     const _requiredParams = ['gatewayId', 'id'];
-    const _validParams = ['gatewayId', 'id', 'name', 'status', 'headers'];
+    const _validParams = ['gatewayId', 'id', 'name', 'status', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2882,12 +3050,16 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/merge-patch+json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2913,7 +3085,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.LocationCollection>> {
     const _params = { ...params };
     const _requiredParams = ['offeringType'];
-    const _validParams = ['offeringType', 'headers'];
+    const _validParams = ['offeringType', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2940,11 +3112,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -2968,7 +3144,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.LocationCrossConnectRouterCollection>> {
     const _params = { ...params };
     const _requiredParams = ['offeringType', 'locationName'];
-    const _validParams = ['offeringType', 'locationName', 'headers'];
+    const _validParams = ['offeringType', 'locationName', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2996,11 +3172,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -3023,7 +3203,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.OfferingSpeedCollection>> {
     const _params = { ...params };
     const _requiredParams = ['offeringType'];
-    const _validParams = ['offeringType', 'headers'];
+    const _validParams = ['offeringType', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -3050,11 +3230,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -3082,7 +3266,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.PortCollection>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['start', 'limit', 'locationName', 'headers'];
+    const _validParams = ['start', 'limit', 'locationName', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -3107,11 +3291,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -3133,7 +3321,7 @@ class DirectLinkV1 extends BaseService {
   ): Promise<DirectLinkV1.Response<DirectLinkV1.Port>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'headers'];
+    const _validParams = ['id', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -3160,11 +3348,15 @@ class DirectLinkV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -3208,34 +3400,35 @@ namespace DirectLinkV1 {
    * request interfaces
    ************************/
 
+   interface DefaultParams {
+     headers?: OutgoingHttpHeaders;
+     signal?: AbortSignal;
+   }
+
   /** Parameters for the `listGateways` operation. */
-  export interface ListGatewaysParams {
-    headers?: OutgoingHttpHeaders;
+  export interface ListGatewaysParams extends DefaultParams {
   }
 
   /** Parameters for the `createGateway` operation. */
-  export interface CreateGatewayParams {
+  export interface CreateGatewayParams extends DefaultParams {
     /** The Direct Link Gateway template. */
     gatewayTemplate: GatewayTemplate;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `deleteGateway` operation. */
-  export interface DeleteGatewayParams {
+  export interface DeleteGatewayParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getGateway` operation. */
-  export interface GetGatewayParams {
+  export interface GetGatewayParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `updateGateway` operation. */
-  export interface UpdateGatewayParams {
+  export interface UpdateGatewayParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
     /** A reference to a key to use as the BGP MD5 authentication key.
@@ -3314,7 +3507,6 @@ namespace DirectLinkV1 {
      *  The gateway must have a `type` of `dedicated`.
      */
     vlan?: number;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateGateway` operation. */
@@ -3342,7 +3534,7 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `createGatewayAction` operation. */
-  export interface CreateGatewayActionParams {
+  export interface CreateGatewayActionParams extends DefaultParams {
     /** Direct Link Connect gateway identifier. */
     id: string;
     /** Action request. */
@@ -3395,7 +3587,6 @@ namespace DirectLinkV1 {
      *  actions must provide an updates field that matches the gateway's current pending changes.
      */
     updates?: GatewayActionTemplateUpdatesItem[];
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `createGatewayAction` operation. */
@@ -3427,37 +3618,33 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `listGatewayCompletionNotice` operation. */
-  export interface ListGatewayCompletionNoticeParams {
+  export interface ListGatewayCompletionNoticeParams extends DefaultParams {
     /** Direct Link Dedicated gateway identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `createGatewayCompletionNotice` operation. */
-  export interface CreateGatewayCompletionNoticeParams {
+  export interface CreateGatewayCompletionNoticeParams extends DefaultParams {
     /** Direct Link Dedicated gateway identifier. */
     id: string;
     /** Completion notice PDF file. */
     upload?: NodeJS.ReadableStream | Buffer;
     /** The content type of upload. */
     uploadContentType?: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `listGatewayLetterOfAuthorization` operation. */
-  export interface ListGatewayLetterOfAuthorizationParams {
+  export interface ListGatewayLetterOfAuthorizationParams extends DefaultParams {
     /** Direct Link Dedicated gateway identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getGatewayStatistics` operation. */
-  export interface GetGatewayStatisticsParams {
+  export interface GetGatewayStatisticsParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
     /** Specify statistic to retrieve. */
     type: GetGatewayStatisticsConstants.Type | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `getGatewayStatistics` operation. */
@@ -3472,12 +3659,11 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `getGatewayStatus` operation. */
-  export interface GetGatewayStatusParams {
+  export interface GetGatewayStatusParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
     /** Specify status to retrieve. */
     type?: GetGatewayStatusConstants.Type | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `getGatewayStatus` operation. */
@@ -3491,14 +3677,13 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `listGatewayAsPrepends` operation. */
-  export interface ListGatewayAsPrependsParams {
+  export interface ListGatewayAsPrependsParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `replaceGatewayAsPrepends` operation. */
-  export interface ReplaceGatewayAsPrependsParams {
+  export interface ReplaceGatewayAsPrependsParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** If present, the request will fail if the specified ETag value does not match the resource's current ETag
@@ -3507,18 +3692,16 @@ namespace DirectLinkV1 {
     ifMatch: string;
     /** array of AS Prepend configuration information. */
     asPrepends?: AsPrependPrefixArrayTemplate[];
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `listGatewayExportRouteFilters` operation. */
-  export interface ListGatewayExportRouteFiltersParams {
+  export interface ListGatewayExportRouteFiltersParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `createGatewayExportRouteFilter` operation. */
-  export interface CreateGatewayExportRouteFilterParams {
+  export interface CreateGatewayExportRouteFilterParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the
@@ -3542,7 +3725,6 @@ namespace DirectLinkV1 {
     ge?: number;
     /** The maximum matching length of the prefix-set (mnemonic for less than or equal to). */
     le?: number;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `createGatewayExportRouteFilter` operation. */
@@ -3555,7 +3737,7 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `replaceGatewayExportRouteFilters` operation. */
-  export interface ReplaceGatewayExportRouteFiltersParams {
+  export interface ReplaceGatewayExportRouteFiltersParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** If present, the request will fail if the specified ETag value does not match the resource's current ETag
@@ -3566,29 +3748,26 @@ namespace DirectLinkV1 {
      *  route filters, the order of the items in the array will set the ordering of the list of route filters.
      */
     exportRouteFilters?: GatewayTemplateRouteFilter[];
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `deleteGatewayExportRouteFilter` operation. */
-  export interface DeleteGatewayExportRouteFilterParams {
+  export interface DeleteGatewayExportRouteFilterParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** Identifier of an import route filter. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getGatewayExportRouteFilter` operation. */
-  export interface GetGatewayExportRouteFilterParams {
+  export interface GetGatewayExportRouteFilterParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** Identifier of an import route filter. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `updateGatewayExportRouteFilter` operation. */
-  export interface UpdateGatewayExportRouteFilterParams {
+  export interface UpdateGatewayExportRouteFilterParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** Identifier of an import route filter. */
@@ -3620,7 +3799,6 @@ namespace DirectLinkV1 {
     le?: number;
     /** IP prefix representing an address and mask length of the prefix-set. */
     prefix?: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateGatewayExportRouteFilter` operation. */
@@ -3633,14 +3811,13 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `listGatewayImportRouteFilters` operation. */
-  export interface ListGatewayImportRouteFiltersParams {
+  export interface ListGatewayImportRouteFiltersParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `createGatewayImportRouteFilter` operation. */
-  export interface CreateGatewayImportRouteFilterParams {
+  export interface CreateGatewayImportRouteFilterParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** Determines whether routes that match the prefix-set will be allowed (permit) or rejected (deny) through the
@@ -3664,7 +3841,6 @@ namespace DirectLinkV1 {
     ge?: number;
     /** The maximum matching length of the prefix-set (mnemonic for less than or equal to). */
     le?: number;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `createGatewayImportRouteFilter` operation. */
@@ -3677,7 +3853,7 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `replaceGatewayImportRouteFilters` operation. */
-  export interface ReplaceGatewayImportRouteFiltersParams {
+  export interface ReplaceGatewayImportRouteFiltersParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** If present, the request will fail if the specified ETag value does not match the resource's current ETag
@@ -3688,29 +3864,26 @@ namespace DirectLinkV1 {
      *  route filters, the order of the items in the array will set the ordering of the list of route filters.
      */
     importRouteFilters?: GatewayTemplateRouteFilter[];
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `deleteGatewayImportRouteFilter` operation. */
-  export interface DeleteGatewayImportRouteFilterParams {
+  export interface DeleteGatewayImportRouteFilterParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** Identifier of an import route filter. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getGatewayImportRouteFilter` operation. */
-  export interface GetGatewayImportRouteFilterParams {
+  export interface GetGatewayImportRouteFilterParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** Identifier of an import route filter. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `updateGatewayImportRouteFilter` operation. */
-  export interface UpdateGatewayImportRouteFilterParams {
+  export interface UpdateGatewayImportRouteFilterParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** Identifier of an import route filter. */
@@ -3742,7 +3915,6 @@ namespace DirectLinkV1 {
     le?: number;
     /** IP prefix representing an address and mask length of the prefix-set. */
     prefix?: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateGatewayImportRouteFilter` operation. */
@@ -3755,33 +3927,31 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `unsetGatewayMacsec` operation. */
-  export interface UnsetGatewayMacsecParams {
+  export interface UnsetGatewayMacsecParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getGatewayMacsec` operation. */
-  export interface GetGatewayMacsecParams {
+  export interface GetGatewayMacsecParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `updateGatewayMacsec` operation. */
-  export interface UpdateGatewayMacsecParams {
+  export interface UpdateGatewayMacsecParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
-    /** Sets the MACsec feature to be active (true) or inactive (false) for a gateway. */
+    /** Sets the MACsec feature to be active (true) or inactive (false) for a direct link. */
     active?: boolean;
     /** Determines how SAK rekeying occurs. It is either timer based or based on the amount of used packet numbers. */
     sakRekey?: SakRekeyPatch;
     /** Determines how packets without MACsec headers are handled.
      *
-     *  `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-     *  network availability.
-     *  `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-     *  availability over security.
+     *  - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+     *  availability.
+     *  - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability
+     *  over security.
      */
     securityPolicy?: UpdateGatewayMacsecConstants.SecurityPolicy | string;
     /** The window size determines the number of frames in a window for replay protection.
@@ -3790,12 +3960,11 @@ namespace DirectLinkV1 {
      *  replay protected.
      */
     windowSize?: number;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateGatewayMacsec` operation. */
   export namespace UpdateGatewayMacsecConstants {
-    /** Determines how packets without MACsec headers are handled. `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over network availability. `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network availability over security. */
+    /** Determines how packets without MACsec headers are handled. - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network availability. - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over security. */
     export enum SecurityPolicy {
       MUST_SECURE = 'must_secure',
       SHOULD_SECURE = 'should_secure',
@@ -3803,10 +3972,10 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `setGatewayMacsec` operation. */
-  export interface SetGatewayMacsecParams {
+  export interface SetGatewayMacsecParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
-    /** Determines if the MACsec feature should initially be active (true) or inactive (false) for a gateway. */
+    /** Determines if the MACsec feature will initially be active (true) or inactive (false) for a direct link. */
     active: boolean;
     /** List of all connectivity association keys (CAKs) to be associated associated with the MACsec feature on a
      *  direct link.
@@ -3821,10 +3990,10 @@ namespace DirectLinkV1 {
     sakRekey: SakRekeyPrototype;
     /** Determines how packets without MACsec headers are handled.
      *
-     *  `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-     *  network availability.
-     *  `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-     *  availability over security.
+     *  - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+     *  availability.
+     *  - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability
+     *  over security.
      */
     securityPolicy: SetGatewayMacsecConstants.SecurityPolicy | string;
     /** The window size determines the number of frames in a window for replay protection.
@@ -3839,12 +4008,11 @@ namespace DirectLinkV1 {
      *  `If-Match` is required when the resource exists and has an ETag value.
      */
     ifMatch?: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `setGatewayMacsec` operation. */
   export namespace SetGatewayMacsecConstants {
-    /** Determines how packets without MACsec headers are handled. `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over network availability. `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network availability over security. */
+    /** Determines how packets without MACsec headers are handled. - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network availability. - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over security. */
     export enum SecurityPolicy {
       MUST_SECURE = 'must_secure',
       SHOULD_SECURE = 'should_secure',
@@ -3852,20 +4020,16 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `listGatewayMacsecCaks` operation. */
-  export interface ListGatewayMacsecCaksParams {
+  export interface ListGatewayMacsecCaksParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `createGatewayMacsecCak` operation. */
-  export interface CreateGatewayMacsecCakParams {
+  export interface CreateGatewayMacsecCakParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
-    /** A [Hyper Protect Crypto Service Standard
-     *  Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-     */
-    key: HpcsKeyIdentity;
+    key: GatewayMacsecCakKeyReference;
     /** The name identifies the connectivity association key (CAK) within the MACsec key chain.
      *
      *  The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
@@ -3881,7 +4045,6 @@ namespace DirectLinkV1 {
      *  There must be a `primary` session CAK. A `fallback` CAK is optional.
      */
     session: CreateGatewayMacsecCakConstants.Session | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `createGatewayMacsecCak` operation. */
@@ -3894,33 +4057,28 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `deleteGatewayMacsecCak` operation. */
-  export interface DeleteGatewayMacsecCakParams {
+  export interface DeleteGatewayMacsecCakParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
     /** MACsec CAK identifier. */
     cakId: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getGatewayMacsecCak` operation. */
-  export interface GetGatewayMacsecCakParams {
+  export interface GetGatewayMacsecCakParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
     /** MACsec CAK identifier. */
     cakId: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `updateGatewayMacsecCak` operation. */
-  export interface UpdateGatewayMacsecCakParams {
+  export interface UpdateGatewayMacsecCakParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     id: string;
     /** MACsec CAK identifier. */
     cakId: string;
-    /** A [Hyper Protect Crypto Service Standard
-     *  Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-     */
-    key?: HpcsKeyIdentity;
+    key?: GatewayMacsecCakKeyReference;
     /** The name identifies the connectivity association key (CAK) within the MACsec key chain.
      *
      *  The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
@@ -3928,50 +4086,44 @@ namespace DirectLinkV1 {
      *  This value, along with the material of the `key`, must match on the MACsec peers.
      */
     name?: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `listGatewayRouteReports` operation. */
-  export interface ListGatewayRouteReportsParams {
+  export interface ListGatewayRouteReportsParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `createGatewayRouteReport` operation. */
-  export interface CreateGatewayRouteReportParams {
+  export interface CreateGatewayRouteReportParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `deleteGatewayRouteReport` operation. */
-  export interface DeleteGatewayRouteReportParams {
+  export interface DeleteGatewayRouteReportParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** Route report identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getGatewayRouteReport` operation. */
-  export interface GetGatewayRouteReportParams {
+  export interface GetGatewayRouteReportParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** Route report identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `listGatewayVirtualConnections` operation. */
-  export interface ListGatewayVirtualConnectionsParams {
+  export interface ListGatewayVirtualConnectionsParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `createGatewayVirtualConnection` operation. */
-  export interface CreateGatewayVirtualConnectionParams {
+  export interface CreateGatewayVirtualConnectionParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** The user-defined name for this virtual connection.  Virtual connection names are unique within a gateway.
@@ -3984,7 +4136,6 @@ namespace DirectLinkV1 {
      *  VPC.  This field does not apply to type=classic connections.
      */
     networkId?: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `createGatewayVirtualConnection` operation. */
@@ -3997,25 +4148,23 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `deleteGatewayVirtualConnection` operation. */
-  export interface DeleteGatewayVirtualConnectionParams {
+  export interface DeleteGatewayVirtualConnectionParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** The virtual connection identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getGatewayVirtualConnection` operation. */
-  export interface GetGatewayVirtualConnectionParams {
+  export interface GetGatewayVirtualConnectionParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** The virtual connection identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `updateGatewayVirtualConnection` operation. */
-  export interface UpdateGatewayVirtualConnectionParams {
+  export interface UpdateGatewayVirtualConnectionParams extends DefaultParams {
     /** Direct Link gateway identifier. */
     gatewayId: string;
     /** The virtual connection identifier. */
@@ -4029,7 +4178,6 @@ namespace DirectLinkV1 {
      *  status to attached or rejected respectively.
      */
     status?: UpdateGatewayVirtualConnectionConstants.Status | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateGatewayVirtualConnection` operation. */
@@ -4042,10 +4190,9 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `listOfferingTypeLocations` operation. */
-  export interface ListOfferingTypeLocationsParams {
+  export interface ListOfferingTypeLocationsParams extends DefaultParams {
     /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
     offeringType: ListOfferingTypeLocationsConstants.OfferingType | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `listOfferingTypeLocations` operation. */
@@ -4058,12 +4205,11 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `listOfferingTypeLocationCrossConnectRouters` operation. */
-  export interface ListOfferingTypeLocationCrossConnectRoutersParams {
+  export interface ListOfferingTypeLocationCrossConnectRoutersParams extends DefaultParams {
     /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
     offeringType: ListOfferingTypeLocationCrossConnectRoutersConstants.OfferingType | string;
     /** The name of the Direct Link location. */
     locationName: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `listOfferingTypeLocationCrossConnectRouters` operation. */
@@ -4076,10 +4222,9 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `listOfferingTypeSpeeds` operation. */
-  export interface ListOfferingTypeSpeedsParams {
+  export interface ListOfferingTypeSpeedsParams extends DefaultParams {
     /** The Direct Link offering type.  Current supported values are `"dedicated"` and `"connect"`. */
     offeringType: ListOfferingTypeSpeedsConstants.OfferingType | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `listOfferingTypeSpeeds` operation. */
@@ -4092,21 +4237,19 @@ namespace DirectLinkV1 {
   }
 
   /** Parameters for the `listPorts` operation. */
-  export interface ListPortsParams {
+  export interface ListPortsParams extends DefaultParams {
     /** A server-supplied token determining which resource to start the page on. */
     start?: string;
     /** The number of resources to return on a page. */
     limit?: number;
     /** Direct Link location short name. */
     locationName?: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getPort` operation. */
-  export interface GetPortParams {
+  export interface GetPortParams extends DefaultParams {
     /** The port identifier. */
     id: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /*************************
@@ -4252,7 +4395,7 @@ namespace DirectLinkV1 {
     /** List of capabilities for this router.
      *
      *  Listed `MacsecCapability` values indicate the router is associated with switch ports with that capability, and
-     *  is able to provision direct links with that capability. Multiple `MacsecCapability` values may be listed.
+     *  is able to provision direct links with that capability. Multiple `MacsecCapability` values can be listed.
      */
     capabilities?: string[];
     /** The name of the Router. */
@@ -4345,17 +4488,17 @@ namespace DirectLinkV1 {
     location_display_name: string;
     /** Gateway location. */
     location_name: string;
-    /** MACsec configuration information of a Direct Link gateway. */
+    /** MACsec configuration information of a direct link. */
     macsec?: GatewayMacsecReference;
     /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
      *  `cross_connect_router`.
      *
      *  Only included on type=dedicated direct links.
      *
-     *  - non_macsec: The direct link does not support MACsec.
-     *  - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-     *  - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-     *  direct link creation.
+     *  - `non_macsec`: The direct link does not support MACsec.
+     *  - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+     *  - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled
+     *  after direct link creation.
      */
     macsec_capability?: Gateway.Constants.MacsecCapability | string;
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
@@ -4420,7 +4563,7 @@ namespace DirectLinkV1 {
         DOWN = 'down',
         UP = 'up',
       }
-      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. Only included on type=dedicated direct links. - non_macsec: The direct link does not support MACsec. - macsec: The direct link supports MACsec. The MACsec feature must be enabled. - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. */
+      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. Only included on type=dedicated direct links. - `non_macsec`: The direct link does not support MACsec. - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled. - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. */
       export enum MacsecCapability {
         NON_MACSEC = 'non_macsec',
         MACSEC = 'macsec',
@@ -4558,10 +4701,10 @@ namespace DirectLinkV1 {
   }
 
   /**
-   * MACsec configuration information of a Direct Link gateway.
+   * MACsec configuration information of a direct link.
    */
   export interface GatewayMacsec {
-    /** Indicates if the MACsec feature is currently active (true) or inactive (false) for a gateway. */
+    /** Indicates if the MACsec feature is currently active (true) or inactive (false) for a direct link. */
     active: boolean;
     /** The cipher suite used in generating the security association key (SAK). */
     cipher_suite: GatewayMacsec.Constants.CipherSuite | string;
@@ -4580,10 +4723,10 @@ namespace DirectLinkV1 {
     sak_rekey: SakRekey;
     /** Determines how packets without MACsec headers are handled.
      *
-     *  `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-     *  network availability.
-     *  `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-     *  availability over security.
+     *  - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+     *  availability.
+     *  - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability
+     *  over security.
      */
     security_policy: GatewayMacsec.Constants.SecurityPolicy | string;
     /** Current status of MACsec on this direct link.
@@ -4613,7 +4756,7 @@ namespace DirectLinkV1 {
       export enum CipherSuite {
         GCM_AES_XPN_256 = 'gcm_aes_xpn_256',
       }
-      /** Determines how packets without MACsec headers are handled. `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over network availability. `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network availability over security. */
+      /** Determines how packets without MACsec headers are handled. - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network availability. - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over security. */
       export enum SecurityPolicy {
         MUST_SECURE = 'must_secure',
         SHOULD_SECURE = 'should_secure',
@@ -4639,7 +4782,7 @@ namespace DirectLinkV1 {
    * hexadecimal string exactly 64 characters in length.
    */
   export interface GatewayMacsecCak {
-    /** This field will be present when the `status` of the MACsec CAK is `rotating` or `inactive`. It may be
+    /** This field will be present when the `status` of the MACsec CAK is `rotating` or `inactive`. It might be
      *  present when the CAK `status` is `failed`.
      *
      *  This object denotes the MACsec CAK's values prior to beginning a CAK rotation and represents the previous key
@@ -4653,10 +4796,7 @@ namespace DirectLinkV1 {
     created_at: string;
     /** The unique identifier for this connectivity association key (CAK). */
     id: string;
-    /** A reference to a [Hyper Protect Crypto Service Standard
-     *  Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-     */
-    key: HpcsKeyReference;
+    key: GatewayMacsecCakKeyReference;
     /** The name identifies the connectivity association key (CAK) within the MACsec key chain.
      *
      *  The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
@@ -4685,8 +4825,8 @@ namespace DirectLinkV1 {
      *  session.
      *
      *  Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the
-     *  MACsec session. The CAK may enter `rotating` status, and ultimately the `active` status, if it is found to be
-     *  used to secure the MACsec session. The CAK may never leave this status on its own (e.g. if there is a key/key
+     *  MACsec session. The CAK might enter `rotating` status, and ultimately the `active` status, if it is found to be
+     *  used to secure the MACsec session. The CAK might never leave this status on its own (e.g. if there is a key/key
      *  name mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again.
      *
      *  Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your
@@ -4704,7 +4844,7 @@ namespace DirectLinkV1 {
         PRIMARY = 'primary',
         FALLBACK = 'fallback',
       }
-      /** Current status of the CAK. Status `operational` is returned when the CAK is configured successfully. Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on the device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating` for a period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the CAK will either enter `active` or `inactive` status. Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec session. Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the MACsec session. The CAK may enter `rotating` status, and ultimately the `active` status, if it is found to be used to secure the MACsec session. The CAK may never leave this status on its own (e.g. if there is a key/key name mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again. Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback` session. */
+      /** Current status of the CAK. Status `operational` is returned when the CAK is configured successfully. Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on the device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating` for a period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the CAK will either enter `active` or `inactive` status. Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec session. Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the MACsec session. The CAK might enter `rotating` status, and ultimately the `active` status, if it is found to be used to secure the MACsec session. The CAK might never leave this status on its own (e.g. if there is a key/key name mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again. Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback` session. */
       export enum Status {
         OPERATIONAL = 'operational',
         ROTATING = 'rotating',
@@ -4716,8 +4856,8 @@ namespace DirectLinkV1 {
   }
 
   /**
-   * This field will be present when the `status` of the MACsec CAK is `rotating` or `inactive`. It may be present when
-   * the CAK `status` is `failed`.
+   * This field will be present when the `status` of the MACsec CAK is `rotating` or `inactive`. It might be present
+   * when the CAK `status` is `failed`.
    *
    * This object denotes the MACsec CAK's values prior to beginning a CAK rotation and represents the previous key still
    * configured in the direct link's MACsec key chain.
@@ -4726,10 +4866,7 @@ namespace DirectLinkV1 {
    * removed from the key chain, and the current CAK's values are in use.
    */
   export interface GatewayMacsecCakActiveDelta {
-    /** A reference to a [Hyper Protect Crypto Service Standard
-     *  Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-     */
-    key: HpcsKeyReference;
+    key: GatewayMacsecCakKeyReference;
     /** The name identifies the connectivity association key (CAK) within the MACsec key chain.
      *
      *  The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
@@ -4750,8 +4887,8 @@ namespace DirectLinkV1 {
      *  session.
      *
      *  Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the
-     *  MACsec session. The CAK may enter `rotating` status, and ultimately the `active` status, if it is found to be
-     *  used to secure the MACsec session. The CAK may never leave this status on its own (e.g. if there is a key/key
+     *  MACsec session. The CAK might enter `rotating` status, and ultimately the `active` status, if it is found to be
+     *  used to secure the MACsec session. The CAK might never leave this status on its own (e.g. if there is a key/key
      *  name mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again.
      *
      *  Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your
@@ -4762,7 +4899,7 @@ namespace DirectLinkV1 {
   }
   export namespace GatewayMacsecCakActiveDelta {
     export namespace Constants {
-      /** Current status of the CAK. Status `operational` is returned when the CAK is configured successfully. Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on the device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating` for a period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the CAK will either enter `active` or `inactive` status. Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec session. Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the MACsec session. The CAK may enter `rotating` status, and ultimately the `active` status, if it is found to be used to secure the MACsec session. The CAK may never leave this status on its own (e.g. if there is a key/key name mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again. Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback` session. */
+      /** Current status of the CAK. Status `operational` is returned when the CAK is configured successfully. Status `rotating` is returned during a key rotation. The CAK defined by `active_delta` is still configured on the device and could be securing the MACsec session. In the case of a primary CAK, the status will be `rotating` for a period of time while waiting for the MACsec session to be secured with the new CAK. After that time, the CAK will either enter `active` or `inactive` status. Status `active` is returned when the CAK is configured successfully and is currently used to secure the MACsec session. Status `inactive` is returned when the CAK is configured successfully, but is not currently used to secure the MACsec session. The CAK might enter `rotating` status, and ultimately the `active` status, if it is found to be used to secure the MACsec session. The CAK might never leave this status on its own (e.g. if there is a key/key name mismatch). You are allowed to patch the CAK in this state to start the rotation procedure again. Status `failed` is returned when the CAK cannot be configured. To recover, first resolve any issues with your HPCS key, then patch this CAK with the same or new key. Alternatively, you can delete this CAK if used for the `fallback` session. */
       export enum Status {
         OPERATIONAL = 'operational',
         ROTATING = 'rotating',
@@ -4782,13 +4919,16 @@ namespace DirectLinkV1 {
   }
 
   /**
+   * GatewayMacsecCakKeyReference.
+   */
+  export interface GatewayMacsecCakKeyReference {
+  }
+
+  /**
    * The prototype for a connectivity association key (CAK) used in the MACsec Key Agreement (MKA) protocol.
    */
   export interface GatewayMacsecCakPrototype {
-    /** A [Hyper Protect Crypto Service Standard
-     *  Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-     */
-    key: HpcsKeyIdentity;
+    key: GatewayMacsecCakKeyReference;
     /** The name identifies the connectivity association key (CAK) within the MACsec key chain.
      *
      *  The CAK's `name` must be a hexadecimal string of even lengths between 2 to 64 inclusive.
@@ -4816,10 +4956,10 @@ namespace DirectLinkV1 {
   }
 
   /**
-   * MACsec configuration information of a Direct Link gateway.
+   * MACsec configuration information of a direct link.
    */
   export interface GatewayMacsecPrototype {
-    /** Determines if the MACsec feature should initially be active (true) or inactive (false) for a gateway. */
+    /** Determines if the MACsec feature will initially be active (true) or inactive (false) for a direct link. */
     active: boolean;
     /** List of all connectivity association keys (CAKs) to be associated associated with the MACsec feature on a
      *  direct link.
@@ -4834,10 +4974,10 @@ namespace DirectLinkV1 {
     sak_rekey: SakRekeyPrototype;
     /** Determines how packets without MACsec headers are handled.
      *
-     *  `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-     *  network availability.
-     *  `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-     *  availability over security.
+     *  - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+     *  availability.
+     *  - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability
+     *  over security.
      */
     security_policy: GatewayMacsecPrototype.Constants.SecurityPolicy | string;
     /** The window size determines the number of frames in a window for replay protection.
@@ -4849,7 +4989,7 @@ namespace DirectLinkV1 {
   }
   export namespace GatewayMacsecPrototype {
     export namespace Constants {
-      /** Determines how packets without MACsec headers are handled. `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over network availability. `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network availability over security. */
+      /** Determines how packets without MACsec headers are handled. - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network availability. - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over security. */
       export enum SecurityPolicy {
         MUST_SECURE = 'must_secure',
         SHOULD_SECURE = 'should_secure',
@@ -4858,17 +4998,17 @@ namespace DirectLinkV1 {
   }
 
   /**
-   * MACsec configuration information of a Direct Link gateway.
+   * MACsec configuration information of a direct link.
    */
   export interface GatewayMacsecReference {
-    /** Indicates if the MACsec feature is currently active (true) or inactive (false) for a gateway. */
+    /** Indicates if the MACsec feature is currently active (true) or inactive (false) for a direct link. */
     active: boolean;
     /** Determines how packets without MACsec headers are handled.
      *
-     *  `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over
-     *  network availability.
-     *  `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network
-     *  availability over security.
+     *  - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network
+     *  availability.
+     *  - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability
+     *  over security.
      */
     security_policy: GatewayMacsecReference.Constants.SecurityPolicy | string;
     /** Current status of MACsec on this direct link.
@@ -4886,7 +5026,7 @@ namespace DirectLinkV1 {
   }
   export namespace GatewayMacsecReference {
     export namespace Constants {
-      /** Determines how packets without MACsec headers are handled. `must_secure` - Packets without MACsec headers are dropped. This policy should be used to prefer security over network availability. `should_secure` - Packets without MACsec headers are allowed. This policy should be used to prefer network availability over security. */
+      /** Determines how packets without MACsec headers are handled. - `must_secure` - Packets without MACsec headers are dropped. Use this policy to prefer security over network availability. - `should_secure` - Packets without MACsec headers are allowed. Use this policy to prefer network availability over security. */
       export enum SecurityPolicy {
         MUST_SECURE = 'must_secure',
         SHOULD_SECURE = 'should_secure',
@@ -4909,8 +5049,8 @@ namespace DirectLinkV1 {
   export interface GatewayMacsecStatusReason {
     /** A reason code for the status:
      *  - `macsec_cak_failed`: At least one of the connectivity association keys (CAKs) associated with the MACsec
-     *  configuration was unable to be configured on the direct link gateway. Refer to the `status` of the CAKs
-     *  associated with the MACsec configuration to find the the source of this reason.
+     *  configuration was unable to be configured on the direct link. Refer to the `status` of the CAKs associated with
+     *  the MACsec configuration to find the the source of this reason.
      */
     code: GatewayMacsecStatusReason.Constants.Code | string;
     /** An explanation of the status reason. */
@@ -4920,7 +5060,7 @@ namespace DirectLinkV1 {
   }
   export namespace GatewayMacsecStatusReason {
     export namespace Constants {
-      /** A reason code for the status: - `macsec_cak_failed`: At least one of the connectivity association keys (CAKs) associated with the MACsec configuration was unable to be configured on the direct link gateway. Refer to the `status` of the CAKs associated with the MACsec configuration to find the the source of this reason. */
+      /** A reason code for the status: - `macsec_cak_failed`: At least one of the connectivity association keys (CAKs) associated with the MACsec configuration was unable to be configured on the direct link. Refer to the `status` of the CAKs associated with the MACsec configuration to find the the source of this reason. */
       export enum Code {
         MACSEC_CAK_FAILED = 'macsec_cak_failed',
       }
@@ -5211,23 +5351,6 @@ namespace DirectLinkV1 {
   }
 
   /**
-   * A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-   */
-  export interface HpcsKeyIdentity {
-    /** The CRN of the key. */
-    crn: string;
-  }
-
-  /**
-   * A reference to a [Hyper Protect Crypto Service Standard
-   * Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
-   */
-  export interface HpcsKeyReference {
-    /** The CRN of the referenced key. */
-    crn: string;
-  }
-
-  /**
    * Collection of import route filters.
    */
   export interface ImportRouteFilterCollection {
@@ -5265,9 +5388,7 @@ namespace DirectLinkV1 {
     display_name: string;
     /** Location type. */
     location_type: string;
-    /** Indicate whether location supports MACsec.  Only returned for gateway type=dedicated locations.  Contact IBM
-     *  support for access to MACsec.
-     */
+    /** Indicate whether location supports MACsec.  Only returned for direct link type=dedicated locations. */
     macsec_enabled?: boolean;
     /** Location market. */
     market: string;
@@ -5293,9 +5414,7 @@ namespace DirectLinkV1 {
     capabilities: string[];
     /** Link speed in megabits per second. */
     link_speed: number;
-    /** Indicate whether speed supports MACsec.  Only returned for gateway type=dedicated speeds.  Contact IBM
-     *  support for access to MACsec.
-     */
+    /** Indicate whether speed supports MACsec.  Only returned for gateway type=dedicated speeds. */
     macsec_enabled?: boolean;
   }
 
@@ -5570,6 +5689,15 @@ namespace DirectLinkV1 {
   }
 
   /**
+   * A [Secrets Manager Arbitrary
+   * Secret](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-getting-started).
+   */
+  export interface AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity extends AuthenticationKeyIdentity {
+    /** The CRN of the secret. */
+    crn: string;
+  }
+
+  /**
    * A reference to a [Hyper Protect Crypto Service Standard
    * Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
    */
@@ -5583,6 +5711,15 @@ namespace DirectLinkV1 {
    * Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial).
    */
   export interface AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference extends AuthenticationKeyReference {
+    /** The CRN of the referenced key. */
+    crn: string;
+  }
+
+  /**
+   * A reference to a [Secrets Manager Arbitrary
+   * Secret](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-getting-started).
+   */
+  export interface AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference extends AuthenticationKeyReference {
     /** The CRN of the referenced key. */
     crn: string;
   }
@@ -5913,17 +6050,17 @@ namespace DirectLinkV1 {
     location_display_name: string;
     /** Gateway location. */
     location_name: string;
-    /** MACsec configuration information of a Direct Link gateway. */
+    /** MACsec configuration information of a direct link. */
     macsec?: GatewayMacsecReference;
     /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
      *  `cross_connect_router`.
      *
      *  Only included on type=dedicated direct links.
      *
-     *  - non_macsec: The direct link does not support MACsec.
-     *  - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-     *  - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-     *  direct link creation.
+     *  - `non_macsec`: The direct link does not support MACsec.
+     *  - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+     *  - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled
+     *  after direct link creation.
      */
     macsec_capability?: GatewayCollectionGatewaysItemGateway.Constants.MacsecCapability | string;
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
@@ -5988,7 +6125,7 @@ namespace DirectLinkV1 {
         DOWN = 'down',
         UP = 'up',
       }
-      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. Only included on type=dedicated direct links. - non_macsec: The direct link does not support MACsec. - macsec: The direct link supports MACsec. The MACsec feature must be enabled. - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. */
+      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. Only included on type=dedicated direct links. - `non_macsec`: The direct link does not support MACsec. - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled. - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. */
       export enum MacsecCapability {
         NON_MACSEC = 'non_macsec',
         MACSEC = 'macsec',
@@ -6017,6 +6154,24 @@ namespace DirectLinkV1 {
         DEDICATED = 'dedicated',
       }
     }
+  }
+
+  /**
+   * A reference to a [Hyper Protect Crypto Service Standard
+   * Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   */
+  export interface GatewayMacsecCakKeyReferenceHpcsCakKeyReference extends GatewayMacsecCakKeyReference {
+    /** The CRN of the referenced key. */
+    crn: string;
+  }
+
+  /**
+   * A reference to a [Secrets Manager Arbitrary
+   * Secret](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-getting-started).
+   */
+  export interface GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference extends GatewayMacsecCakKeyReference {
+    /** The CRN of the referenced key. */
+    crn: string;
   }
 
   /**
@@ -6142,15 +6297,15 @@ namespace DirectLinkV1 {
     customer_name: string;
     /** Gateway location. */
     location_name: string;
-    /** MACsec configuration information of a Direct Link gateway. */
+    /** MACsec configuration information of a direct link. */
     macsec?: GatewayMacsecPrototype;
     /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
      *  `cross_connect_router`.
      *
-     *  - non_macsec: The direct link does not support MACsec.
-     *  - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-     *  - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-     *  direct link creation.
+     *  - `non_macsec`: The direct link does not support MACsec.
+     *  - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+     *  - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled
+     *  after direct link creation.
      *
      *  If not explicitly provided, the field will be assigned with the following priorities based on
      *  `cross_connect_router` capabilities and available ports:
@@ -6187,7 +6342,7 @@ namespace DirectLinkV1 {
         CONNECT = 'connect',
         DEDICATED = 'dedicated',
       }
-      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. - non_macsec: The direct link does not support MACsec. - macsec: The direct link supports MACsec. The MACsec feature must be enabled. - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router` capabilities and available ports: - `macsec` was not provided in the request - `non_macsec` - `macsec_optional` - `macsec` was provided in the request - `macsec_optional` - `macsec`. */
+      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. - `non_macsec`: The direct link does not support MACsec. - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled. - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. If not explicitly provided, the field will be assigned with the following priorities based on `cross_connect_router` capabilities and available ports: - `macsec` was not provided in the request - `non_macsec` - `macsec_optional` - `macsec` was provided in the request - `macsec_optional` - `macsec`. */
       export enum MacsecCapability {
         NON_MACSEC = 'non_macsec',
         MACSEC = 'macsec',
@@ -6368,17 +6523,17 @@ namespace DirectLinkV1 {
     location_display_name: string;
     /** Gateway location. */
     location_name: string;
-    /** MACsec configuration information of a Direct Link gateway. */
+    /** MACsec configuration information of a direct link. */
     macsec?: GatewayMacsecReference;
     /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
      *  `cross_connect_router`.
      *
      *  Only included on type=dedicated direct links.
      *
-     *  - non_macsec: The direct link does not support MACsec.
-     *  - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
-     *  - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
-     *  direct link creation.
+     *  - `non_macsec`: The direct link does not support MACsec.
+     *  - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled.
+     *  - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled
+     *  after direct link creation.
      */
     macsec_capability?: GetGatewayResponseGateway.Constants.MacsecCapability | string;
     /** Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per
@@ -6443,7 +6598,7 @@ namespace DirectLinkV1 {
         DOWN = 'down',
         UP = 'up',
       }
-      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. Only included on type=dedicated direct links. - non_macsec: The direct link does not support MACsec. - macsec: The direct link supports MACsec. The MACsec feature must be enabled. - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. */
+      /** Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the `cross_connect_router`. Only included on type=dedicated direct links. - `non_macsec`: The direct link does not support MACsec. - `macsec`: The direct link supports MACsec. The MACsec feature must be enabled. - `macsec_optional`: The direct link supports MACsec. The MACsec feature is not required and can be enabled after direct link creation. */
       export enum MacsecCapability {
         NON_MACSEC = 'non_macsec',
         MACSEC = 'macsec',
