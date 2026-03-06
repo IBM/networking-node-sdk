@@ -95,8 +95,8 @@ describe.skip('Zones Settings', () => {
 
   describe('Zone DNS SEC', () => {
     let status;
-    test('successfully fetch zoneDnssec', async done => {
-      try {
+    test('successfully fetch zoneDnssec', async () => {
+      
         const response = await zoneInstance.getZoneDnssec({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -105,132 +105,13 @@ describe.skip('Zones Settings', () => {
           expect(['active', 'pending', 'disabled']).toContain(result.result.status);
           status = result.result.status;
         }
-        done();
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log('Warning --- ' + err);
-        done();
-      }
-    });
-
-    test('successfully update zoneDnssec', async done => {
-      const params = {
-        status: status === 'disabled' ? 'active' : 'disabled',
-      };
-      try {
-        const response = await zoneInstance.updateZoneDnssec(params);
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-        const { result } = response || {};
-        if (result.result && Object.keys(result.result).length > 0) {
-          expect(result.result.status).toBeDefined();
-        }
-        done();
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log('Warning --- ' + err);
-        done();
-      }
-    });
-
-    test('successfully reset previous zoneDnssec setting', async done => {
-      try {
-        const response = await zoneInstance.getZoneDnssec({});
-        const { result } = response || {};
-        const newStatus = result.result.status;
-        if (newStatus !== 'pending') {
-          const params = {
-            status: newStatus === 'disabled' ? 'active' : 'disabled',
-          };
-          const response = await zoneInstance.updateZoneDnssec(params);
-          expect(response).toBeDefined();
-          expect(response.status).toEqual(200);
-          const { result } = response || {};
-          if (result.result && Object.keys(result.result).length > 0) {
-            expect(result.result.status).toBeDefined();
-          }
-        }
-        done();
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log('Warning --- ' + err);
-        done();
-      }
-    });
-  });
-
-  describe('Zone Cname Flattening', () => {
-    let value;
-    test('successfully fetch zoneCname flatting', async done => {
-      try {
-        const response = await zoneInstance.getZoneCnameFlattening({});
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-        const { result } = response || {};
-        if (result.result && Object.keys(result.result).length > 0) {
-          expect(result.result.id).toEqual('cname_flattening');
-          expect(['flatten_at_root', 'flatten_all']).toContain(result.result.value);
-          value = result.result.value;
-        }
-        done();
-      } catch (err) {
-        done(err);
-      }
-    });
-    test('successfully update zone cname', async done => {
-      const params = {
-        value: value === 'flatten_at_root' ? 'flatten_all' : 'flatten_at_root',
-      };
-      try {
-        const response = await zoneInstance.updateZoneCnameFlattening(params);
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-        const { result } = response || {};
-        if (result.result && Object.keys(result.result).length > 0) {
-          expect(result.result.value).toBe(params.value);
-        }
-        done();
-      } catch (err) {
-        done(err);
-      }
-    });
-
-    test('successfully reset previous zone cname setting', async done => {
-      const params = {
-        value: value,
-      };
-      try {
-        const response = await zoneInstance.updateZoneCnameFlattening(params);
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(200);
-        const { result } = response || {};
-        if (result.result && Object.keys(result.result).length > 0) {
-          expect(result.result.value).toBe(value);
-        }
-        done();
-      } catch (err) {
-        done(err);
-      }
-    });
-
-    test('should fail to update zone cname', async done => {
-      const params = {
-        value: 'test',
-      };
-      try {
-        await zoneInstance.updateZoneCnameFlattening(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
     });
   });
 
   describe('Opportunistic Encryption', () => {
     let value;
-    test('successfully fetch OpportunisticEncryption', async done => {
-      try {
+    test('successfully fetch OpportunisticEncryption', async () => {
+      
         const response = await zoneInstance.getOpportunisticEncryption({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -240,16 +121,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           value = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update opportunistic encryption', async done => {
+    test('successfully update opportunistic encryption', async () => {
       const params = {
         value: 'off',
       };
-      try {
+      
         const response = await zoneInstance.updateOpportunisticEncryption(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -257,17 +134,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous opportunistic encryptionc setting', async done => {
+    test('successfully reset previous opportunistic encryptionc setting', async () => {
       const params = {
         value: value,
       };
-      try {
+      
         const response = await zoneInstance.updateOpportunisticEncryption(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -275,30 +148,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update opportunistic encryption', async done => {
+    test('should fail to update opportunistic encryption', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateOpportunisticEncryption(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateOpportunisticEncryption(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Challenge TTL', () => {
     let value;
-    test('successfully get Challenge Ttl', async done => {
-      try {
+    test('successfully get Challenge Ttl', async () => {
+      
         const response = await zoneInstance.getChallengeTtl({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -308,16 +174,12 @@ describe.skip('Zones Settings', () => {
           expect(ChallengeTTL).toContain(result.result.value);
           value = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update challenge TTL', async done => {
+    test('successfully update challenge TTL', async () => {
       const params = {
         value: 7200,
       };
-      try {
+      
         const response = await zoneInstance.updateChallengeTtl(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -325,17 +187,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous challenge TTL', async done => {
+    test('successfully reset previous challenge TTL', async () => {
       const params = {
         value: value,
       };
-      try {
+      
         const response = await zoneInstance.updateChallengeTtl(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -343,30 +201,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update challenge TTL', async done => {
+    test('should fail to update challenge TTL', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateChallengeTtl(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateChallengeTtl(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Automatic Https Rewrites', () => {
     let value;
-    test('successfully fetch automatic httpsRmewrites', async done => {
-      try {
+    test('successfully fetch automatic httpsRmewrites', async () => {
+      
         const response = await zoneInstance.getAutomaticHttpsRewrites({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -376,16 +227,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           value = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update automatic httpsRmewrites', async done => {
+    test('successfully update automatic httpsRmewrites', async () => {
       const params = {
         value: 'off',
       };
-      try {
+      
         const response = await zoneInstance.updateAutomaticHttpsRewrites(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -393,17 +240,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous challenge TTL', async done => {
+    test('successfully reset previous challenge TTL', async () => {
       const params = {
         value: value,
       };
-      try {
+      
         const response = await zoneInstance.updateAutomaticHttpsRewrites(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -411,30 +254,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update challenge TTL', async done => {
+    test('should fail to update challenge TTL', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateAutomaticHttpsRewrites(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateAutomaticHttpsRewrites(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('True Client IP', () => {
     let value;
-    test('successfully fetch trueclientip setting', async done => {
-      try {
+    test('successfully fetch trueclientip setting', async () => {
+      
         const response = await zoneInstance.getTrueClientIp({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -444,16 +280,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           value = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update trueclientip', async done => {
+    test('successfully update trueclientip', async () => {
       const params = {
         value: 'off',
       };
-      try {
+      
         const response = await zoneInstance.updateTrueClientIp(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -461,17 +293,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous trueclientip setting', async done => {
+    test('successfully reset previous trueclientip setting', async () => {
       const params = {
         value: value,
       };
-      try {
+      
         const response = await zoneInstance.updateTrueClientIp(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -479,30 +307,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update trueclientip', async done => {
+    test('should fail to update trueclientip', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateTrueClientIp(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateTrueClientIp(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Always Use Https setting', () => {
     let value;
-    test('successfully fetch always use https flag/setting', async done => {
-      try {
+    test('successfully fetch always use https flag/setting', async () => {
+      
         const response = await zoneInstance.getAlwaysUseHttps({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -512,16 +333,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           value = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update always use https setting', async done => {
+    test('successfully update always use https setting', async () => {
       const params = {
         value: 'off',
       };
-      try {
+      
         const response = await zoneInstance.updateAlwaysUseHttps(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -529,17 +346,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous always use https setting', async done => {
+    test('successfully reset previous always use https setting', async () => {
       const params = {
         value: value,
       };
-      try {
+      
         const response = await zoneInstance.updateAlwaysUseHttps(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -547,30 +360,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update always use https setting', async done => {
+    test('should fail to update always use https setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateAlwaysUseHttps(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateAlwaysUseHttps(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Image Size Optimization', () => {
     let value;
-    test('successfully get ImageSizeOptimization setting', async done => {
-      try {
+    test('successfully get ImageSizeOptimization setting', async () => {
+      
         const response = await zoneInstance.getImageSizeOptimization({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -580,16 +386,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           value = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update ImageSizeOptimization setting', async done => {
+    test('successfully update ImageSizeOptimization setting', async () => {
       const params = {
         value: 'off',
       };
-      try {
+      
         const response = await zoneInstance.updateImageSizeOptimization(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -597,17 +399,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous ImageSizeOptimization setting', async done => {
+    test('successfully reset previous ImageSizeOptimization setting', async () => {
       const params = {
         value: value,
       };
-      try {
+      
         const response = await zoneInstance.updateImageSizeOptimization(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -615,30 +413,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update ImageSizeOptimization setting', async done => {
+    test('should fail to update ImageSizeOptimization setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateImageSizeOptimization(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateImageSizeOptimization(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Script Load Optimization', () => {
     let value;
-    test('successfully get ScriptLoadOptimization setting', async done => {
-      try {
+    test('successfully get ScriptLoadOptimization setting', async () => {
+      
         const response = await zoneInstance.getScriptLoadOptimization({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -648,16 +439,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           value = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update ScriptLoadOptimization setting', async done => {
+    test('successfully update ScriptLoadOptimization setting', async () => {
       const params = {
         value: 'off',
       };
-      try {
+      
         const response = await zoneInstance.updateScriptLoadOptimization(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -665,17 +452,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous ScriptLoadOptimization setting', async done => {
+    test('successfully reset previous ScriptLoadOptimization setting', async () => {
       const params = {
         value: value,
       };
-      try {
+      
         const response = await zoneInstance.updateScriptLoadOptimization(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -683,30 +466,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update ScriptLoadOptimization setting', async done => {
+    test('should fail to update ScriptLoadOptimization setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateScriptLoadOptimization(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateScriptLoadOptimization(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Image Load Optimization', () => {
     let value;
-    test('successfully get ImageLoadOptimization setting', async done => {
-      try {
+    test('successfully get ImageLoadOptimization setting', async () => {
+      
         const response = await zoneInstance.getImageLoadOptimization({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -716,16 +492,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           value = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update ImageLoadOptimization setting', async done => {
+    test('successfully update ImageLoadOptimization setting', async () => {
       const params = {
         value: 'off',
       };
-      try {
+      
         const response = await zoneInstance.updateImageLoadOptimization(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -733,17 +505,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous ImageLoadOptimization setting', async done => {
+    test('successfully reset previous ImageLoadOptimization setting', async () => {
       const params = {
         value: value,
       };
-      try {
+      
         const response = await zoneInstance.updateImageLoadOptimization(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -751,30 +519,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update ImageLoadOptimization setting', async done => {
+    test('should fail to update ImageLoadOptimization setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateImageLoadOptimization(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateImageLoadOptimization(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Minify Setting', () => {
     let minifiedValue;
-    test('successfully get minify setting', async done => {
-      try {
+    test('successfully get minify setting', async () => {
+      
         const response = await zoneInstance.getMinify({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -786,19 +547,15 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value.js);
           minifiedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update minify setting', async done => {
+    test('successfully update minify setting', async () => {
       const params = {
         value: {
           ...minifiedValue,
           js: 'off',
         },
       };
-      try {
+      
         const response = await zoneInstance.updateMinify(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -806,17 +563,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toMatchObject(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous minify setting', async done => {
+    test('successfully reset previous minify setting', async () => {
       const params = {
         value: minifiedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateMinify(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -824,30 +577,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toMatchObject(minifiedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update minify setting', async done => {
+    test('should fail to update minify setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateMinify(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateMinify(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Min TLS Version', () => {
     let minTlsVersion;
-    test('successfully fetch MinTlsVersion', async done => {
-      try {
+    test('successfully fetch MinTlsVersion', async () => {
+      
         const response = await zoneInstance.getMinTlsVersion({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -857,16 +603,12 @@ describe.skip('Zones Settings', () => {
           expect(MinTlsVersion).toContain(result.result.value);
           minTlsVersion = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update MinTlsVersion', async done => {
+    test('successfully update MinTlsVersion', async () => {
       const params = {
         value: '1.1',
       };
-      try {
+      
         const response = await zoneInstance.updateMinTlsVersion(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -874,17 +616,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous MinTlsVersion', async done => {
+    test('successfully reset previous MinTlsVersion', async () => {
       const params = {
         value: minTlsVersion,
       };
-      try {
+      
         const response = await zoneInstance.updateMinTlsVersion(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -892,30 +630,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(minTlsVersion);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update MinTlsVersion', async done => {
+    test('should fail to update MinTlsVersion', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateMinTlsVersion(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateMinTlsVersion(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Ip Geolocation', () => {
     let ipGeoLocation;
-    test('successfully get IpGeolocation', async done => {
-      try {
+    test('successfully get IpGeolocation', async () => {
+      
         const response = await zoneInstance.getIpGeolocation({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -925,16 +656,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           ipGeoLocation = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn off IpGeolocation', async done => {
+    test('successfully update/turn off IpGeolocation', async () => {
       const params = {
         value: 'off',
       };
-      try {
+      
         const response = await zoneInstance.updateIpGeolocation(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -942,17 +669,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous IpGeolocation', async done => {
+    test('successfully reset previous IpGeolocation', async () => {
       const params = {
         value: ipGeoLocation,
       };
-      try {
+      
         const response = await zoneInstance.updateIpGeolocation(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -960,30 +683,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(ipGeoLocation);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update IpGeolocation', async done => {
+    test('should fail to update IpGeolocation', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateIpGeolocation(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateIpGeolocation(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Server Side Exclude', () => {
     let storedValue;
-    test('successfully get ServerSideExclude setting', async done => {
-      try {
+    test('successfully get ServerSideExclude setting', async () => {
+      
         const response = await zoneInstance.getServerSideExclude({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -993,16 +709,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn off  ServerSideExclude setting', async done => {
+    test('successfully update/turn off  ServerSideExclude setting', async () => {
       const params = {
         value: 'off',
       };
-      try {
+      
         const response = await zoneInstance.updateServerSideExclude(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1010,17 +722,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous  ServerSideExclude setting', async done => {
+    test('successfully reset previous  ServerSideExclude setting', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateServerSideExclude(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1028,30 +736,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update  ServerSideExclude setting', async done => {
+    test('should fail to update  ServerSideExclude setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateServerSideExclude(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateServerSideExclude(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Security Header', () => {
     let securityHeader;
-    test('successfully get SecurityHeader setting', async done => {
-      try {
+    test('successfully get SecurityHeader setting', async () => {
+      
         const response = await zoneInstance.getSecurityHeader({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1068,12 +769,8 @@ describe.skip('Zones Settings', () => {
           });
           securityHeader = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully enable SecurityHeader strict transport setting', async done => {
+    test('successfully enable SecurityHeader strict transport setting', async () => {
       const params = {
         value: {
           ...securityHeader,
@@ -1083,7 +780,7 @@ describe.skip('Zones Settings', () => {
           },
         },
       };
-      try {
+      
         const response = await zoneInstance.updateSecurityHeader(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1091,17 +788,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value.strict_transport_security.enabled).toBe(true);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous  SecurityHeader setting', async done => {
+    test('successfully reset previous  SecurityHeader setting', async () => {
       const params = {
         value: securityHeader,
       };
-      try {
+      
         const response = await zoneInstance.updateSecurityHeader(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1109,30 +802,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toMatchObject(securityHeader);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update  ServerSideExclude setting', async done => {
+    test('should fail to update  ServerSideExclude setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateSecurityHeader(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateSecurityHeader(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Prefetch Preload Setting', () => {
     let storedValue;
-    test('successfully get Prefetch Preload setting', async done => {
-      try {
+    test('successfully get Prefetch Preload setting', async () => {
+      
         const response = await zoneInstance.getPrefetchPreload({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1142,16 +828,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn off Prefetch Preload setting', async done => {
+    test('successfully update/turn off Prefetch Preload setting', async () => {
       const params = {
         value: 'off',
       };
-      try {
+      
         const response = await zoneInstance.updatePrefetchPreload(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1159,17 +841,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous Prefetch Preload setting', async done => {
+    test('successfully reset previous Prefetch Preload setting', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updatePrefetchPreload(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1177,30 +855,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update Prefetch Preload setting', async done => {
+    test('should fail to update Prefetch Preload setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updatePrefetchPreload(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updatePrefetchPreload(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Http2 setting', () => {
     let storedValue;
-    test('successfully get Http2', async done => {
-      try {
+    test('successfully get Http2', async () => {
+      
         const response = await zoneInstance.getHttp2({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1210,16 +881,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on Http2 setting', async done => {
+    test('successfully update/turn on Http2 setting', async () => {
       const params = {
         value: 'on',
       };
-      try {
+      
         const response = await zoneInstance.updateHttp2(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1227,17 +894,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous Http2 setting', async done => {
+    test('successfully reset previous Http2 setting', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateHttp2(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1245,30 +908,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update Http2 setting', async done => {
+    test('should fail to update Http2 setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateHttp2(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateHttp2(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Http3 setting', () => {
     let storedValue;
-    test('successfully get Http3', async done => {
-      try {
+    test('successfully get Http3', async () => {
+      
         const response = await zoneInstance.getHttp3({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1278,16 +934,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on Http3 setting', async done => {
+    test('successfully update/turn on Http3 setting', async () => {
       const params = {
         value: 'on',
       };
-      try {
+      
         const response = await zoneInstance.updateHttp3(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1295,17 +947,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous Http3 setting', async done => {
+    test('successfully reset previous Http3 setting', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateHttp3(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1313,30 +961,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update Http3 setting', async done => {
+    test('should fail to update Http3 setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateHttp3(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateHttp3(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Ipv6', () => {
     let storedValue;
-    test('successfully get Ipv6', async done => {
-      try {
+    test('successfully get Ipv6', async () => {
+      
         const response = await zoneInstance.getIpv6({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1346,16 +987,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on Ipv6', async done => {
+    test('successfully update/turn on Ipv6', async () => {
       const params = {
         value: 'on',
       };
-      try {
+      
         const response = await zoneInstance.updateIpv6(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1363,17 +1000,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous Ipv6', async done => {
+    test('successfully reset previous Ipv6', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateIpv6(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1381,30 +1014,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update Ipv6', async done => {
+    test('should fail to update Ipv6', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateIpv6(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateIpv6(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Web Sockets', () => {
     let storedValue;
-    test('successfully fetch web socket setting', async done => {
-      try {
+    test('successfully fetch web socket setting', async () => {
+      
         const response = await zoneInstance.getWebSockets({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1414,16 +1040,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on web socket setting', async done => {
+    test('successfully update/turn on web socket setting', async () => {
       const params = {
         value: 'on',
       };
-      try {
+      
         const response = await zoneInstance.updateWebSockets(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1431,17 +1053,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous web socket setting', async done => {
+    test('successfully reset previous web socket setting', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateWebSockets(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1449,30 +1067,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update web socket setting', async done => {
+    test('should fail to update web socket setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateWebSockets(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateWebSockets(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('PseudoIpv4', () => {
     let storedValue;
-    test('successfully get PseudoIpv4', async done => {
-      try {
+    test('successfully get PseudoIpv4', async () => {
+      
         const response = await zoneInstance.getPseudoIpv4({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1482,16 +1093,12 @@ describe.skip('Zones Settings', () => {
           expect(['off', 'add_header', 'overwrite_header']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on PseudoIpv4', async done => {
+    test('successfully update/turn on PseudoIpv4', async () => {
       const params = {
         value: 'add_header',
       };
-      try {
+      
         const response = await zoneInstance.updatePseudoIpv4(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1499,17 +1106,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous PseudoIpv4', async done => {
+    test('successfully reset previous PseudoIpv4', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updatePseudoIpv4(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1517,30 +1120,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update PseudoIpv4', async done => {
+    test('should fail to update PseudoIpv4', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updatePseudoIpv4(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updatePseudoIpv4(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Response Buffering', () => {
     let storedValue;
-    test('successfully fetch response buffering', async done => {
-      try {
+    test('successfully fetch response buffering', async () => {
+      
         const response = await zoneInstance.getResponseBuffering({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1550,16 +1146,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on response buffering setting', async done => {
+    test('successfully update/turn on response buffering setting', async () => {
       const params = {
         value: 'on',
       };
-      try {
+      
         const response = await zoneInstance.updateResponseBuffering(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1567,17 +1159,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous response buffering setting', async done => {
+    test('successfully reset previous response buffering setting', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateResponseBuffering(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1585,30 +1173,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update response buffering setting', async done => {
+    test('should fail to update response buffering setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateResponseBuffering(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateResponseBuffering(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Hot Link Protection', () => {
     let storedValue;
-    test('successfully fetch hot link protection setting buffering', async done => {
-      try {
+    test('successfully fetch hot link protection setting buffering', async () => {
+      
         const response = await zoneInstance.getHotlinkProtection({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1618,16 +1199,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on hot link protection setting', async done => {
+    test('successfully update/turn on hot link protection setting', async () => {
       const params = {
         value: 'on',
       };
-      try {
+      
         const response = await zoneInstance.updateHotlinkProtection(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1635,17 +1212,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous hot link protection setting', async done => {
+    test('successfully reset previous hot link protection setting', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateHotlinkProtection(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1653,30 +1226,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update hot link protection setting', async done => {
+    test('should fail to update hot link protection setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateHotlinkProtection(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateHotlinkProtection(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('MaxUpload setting', () => {
     let storedValue;
-    test('successfully fetch MaxUpload value', async done => {
-      try {
+    test('successfully fetch MaxUpload value', async () => {
+      
         const response = await zoneInstance.getMaxUpload({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1686,16 +1252,12 @@ describe.skip('Zones Settings', () => {
           expect(MaxUpload).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update MaxUpload setting', async done => {
+    test('successfully update MaxUpload setting', async () => {
       const params = {
         value: 125,
       };
-      try {
+      
         const response = await zoneInstance.updateMaxUpload(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1703,17 +1265,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous MaxUpload', async done => {
+    test('successfully reset previous MaxUpload', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateMaxUpload(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1721,30 +1279,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update MaxUpload', async done => {
+    test('should fail to update MaxUpload', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateMaxUpload(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateMaxUpload(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('TlsClientAuth', () => {
     let storedValue;
-    test('successfully fetch tls client auth value', async done => {
-      try {
+    test('successfully fetch tls client auth value', async () => {
+      
         const response = await zoneInstance.getTlsClientAuth({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1754,16 +1305,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on tls client auth setting', async done => {
+    test('successfully update/turn on tls client auth setting', async () => {
       const params = {
         value: 'on',
       };
-      try {
+      
         const response = await zoneInstance.updateTlsClientAuth(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1771,17 +1318,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous tls client auth setting', async done => {
+    test('successfully reset previous tls client auth setting', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateTlsClientAuth(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1789,30 +1332,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update response tls client auth setting', async done => {
+    test('should fail to update response tls client auth setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateResponseBuffering(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateResponseBuffering(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Verify Browser Check', () => {
     let storedValue;
-    test('successfully fetch browser check data', async done => {
-      try {
+    test('successfully fetch browser check data', async () => {
+      
         const response = await zoneInstance.getBrowserCheck({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1822,16 +1358,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on browser check setting', async done => {
+    test('successfully update/turn on browser check setting', async () => {
       const params = {
         value: 'on',
       };
-      try {
+      
         const response = await zoneInstance.updateBrowserCheck(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1839,17 +1371,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous browser check setting', async done => {
+    test('successfully reset previous browser check setting', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateBrowserCheck(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1857,30 +1385,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update browser check setting', async done => {
+    test('should fail to update browser check setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateBrowserCheck(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateBrowserCheck(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Enable Error PagesOn', () => {
     let storedValue;
-    test('successfully fetch EnableErrorPagesOn', async done => {
-      try {
+    test('successfully fetch EnableErrorPagesOn', async () => {
+      
         const response = await zoneInstance.getEnableErrorPagesOn({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1890,16 +1411,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on EnableErrorPagesOn', async done => {
+    test('successfully update/turn on EnableErrorPagesOn', async () => {
       const params = {
         value: 'on',
       };
-      try {
+      
         const response = await zoneInstance.updateEnableErrorPagesOn(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1907,17 +1424,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous EnableErrorPagesOn', async done => {
+    test('successfully reset previous EnableErrorPagesOn', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateEnableErrorPagesOn(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1925,30 +1438,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update EnableErrorPagesOn', async done => {
+    test('should fail to update EnableErrorPagesOn', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateEnableErrorPagesOn(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateEnableErrorPagesOn(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Web Application Firewall', () => {
     let storedValue;
-    test('successfully fetch WebApplicationFirewall', async done => {
-      try {
+    test('successfully fetch WebApplicationFirewall', async () => {
+      
         const response = await zoneInstance.getWebApplicationFirewall({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1958,16 +1464,12 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on WebApplicationFirewall', async done => {
+    test('successfully update/turn on WebApplicationFirewall', async () => {
       const params = {
         value: 'on',
       };
-      try {
+      
         const response = await zoneInstance.updateWebApplicationFirewall(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1975,17 +1477,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous WebApplicationFirewall', async done => {
+    test('successfully reset previous WebApplicationFirewall', async () => {
       const params = {
         value: storedValue,
       };
-      try {
+      
         const response = await zoneInstance.updateWebApplicationFirewall(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -1993,30 +1491,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toBe(storedValue);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update WebApplicationFirewall', async done => {
+    test('should fail to update WebApplicationFirewall', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateWebApplicationFirewall(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateWebApplicationFirewall(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Ciphers', () => {
     let storedCiphers = [];
-    test('successfully fetch ciphers data', async done => {
-      try {
+    test('successfully fetch ciphers data', async () => {
+      
         const response = await zoneInstance.getCiphers({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -2025,16 +1516,12 @@ describe.skip('Zones Settings', () => {
           expect(result.result.id).toEqual('ciphers');
           storedCiphers = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on ciphers', async done => {
+    test('successfully update/turn on ciphers', async () => {
       const params = {
         value: ['ECDHE-RSA-AES128-GCM-SHA256', 'AES128-SHA'],
       };
-      try {
+      
         const response = await zoneInstance.updateCiphers(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -2042,17 +1529,13 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toEqual(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous ciphers', async done => {
+    test('successfully reset previous ciphers', async () => {
       const params = {
         value: storedCiphers,
       };
-      try {
+      
         const response = await zoneInstance.updateCiphers(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -2060,30 +1543,23 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toEqual(storedCiphers);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update ciphers', async done => {
+    test('should fail to update ciphers', async () => {
       const params = {
         value: ['test'],
       };
-      try {
-        await zoneInstance.updateCiphers(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateCiphers(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
   });
 
   describe('Mobile Redirect Setting', () => {
     let storedValue;
-    test('successfully fetch MobileRedirect setting', async done => {
-      try {
+    test('successfully fetch MobileRedirect setting', async () => {
+      
         const response = await zoneInstance.getMobileRedirect({});
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -2093,12 +1569,8 @@ describe.skip('Zones Settings', () => {
           expect(['on', 'off']).toContain(result.result.value.status);
           storedValue = result.result.value;
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
-    test('successfully update/turn on  MobileRedirect setting', async done => {
+    test('successfully update/turn on  MobileRedirect setting', async () => {
       const params = {
         value: {
           status: 'on',
@@ -2106,7 +1578,7 @@ describe.skip('Zones Settings', () => {
           strip_uri: false,
         },
       };
-      try {
+      
         const response = await zoneInstance.updateMobileRedirect(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -2114,20 +1586,16 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value.status).toEqual('on');
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('successfully reset previous  MobileRedirect setting', async done => {
+    test('successfully reset previous  MobileRedirect setting', async () => {
       const params = {
         value: {
           ...storedValue,
           status: 'off',
         },
       };
-      try {
+      
         const response = await zoneInstance.updateMobileRedirect(params);
         expect(response).toBeDefined();
         expect(response.status).toEqual(200);
@@ -2135,23 +1603,478 @@ describe.skip('Zones Settings', () => {
         if (result.result && Object.keys(result.result).length > 0) {
           expect(result.result.value).toMatchObject(params.value);
         }
-        done();
-      } catch (err) {
-        done(err);
-      }
     });
 
-    test('should fail to update  MobileRedirect setting', async done => {
+    test('should fail to update  MobileRedirect setting', async () => {
       const params = {
         value: 'test',
       };
-      try {
-        await zoneInstance.updateMobileRedirect(params);
-      } catch (err) {
-        expect(err.status).toEqual(400);
-        done();
-      }
-      done();
+      
+        await expect(zoneInstance.updateMobileRedirect(params)).rejects.toMatchObject({
+        status: 400,
+      });
     });
+
+  describe('Opportunistic Onion', () => {
+    let value;
+    test('successfully fetch OpportunisticOnion', async () => {
+      const response = await zoneInstance.getOpportunisticOnion({});
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      const { result } = response || {};
+      if (result.result && Object.keys(result.result).length > 0) {
+        expect(result.result.id).toEqual('opportunistic_onion');
+        expect(['on', 'off']).toContain(result.result.value);
+        value = result.result.value;
+      }
+    });
+    test('successfully update opportunistic onion', async () => {
+      const params = {
+        value: 'off',
+      };
+      const response = await zoneInstance.updateOpportunisticOnion(params);
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      const { result } = response || {};
+      if (result.result && Object.keys(result.result).length > 0) {
+        expect(result.result.value).toBe(params.value);
+      }
+    });
+
+    test('successfully reset previous opportunistic onion setting', async () => {
+      const params = {
+        value: value,
+      };
+      const response = await zoneInstance.updateOpportunisticOnion(params);
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      const { result } = response || {};
+      if (result.result && Object.keys(result.result).length > 0) {
+        expect(result.result.value).toBe(value);
+      }
+    });
+
+    test('should fail to update opportunistic onion', async () => {
+      const params = {
+        value: 'test',
+      };
+      await expect(zoneInstance.updateOpportunisticOnion(params)).rejects.toMatchObject({
+        status: 400,
+      });
+    });
+  });
+
+  describe('Bot Management', () => {
+    let value;
+    test('successfully fetch BotManagement', async () => {
+      
+        const response = await zoneInstance.getBotManagement({});
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result && result.success) {
+          expect(result.success).toBe(true);
+          if (result.result) {
+            value = result.result.value;
+          }
+        }
+    });
+    test('successfully update bot management', async () => {
+      const params = {
+        enableJs: true,
+        useLatestModel: true,
+      };
+      
+        const response = await zoneInstance.updateBotManagement(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result && result.success) {
+          expect(result.success).toBe(true);
+        }
+    });
+
+    test('successfully reset previous bot management setting', async () => {
+      const params = {
+        enableJs: false,
+        useLatestModel: false,
+      };
+      
+        const response = await zoneInstance.updateBotManagement(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result && result.success) {
+          expect(result.success).toBe(true);
+        }
+    });
+  });
+
+  describe('Brotli', () => {
+    let value;
+    test('successfully fetch Brotli', async () => {
+      
+        const response = await zoneInstance.getBrotli({});
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.id).toEqual('brotli');
+          expect(['on', 'off']).toContain(result.result.value);
+          value = result.result.value;
+        }
+    });
+    test('successfully update brotli', async () => {
+      const params = {
+        value: 'on',
+      };
+      
+        const response = await zoneInstance.updateBrotli(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(params.value);
+        }
+    });
+
+    test('successfully reset previous brotli setting', async () => {
+      const params = {
+        value: value,
+      };
+      
+        const response = await zoneInstance.updateBrotli(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(value);
+        }
+    });
+
+    test('should fail to update brotli', async () => {
+      const params = {
+        value: 'test',
+      };
+      
+        await expect(zoneInstance.updateBrotli(params)).rejects.toMatchObject({
+        status: 400,
+      });
+    });
+  });
+
+  describe('Email Obfuscation', () => {
+    let value;
+    test('successfully fetch EmailObfuscation', async () => {
+      
+        const response = await zoneInstance.getEmailObfuscation({});
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.id).toEqual('email_obfuscation');
+          expect(['on', 'off']).toContain(result.result.value);
+          value = result.result.value;
+        }
+    });
+    test('successfully update email obfuscation', async () => {
+      const params = {
+        value: 'on',
+      };
+      
+        const response = await zoneInstance.updateEmailObfuscation(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(params.value);
+        }
+    });
+
+    test('successfully reset previous email obfuscation setting', async () => {
+      const params = {
+        value: value,
+      };
+      
+        const response = await zoneInstance.updateEmailObfuscation(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(value);
+        }
+    });
+
+    test('should fail to update email obfuscation', async () => {
+      const params = {
+        value: 'test',
+      };
+      
+        await expect(zoneInstance.updateEmailObfuscation(params)).rejects.toMatchObject({
+        status: 400,
+      });
+    });
+  });
+
+  describe('Log Retention', () => {
+    let value;
+    test('successfully fetch LogRetention', async () => {
+      
+        const response = await zoneInstance.getLogRetention({
+          crn: config.CIS_SERVICES_CRN,
+          zoneIdentifier: config.CIS_SERVICES_ZONE_ID,
+        });
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result && result.success) {
+          expect(result.success).toBe(true);
+          if (result.result) {
+            value = result.result.flag;
+          }
+        }
+    });
+    test('successfully update log retention', async () => {
+      const params = {
+        crn: config.CIS_SERVICES_CRN,
+        zoneIdentifier: config.CIS_SERVICES_ZONE_ID,
+        flag: true,
+      };
+      
+        const response = await zoneInstance.updateLogRetention(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result && result.success) {
+          expect(result.success).toBe(true);
+        }
+    });
+
+    test('successfully reset previous log retention setting', async () => {
+      const params = {
+        crn: config.CIS_SERVICES_CRN,
+        zoneIdentifier: config.CIS_SERVICES_ZONE_ID,
+        flag: value !== undefined ? value : false,
+      };
+      
+        const response = await zoneInstance.updateLogRetention(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result && result.success) {
+          expect(result.success).toBe(true);
+        }
+    });
+  });
+
+  describe('Origin Max HTTP Version', () => {
+    let value;
+    test('successfully fetch OriginMaxHttpVersion', async () => {
+      
+        const response = await zoneInstance.getOriginMaxHttpVersion({});
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.id).toEqual('origin_max_http_version');
+          value = result.result.value;
+        }
+    });
+    test('successfully update origin max http version', async () => {
+      const params = {
+        value: '2',
+      };
+      
+        const response = await zoneInstance.updateOriginMaxHttpVersion(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(params.value);
+        }
+    });
+
+    test('successfully reset previous origin max http version setting', async () => {
+      const params = {
+        value: value,
+      };
+      
+        const response = await zoneInstance.updateOriginMaxHttpVersion(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(value);
+        }
+    });
+
+    test('should fail to update origin max http version', async () => {
+      const params = {
+        value: 'invalid',
+      };
+      
+        await expect(zoneInstance.updateOriginMaxHttpVersion(params)).rejects.toMatchObject({
+        status: 400,
+      });
+    });
+  });
+
+  describe('Origin Post Quantum Encryption', () => {
+    let value;
+    test('successfully fetch OriginPostQuantumEncryption', async () => {
+      
+        const response = await zoneInstance.getOriginPostQuantumEncryption({});
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.id).toEqual('origin_pqe');
+          expect(['preferred', 'supported', 'off']).toContain(result.result.value);
+          value = result.result.value;
+        }
+    });
+    test('successfully update origin post quantum encryption', async () => {
+      const params = {
+        value: 'preferred',
+      };
+      
+        const response = await zoneInstance.updateOriginPostQuantumEncryption(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(params.value);
+        }
+    });
+
+    test('successfully reset previous origin post quantum encryption setting', async () => {
+      const params = {
+        value: value || 'off',
+      };
+      
+        const response = await zoneInstance.updateOriginPostQuantumEncryption(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(value || 'off');
+        }
+    });
+
+    test('should fail to update origin post quantum encryption', async () => {
+      const params = {
+        value: 'test',
+      };
+      
+        await expect(zoneInstance.updateOriginPostQuantumEncryption(params)).rejects.toMatchObject({
+        status: 400,
+      });
+    });
+  });
+
+  describe('Proxy Read Timeout', () => {
+    let value;
+    test('successfully fetch ProxyReadTimeout', async () => {
+      
+        const response = await zoneInstance.getProxyReadTimeout({});
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.id).toEqual('proxy_read_timeout');
+          value = result.result.value;
+        }
+    });
+    test('successfully update proxy read timeout', async () => {
+      const params = {
+        value: 100,
+      };
+      
+        const response = await zoneInstance.updateProxyReadTimeout(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(parseInt(result.result.value)).toBe(params.value);
+        }
+    });
+
+    test('successfully reset previous proxy read timeout setting', async () => {
+      const params = {
+        value: parseInt(value),
+      };
+      
+        const response = await zoneInstance.updateProxyReadTimeout(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(parseInt(result.result.value)).toBe(parseInt(value));
+        }
+    });
+
+    test('should fail to update proxy read timeout', async () => {
+      const params = {
+        value: -1,
+      };
+      
+        await expect(zoneInstance.updateProxyReadTimeout(params)).rejects.toMatchObject({
+        status: 400,
+      });
+    });
+  });
+
+  describe('Replace Insecure JS', () => {
+    let value;
+    test('successfully fetch ReplaceInsecureJs', async () => {
+      
+        const response = await zoneInstance.getReplaceInsecureJs({});
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.id).toEqual('replace_insecure_js');
+          expect(['on', 'off']).toContain(result.result.value);
+          value = result.result.value;
+        }
+    });
+    test('successfully update replace insecure js', async () => {
+      const params = {
+        value: 'on',
+      };
+      
+        const response = await zoneInstance.updateReplaceInsecureJs(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(params.value);
+        }
+    });
+
+    test('successfully reset previous replace insecure js setting', async () => {
+      const params = {
+        value: value,
+      };
+      
+        const response = await zoneInstance.updateReplaceInsecureJs(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+        const { result } = response || {};
+        if (result.result && Object.keys(result.result).length > 0) {
+          expect(result.result.value).toBe(value);
+        }
+    });
+
+    test('should fail to update replace insecure js', async () => {
+      const params = {
+        value: 'test',
+      };
+      
+        await expect(zoneInstance.updateReplaceInsecureJs(params)).rejects.toMatchObject({
+        status: 400,
+      });
+    });
+  });
   });
 });
