@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,30 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.19.0-be3b4618-20201113-200858
+ * IBM OpenAPI SDK Code Generator Version: 3.112.0-f88e9264-20260220-115155
  */
- 
 
 import * as extend from 'extend';
 import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
-import { Authenticator, BaseService, getAuthenticatorFromEnvironment, getMissingParams, UserOptions } from 'ibm-cloud-sdk-core';
+import {
+  AbortSignal,
+  Authenticator,
+  BaseService,
+  UserOptions,
+  getAuthenticatorFromEnvironment,
+  validateParams,
+} from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../../lib/common';
 
 /**
  * CIS Zones Settings
+ *
+ * API Version: 1.0.1
  */
 
 class ZonesSettingsV1 extends BaseService {
-
   static DEFAULT_SERVICE_URL: string = 'https://api.cis.cloud.ibm.com';
+
   static DEFAULT_SERVICE_NAME: string = 'zones_settings';
 
   /*************************
@@ -43,7 +51,7 @@ class ZonesSettingsV1 extends BaseService {
    * @param {UserOptions} [options] - The parameters to send to the service.
    * @param {string} [options.serviceName] - The name of the service to configure
    * @param {Authenticator} [options.authenticator] - The Authenticator object used to authenticate requests to the service
-   * @param {string} [options.serviceUrl] - The URL for the service
+   * @param {string} [options.serviceUrl] - The base URL for the service
    * @returns {ZonesSettingsV1}
    */
 
@@ -64,7 +72,6 @@ class ZonesSettingsV1 extends BaseService {
     return service;
   }
 
-
   /** Full url-encoded cloud resource name (CRN) of resource instance. */
   crn: string;
 
@@ -77,7 +84,7 @@ class ZonesSettingsV1 extends BaseService {
    * @param {Object} options - Options for the service.
    * @param {string} options.crn - Full url-encoded cloud resource name (CRN) of resource instance.
    * @param {string} options.zoneIdentifier - Zone identifier.
-   * @param {string} [options.serviceUrl] - The base url to use when contacting the service (e.g. 'https://gateway.watsonplatform.net'). The base url may differ between IBM Cloud regions.
+   * @param {string} [options.serviceUrl] - The base URL for the service
    * @param {OutgoingHttpHeaders} [options.headers] - Default headers that shall be included with every request to the service.
    * @param {Authenticator} options.authenticator - The Authenticator object used to authenticate requests to the service
    * @constructor
@@ -86,10 +93,10 @@ class ZonesSettingsV1 extends BaseService {
   constructor(options: UserOptions) {
     options = options || {};
 
-    const requiredParams = ['crn','zoneIdentifier'];
-    const missingParams = getMissingParams(options, requiredParams);
-    if (missingParams) {
-      throw missingParams;
+    const _requiredParams = ['crn','zoneIdentifier'];
+    const _validationErrors = validateParams(options, _requiredParams, null);
+    if (_validationErrors) {
+      throw _validationErrors;
     }
     super(options);
     if (options.serviceUrl) {
@@ -114,12 +121,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesDnssecResp>>}
    */
-  public getZoneDnssec(params?: ZonesSettingsV1.GetZoneDnssecParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesDnssecResp>> {
-    const _params = Object.assign({}, params);
+  public getZoneDnssec(
+    params?: ZonesSettingsV1.GetZoneDnssecParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesDnssecResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getZoneDnssec');
@@ -131,14 +146,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update zone DNSSEC.
@@ -150,16 +174,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesDnssecResp>>}
    */
-  public updateZoneDnssec(params?: ZonesSettingsV1.UpdateZoneDnssecParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesDnssecResp>> {
-    const _params = Object.assign({}, params);
+  public updateZoneDnssec(
+    params?: ZonesSettingsV1.UpdateZoneDnssecParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesDnssecResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['status', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'status': _params.status
+      'status': _params.status,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateZoneDnssec');
@@ -172,15 +204,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get zone CNAME flattening.
@@ -191,12 +232,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesCnameFlatteningResp>>}
    */
-  public getZoneCnameFlattening(params?: ZonesSettingsV1.GetZoneCnameFlatteningParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesCnameFlatteningResp>> {
-    const _params = Object.assign({}, params);
+  public getZoneCnameFlattening(
+    params?: ZonesSettingsV1.GetZoneCnameFlatteningParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesCnameFlatteningResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getZoneCnameFlattening');
@@ -208,14 +257,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update zone CNAME flattening.
@@ -228,16 +286,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesCnameFlatteningResp>>}
    */
-  public updateZoneCnameFlattening(params?: ZonesSettingsV1.UpdateZoneCnameFlatteningParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesCnameFlatteningResp>> {
-    const _params = Object.assign({}, params);
+  public updateZoneCnameFlattening(
+    params?: ZonesSettingsV1.UpdateZoneCnameFlatteningParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ZonesCnameFlatteningResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateZoneCnameFlattening');
@@ -250,15 +316,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get opportunistic encryption setting.
@@ -269,12 +344,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OpportunisticEncryptionResp>>}
    */
-  public getOpportunisticEncryption(params?: ZonesSettingsV1.GetOpportunisticEncryptionParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OpportunisticEncryptionResp>> {
-    const _params = Object.assign({}, params);
+  public getOpportunisticEncryption(
+    params?: ZonesSettingsV1.GetOpportunisticEncryptionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OpportunisticEncryptionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getOpportunisticEncryption');
@@ -286,14 +369,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update opportunistic encryption setting.
@@ -305,16 +397,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OpportunisticEncryptionResp>>}
    */
-  public updateOpportunisticEncryption(params?: ZonesSettingsV1.UpdateOpportunisticEncryptionParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OpportunisticEncryptionResp>> {
-    const _params = Object.assign({}, params);
+  public updateOpportunisticEncryption(
+    params?: ZonesSettingsV1.UpdateOpportunisticEncryptionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OpportunisticEncryptionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateOpportunisticEncryption');
@@ -327,15 +427,135 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
+
+  /**
+   * Get opportunistic onion setting.
+   *
+   * Get opportunistic onion setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OpportunisticOnionResp>>}
+   */
+  public getOpportunisticOnion(
+    params?: ZonesSettingsV1.GetOpportunisticOnionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OpportunisticOnionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getOpportunisticOnion');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/opportunistic_onion',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update opportunistic onion setting.
+   *
+   * Update opportunistic onion setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.value] - Value.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OpportunisticOnionResp>>}
+   */
+  public updateOpportunisticOnion(
+    params?: ZonesSettingsV1.UpdateOpportunisticOnionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OpportunisticOnionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'value': _params.value,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateOpportunisticOnion');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/opportunistic_onion',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
 
   /**
    * Get challenge TTL setting.
@@ -346,12 +566,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ChallengeTtlResp>>}
    */
-  public getChallengeTtl(params?: ZonesSettingsV1.GetChallengeTtlParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ChallengeTtlResp>> {
-    const _params = Object.assign({}, params);
+  public getChallengeTtl(
+    params?: ZonesSettingsV1.GetChallengeTtlParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ChallengeTtlResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getChallengeTtl');
@@ -363,14 +591,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update challenge TTL setting.
@@ -382,16 +619,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ChallengeTtlResp>>}
    */
-  public updateChallengeTtl(params?: ZonesSettingsV1.UpdateChallengeTtlParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ChallengeTtlResp>> {
-    const _params = Object.assign({}, params);
+  public updateChallengeTtl(
+    params?: ZonesSettingsV1.UpdateChallengeTtlParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ChallengeTtlResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateChallengeTtl');
@@ -404,15 +649,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get automatic https rewrites setting.
@@ -423,12 +677,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AutomaticHttpsRewritesResp>>}
    */
-  public getAutomaticHttpsRewrites(params?: ZonesSettingsV1.GetAutomaticHttpsRewritesParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AutomaticHttpsRewritesResp>> {
-    const _params = Object.assign({}, params);
+  public getAutomaticHttpsRewrites(
+    params?: ZonesSettingsV1.GetAutomaticHttpsRewritesParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AutomaticHttpsRewritesResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getAutomaticHttpsRewrites');
@@ -440,14 +702,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update automatic https rewrites setting.
@@ -459,16 +730,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AutomaticHttpsRewritesResp>>}
    */
-  public updateAutomaticHttpsRewrites(params?: ZonesSettingsV1.UpdateAutomaticHttpsRewritesParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AutomaticHttpsRewritesResp>> {
-    const _params = Object.assign({}, params);
+  public updateAutomaticHttpsRewrites(
+    params?: ZonesSettingsV1.UpdateAutomaticHttpsRewritesParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AutomaticHttpsRewritesResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateAutomaticHttpsRewrites');
@@ -481,15 +760,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get true client IP setting.
@@ -500,12 +788,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TrueClientIpResp>>}
    */
-  public getTrueClientIp(params?: ZonesSettingsV1.GetTrueClientIpParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TrueClientIpResp>> {
-    const _params = Object.assign({}, params);
+  public getTrueClientIp(
+    params?: ZonesSettingsV1.GetTrueClientIpParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TrueClientIpResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getTrueClientIp');
@@ -517,14 +813,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update true client IP setting.
@@ -536,16 +841,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TrueClientIpResp>>}
    */
-  public updateTrueClientIp(params?: ZonesSettingsV1.UpdateTrueClientIpParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TrueClientIpResp>> {
-    const _params = Object.assign({}, params);
+  public updateTrueClientIp(
+    params?: ZonesSettingsV1.UpdateTrueClientIpParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TrueClientIpResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateTrueClientIp');
@@ -558,15 +871,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get always use https setting.
@@ -577,12 +899,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AlwaysUseHttpsResp>>}
    */
-  public getAlwaysUseHttps(params?: ZonesSettingsV1.GetAlwaysUseHttpsParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AlwaysUseHttpsResp>> {
-    const _params = Object.assign({}, params);
+  public getAlwaysUseHttps(
+    params?: ZonesSettingsV1.GetAlwaysUseHttpsParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AlwaysUseHttpsResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getAlwaysUseHttps');
@@ -594,14 +924,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update always use https setting.
@@ -613,16 +952,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AlwaysUseHttpsResp>>}
    */
-  public updateAlwaysUseHttps(params?: ZonesSettingsV1.UpdateAlwaysUseHttpsParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AlwaysUseHttpsResp>> {
-    const _params = Object.assign({}, params);
+  public updateAlwaysUseHttps(
+    params?: ZonesSettingsV1.UpdateAlwaysUseHttpsParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.AlwaysUseHttpsResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateAlwaysUseHttps');
@@ -635,15 +982,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get image size optimization setting.
@@ -654,12 +1010,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageSizeOptimizationResp>>}
    */
-  public getImageSizeOptimization(params?: ZonesSettingsV1.GetImageSizeOptimizationParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageSizeOptimizationResp>> {
-    const _params = Object.assign({}, params);
+  public getImageSizeOptimization(
+    params?: ZonesSettingsV1.GetImageSizeOptimizationParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageSizeOptimizationResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getImageSizeOptimization');
@@ -671,14 +1035,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update image size optimization setting.
@@ -692,16 +1065,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageSizeOptimizationResp>>}
    */
-  public updateImageSizeOptimization(params?: ZonesSettingsV1.UpdateImageSizeOptimizationParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageSizeOptimizationResp>> {
-    const _params = Object.assign({}, params);
+  public updateImageSizeOptimization(
+    params?: ZonesSettingsV1.UpdateImageSizeOptimizationParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageSizeOptimizationResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateImageSizeOptimization');
@@ -714,15 +1095,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get script load optimization setting.
@@ -733,12 +1123,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ScriptLoadOptimizationResp>>}
    */
-  public getScriptLoadOptimization(params?: ZonesSettingsV1.GetScriptLoadOptimizationParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ScriptLoadOptimizationResp>> {
-    const _params = Object.assign({}, params);
+  public getScriptLoadOptimization(
+    params?: ZonesSettingsV1.GetScriptLoadOptimizationParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ScriptLoadOptimizationResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getScriptLoadOptimization');
@@ -750,14 +1148,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update script load optimization setting.
@@ -769,16 +1176,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ScriptLoadOptimizationResp>>}
    */
-  public updateScriptLoadOptimization(params?: ZonesSettingsV1.UpdateScriptLoadOptimizationParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ScriptLoadOptimizationResp>> {
-    const _params = Object.assign({}, params);
+  public updateScriptLoadOptimization(
+    params?: ZonesSettingsV1.UpdateScriptLoadOptimizationParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ScriptLoadOptimizationResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateScriptLoadOptimization');
@@ -791,15 +1206,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get image load optimizationn setting.
@@ -810,12 +1234,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageLoadOptimizationResp>>}
    */
-  public getImageLoadOptimization(params?: ZonesSettingsV1.GetImageLoadOptimizationParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageLoadOptimizationResp>> {
-    const _params = Object.assign({}, params);
+  public getImageLoadOptimization(
+    params?: ZonesSettingsV1.GetImageLoadOptimizationParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageLoadOptimizationResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getImageLoadOptimization');
@@ -827,14 +1259,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update image load optimizationn setting.
@@ -846,16 +1287,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageLoadOptimizationResp>>}
    */
-  public updateImageLoadOptimization(params?: ZonesSettingsV1.UpdateImageLoadOptimizationParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageLoadOptimizationResp>> {
-    const _params = Object.assign({}, params);
+  public updateImageLoadOptimization(
+    params?: ZonesSettingsV1.UpdateImageLoadOptimizationParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ImageLoadOptimizationResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateImageLoadOptimization');
@@ -868,15 +1317,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get minify setting.
@@ -887,12 +1345,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinifyResp>>}
    */
-  public getMinify(params?: ZonesSettingsV1.GetMinifyParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinifyResp>> {
-    const _params = Object.assign({}, params);
+  public getMinify(
+    params?: ZonesSettingsV1.GetMinifyParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinifyResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getMinify');
@@ -904,14 +1370,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update minify setting.
@@ -923,16 +1398,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinifyResp>>}
    */
-  public updateMinify(params?: ZonesSettingsV1.UpdateMinifyParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinifyResp>> {
-    const _params = Object.assign({}, params);
+  public updateMinify(
+    params?: ZonesSettingsV1.UpdateMinifyParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinifyResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateMinify');
@@ -945,15 +1428,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get minimum TLS version setting.
@@ -964,12 +1456,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinTlsVersionResp>>}
    */
-  public getMinTlsVersion(params?: ZonesSettingsV1.GetMinTlsVersionParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinTlsVersionResp>> {
-    const _params = Object.assign({}, params);
+  public getMinTlsVersion(
+    params?: ZonesSettingsV1.GetMinTlsVersionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinTlsVersionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getMinTlsVersion');
@@ -981,14 +1481,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update minimum TLS version setting.
@@ -1000,16 +1509,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinTlsVersionResp>>}
    */
-  public updateMinTlsVersion(params?: ZonesSettingsV1.UpdateMinTlsVersionParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinTlsVersionResp>> {
-    const _params = Object.assign({}, params);
+  public updateMinTlsVersion(
+    params?: ZonesSettingsV1.UpdateMinTlsVersionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MinTlsVersionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateMinTlsVersion');
@@ -1022,15 +1539,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get IP geolocation setting.
@@ -1041,12 +1567,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.IpGeolocationResp>>}
    */
-  public getIpGeolocation(params?: ZonesSettingsV1.GetIpGeolocationParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.IpGeolocationResp>> {
-    const _params = Object.assign({}, params);
+  public getIpGeolocation(
+    params?: ZonesSettingsV1.GetIpGeolocationParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.IpGeolocationResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getIpGeolocation');
@@ -1058,14 +1592,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update IP geolocation setting.
@@ -1077,16 +1620,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.IpGeolocationResp>>}
    */
-  public updateIpGeolocation(params?: ZonesSettingsV1.UpdateIpGeolocationParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.IpGeolocationResp>> {
-    const _params = Object.assign({}, params);
+  public updateIpGeolocation(
+    params?: ZonesSettingsV1.UpdateIpGeolocationParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.IpGeolocationResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateIpGeolocation');
@@ -1099,15 +1650,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get server side exclude setting.
@@ -1118,12 +1678,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ServerSideExcludeResp>>}
    */
-  public getServerSideExclude(params?: ZonesSettingsV1.GetServerSideExcludeParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ServerSideExcludeResp>> {
-    const _params = Object.assign({}, params);
+  public getServerSideExclude(
+    params?: ZonesSettingsV1.GetServerSideExcludeParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ServerSideExcludeResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getServerSideExclude');
@@ -1135,14 +1703,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update server side exclude setting.
@@ -1154,16 +1731,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ServerSideExcludeResp>>}
    */
-  public updateServerSideExclude(params?: ZonesSettingsV1.UpdateServerSideExcludeParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ServerSideExcludeResp>> {
-    const _params = Object.assign({}, params);
+  public updateServerSideExclude(
+    params?: ZonesSettingsV1.UpdateServerSideExcludeParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ServerSideExcludeResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateServerSideExclude');
@@ -1176,15 +1761,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get HTTP strict transport security setting.
@@ -1195,12 +1789,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.SecurityHeaderResp>>}
    */
-  public getSecurityHeader(params?: ZonesSettingsV1.GetSecurityHeaderParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.SecurityHeaderResp>> {
-    const _params = Object.assign({}, params);
+  public getSecurityHeader(
+    params?: ZonesSettingsV1.GetSecurityHeaderParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.SecurityHeaderResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getSecurityHeader');
@@ -1212,14 +1814,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update HTTP strict transport security setting.
@@ -1231,16 +1842,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.SecurityHeaderResp>>}
    */
-  public updateSecurityHeader(params?: ZonesSettingsV1.UpdateSecurityHeaderParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.SecurityHeaderResp>> {
-    const _params = Object.assign({}, params);
+  public updateSecurityHeader(
+    params?: ZonesSettingsV1.UpdateSecurityHeaderParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.SecurityHeaderResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateSecurityHeader');
@@ -1253,15 +1872,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get mobile redirect setting.
@@ -1272,12 +1900,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MobileRedirectResp>>}
    */
-  public getMobileRedirect(params?: ZonesSettingsV1.GetMobileRedirectParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MobileRedirectResp>> {
-    const _params = Object.assign({}, params);
+  public getMobileRedirect(
+    params?: ZonesSettingsV1.GetMobileRedirectParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MobileRedirectResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getMobileRedirect');
@@ -1289,14 +1925,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update mobile redirect setting.
@@ -1308,16 +1953,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MobileRedirectResp>>}
    */
-  public updateMobileRedirect(params?: ZonesSettingsV1.UpdateMobileRedirectParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MobileRedirectResp>> {
-    const _params = Object.assign({}, params);
+  public updateMobileRedirect(
+    params?: ZonesSettingsV1.UpdateMobileRedirectParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MobileRedirectResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateMobileRedirect');
@@ -1330,15 +1983,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get prefetch URLs from header setting.
@@ -1349,12 +2011,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PrefetchPreloadResp>>}
    */
-  public getPrefetchPreload(params?: ZonesSettingsV1.GetPrefetchPreloadParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PrefetchPreloadResp>> {
-    const _params = Object.assign({}, params);
+  public getPrefetchPreload(
+    params?: ZonesSettingsV1.GetPrefetchPreloadParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PrefetchPreloadResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getPrefetchPreload');
@@ -1366,14 +2036,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update prefetch URLs from header setting.
@@ -1385,16 +2064,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PrefetchPreloadResp>>}
    */
-  public updatePrefetchPreload(params?: ZonesSettingsV1.UpdatePrefetchPreloadParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PrefetchPreloadResp>> {
-    const _params = Object.assign({}, params);
+  public updatePrefetchPreload(
+    params?: ZonesSettingsV1.UpdatePrefetchPreloadParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PrefetchPreloadResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updatePrefetchPreload');
@@ -1407,15 +2094,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get http/2 setting.
@@ -1426,12 +2122,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http2Resp>>}
    */
-  public getHttp2(params?: ZonesSettingsV1.GetHttp2Params): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http2Resp>> {
-    const _params = Object.assign({}, params);
+  public getHttp2(
+    params?: ZonesSettingsV1.GetHttp2Params
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http2Resp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getHttp2');
@@ -1443,14 +2147,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update http/2 setting.
@@ -1462,16 +2175,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http2Resp>>}
    */
-  public updateHttp2(params?: ZonesSettingsV1.UpdateHttp2Params): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http2Resp>> {
-    const _params = Object.assign({}, params);
+  public updateHttp2(
+    params?: ZonesSettingsV1.UpdateHttp2Params
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http2Resp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateHttp2');
@@ -1484,16 +2205,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
-
+  }
 
   /**
    * Get http/3 setting.
@@ -1504,12 +2233,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http3Resp>>}
    */
-   public getHttp3(params?: ZonesSettingsV1.GetHttp3Params): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http3Resp>> {
-    const _params = Object.assign({}, params);
+  public getHttp3(
+    params?: ZonesSettingsV1.GetHttp3Params
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http3Resp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getHttp3');
@@ -1521,14 +2258,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update http/3 setting.
@@ -1540,16 +2286,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http3Resp>>}
    */
-  public updateHttp3(params?: ZonesSettingsV1.UpdateHttp3Params): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http3Resp>> {
-    const _params = Object.assign({}, params);
+  public updateHttp3(
+    params?: ZonesSettingsV1.UpdateHttp3Params
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Http3Resp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateHttp3');
@@ -1562,15 +2316,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get IPv6 compatibility setting.
@@ -1581,12 +2344,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Ipv6Resp>>}
    */
-  public getIpv6(params?: ZonesSettingsV1.GetIpv6Params): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Ipv6Resp>> {
-    const _params = Object.assign({}, params);
+  public getIpv6(
+    params?: ZonesSettingsV1.GetIpv6Params
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Ipv6Resp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getIpv6');
@@ -1598,14 +2369,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update IPv6 compatibility setting.
@@ -1617,16 +2397,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Ipv6Resp>>}
    */
-  public updateIpv6(params?: ZonesSettingsV1.UpdateIpv6Params): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Ipv6Resp>> {
-    const _params = Object.assign({}, params);
+  public updateIpv6(
+    params?: ZonesSettingsV1.UpdateIpv6Params
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.Ipv6Resp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateIpv6');
@@ -1639,15 +2427,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get web sockets setting.
@@ -1658,12 +2455,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WebsocketsResp>>}
    */
-  public getWebSockets(params?: ZonesSettingsV1.GetWebSocketsParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WebsocketsResp>> {
-    const _params = Object.assign({}, params);
+  public getWebSockets(
+    params?: ZonesSettingsV1.GetWebSocketsParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WebsocketsResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getWebSockets');
@@ -1675,14 +2480,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update web sockets setting.
@@ -1694,16 +2508,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WebsocketsResp>>}
    */
-  public updateWebSockets(params?: ZonesSettingsV1.UpdateWebSocketsParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WebsocketsResp>> {
-    const _params = Object.assign({}, params);
+  public updateWebSockets(
+    params?: ZonesSettingsV1.UpdateWebSocketsParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WebsocketsResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateWebSockets');
@@ -1716,15 +2538,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get pseudo IPv4 setting.
@@ -1735,12 +2566,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PseudoIpv4Resp>>}
    */
-  public getPseudoIpv4(params?: ZonesSettingsV1.GetPseudoIpv4Params): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PseudoIpv4Resp>> {
-    const _params = Object.assign({}, params);
+  public getPseudoIpv4(
+    params?: ZonesSettingsV1.GetPseudoIpv4Params
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PseudoIpv4Resp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getPseudoIpv4');
@@ -1752,14 +2591,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update pseudo IPv4 setting.
@@ -1771,16 +2619,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PseudoIpv4Resp>>}
    */
-  public updatePseudoIpv4(params?: ZonesSettingsV1.UpdatePseudoIpv4Params): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PseudoIpv4Resp>> {
-    const _params = Object.assign({}, params);
+  public updatePseudoIpv4(
+    params?: ZonesSettingsV1.UpdatePseudoIpv4Params
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.PseudoIpv4Resp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updatePseudoIpv4');
@@ -1793,15 +2649,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get response buffering setting.
@@ -1812,12 +2677,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ResponseBufferingResp>>}
    */
-  public getResponseBuffering(params?: ZonesSettingsV1.GetResponseBufferingParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ResponseBufferingResp>> {
-    const _params = Object.assign({}, params);
+  public getResponseBuffering(
+    params?: ZonesSettingsV1.GetResponseBufferingParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ResponseBufferingResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getResponseBuffering');
@@ -1829,14 +2702,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update response buffering setting.
@@ -1848,16 +2730,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ResponseBufferingResp>>}
    */
-  public updateResponseBuffering(params?: ZonesSettingsV1.UpdateResponseBufferingParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ResponseBufferingResp>> {
-    const _params = Object.assign({}, params);
+  public updateResponseBuffering(
+    params?: ZonesSettingsV1.UpdateResponseBufferingParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ResponseBufferingResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateResponseBuffering');
@@ -1870,15 +2760,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get hotlink protection setting.
@@ -1889,12 +2788,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.HotlinkProtectionResp>>}
    */
-  public getHotlinkProtection(params?: ZonesSettingsV1.GetHotlinkProtectionParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.HotlinkProtectionResp>> {
-    const _params = Object.assign({}, params);
+  public getHotlinkProtection(
+    params?: ZonesSettingsV1.GetHotlinkProtectionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.HotlinkProtectionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getHotlinkProtection');
@@ -1906,14 +2813,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update hotlink protection setting.
@@ -1925,16 +2841,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.HotlinkProtectionResp>>}
    */
-  public updateHotlinkProtection(params?: ZonesSettingsV1.UpdateHotlinkProtectionParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.HotlinkProtectionResp>> {
-    const _params = Object.assign({}, params);
+  public updateHotlinkProtection(
+    params?: ZonesSettingsV1.UpdateHotlinkProtectionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.HotlinkProtectionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateHotlinkProtection');
@@ -1947,15 +2871,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get maximum upload size setting.
@@ -1966,12 +2899,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MaxUploadResp>>}
    */
-  public getMaxUpload(params?: ZonesSettingsV1.GetMaxUploadParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MaxUploadResp>> {
-    const _params = Object.assign({}, params);
+  public getMaxUpload(
+    params?: ZonesSettingsV1.GetMaxUploadParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MaxUploadResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getMaxUpload');
@@ -1983,14 +2924,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update maximum upload size setting.
@@ -2004,16 +2954,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MaxUploadResp>>}
    */
-  public updateMaxUpload(params?: ZonesSettingsV1.UpdateMaxUploadParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MaxUploadResp>> {
-    const _params = Object.assign({}, params);
+  public updateMaxUpload(
+    params?: ZonesSettingsV1.UpdateMaxUploadParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.MaxUploadResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateMaxUpload');
@@ -2026,15 +2984,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get TLS Client Auth setting.
@@ -2045,12 +3012,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TlsClientAuthResp>>}
    */
-  public getTlsClientAuth(params?: ZonesSettingsV1.GetTlsClientAuthParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TlsClientAuthResp>> {
-    const _params = Object.assign({}, params);
+  public getTlsClientAuth(
+    params?: ZonesSettingsV1.GetTlsClientAuthParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TlsClientAuthResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getTlsClientAuth');
@@ -2062,14 +3037,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update TLS Client Auth setting.
@@ -2081,16 +3065,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TlsClientAuthResp>>}
    */
-  public updateTlsClientAuth(params?: ZonesSettingsV1.UpdateTlsClientAuthParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TlsClientAuthResp>> {
-    const _params = Object.assign({}, params);
+  public updateTlsClientAuth(
+    params?: ZonesSettingsV1.UpdateTlsClientAuthParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.TlsClientAuthResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateTlsClientAuth');
@@ -2103,15 +3095,246 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
+
+  /**
+   * Get brotli setting.
+   *
+   * Get brotli setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BrotliResp>>}
+   */
+  public getBrotli(
+    params?: ZonesSettingsV1.GetBrotliParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BrotliResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getBrotli');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/brotli',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update brotli setting.
+   *
+   * Update brotli setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.value] - Value.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BrotliResp>>}
+   */
+  public updateBrotli(
+    params?: ZonesSettingsV1.UpdateBrotliParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BrotliResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'value': _params.value,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateBrotli');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/brotli',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get proxy read timeout setting.
+   *
+   * Get proxy read timeout setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ProxyReadTimeoutResp>>}
+   */
+  public getProxyReadTimeout(
+    params?: ZonesSettingsV1.GetProxyReadTimeoutParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ProxyReadTimeoutResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getProxyReadTimeout');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/proxy_read_timeout',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update proxy read timeout setting.
+   *
+   * Update proxy read timeout setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {number} [params.value] - Value.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ProxyReadTimeoutResp>>}
+   */
+  public updateProxyReadTimeout(
+    params?: ZonesSettingsV1.UpdateProxyReadTimeoutParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ProxyReadTimeoutResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'value': _params.value,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateProxyReadTimeout');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/proxy_read_timeout',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
 
   /**
    * Get browser check setting.
@@ -2122,12 +3345,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BrowserCheckResp>>}
    */
-  public getBrowserCheck(params?: ZonesSettingsV1.GetBrowserCheckParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BrowserCheckResp>> {
-    const _params = Object.assign({}, params);
+  public getBrowserCheck(
+    params?: ZonesSettingsV1.GetBrowserCheckParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BrowserCheckResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getBrowserCheck');
@@ -2139,14 +3370,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update browser check setting.
@@ -2158,16 +3398,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BrowserCheckResp>>}
    */
-  public updateBrowserCheck(params?: ZonesSettingsV1.UpdateBrowserCheckParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BrowserCheckResp>> {
-    const _params = Object.assign({}, params);
+  public updateBrowserCheck(
+    params?: ZonesSettingsV1.UpdateBrowserCheckParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BrowserCheckResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateBrowserCheck');
@@ -2180,15 +3428,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get enable error pages on setting.
@@ -2199,12 +3456,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginErrorPagePassThruResp>>}
    */
-  public getEnableErrorPagesOn(params?: ZonesSettingsV1.GetEnableErrorPagesOnParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginErrorPagePassThruResp>> {
-    const _params = Object.assign({}, params);
+  public getEnableErrorPagesOn(
+    params?: ZonesSettingsV1.GetEnableErrorPagesOnParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginErrorPagePassThruResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getEnableErrorPagesOn');
@@ -2216,14 +3481,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update enable error pages on setting.
@@ -2235,16 +3509,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginErrorPagePassThruResp>>}
    */
-  public updateEnableErrorPagesOn(params?: ZonesSettingsV1.UpdateEnableErrorPagesOnParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginErrorPagePassThruResp>> {
-    const _params = Object.assign({}, params);
+  public updateEnableErrorPagesOn(
+    params?: ZonesSettingsV1.UpdateEnableErrorPagesOnParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginErrorPagePassThruResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateEnableErrorPagesOn');
@@ -2257,15 +3539,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get web application firewall setting.
@@ -2276,12 +3567,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WafResp>>}
    */
-  public getWebApplicationFirewall(params?: ZonesSettingsV1.GetWebApplicationFirewallParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WafResp>> {
-    const _params = Object.assign({}, params);
+  public getWebApplicationFirewall(
+    params?: ZonesSettingsV1.GetWebApplicationFirewallParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WafResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getWebApplicationFirewall');
@@ -2293,14 +3592,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update web application firewall setting.
@@ -2312,16 +3620,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WafResp>>}
    */
-  public updateWebApplicationFirewall(params?: ZonesSettingsV1.UpdateWebApplicationFirewallParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WafResp>> {
-    const _params = Object.assign({}, params);
+  public updateWebApplicationFirewall(
+    params?: ZonesSettingsV1.UpdateWebApplicationFirewallParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.WafResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateWebApplicationFirewall');
@@ -2334,15 +3650,24 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Get ciphers setting.
@@ -2353,12 +3678,20 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.CiphersResp>>}
    */
-  public getCiphers(params?: ZonesSettingsV1.GetCiphersParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.CiphersResp>> {
-    const _params = Object.assign({}, params);
+  public getCiphers(
+    params?: ZonesSettingsV1.GetCiphersParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.CiphersResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getCiphers');
@@ -2370,14 +3703,23 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
   /**
    * Update ciphers setting.
@@ -2389,16 +3731,24 @@ class ZonesSettingsV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.CiphersResp>>}
    */
-  public updateCiphers(params?: ZonesSettingsV1.UpdateCiphersParams): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.CiphersResp>> {
-    const _params = Object.assign({}, params);
+  public updateCiphers(
+    params?: ZonesSettingsV1.UpdateCiphersParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.CiphersResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
 
     const body = {
-      'value': _params.value
+      'value': _params.value,
     };
 
     const path = {
       'crn': this.crn,
-      'zone_identifier': this.zoneIdentifier
+      'zone_identifier': this.zoneIdentifier,
     };
 
     const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateCiphers');
@@ -2411,16 +3761,708 @@ class ZonesSettingsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
     return this.createRequest(parameters);
-  };
+  }
 
+  /**
+   * Get origin max http version setting.
+   *
+   * Get origin max http version setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginMaxHttpVersionResp>>}
+   */
+  public getOriginMaxHttpVersion(
+    params?: ZonesSettingsV1.GetOriginMaxHttpVersionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginMaxHttpVersionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getOriginMaxHttpVersion');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/origin_max_http_version',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update origin max http version setting.
+   *
+   * Update origin max http version setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.value] - Value.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginMaxHttpVersionResp>>}
+   */
+  public updateOriginMaxHttpVersion(
+    params?: ZonesSettingsV1.UpdateOriginMaxHttpVersionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginMaxHttpVersionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'value': _params.value,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateOriginMaxHttpVersion');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/origin_max_http_version',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get origin post quantum encryption setting.
+   *
+   * Get origin post quantum encryption setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginPostQuantumEncryptionResp>>}
+   */
+  public getOriginPostQuantumEncryption(
+    params?: ZonesSettingsV1.GetOriginPostQuantumEncryptionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginPostQuantumEncryptionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getOriginPostQuantumEncryption');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/cache/origin_post_quantum_encryption',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update origin post quantum encryption setting.
+   *
+   * Update origin post quantum encryption setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.value] - Instructs CIS to use Post-Quantum (PQ) key agreement algorithms when connecting to
+   * your origin.
+   * - `preferred`: Instructs CIS to opportunistically send a Post-Quantum keyshare in the first message to the origin
+   * for fastest connections when the origin supports and prefers PQ.
+   * - `supported`: The PQ algorithms are advertised but used only when requested by the origin.
+   * - `off`: The PQ algorithms are not advertised.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginPostQuantumEncryptionResp>>}
+   */
+  public updateOriginPostQuantumEncryption(
+    params?: ZonesSettingsV1.UpdateOriginPostQuantumEncryptionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.OriginPostQuantumEncryptionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'value': _params.value,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateOriginPostQuantumEncryption');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/cache/origin_post_quantum_encryption',
+        method: 'PUT',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Retrieves the current setting for log retention.
+   *
+   * Get the current setting for log retention. This setting is available for Enterprise plans only. If this setting is
+   * turned on, then logs from the cloud edge are retained for the customers domain. Otherwise they will be discarded.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.crn - Full url-encoded cloud resource name (CRN) of resource instance.
+   * @param {string} params.zoneIdentifier - Zone identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.LogRetentionResp>>}
+   */
+  public getLogRetention(
+    params: ZonesSettingsV1.GetLogRetentionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.LogRetentionResp>> {
+    const _params = { ...params };
+    const _requiredParams = ['crn', 'zoneIdentifier'];
+    const _validParams = ['crn', 'zoneIdentifier', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'crn': _params.crn,
+      'zone_identifier': _params.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getLogRetention');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/logs/retention',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Toggles the current setting for log retention.
+   *
+   * Toggles the current setting for log retention.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.crn - Full url-encoded cloud resource name (CRN) of resource instance.
+   * @param {string} params.zoneIdentifier - Zone identifier.
+   * @param {boolean} [params.flag] - True/false value to turn log retention on/off respectively.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.LogRetentionResp>>}
+   */
+  public updateLogRetention(
+    params: ZonesSettingsV1.UpdateLogRetentionParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.LogRetentionResp>> {
+    const _params = { ...params };
+    const _requiredParams = ['crn', 'zoneIdentifier'];
+    const _validParams = ['crn', 'zoneIdentifier', 'flag', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'flag': _params.flag,
+    };
+
+    const path = {
+      'crn': _params.crn,
+      'zone_identifier': _params.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateLogRetention');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/logs/retention',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get Bot management settings.
+   *
+   * Get Bot management settings for a given zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BotMgtResp>>}
+   */
+  public getBotManagement(
+    params?: ZonesSettingsV1.GetBotManagementParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BotMgtResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getBotManagement');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/bot_management',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update Bot management settings.
+   *
+   * Update Bot management settings for given zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {boolean} [params.sessionScore] - Set to disable tracking the max bot score during a session using the Bot
+   * Management cookie.
+   * @param {boolean} [params.enableJs] - Use JavaScript detections to improve bot detection.
+   * @param {boolean} [params.useLatestModel] - Automatically update to the newest bot detection models as they are
+   * released.
+   * @param {string} [params.aiBotsProtection] - Block scrapers and crawlers known to be feeding AI training data.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BotMgtResp>>}
+   */
+  public updateBotManagement(
+    params?: ZonesSettingsV1.UpdateBotManagementParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.BotMgtResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['sessionScore', 'enableJs', 'useLatestModel', 'aiBotsProtection', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'session_score': _params.sessionScore,
+      'enable_js': _params.enableJs,
+      'use_latest_model': _params.useLatestModel,
+      'ai_bots_protection': _params.aiBotsProtection,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateBotManagement');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/bot_management',
+        method: 'PUT',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get replace insecure Javascript setting.
+   *
+   * Get replace insecure Javascript for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ReplaceInsecureJsResp>>}
+   */
+  public getReplaceInsecureJs(
+    params?: ZonesSettingsV1.GetReplaceInsecureJsParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ReplaceInsecureJsResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getReplaceInsecureJs');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/replace_insecure_js',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update replace insecure Javascript setting.
+   *
+   * Update replace insecure Javascript setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.value] - Value.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ReplaceInsecureJsResp>>}
+   */
+  public updateReplaceInsecureJs(
+    params?: ZonesSettingsV1.UpdateReplaceInsecureJsParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.ReplaceInsecureJsResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'value': _params.value,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateReplaceInsecureJs');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/replace_insecure_js',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get email address obfuscation setting.
+   *
+   * Get email address obfuscation for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.EmailObfuscationResp>>}
+   */
+  public getEmailObfuscation(
+    params?: ZonesSettingsV1.GetEmailObfuscationParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.EmailObfuscationResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getEmailObfuscation');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/email_obfuscation',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update email address obfuscation setting.
+   *
+   * Update email address obfuscation setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.value] - Value.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.EmailObfuscationResp>>}
+   */
+  public updateEmailObfuscation(
+    params?: ZonesSettingsV1.UpdateEmailObfuscationParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.EmailObfuscationResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'value': _params.value,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateEmailObfuscation');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/email_obfuscation',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
 }
 
 /*************************
@@ -2428,19 +4470,16 @@ class ZonesSettingsV1 extends BaseService {
  ************************/
 
 namespace ZonesSettingsV1 {
-
   /** Options for the `ZonesSettingsV1` constructor. */
   export interface Options extends UserOptions {
-
     /** Full url-encoded cloud resource name (CRN) of resource instance. */
     crn: string;
-
     /** Zone identifier. */
     zoneIdentifier: string;
   }
 
   /** An operation response. */
-  export interface Response<T = any>  {
+  export interface Response<T = any> {
     result: T;
     status: number;
     statusText: string;
@@ -2451,7 +4490,7 @@ namespace ZonesSettingsV1 {
   export type Callback<T> = (error: any, response?: Response<T>) => void;
 
   /** The body of a service request that returns no response data. */
-  export interface Empty { }
+  export interface EmptyObject {}
 
   /** A standard JS object, defined to avoid the limitations of `Object` and `object` */
   export interface JsonObject {
@@ -2462,16 +4501,19 @@ namespace ZonesSettingsV1 {
    * request interfaces
    ************************/
 
+   interface DefaultParams {
+     headers?: OutgoingHttpHeaders;
+     signal?: AbortSignal;
+   }
+
   /** Parameters for the `getZoneDnssec` operation. */
-  export interface GetZoneDnssecParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetZoneDnssecParams extends DefaultParams {
   }
 
   /** Parameters for the `updateZoneDnssec` operation. */
-  export interface UpdateZoneDnssecParams {
+  export interface UpdateZoneDnssecParams extends DefaultParams {
     /** Status. */
     status?: UpdateZoneDnssecConstants.Status | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateZoneDnssec` operation. */
@@ -2484,17 +4526,15 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getZoneCnameFlattening` operation. */
-  export interface GetZoneCnameFlatteningParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetZoneCnameFlatteningParams extends DefaultParams {
   }
 
   /** Parameters for the `updateZoneCnameFlattening` operation. */
-  export interface UpdateZoneCnameFlatteningParams {
+  export interface UpdateZoneCnameFlatteningParams extends DefaultParams {
     /** Valid values are "flatten_at_root", "flatten_all". "flatten_at_root" - Flatten CNAME at root domain. This is
      *  the default value. "flatten_all" - Flatten all CNAME records under your domain.
      */
     value?: UpdateZoneCnameFlatteningConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateZoneCnameFlattening` operation. */
@@ -2507,15 +4547,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getOpportunisticEncryption` operation. */
-  export interface GetOpportunisticEncryptionParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetOpportunisticEncryptionParams extends DefaultParams {
   }
 
   /** Parameters for the `updateOpportunisticEncryption` operation. */
-  export interface UpdateOpportunisticEncryptionParams {
+  export interface UpdateOpportunisticEncryptionParams extends DefaultParams {
     /** Value. */
     value?: UpdateOpportunisticEncryptionConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateOpportunisticEncryption` operation. */
@@ -2527,28 +4565,43 @@ namespace ZonesSettingsV1 {
     }
   }
 
+  /** Parameters for the `getOpportunisticOnion` operation. */
+  export interface GetOpportunisticOnionParams extends DefaultParams {
+  }
+
+  /** Parameters for the `updateOpportunisticOnion` operation. */
+  export interface UpdateOpportunisticOnionParams extends DefaultParams {
+    /** Value. */
+    value?: UpdateOpportunisticOnionConstants.Value | string;
+  }
+
+  /** Constants for the `updateOpportunisticOnion` operation. */
+  export namespace UpdateOpportunisticOnionConstants {
+    /** Value. */
+    export enum Value {
+      ON = 'on',
+      OFF = 'off',
+    }
+  }
+
   /** Parameters for the `getChallengeTtl` operation. */
-  export interface GetChallengeTtlParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetChallengeTtlParams extends DefaultParams {
   }
 
   /** Parameters for the `updateChallengeTtl` operation. */
-  export interface UpdateChallengeTtlParams {
+  export interface UpdateChallengeTtlParams extends DefaultParams {
     /** Value. */
     value?: number;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getAutomaticHttpsRewrites` operation. */
-  export interface GetAutomaticHttpsRewritesParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetAutomaticHttpsRewritesParams extends DefaultParams {
   }
 
   /** Parameters for the `updateAutomaticHttpsRewrites` operation. */
-  export interface UpdateAutomaticHttpsRewritesParams {
+  export interface UpdateAutomaticHttpsRewritesParams extends DefaultParams {
     /** Value. */
     value?: UpdateAutomaticHttpsRewritesConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateAutomaticHttpsRewrites` operation. */
@@ -2561,15 +4614,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getTrueClientIp` operation. */
-  export interface GetTrueClientIpParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetTrueClientIpParams extends DefaultParams {
   }
 
   /** Parameters for the `updateTrueClientIp` operation. */
-  export interface UpdateTrueClientIpParams {
+  export interface UpdateTrueClientIpParams extends DefaultParams {
     /** Value. */
     value?: UpdateTrueClientIpConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateTrueClientIp` operation. */
@@ -2582,15 +4633,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getAlwaysUseHttps` operation. */
-  export interface GetAlwaysUseHttpsParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetAlwaysUseHttpsParams extends DefaultParams {
   }
 
   /** Parameters for the `updateAlwaysUseHttps` operation. */
-  export interface UpdateAlwaysUseHttpsParams {
+  export interface UpdateAlwaysUseHttpsParams extends DefaultParams {
     /** Value. */
     value?: UpdateAlwaysUseHttpsConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateAlwaysUseHttps` operation. */
@@ -2603,18 +4652,16 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getImageSizeOptimization` operation. */
-  export interface GetImageSizeOptimizationParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetImageSizeOptimizationParams extends DefaultParams {
   }
 
   /** Parameters for the `updateImageSizeOptimization` operation. */
-  export interface UpdateImageSizeOptimizationParams {
+  export interface UpdateImageSizeOptimizationParams extends DefaultParams {
     /** Valid values are "lossy", "off", "lossless". "lossy" - The file size of JPEG images is reduced using lossy
      *  compression, which may reduce visual quality. "off" - Disable Image Size Optimization. "lossless" - Reduce the
      *  size of image files without impacting visual quality.
      */
     value?: UpdateImageSizeOptimizationConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateImageSizeOptimization` operation. */
@@ -2628,15 +4675,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getScriptLoadOptimization` operation. */
-  export interface GetScriptLoadOptimizationParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetScriptLoadOptimizationParams extends DefaultParams {
   }
 
   /** Parameters for the `updateScriptLoadOptimization` operation. */
-  export interface UpdateScriptLoadOptimizationParams {
+  export interface UpdateScriptLoadOptimizationParams extends DefaultParams {
     /** Value. */
     value?: UpdateScriptLoadOptimizationConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateScriptLoadOptimization` operation. */
@@ -2649,15 +4694,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getImageLoadOptimization` operation. */
-  export interface GetImageLoadOptimizationParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetImageLoadOptimizationParams extends DefaultParams {
   }
 
   /** Parameters for the `updateImageLoadOptimization` operation. */
-  export interface UpdateImageLoadOptimizationParams {
+  export interface UpdateImageLoadOptimizationParams extends DefaultParams {
     /** Value. */
     value?: UpdateImageLoadOptimizationConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateImageLoadOptimization` operation. */
@@ -2670,39 +4713,33 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getMinify` operation. */
-  export interface GetMinifyParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetMinifyParams extends DefaultParams {
   }
 
   /** Parameters for the `updateMinify` operation. */
-  export interface UpdateMinifyParams {
+  export interface UpdateMinifyParams extends DefaultParams {
     /** Value. */
     value?: MinifySettingValue;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getMinTlsVersion` operation. */
-  export interface GetMinTlsVersionParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetMinTlsVersionParams extends DefaultParams {
   }
 
   /** Parameters for the `updateMinTlsVersion` operation. */
-  export interface UpdateMinTlsVersionParams {
+  export interface UpdateMinTlsVersionParams extends DefaultParams {
     /** Value. */
     value?: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getIpGeolocation` operation. */
-  export interface GetIpGeolocationParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetIpGeolocationParams extends DefaultParams {
   }
 
   /** Parameters for the `updateIpGeolocation` operation. */
-  export interface UpdateIpGeolocationParams {
+  export interface UpdateIpGeolocationParams extends DefaultParams {
     /** Value. */
     value?: UpdateIpGeolocationConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateIpGeolocation` operation. */
@@ -2715,15 +4752,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getServerSideExclude` operation. */
-  export interface GetServerSideExcludeParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetServerSideExcludeParams extends DefaultParams {
   }
 
   /** Parameters for the `updateServerSideExclude` operation. */
-  export interface UpdateServerSideExcludeParams {
+  export interface UpdateServerSideExcludeParams extends DefaultParams {
     /** Value. */
     value?: UpdateServerSideExcludeConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateServerSideExclude` operation. */
@@ -2736,39 +4771,33 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getSecurityHeader` operation. */
-  export interface GetSecurityHeaderParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetSecurityHeaderParams extends DefaultParams {
   }
 
   /** Parameters for the `updateSecurityHeader` operation. */
-  export interface UpdateSecurityHeaderParams {
+  export interface UpdateSecurityHeaderParams extends DefaultParams {
     /** Value. */
     value?: SecurityHeaderSettingValue;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getMobileRedirect` operation. */
-  export interface GetMobileRedirectParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetMobileRedirectParams extends DefaultParams {
   }
 
   /** Parameters for the `updateMobileRedirect` operation. */
-  export interface UpdateMobileRedirectParams {
+  export interface UpdateMobileRedirectParams extends DefaultParams {
     /** Value. */
     value?: MobileRedirecSettingValue;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getPrefetchPreload` operation. */
-  export interface GetPrefetchPreloadParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetPrefetchPreloadParams extends DefaultParams {
   }
 
   /** Parameters for the `updatePrefetchPreload` operation. */
-  export interface UpdatePrefetchPreloadParams {
+  export interface UpdatePrefetchPreloadParams extends DefaultParams {
     /** Value. */
     value?: UpdatePrefetchPreloadConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updatePrefetchPreload` operation. */
@@ -2781,15 +4810,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getHttp2` operation. */
-  export interface GetHttp2Params {
-    headers?: OutgoingHttpHeaders;
+  export interface GetHttp2Params extends DefaultParams {
   }
 
   /** Parameters for the `updateHttp2` operation. */
-  export interface UpdateHttp2Params {
+  export interface UpdateHttp2Params extends DefaultParams {
     /** Value. */
     value?: UpdateHttp2Constants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateHttp2` operation. */
@@ -2802,15 +4829,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getHttp3` operation. */
-  export interface GetHttp3Params {
-    headers?: OutgoingHttpHeaders;
+  export interface GetHttp3Params extends DefaultParams {
   }
 
   /** Parameters for the `updateHttp3` operation. */
-  export interface UpdateHttp3Params {
+  export interface UpdateHttp3Params extends DefaultParams {
     /** Value. */
     value?: UpdateHttp3Constants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateHttp3` operation. */
@@ -2823,15 +4848,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getIpv6` operation. */
-  export interface GetIpv6Params {
-    headers?: OutgoingHttpHeaders;
+  export interface GetIpv6Params extends DefaultParams {
   }
 
   /** Parameters for the `updateIpv6` operation. */
-  export interface UpdateIpv6Params {
+  export interface UpdateIpv6Params extends DefaultParams {
     /** Value. */
     value?: UpdateIpv6Constants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateIpv6` operation. */
@@ -2844,15 +4867,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getWebSockets` operation. */
-  export interface GetWebSocketsParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetWebSocketsParams extends DefaultParams {
   }
 
   /** Parameters for the `updateWebSockets` operation. */
-  export interface UpdateWebSocketsParams {
+  export interface UpdateWebSocketsParams extends DefaultParams {
     /** Value. */
     value?: UpdateWebSocketsConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateWebSockets` operation. */
@@ -2865,15 +4886,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getPseudoIpv4` operation. */
-  export interface GetPseudoIpv4Params {
-    headers?: OutgoingHttpHeaders;
+  export interface GetPseudoIpv4Params extends DefaultParams {
   }
 
   /** Parameters for the `updatePseudoIpv4` operation. */
-  export interface UpdatePseudoIpv4Params {
+  export interface UpdatePseudoIpv4Params extends DefaultParams {
     /** Value. */
     value?: UpdatePseudoIpv4Constants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updatePseudoIpv4` operation. */
@@ -2887,15 +4906,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getResponseBuffering` operation. */
-  export interface GetResponseBufferingParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetResponseBufferingParams extends DefaultParams {
   }
 
   /** Parameters for the `updateResponseBuffering` operation. */
-  export interface UpdateResponseBufferingParams {
+  export interface UpdateResponseBufferingParams extends DefaultParams {
     /** Value. */
     value?: UpdateResponseBufferingConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateResponseBuffering` operation. */
@@ -2908,15 +4925,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getHotlinkProtection` operation. */
-  export interface GetHotlinkProtectionParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetHotlinkProtectionParams extends DefaultParams {
   }
 
   /** Parameters for the `updateHotlinkProtection` operation. */
-  export interface UpdateHotlinkProtectionParams {
+  export interface UpdateHotlinkProtectionParams extends DefaultParams {
     /** Value. */
     value?: UpdateHotlinkProtectionConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateHotlinkProtection` operation. */
@@ -2929,30 +4944,26 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getMaxUpload` operation. */
-  export interface GetMaxUploadParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetMaxUploadParams extends DefaultParams {
   }
 
   /** Parameters for the `updateMaxUpload` operation. */
-  export interface UpdateMaxUploadParams {
+  export interface UpdateMaxUploadParams extends DefaultParams {
     /** Valid values(in MB) for "max_upload" are 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400,
      *  425, 450, 475, 500. Values 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500 are only for Enterprise
      *  Plan.
      */
     value?: number;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getTlsClientAuth` operation. */
-  export interface GetTlsClientAuthParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetTlsClientAuthParams extends DefaultParams {
   }
 
   /** Parameters for the `updateTlsClientAuth` operation. */
-  export interface UpdateTlsClientAuthParams {
+  export interface UpdateTlsClientAuthParams extends DefaultParams {
     /** Value. */
     value?: UpdateTlsClientAuthConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateTlsClientAuth` operation. */
@@ -2964,16 +4975,43 @@ namespace ZonesSettingsV1 {
     }
   }
 
+  /** Parameters for the `getBrotli` operation. */
+  export interface GetBrotliParams extends DefaultParams {
+  }
+
+  /** Parameters for the `updateBrotli` operation. */
+  export interface UpdateBrotliParams extends DefaultParams {
+    /** Value. */
+    value?: UpdateBrotliConstants.Value | string;
+  }
+
+  /** Constants for the `updateBrotli` operation. */
+  export namespace UpdateBrotliConstants {
+    /** Value. */
+    export enum Value {
+      ON = 'on',
+      OFF = 'off',
+    }
+  }
+
+  /** Parameters for the `getProxyReadTimeout` operation. */
+  export interface GetProxyReadTimeoutParams extends DefaultParams {
+  }
+
+  /** Parameters for the `updateProxyReadTimeout` operation. */
+  export interface UpdateProxyReadTimeoutParams extends DefaultParams {
+    /** Value. */
+    value?: number;
+  }
+
   /** Parameters for the `getBrowserCheck` operation. */
-  export interface GetBrowserCheckParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetBrowserCheckParams extends DefaultParams {
   }
 
   /** Parameters for the `updateBrowserCheck` operation. */
-  export interface UpdateBrowserCheckParams {
+  export interface UpdateBrowserCheckParams extends DefaultParams {
     /** Value. */
     value?: UpdateBrowserCheckConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateBrowserCheck` operation. */
@@ -2986,15 +5024,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getEnableErrorPagesOn` operation. */
-  export interface GetEnableErrorPagesOnParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetEnableErrorPagesOnParams extends DefaultParams {
   }
 
   /** Parameters for the `updateEnableErrorPagesOn` operation. */
-  export interface UpdateEnableErrorPagesOnParams {
+  export interface UpdateEnableErrorPagesOnParams extends DefaultParams {
     /** Value. */
     value?: UpdateEnableErrorPagesOnConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateEnableErrorPagesOn` operation. */
@@ -3007,15 +5043,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getWebApplicationFirewall` operation. */
-  export interface GetWebApplicationFirewallParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetWebApplicationFirewallParams extends DefaultParams {
   }
 
   /** Parameters for the `updateWebApplicationFirewall` operation. */
-  export interface UpdateWebApplicationFirewallParams {
+  export interface UpdateWebApplicationFirewallParams extends DefaultParams {
     /** Value. */
     value?: UpdateWebApplicationFirewallConstants.Value | string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Constants for the `updateWebApplicationFirewall` operation. */
@@ -3028,15 +5062,13 @@ namespace ZonesSettingsV1 {
   }
 
   /** Parameters for the `getCiphers` operation. */
-  export interface GetCiphersParams {
-    headers?: OutgoingHttpHeaders;
+  export interface GetCiphersParams extends DefaultParams {
   }
 
   /** Parameters for the `updateCiphers` operation. */
-  export interface UpdateCiphersParams {
+  export interface UpdateCiphersParams extends DefaultParams {
     /** Value. */
-    value?: UpdateCiphersConstants.Value | string[];
-    headers?: OutgoingHttpHeaders;
+    value?: UpdateCiphersConstants.Value[] | string[];
   }
 
   /** Constants for the `updateCiphers` operation. */
@@ -3066,11 +5098,129 @@ namespace ZonesSettingsV1 {
     }
   }
 
+  /** Parameters for the `getOriginMaxHttpVersion` operation. */
+  export interface GetOriginMaxHttpVersionParams extends DefaultParams {
+  }
+
+  /** Parameters for the `updateOriginMaxHttpVersion` operation. */
+  export interface UpdateOriginMaxHttpVersionParams extends DefaultParams {
+    /** Value. */
+    value?: string;
+  }
+
+  /** Parameters for the `getOriginPostQuantumEncryption` operation. */
+  export interface GetOriginPostQuantumEncryptionParams extends DefaultParams {
+  }
+
+  /** Parameters for the `updateOriginPostQuantumEncryption` operation. */
+  export interface UpdateOriginPostQuantumEncryptionParams extends DefaultParams {
+    /** Instructs CIS to use Post-Quantum (PQ) key agreement algorithms when connecting to your origin.
+     *  - `preferred`: Instructs CIS to opportunistically send a Post-Quantum keyshare in the first message to the
+     *  origin for fastest connections when the origin supports and prefers PQ.
+     *  - `supported`: The PQ algorithms are advertised but used only when requested by the origin.
+     *  - `off`: The PQ algorithms are not advertised.
+     */
+    value?: UpdateOriginPostQuantumEncryptionConstants.Value | string;
+  }
+
+  /** Constants for the `updateOriginPostQuantumEncryption` operation. */
+  export namespace UpdateOriginPostQuantumEncryptionConstants {
+    /** Instructs CIS to use Post-Quantum (PQ) key agreement algorithms when connecting to your origin. - `preferred`: Instructs CIS to opportunistically send a Post-Quantum keyshare in the first message to the origin for fastest connections when the origin supports and prefers PQ. - `supported`: The PQ algorithms are advertised but used only when requested by the origin. - `off`: The PQ algorithms are not advertised. */
+    export enum Value {
+      PREFERRED = 'preferred',
+      SUPPORTED = 'supported',
+      OFF = 'off',
+    }
+  }
+
+  /** Parameters for the `getLogRetention` operation. */
+  export interface GetLogRetentionParams extends DefaultParams {
+    /** Full url-encoded cloud resource name (CRN) of resource instance. */
+    crn: string;
+    /** Zone identifier. */
+    zoneIdentifier: string;
+  }
+
+  /** Parameters for the `updateLogRetention` operation. */
+  export interface UpdateLogRetentionParams extends DefaultParams {
+    /** Full url-encoded cloud resource name (CRN) of resource instance. */
+    crn: string;
+    /** Zone identifier. */
+    zoneIdentifier: string;
+    /** True/false value to turn log retention on/off respectively. */
+    flag?: boolean;
+  }
+
+  /** Parameters for the `getBotManagement` operation. */
+  export interface GetBotManagementParams extends DefaultParams {
+  }
+
+  /** Parameters for the `updateBotManagement` operation. */
+  export interface UpdateBotManagementParams extends DefaultParams {
+    /** Set to disable tracking the max bot score during a session using the Bot Management cookie. */
+    sessionScore?: boolean;
+    /** Use JavaScript detections to improve bot detection. */
+    enableJs?: boolean;
+    /** Automatically update to the newest bot detection models as they are released. */
+    useLatestModel?: boolean;
+    /** Block scrapers and crawlers known to be feeding AI training data. */
+    aiBotsProtection?: UpdateBotManagementConstants.AiBotsProtection | string;
+  }
+
+  /** Constants for the `updateBotManagement` operation. */
+  export namespace UpdateBotManagementConstants {
+    /** Block scrapers and crawlers known to be feeding AI training data. */
+    export enum AiBotsProtection {
+      BLOCK = 'block',
+      DISABLED = 'disabled',
+    }
+  }
+
+  /** Parameters for the `getReplaceInsecureJs` operation. */
+  export interface GetReplaceInsecureJsParams extends DefaultParams {
+  }
+
+  /** Parameters for the `updateReplaceInsecureJs` operation. */
+  export interface UpdateReplaceInsecureJsParams extends DefaultParams {
+    /** Value. */
+    value?: UpdateReplaceInsecureJsConstants.Value | string;
+  }
+
+  /** Constants for the `updateReplaceInsecureJs` operation. */
+  export namespace UpdateReplaceInsecureJsConstants {
+    /** Value. */
+    export enum Value {
+      ON = 'on',
+      OFF = 'off',
+    }
+  }
+
+  /** Parameters for the `getEmailObfuscation` operation. */
+  export interface GetEmailObfuscationParams extends DefaultParams {
+  }
+
+  /** Parameters for the `updateEmailObfuscation` operation. */
+  export interface UpdateEmailObfuscationParams extends DefaultParams {
+    /** Value. */
+    value?: UpdateEmailObfuscationConstants.Value | string;
+  }
+
+  /** Constants for the `updateEmailObfuscation` operation. */
+  export namespace UpdateEmailObfuscationConstants {
+    /** Value. */
+    export enum Value {
+      ON = 'on',
+      OFF = 'off',
+    }
+  }
+
   /*************************
    * model interfaces
    ************************/
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface AlwaysUseHttpsRespResult {
     /** ID. */
     id: string;
@@ -3082,7 +5232,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface AutomaticHttpsRewritesRespResult {
     /** ID. */
     id: string;
@@ -3094,7 +5246,23 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
+  export interface BrotliRespResult {
+    /** ID. */
+    id: string;
+    /** Value. */
+    value: string;
+    /** Editable. */
+    editable: boolean;
+    /** Modified date. */
+    modified_on: string;
+  }
+
+  /**
+   * Container for response information.
+   */
   export interface BrowserCheckRespResult {
     /** ID. */
     id: string;
@@ -3106,7 +5274,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface ChallengeTtlRespResult {
     /** ID. */
     id: string;
@@ -3118,7 +5288,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface CiphersRespResult {
     /** ID. */
     id: string;
@@ -3130,7 +5302,23 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
+  export interface EmailObfuscationRespResult {
+    /** ID. */
+    id: string;
+    /** Value. */
+    value: string;
+    /** Editable. */
+    editable: boolean;
+    /** Modified date. */
+    modified_on: string;
+  }
+
+  /**
+   * Container for response information.
+   */
   export interface HotlinkProtectionRespResult {
     /** ID. */
     id: string;
@@ -3142,7 +5330,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface Http2RespResult {
     /** ID. */
     id: string;
@@ -3154,7 +5344,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface Http3RespResult {
     /** ID. */
     id: string;
@@ -3166,7 +5358,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface ImageLoadOptimizationRespResult {
     /** ID. */
     id: string;
@@ -3178,7 +5372,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface ImageSizeOptimizationRespResult {
     /** ID. */
     id: string;
@@ -3190,7 +5386,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface IpGeolocationRespResult {
     /** ID. */
     id: string;
@@ -3202,7 +5400,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface Ipv6RespResult {
     /** ID. */
     id: string;
@@ -3214,7 +5414,17 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * LogRetentionRespResult.
+   */
+  export interface LogRetentionRespResult {
+    /** Boolean flag indicating whether or not log retention is turned on or off. */
+    flag: boolean;
+  }
+
+  /**
+   * Container for response information.
+   */
   export interface MaxUploadRespResult {
     /** ID. */
     id: string;
@@ -3226,7 +5436,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface MinTlsVersionRespResult {
     /** ID. */
     id: string;
@@ -3238,7 +5450,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface MinifyRespResult {
     /** ID. */
     id: string;
@@ -3250,7 +5464,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Value. */
+  /**
+   * Value.
+   */
   export interface MinifyRespResultValue {
     /** css. */
     css: string;
@@ -3260,20 +5476,43 @@ namespace ZonesSettingsV1 {
     js: string;
   }
 
-  /** Value. */
+  /**
+   * Value.
+   */
   export interface MinifySettingValue {
     /** Automatically minify all CSS for your website. */
-    css: string;
+    css: MinifySettingValue.Constants.Css | string;
     /** Automatically minify all HTML for your website. */
-    html: string;
+    html: MinifySettingValue.Constants.Html | string;
     /** Automatically minify all JavaScript for your website. */
-    js: string;
+    js: MinifySettingValue.Constants.Js | string;
+  }
+  export namespace MinifySettingValue {
+    export namespace Constants {
+      /** Automatically minify all CSS for your website. */
+      export enum Css {
+        ON = 'on',
+        OFF = 'off',
+      }
+      /** Automatically minify all HTML for your website. */
+      export enum Html {
+        ON = 'on',
+        OFF = 'off',
+      }
+      /** Automatically minify all JavaScript for your website. */
+      export enum Js {
+        ON = 'on',
+        OFF = 'off',
+      }
+    }
   }
 
-  /** Value. */
+  /**
+   * Value.
+   */
   export interface MobileRedirecSettingValue {
     /** Whether or not the mobile redirection is enabled. */
-    status: string;
+    status: MobileRedirecSettingValue.Constants.Status | string;
     /** Which subdomain prefix you wish to redirect visitors on mobile devices to. */
     mobile_subdomain: string;
     /** Whether to drop the current page path and redirect to the mobile subdomain URL root or to keep the path and
@@ -3281,8 +5520,19 @@ namespace ZonesSettingsV1 {
      */
     strip_uri: boolean;
   }
+  export namespace MobileRedirecSettingValue {
+    export namespace Constants {
+      /** Whether or not the mobile redirection is enabled. */
+      export enum Status {
+        ON = 'on',
+        OFF = 'off',
+      }
+    }
+  }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface MobileRedirectRespResult {
     /** ID. */
     id: string;
@@ -3294,7 +5544,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Value. */
+  /**
+   * Value.
+   */
   export interface MobileRedirectRespResultValue {
     /** Whether or not the mobile redirection is enabled. */
     status: string;
@@ -3306,7 +5558,9 @@ namespace ZonesSettingsV1 {
     strip_uri: boolean;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface OpportunisticEncryptionRespResult {
     /** ID. */
     id: string;
@@ -3318,7 +5572,23 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
+  export interface OpportunisticOnionRespResult {
+    /** ID. */
+    id: string;
+    /** Value. */
+    value: string;
+    /** Editable. */
+    editable: boolean;
+    /** Modified date. */
+    modified_on: string;
+  }
+
+  /**
+   * Container for response information.
+   */
   export interface OriginErrorPagePassThruRespResult {
     /** ID. */
     id: string;
@@ -3330,7 +5600,47 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
+  export interface OriginMaxHttpVersionRespResult {
+    /** ID. */
+    id: string;
+    /** Value. */
+    value: string;
+    /** Editable. */
+    editable: boolean;
+    /** Modified date. */
+    modified_on: string;
+  }
+
+  /**
+   * Container for response information.
+   */
+  export interface OriginPostQuantumEncryptionRespResult {
+    /** ID. */
+    id: string;
+    /** Value. */
+    value: OriginPostQuantumEncryptionRespResult.Constants.Value | string;
+    /** Editable. */
+    editable: boolean;
+    /** Modified date. */
+    modified_on: string;
+  }
+  export namespace OriginPostQuantumEncryptionRespResult {
+    export namespace Constants {
+      /** Value. */
+      export enum Value {
+        PREFERRED = 'preferred',
+        SUPPORTED = 'supported',
+        OFF = 'off',
+      }
+    }
+  }
+
+  /**
+   * Container for response information.
+   */
   export interface PrefetchPreloadRespResult {
     /** ID. */
     id: string;
@@ -3342,7 +5652,23 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
+  export interface ProxyReadTimeoutRespResult {
+    /** ID. */
+    id: string;
+    /** Value. */
+    value: number;
+    /** Editable. */
+    editable: boolean;
+    /** Modified date. */
+    modified_on: string;
+  }
+
+  /**
+   * Container for response information.
+   */
   export interface PseudoIpv4RespResult {
     /** ID. */
     id: string;
@@ -3354,7 +5680,23 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
+  export interface ReplaceInsecureJsRespResult {
+    /** ID. */
+    id: string;
+    /** Value. */
+    value: string;
+    /** Editable. */
+    editable: boolean;
+    /** Modified date. */
+    modified_on: string;
+  }
+
+  /**
+   * Container for response information.
+   */
   export interface ResponseBufferingRespResult {
     /** ID. */
     id: string;
@@ -3366,7 +5708,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface ScriptLoadOptimizationRespResult {
     /** ID. */
     id: string;
@@ -3378,7 +5722,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface SecurityHeaderRespResult {
     /** ID. */
     id: string;
@@ -3390,13 +5736,17 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Value. */
+  /**
+   * Value.
+   */
   export interface SecurityHeaderRespResultValue {
     /** Strict transport security. */
     strict_transport_security: SecurityHeaderRespResultValueStrictTransportSecurity;
   }
 
-  /** Strict transport security. */
+  /**
+   * Strict transport security.
+   */
   export interface SecurityHeaderRespResultValueStrictTransportSecurity {
     /** Whether or not security header is enabled. */
     enabled: boolean;
@@ -3404,17 +5754,23 @@ namespace ZonesSettingsV1 {
     max_age: number;
     /** Include all subdomains. */
     include_subdomains: boolean;
+    /** Whether or not to permit browsers to preload security_header config. */
+    preload: boolean;
     /** Whether or not to include 'X-Content-Type-Options:nosniff' header. */
     nosniff: boolean;
   }
 
-  /** Value. */
+  /**
+   * Value.
+   */
   export interface SecurityHeaderSettingValue {
     /** Strict transport security. */
     strict_transport_security: SecurityHeaderSettingValueStrictTransportSecurity;
   }
 
-  /** Strict transport security. */
+  /**
+   * Strict transport security.
+   */
   export interface SecurityHeaderSettingValueStrictTransportSecurity {
     /** Whether or not security header is enabled. */
     enabled: boolean;
@@ -3422,11 +5778,15 @@ namespace ZonesSettingsV1 {
     max_age: number;
     /** Include all subdomains. */
     include_subdomains: boolean;
+    /** Whether or not to permit browsers to preload security_header config. */
+    preload: boolean;
     /** Whether or not to include 'X-Content-Type-Options:nosniff' header. */
     nosniff: boolean;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface ServerSideExcludeRespResult {
     /** ID. */
     id: string;
@@ -3438,7 +5798,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface TlsClientAuthRespResult {
     /** ID. */
     id: string;
@@ -3450,7 +5812,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface TrueClientIpRespResult {
     /** ID. */
     id: string;
@@ -3462,7 +5826,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface WafRespResult {
     /** ID. */
     id: string;
@@ -3474,7 +5840,9 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface WebsocketsRespResult {
     /** ID. */
     id: string;
@@ -3486,10 +5854,12 @@ namespace ZonesSettingsV1 {
     modified_on: string;
   }
 
-  /** Container for response information. */
+  /**
+   * Container for response information.
+   */
   export interface ZonesDnssecRespResult {
     /** Status. */
-    status?: string;
+    status?: ZonesDnssecRespResult.Constants.Status | string;
     /** Flags. */
     flags?: number;
     /** Algorithm. */
@@ -3509,8 +5879,22 @@ namespace ZonesSettingsV1 {
     /** Public key. */
     public_key?: string;
   }
+  export namespace ZonesDnssecRespResult {
+    export namespace Constants {
+      /** Status. */
+      export enum Status {
+        ACTIVE = 'active',
+        DISABLED = 'disabled',
+        PENDING = 'pending',
+        PENDING_DISABLED = 'pending-disabled',
+        ERROR = 'error',
+      }
+    }
+  }
 
-  /** Always use http response. */
+  /**
+   * Always use http response.
+   */
   export interface AlwaysUseHttpsResp {
     /** Container for response information. */
     result: AlwaysUseHttpsRespResult;
@@ -3522,7 +5906,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** automatic https rewrite response. */
+  /**
+   * automatic https rewrite response.
+   */
   export interface AutomaticHttpsRewritesResp {
     /** Container for response information. */
     result: AutomaticHttpsRewritesRespResult;
@@ -3534,7 +5920,60 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Browser Check response. */
+  /**
+   * Bot Management Response.
+   */
+  export interface BotMgtResp {
+    /** Was operation successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+    /** Bot Management settings. */
+    result: BotMgtSettings;
+  }
+
+  /**
+   * Bot Management settings.
+   */
+  export interface BotMgtSettings {
+    /** Set to disable tracking the max bot score during a session using the Bot Management cookie. */
+    session_score?: boolean;
+    /** Use JavaScript detections to improve bot detection. */
+    enable_js?: boolean;
+    /** Automatically update to the newest bot detection models as they are released. */
+    use_latest_model?: boolean;
+    /** Block scrapers and crawlers known to be feeding AI training data. */
+    ai_bots_protection?: BotMgtSettings.Constants.AiBotsProtection | string;
+  }
+  export namespace BotMgtSettings {
+    export namespace Constants {
+      /** Block scrapers and crawlers known to be feeding AI training data. */
+      export enum AiBotsProtection {
+        BLOCK = 'block',
+        DISABLED = 'disabled',
+      }
+    }
+  }
+
+  /**
+   * Brotli response.
+   */
+  export interface BrotliResp {
+    /** Container for response information. */
+    result: BrotliRespResult;
+    /** Was the get successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+  }
+
+  /**
+   * Browser Check response.
+   */
   export interface BrowserCheckResp {
     /** Container for response information. */
     result: BrowserCheckRespResult;
@@ -3546,7 +5985,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** challenge TTL response. */
+  /**
+   * challenge TTL response.
+   */
   export interface ChallengeTtlResp {
     /** Container for response information. */
     result: ChallengeTtlRespResult;
@@ -3558,7 +5999,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Ciphers response. */
+  /**
+   * Ciphers response.
+   */
   export interface CiphersResp {
     /** Container for response information. */
     result: CiphersRespResult;
@@ -3570,19 +6013,46 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** CNAME Flattening response. */
+  /**
+   * CNAME Flattening response.
+   */
   export interface CnameFlatteningResponse {
     /** id. */
     id?: string;
     /** value. */
-    value?: string;
+    value?: CnameFlatteningResponse.Constants.Value | string;
     /** Date when it is modified. */
     modified_on?: string;
     /** editable. */
     editable?: boolean;
   }
+  export namespace CnameFlatteningResponse {
+    export namespace Constants {
+      /** value. */
+      export enum Value {
+        FLATTEN_ALL = 'flatten_all',
+        FLATTEN_AT_ROOT = 'flatten_at_root',
+      }
+    }
+  }
 
-  /** Hotlink Protection response. */
+  /**
+   * email address obfuscation response.
+   */
+  export interface EmailObfuscationResp {
+    /** Container for response information. */
+    result: EmailObfuscationRespResult;
+    /** Was the get successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+  }
+
+  /**
+   * Hotlink Protection response.
+   */
   export interface HotlinkProtectionResp {
     /** Container for response information. */
     result: HotlinkProtectionRespResult;
@@ -3594,7 +6064,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** HTTP2 Response. */
+  /**
+   * HTTP2 Response.
+   */
   export interface Http2Resp {
     /** Container for response information. */
     result: Http2RespResult;
@@ -3606,7 +6078,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** HTTP3 Response. */
+  /**
+   * HTTP3 Response.
+   */
   export interface Http3Resp {
     /** Container for response information. */
     result: Http3RespResult;
@@ -3618,7 +6092,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Image Load Optimization response. */
+  /**
+   * Image Load Optimization response.
+   */
   export interface ImageLoadOptimizationResp {
     /** Container for response information. */
     result: ImageLoadOptimizationRespResult;
@@ -3630,7 +6106,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Image size optimization response. */
+  /**
+   * Image size optimization response.
+   */
   export interface ImageSizeOptimizationResp {
     /** Container for response information. */
     result: ImageSizeOptimizationRespResult;
@@ -3642,7 +6120,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** IP Geolocation response. */
+  /**
+   * IP Geolocation response.
+   */
   export interface IpGeolocationResp {
     /** Container for response information. */
     result: IpGeolocationRespResult;
@@ -3654,7 +6134,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** IPv6 Response. */
+  /**
+   * IPv6 Response.
+   */
   export interface Ipv6Resp {
     /** Container for response information. */
     result: Ipv6RespResult;
@@ -3666,7 +6148,22 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Maximum upload response. */
+  /**
+   * Schema for the response to a GET call for the log retention setting.
+   */
+  export interface LogRetentionResp {
+    /** Boolean flag indicating whether hte API call was successful in retrieving the requested data. */
+    success: boolean;
+    result: LogRetentionRespResult;
+    /** Array of errors messages. */
+    errors: string[];
+    /** Array of additional messages. */
+    messages: string[];
+  }
+
+  /**
+   * Maximum upload response.
+   */
   export interface MaxUploadResp {
     /** Container for response information. */
     result: MaxUploadRespResult;
@@ -3678,7 +6175,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Minimum TLS Version response. */
+  /**
+   * Minimum TLS Version response.
+   */
   export interface MinTlsVersionResp {
     /** Container for response information. */
     result: MinTlsVersionRespResult;
@@ -3690,7 +6189,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Minify response. */
+  /**
+   * Minify response.
+   */
   export interface MinifyResp {
     /** Container for response information. */
     result: MinifyRespResult;
@@ -3702,7 +6203,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Mobile Redirect Response. */
+  /**
+   * Mobile Redirect Response.
+   */
   export interface MobileRedirectResp {
     /** Container for response information. */
     result: MobileRedirectRespResult;
@@ -3714,7 +6217,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Oppertunistic encryption response. */
+  /**
+   * Opportunistic encryption response.
+   */
   export interface OpportunisticEncryptionResp {
     /** Container for response information. */
     result: OpportunisticEncryptionRespResult;
@@ -3726,7 +6231,23 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** origin error page pass through response. */
+  /**
+   * Opportunistic onion response.
+   */
+  export interface OpportunisticOnionResp {
+    /** Container for response information. */
+    result: OpportunisticOnionRespResult;
+    /** Was the get successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+  }
+
+  /**
+   * origin error page pass through response.
+   */
   export interface OriginErrorPagePassThruResp {
     /** Container for response information. */
     result: OriginErrorPagePassThruRespResult;
@@ -3738,7 +6259,37 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Prefetch & Preload Response. */
+  /**
+   * Origin max http version response.
+   */
+  export interface OriginMaxHttpVersionResp {
+    /** Container for response information. */
+    result: OriginMaxHttpVersionRespResult;
+    /** Was the get successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+  }
+
+  /**
+   * Origin post quantum encryption response.
+   */
+  export interface OriginPostQuantumEncryptionResp {
+    /** Container for response information. */
+    result: OriginPostQuantumEncryptionRespResult;
+    /** Was the get successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+  }
+
+  /**
+   * Prefetch & Preload Response.
+   */
   export interface PrefetchPreloadResp {
     /** Container for response information. */
     result: PrefetchPreloadRespResult;
@@ -3750,7 +6301,23 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Pseudo ipv4 response. */
+  /**
+   * Proxy read timeout response.
+   */
+  export interface ProxyReadTimeoutResp {
+    /** Container for response information. */
+    result: ProxyReadTimeoutRespResult;
+    /** Was the get successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+  }
+
+  /**
+   * Pseudo ipv4 response.
+   */
   export interface PseudoIpv4Resp {
     /** Container for response information. */
     result: PseudoIpv4RespResult;
@@ -3762,7 +6329,23 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Buffering response. */
+  /**
+   * Replace insecure Javascript response.
+   */
+  export interface ReplaceInsecureJsResp {
+    /** Container for response information. */
+    result: ReplaceInsecureJsRespResult;
+    /** Was the get successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+  }
+
+  /**
+   * Buffering response.
+   */
   export interface ResponseBufferingResp {
     /** Container for response information. */
     result: ResponseBufferingRespResult;
@@ -3774,7 +6357,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Script load optimization response. */
+  /**
+   * Script load optimization response.
+   */
   export interface ScriptLoadOptimizationResp {
     /** Container for response information. */
     result: ScriptLoadOptimizationRespResult;
@@ -3786,7 +6371,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Response of Security Header. */
+  /**
+   * Response of Security Header.
+   */
   export interface SecurityHeaderResp {
     /** Container for response information. */
     result: SecurityHeaderRespResult;
@@ -3798,7 +6385,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Response of server side exclude. */
+  /**
+   * Response of server side exclude.
+   */
   export interface ServerSideExcludeResp {
     /** Container for response information. */
     result: ServerSideExcludeRespResult;
@@ -3810,7 +6399,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** TLS Client authentication response. */
+  /**
+   * TLS Client authentication response.
+   */
   export interface TlsClientAuthResp {
     /** Container for response information. */
     result: TlsClientAuthRespResult;
@@ -3822,7 +6413,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** true client IP response. */
+  /**
+   * true client IP response.
+   */
   export interface TrueClientIpResp {
     /** Container for response information. */
     result: TrueClientIpRespResult;
@@ -3834,7 +6427,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** WAF Response. */
+  /**
+   * WAF Response.
+   */
   export interface WafResp {
     /** Container for response information. */
     result: WafRespResult;
@@ -3846,7 +6441,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Websocket Response. */
+  /**
+   * Websocket Response.
+   */
   export interface WebsocketsResp {
     /** Container for response information. */
     result: WebsocketsRespResult;
@@ -3858,7 +6455,9 @@ namespace ZonesSettingsV1 {
     messages: string[][];
   }
 
-  /** Zones CNAME flattening response. */
+  /**
+   * Zones CNAME flattening response.
+   */
   export interface ZonesCnameFlatteningResp {
     /** Was operation successful. */
     success: boolean;
@@ -3870,7 +6469,9 @@ namespace ZonesSettingsV1 {
     result: CnameFlatteningResponse;
   }
 
-  /** Zones DNS Sec Response. */
+  /**
+   * Zones DNS Sec Response.
+   */
   export interface ZonesDnssecResp {
     /** Was operation successful. */
     success: boolean;
@@ -3881,7 +6482,6 @@ namespace ZonesSettingsV1 {
     /** Container for response information. */
     result: ZonesDnssecRespResult;
   }
-
 }
 
 export = ZonesSettingsV1;
