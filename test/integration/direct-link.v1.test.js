@@ -1106,7 +1106,7 @@ describe('DirectLinkV1', () => {
       },
     };
 
-    it('should successfully create a gateway with authentication key', async done => {
+    it('should successfully create a gateway with authentication key', done => {
       jest.setTimeout(timeout);
 
       const params = {
@@ -1145,7 +1145,7 @@ describe('DirectLinkV1', () => {
       }
     });
 
-    it('should successfully clear/update the authentication key', async done => {
+    it('should successfully clear/update the authentication key', done => {
       const params = {
         id: gatewayId,
         authenticationKey: {
