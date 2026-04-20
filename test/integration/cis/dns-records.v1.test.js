@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 IBM All Rights Reserved.
+ * Copyright 2026 IBM All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -170,6 +170,33 @@ describe('DNSRecordsApisV1', () => {
           expect(result_info.per_page).toEqual(params.perPage);
         }
 
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe('Batch DNS Records', () => {
+    test('should successfully batch create dns records', async done => {
+      try {
+        const params = {
+          posts: [
+            {
+              name: 'batch-test',
+              type: 'A',
+              ttl: 120,
+              content: '1.2.3.4',
+            },
+          ],
+        };
+        const response = await dnsRecords.batchDnsRecords(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+        expect(result).toBeDefined();
+        expect(result.success).toEqual(true);
         done();
       } catch (err) {
         done(err);
