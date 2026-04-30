@@ -2077,4 +2077,43 @@ describe.skip('Zones Settings', () => {
     });
   });
   });
+
+test('should successfully get security level setting', async done => {
+  try {
+    const response = await zonesSettingsV1.getSecurityLevel();
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(200);
+
+    const { result } = response || {};
+
+    expect(result).toBeDefined();
+    if (result && result.result) {
+      expect(result.result).toBeDefined();
+    }
+    done();
+  } catch (err) {
+    done(err);
+  }
+});
+
+test('should successfully update security level setting', async done => {
+  try {
+    const params = {
+      value: 'medium',
+    };
+    const response = await zonesSettingsV1.updateSecurityLevel(params);
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(200);
+
+    const { result } = response || {};
+
+    expect(result).toBeDefined();
+    if (result && result.result) {
+      expect(result.result).toBeDefined();
+    }
+    done();
+  } catch (err) {
+    done(err);
+  }
+});
 });
