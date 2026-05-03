@@ -18,7 +18,7 @@
 const sdkCorePackage = require('ibm-cloud-sdk-core');
 
 const { NoAuthAuthenticator } = sdkCorePackage;
-const ZonesSettingsV1 = require('../../dist/zones-settings/v1');
+const ZonesSettingsV1 = require('../../../dist/cis/zones-settings/v1');
 
 const {
   getOptions,
