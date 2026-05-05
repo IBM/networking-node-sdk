@@ -5224,4 +5224,132 @@ describe('ZonesSettingsV1', () => {
       });
     });
   });
+
+  describe('getSecurityLevel', () => {
+    describe('positive tests', () => {
+      function __getSecurityLevelTest() {
+        // Construct the params object for operation getSecurityLevel
+        const getSecurityLevelParams = {};
+
+        const getSecurityLevelResult = zonesSettingsService.getSecurityLevel(getSecurityLevelParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getSecurityLevelResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/{crn}/zones/{zone_identifier}/settings/security_level', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.crn).toEqual(zonesSettingsServiceOptions.crn);
+        expect(mockRequestOptions.path.zone_identifier).toEqual(zonesSettingsServiceOptions.zoneIdentifier);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getSecurityLevelTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        zonesSettingsService.enableRetries();
+        __getSecurityLevelTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        zonesSettingsService.disableRetries();
+        __getSecurityLevelTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getSecurityLevelParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        zonesSettingsService.getSecurityLevel(getSecurityLevelParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        zonesSettingsService.getSecurityLevel({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
+  describe('updateSecurityLevel', () => {
+    describe('positive tests', () => {
+      function __updateSecurityLevelTest() {
+        // Construct the params object for operation updateSecurityLevel
+        const value = 'medium';
+        const updateSecurityLevelParams = {
+          value,
+        };
+
+        const updateSecurityLevelResult = zonesSettingsService.updateSecurityLevel(updateSecurityLevelParams);
+
+        // all methods should return a Promise
+        expectToBePromise(updateSecurityLevelResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/{crn}/zones/{zone_identifier}/settings/security_level', 'PATCH');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.value).toEqual(value);
+        expect(mockRequestOptions.path.crn).toEqual(zonesSettingsServiceOptions.crn);
+        expect(mockRequestOptions.path.zone_identifier).toEqual(zonesSettingsServiceOptions.zoneIdentifier);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateSecurityLevelTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        zonesSettingsService.enableRetries();
+        __updateSecurityLevelTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        zonesSettingsService.disableRetries();
+        __updateSecurityLevelTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateSecurityLevelParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        zonesSettingsService.updateSecurityLevel(updateSecurityLevelParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        zonesSettingsService.updateSecurityLevel({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
 });

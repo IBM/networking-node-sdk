@@ -2077,4 +2077,49 @@ describe.skip('Zones Settings', () => {
     });
   });
   });
+
+  describe('Security Level', () => {
+    let securityLevelInstance;
+    beforeAll(() => {
+      securityLevelInstance = ZoneSettingsApi.newInstance({
+        authenticator: new IamAuthenticator({
+          apikey: config.CIS_SERVICES_APIKEY,
+          url: config.CIS_SERVICES_AUTH_URL,
+        }),
+        crn: config.CIS_SERVICES_CRN,
+        serviceUrl: config.CIS_SERVICES_URL,
+        version: config.CIS_SERVICES_API_VERSION,
+        zoneIdentifier: config.CIS_SERVICES_ZONE_ID,
+      });
+    });
+
+    test('should successfully get security level setting', async () => {
+      const response = await securityLevelInstance.getSecurityLevel();
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+
+      const { result } = response || {};
+
+      expect(result).toBeDefined();
+      if (result && result.result) {
+        expect(result.result).toBeDefined();
+      }
+    });
+
+    test('should successfully update security level setting', async () => {
+      const params = {
+        value: 'medium',
+      };
+      const response = await securityLevelInstance.updateSecurityLevel(params);
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+
+      const { result } = response || {};
+
+      expect(result).toBeDefined();
+      if (result && result.result) {
+        expect(result.result).toBeDefined();
+      }
+    });
+  });
 });
