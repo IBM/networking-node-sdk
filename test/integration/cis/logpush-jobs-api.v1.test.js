@@ -146,6 +146,301 @@ describe('LogPushJobsApiV1', () => {
         done(err);
       }
     });
+
+  describe('Create/Update/Delete LogPushJobs for Generic destination (S3)', () => {
+    test('should successfully create/update/delete LogPushJobs for generic destination', async done => {
+      try {
+        // Skip if not configured
+        if (!config.GENERIC_DESTINATION_CONF) {
+          console.log('Skipping generic destination test - not configured');
+          return done();
+        }
+
+        const name = 'TestGeneric';
+        const enabled = false;
+        const logpull_options = 'timestamps=rfc3339&timestamps=rfc3339';
+        const destination_conf = config.GENERIC_DESTINATION_CONF || 's3://mybucket/logs?region=us-west-2';
+        const dataset = 'http_requests';
+        const frequency = 'high';
+
+        const createLogpushJobV2RequestModel = {
+          name: name,
+          enabled: enabled,
+          logpull_options: logpull_options,
+          destination_conf: destination_conf,
+          dataset: dataset,
+          frequency: frequency,
+        };
+
+        const params = {
+          createLogpushJobV2Request: createLogpushJobV2RequestModel,
+        };
+
+        const response = await logpushV1.createLogpushJobV2(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(201);
+
+        const { result } = response || {};
+        expect(result).toBeDefined();
+        expect(result.result).toBeDefined();
+
+        const jobId = result.result.id;
+        expect(jobId).toBeDefined();
+
+        // Update the job
+        const updateLogpushJobV2RequestModel = {
+          enabled: false,
+          logpull_options: 'timestamps=rfc3339',
+          destination_conf: destination_conf,
+          frequency: 'low',
+        };
+
+        const updateParams = {
+          jobId: jobId,
+          updateLogpushJobV2Request: updateLogpushJobV2RequestModel,
+        };
+
+        const updateResponse = await logpushV1.updateLogpushJobV2(updateParams);
+        expect(updateResponse).toBeDefined();
+        expect(updateResponse.status).toEqual(200);
+
+        // Delete the job
+        const deleteParams = {
+          jobId: jobId,
+        };
+
+        const deleteResponse = await logpushV1.deleteLogpushJobV2(deleteParams);
+        expect(deleteResponse).toBeDefined();
+        expect(deleteResponse.status).toEqual(200);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe('Create/Update/Delete LogPushJobs for Custom HTTP destination', () => {
+    test('should successfully create/update/delete LogPushJobs for HTTP destination', async done => {
+      try {
+        const name = 'TestHTTP';
+        const enabled = false;
+        const logpull_options = 'fields=ClientIP,ClientRequestHost,ClientRequestMethod';
+        const destination_conf = 'https://httpbin.org/post';
+        const dataset = 'http_requests';
+        const frequency = 'high';
+
+        const createLogpushJobV2RequestModel = {
+          name: name,
+          enabled: enabled,
+          logpull_options: logpull_options,
+          destination_conf: destination_conf,
+          dataset: dataset,
+          frequency: frequency,
+        };
+
+        const params = {
+          createLogpushJobV2Request: createLogpushJobV2RequestModel,
+        };
+
+        const response = await logpushV1.createLogpushJobV2(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(201);
+
+        const { result } = response || {};
+        expect(result).toBeDefined();
+        expect(result.result).toBeDefined();
+
+        const jobId = result.result.id;
+        expect(jobId).toBeDefined();
+
+        // Update the job
+        const updateLogpushJobV2RequestModel = {
+          enabled: false,
+          logpull_options: 'fields=ClientIP,ClientRequestHost',
+          destination_conf: destination_conf,
+          frequency: 'high',
+        };
+
+        const updateParams = {
+          jobId: jobId,
+          updateLogpushJobV2Request: updateLogpushJobV2RequestModel,
+        };
+
+        const updateResponse = await logpushV1.updateLogpushJobV2(updateParams);
+        expect(updateResponse).toBeDefined();
+        expect(updateResponse.status).toEqual(200);
+
+        // Delete the job
+        const deleteParams = {
+          jobId: jobId,
+        };
+
+        const deleteResponse = await logpushV1.deleteLogpushJobV2(deleteParams);
+        expect(deleteResponse).toBeDefined();
+        expect(deleteResponse.status).toEqual(200);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe('Create/Update/Delete LogPushJobs for COS destination', () => {
+    test('should successfully create/update/delete LogPushJobs for COS', async done => {
+      try {
+        // Skip if COS credentials not available
+        if (!config.COS_BUCKET || !config.COS_REGION || !config.COS_INSTANCE || !config.OWNERSHIP_TOKEN) {
+          console.log('Skipping COS destination test - credentials not configured');
+          return done();
+        }
+
+        const name = 'TestCOS';
+        const enabled = false;
+        const logpull_options = 'timestamps=rfc3339&timestamps=rfc3339';
+        const cos = {
+          bucket_name: config.COS_BUCKET,
+          region: config.COS_REGION,
+          id: config.COS_INSTANCE,
+        };
+        const dataset = 'http_requests';
+        const frequency = 'high';
+        const ownership_challenge = config.OWNERSHIP_TOKEN;
+
+        const createLogpushJobV2RequestModel = {
+          name: name,
+          enabled: enabled,
+          logpull_options: logpull_options,
+          cos: cos,
+          dataset: dataset,
+          frequency: frequency,
+          ownership_challenge: ownership_challenge,
+        };
+
+        const params = {
+          createLogpushJobV2Request: createLogpushJobV2RequestModel,
+        };
+
+        const response = await logpushV1.createLogpushJobV2(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(201);
+
+        const { result } = response || {};
+        expect(result).toBeDefined();
+        expect(result.result).toBeDefined();
+
+        const jobId = result.result.id;
+        expect(jobId).toBeDefined();
+
+        // Update the job
+        const updateLogpushJobV2RequestModel = {
+          enabled: false,
+          logpull_options: 'timestamps=rfc3339',
+          frequency: 'low',
+        };
+
+        const updateParams = {
+          jobId: jobId,
+          updateLogpushJobV2Request: updateLogpushJobV2RequestModel,
+        };
+
+        const updateResponse = await logpushV1.updateLogpushJobV2(updateParams);
+        expect(updateResponse).toBeDefined();
+        expect(updateResponse.status).toEqual(200);
+
+        // Delete the job
+        const deleteParams = {
+          jobId: jobId,
+        };
+
+        const deleteResponse = await logpushV1.deleteLogpushJobV2(deleteParams);
+        expect(deleteResponse).toBeDefined();
+        expect(deleteResponse.status).toEqual(200);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe('Create/Update/Delete LogPushJobs for IBMCL destination', () => {
+    test('should successfully create/update/delete LogPushJobs for IBMCL', async done => {
+      try {
+        // Skip if IBMCL credentials not available
+        if (!config.IBMCL_INSTANCE_ID) {
+          console.log('Skipping IBMCL destination test - credentials not configured');
+          return done();
+        }
+
+        const name = 'TestIBMCL';
+        const enabled = false;
+        const logpull_options = 'timestamps=rfc3339&timestamps=rfc3339';
+        const ibmcl = {
+          instance_id: config.IBMCL_INSTANCE_ID,
+          region: 'us-south',
+          api_key: config.CIS_SERVICES_APIKEY,
+        };
+        const dataset = 'http_requests';
+        const frequency = 'high';
+
+        const createLogpushJobV2RequestModel = {
+          name: name,
+          enabled: enabled,
+          logpull_options: logpull_options,
+          ibmcl: ibmcl,
+          dataset: dataset,
+          frequency: frequency,
+        };
+
+        const params = {
+          createLogpushJobV2Request: createLogpushJobV2RequestModel,
+        };
+
+        const response = await logpushV1.createLogpushJobV2(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(201);
+
+        const { result } = response || {};
+        expect(result).toBeDefined();
+        expect(result.result).toBeDefined();
+
+        const jobId = result.result.id;
+        expect(jobId).toBeDefined();
+
+        // Update the job
+        const updateLogpushJobV2RequestModel = {
+          enabled: false,
+          logpull_options: 'timestamps=rfc3339',
+          frequency: 'low',
+        };
+
+        const updateParams = {
+          jobId: jobId,
+          updateLogpushJobV2Request: updateLogpushJobV2RequestModel,
+        };
+
+        const updateResponse = await logpushV1.updateLogpushJobV2(updateParams);
+        expect(updateResponse).toBeDefined();
+        expect(updateResponse.status).toEqual(200);
+
+        // Delete the job
+        const deleteParams = {
+          jobId: jobId,
+        };
+
+        const deleteResponse = await logpushV1.deleteLogpushJobV2(deleteParams);
+        expect(deleteResponse).toBeDefined();
+        expect(deleteResponse.status).toEqual(200);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
   });
 
   describe('List the LogPushJobs LogDNA', () => {
@@ -240,6 +535,125 @@ describe('LogPushJobsApiV1', () => {
         done(err);
       }
     });
+
+  describe('List fields for dataset', () => {
+    test('should successfully list fields for dataset', async done => {
+      try {
+        const response = await logpushV1.listFieldsForDatasetV2();
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result && result.result) {
+          expect(result.result).toBeDefined();
+          expect(result.success).toBeTruthy();
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe('List logpush jobs for dataset', () => {
+    test('should successfully list logpush jobs for dataset', async done => {
+      try {
+        const response = await logpushV1.listLogpushJobsForDatasetV2();
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        if (result && result.result) {
+          expect(result.result).toBeDefined();
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe('Get and validate logpush ownership challenge', () => {
+    test('should successfully get ownership challenge', async done => {
+      try {
+        // Skip if COS credentials not available
+        if (!config.COS_BUCKET || !config.COS_REGION || !config.COS_INSTANCE) {
+          console.log('Skipping ownership test - COS credentials not configured');
+          return done();
+        }
+
+        const cos = {
+          bucket_name: config.COS_BUCKET,
+          region: config.COS_REGION,
+          id: config.COS_INSTANCE,
+        };
+
+        const params = {
+          cos: cos,
+        };
+
+        const response = await logpushV1.getLogpushOwnershipV2(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+        expect(result).toBeDefined();
+
+        if (result && result.result) {
+          expect(result.result).toBeDefined();
+          expect(result.success).toBeTruthy();
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('should successfully validate ownership challenge', async done => {
+      try {
+        // Skip if COS credentials or ownership token not available
+        if (
+          !config.COS_BUCKET ||
+          !config.COS_REGION ||
+          !config.COS_INSTANCE ||
+          !config.OWNERSHIP_TOKEN
+        ) {
+          console.log('Skipping validation test - COS credentials or token not configured');
+          return done();
+        }
+
+        const cos = {
+          bucket_name: config.COS_BUCKET,
+          region: config.COS_REGION,
+          id: config.COS_INSTANCE,
+        };
+
+        const params = {
+          cos: cos,
+          ownershipChallenge: config.OWNERSHIP_TOKEN,
+        };
+
+        const response = await logpushV1.validateLogpushOwnershipChallengeV2(params);
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(200);
+
+        const { result } = response || {};
+        expect(result).toBeDefined();
+
+        if (result && result.result) {
+          expect(result.result).toBeDefined();
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
   });
 
   describe('delete the Webhooks by ID', () => {
