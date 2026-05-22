@@ -32,7 +32,7 @@
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22"
   },
   "dependencies": {
     "@ibm-cloud/sdk-test-utilities": "^1.0.0",
