@@ -58,6 +58,11 @@ describe('LogPushJobsApiV1', () => {
 
   let logpushIdentifier;
 
+  beforeAll(() => {
+    // Initialize the service client before all tests
+    logpushV1 = LogPushJobsApiV1.newInstance(options);
+  });
+
   test('should successfully complete initialization', done => {
     // Initialize the service client .
     logpushV1 = LogPushJobsApiV1.newInstance(options);
@@ -221,69 +226,63 @@ describe('LogPushJobsApiV1', () => {
   });
 
   describe('Create/Update/Delete LogPushJobs for Custom HTTP destination', () => {
-    test('should successfully create/update/delete LogPushJobs for HTTP destination', async done => {
-      try {
-        const name = 'TestHTTP';
-        const enabled = false;
-        const logpull_options = 'fields=ClientIP,ClientRequestHost,ClientRequestMethod';
-        const destination_conf = 'https://httpbin.org/post';
-        const dataset = 'http_requests';
-        const frequency = 'high';
+    test('should successfully create/update/delete LogPushJobs for HTTP destination', async () => {
+      const name = 'TestHTTP';
+      const enabled = false;
+      const logpull_options = 'fields=ClientIP,ClientRequestHost,ClientRequestMethod';
+      const destination_conf = 'https://httpbin.org/post';
+      const dataset = 'http_requests';
+      const frequency = 'high';
 
-        const createLogpushJobV2RequestModel = {
-          name: name,
-          enabled: enabled,
-          logpull_options: logpull_options,
-          destination_conf: destination_conf,
-          dataset: dataset,
-          frequency: frequency,
-        };
+      const createLogpushJobV2RequestModel = {
+        name: name,
+        enabled: enabled,
+        logpull_options: logpull_options,
+        destination_conf: destination_conf,
+        dataset: dataset,
+        frequency: frequency,
+      };
 
-        const params = {
-          createLogpushJobV2Request: createLogpushJobV2RequestModel,
-        };
+      const params = {
+        createLogpushJobV2Request: createLogpushJobV2RequestModel,
+      };
 
-        const response = await logpushV1.createLogpushJobV2(params);
-        expect(response).toBeDefined();
-        expect(response.status).toEqual(201);
+      const response = await logpushV1.createLogpushJobV2(params);
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(201);
 
-        const { result } = response || {};
-        expect(result).toBeDefined();
-        expect(result.result).toBeDefined();
+      const { result } = response || {};
+      expect(result).toBeDefined();
+      expect(result.result).toBeDefined();
 
-        const jobId = result.result.id;
-        expect(jobId).toBeDefined();
+      const jobId = result.result.id;
+      expect(jobId).toBeDefined();
 
-        // Update the job
-        const updateLogpushJobV2RequestModel = {
-          enabled: false,
-          logpull_options: 'fields=ClientIP,ClientRequestHost',
-          destination_conf: destination_conf,
-          frequency: 'high',
-        };
+      // Update the job
+      const updateLogpushJobV2RequestModel = {
+        enabled: false,
+        logpull_options: 'fields=ClientIP,ClientRequestHost',
+        destination_conf: destination_conf,
+        frequency: 'high',
+      };
 
-        const updateParams = {
-          jobId: jobId,
-          updateLogpushJobV2Request: updateLogpushJobV2RequestModel,
-        };
+      const updateParams = {
+        jobId: jobId,
+        updateLogpushJobV2Request: updateLogpushJobV2RequestModel,
+      };
 
-        const updateResponse = await logpushV1.updateLogpushJobV2(updateParams);
-        expect(updateResponse).toBeDefined();
-        expect(updateResponse.status).toEqual(200);
+      const updateResponse = await logpushV1.updateLogpushJobV2(updateParams);
+      expect(updateResponse).toBeDefined();
+      expect(updateResponse.status).toEqual(200);
 
-        // Delete the job
-        const deleteParams = {
-          jobId: jobId,
-        };
+      // Delete the job
+      const deleteParams = {
+        jobId: jobId,
+      };
 
-        const deleteResponse = await logpushV1.deleteLogpushJobV2(deleteParams);
-        expect(deleteResponse).toBeDefined();
-        expect(deleteResponse.status).toEqual(200);
-
-        done();
-      } catch (err) {
-        done(err);
-      }
+      const deleteResponse = await logpushV1.deleteLogpushJobV2(deleteParams);
+      expect(deleteResponse).toBeDefined();
+      expect(deleteResponse.status).toEqual(200);
     });
   });
 
