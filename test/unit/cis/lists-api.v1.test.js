@@ -18,7 +18,7 @@
 const sdkCorePackage = require('ibm-cloud-sdk-core');
 
 const { NoAuthAuthenticator } = sdkCorePackage;
-const ListsApiV1 = require('../../dist/lists-api/v1');
+const ListsApiV1 = require('../../../dist/cis/lists-api/v1');
 
 const {
   getOptions,
