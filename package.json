@@ -32,14 +32,14 @@
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=24"
   },
   "dependencies": {
     "@ibm-cloud/sdk-test-utilities": "^1.0.0",
     "@types/extend": "^3.0.4",
     "@types/node": "^22.0.0",
     "extend": "^3.0.2",
-    "ibm-cloud-sdk-core": "^5.4.2"
+    "ibm-cloud-sdk-core": "^5.4.20"
   },
   "devDependencies": {
     "@ibm-cloud/sdk-test-utilities": "^1.0.0",
