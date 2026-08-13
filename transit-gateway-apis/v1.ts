@@ -602,7 +602,7 @@ class TransitGatewayApisV1 extends BaseService {
    * the value is required and can be either VPC or Classic. This field is required to be unspecified for network type
    * `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
    * @param {string} [params.cidr] - network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for
-   * the VPN gateway / Dynamic route server GRE tunnels.
+   * the VPN gateway GRE tunnels.
    *
    * This field is optional for network type `vpn_gateway` connections. If unspecified, the default value is
    * 198.19.174.0/23.
@@ -631,11 +631,11 @@ class TransitGatewayApisV1 extends BaseService {
    * `unbound_gre_tunnel` when the associated_network_type is `classic` or network_type is `redundant_gre` and the GRE
    * tunnel is in a different account than the gateway.
    * @param {string} [params.networkId] - The ID of the network being connected via this connection. For network types
-   * `vpc`, `vpn_gateway`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route
-   * Server / PowerVS / Direct Link gateway respectively. This field is required for network type `vpc`,
-   * `power_virtual_server`, `vpn_gateway` and `directlink` connections.  It is also required for `redundant_gre`
-   * connections when the base_network_type is set to VPC. This field is required to be unspecified for network type
-   * `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
+   * `vpc`, `vpn_gateway`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct
+   * Link gateway respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
+   * `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set to
+   * VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel`
+   * connections.
    * @param {TransitGatewayConnectionPrefixFilter[]} [params.prefixFilters] - Array of prefix route filters for a
    * transit gateway connection. Prefix filters can be specified for netowrk type `vpc`, `classic`,
    * `power_virtual_server` and `directlink` connections. They are not allowed for type `gre_tunnel` connections. This
@@ -2389,8 +2389,8 @@ namespace TransitGatewayApisV1 {
      *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
      */
     baseNetworkType?: CreateTransitGatewayConnectionConstants.BaseNetworkType | string;
-    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the VPN gateway / Dynamic
-     *  route server GRE tunnels.
+    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the VPN gateway GRE
+     *  tunnels.
      *
      *  This field is optional for network type `vpn_gateway` connections. If unspecified, the default value is
      *  198.19.174.0/23.
@@ -2429,11 +2429,11 @@ namespace TransitGatewayApisV1 {
      */
     networkAccountId?: string;
     /** The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
-     *  `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route Server / PowerVS /
-     *  Direct Link gateway respectively. This field is required for network type `vpc`, `power_virtual_server`,
-     *  `vpn_gateway` and `directlink` connections.  It is also required for `redundant_gre` connections when the
-     *  base_network_type is set to VPC. This field is required to be unspecified for network type `classic`,
-     *  `gre_tunnel` and `unbound_gre_tunnel` connections.
+     *  `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
+     *  respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
+     *  `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set
+     *  to VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and
+     *  `unbound_gre_tunnel` connections.
      */
     networkId?: string;
     /** Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk
@@ -3168,8 +3168,8 @@ namespace TransitGatewayApisV1 {
     name: string;
     /** The ID of the network being connected via this connection. This field is required for some types, such as
      *  `vpc`, `power_virtual_server`, `directlink`, `vpn_gateway` and `redundant_gre`. For network types `vpc`,
-     *  `vpn_gateway`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route Server /
-     *  PowerVS / Direct Link gateway respectively.
+     *  `vpn_gateway`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link
+     *  gateway respectively.
      */
     network_id?: string;
     /** Defines what type of network is connected via this connection. The list of enumerated values for this
@@ -3185,8 +3185,8 @@ namespace TransitGatewayApisV1 {
      *  `gre_tunnel` connections.
      */
     base_connection_id?: string;
-    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway / Dynamic
-     *  route server` GRE tunnels.
+    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway` GRE
+     *  tunnels.
      */
     cidr?: string;
     /** The date and time that this connection was created. */
@@ -3416,8 +3416,8 @@ namespace TransitGatewayApisV1 {
      *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
      */
     base_network_type?: TransitGatewayConnectionCust.Constants.BaseNetworkType | string;
-    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway / Dynamic
-     *  route server` GRE tunnels.
+    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway` GRE
+     *  tunnels.
      */
     cidr?: string;
     /** The date and time that this connection was created. */
@@ -3452,11 +3452,11 @@ namespace TransitGatewayApisV1 {
      */
     network_account_id?: string;
     /** The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
-     *  `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route Server / PowerVS /
-     *  Direct Link gateway respectively. This field is required for network type `vpc`, `power_virtual_server`,
-     *  `vpn_gateway` and `directlink` connections.  It is also required for `redundant_gre` connections when the
-     *  base_network_type is set to VPC. This field is required to be unspecified for network type `classic`,
-     *  `gre_tunnel` and `unbound_gre_tunnel` connections.
+     *  `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
+     *  respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
+     *  `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set
+     *  to VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and
+     *  `unbound_gre_tunnel` connections.
      */
     network_id?: string;
     /** Defines what type of network is connected via this connection. */
