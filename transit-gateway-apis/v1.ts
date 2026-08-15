@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.104.0-b4a47c49-20250418-184351
+ * IBM OpenAPI SDK Code Generator Version: 3.112.0-f88e9264-20260220-115155
  */
 
 /* eslint-disable max-classes-per-file */
