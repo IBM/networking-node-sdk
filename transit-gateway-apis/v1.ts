@@ -684,7 +684,7 @@ class TransitGatewayApisV1 extends BaseService {
    * This field is optional for network type `vpn_gateway` connections.
    *
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`
-   * and `redundant_gre`  connections.
+   * and `redundant_gre` connections.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
    */
@@ -2501,7 +2501,7 @@ namespace TransitGatewayApisV1 {
      *  This field is optional for network type `vpn_gateway` connections.
      *
      *  This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`
-     *  and `redundant_gre`  connections.
+     *  and `redundant_gre` connections.
      */
     zone?: ZoneIdentity;
   }
@@ -3256,7 +3256,7 @@ namespace TransitGatewayApisV1 {
     status: TransitConnection.Constants.Status | string;
     /** Transit gateway reference. */
     transit_gateway: TransitGatewayReference;
-    /** Collection of all tunnels for `redundant_gre`, `vpn_gateway` connections. */
+    /** Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections. */
     tunnels?: TransitGatewayTunnel[];
     /** The date and time that this connection was last updated. */
     updated_at: string;
@@ -3713,7 +3713,7 @@ namespace TransitGatewayApisV1 {
   }
 
   /**
-   * Collection of all tunnels for `redundant_gre` and`vpn_gateway` connections.
+   * Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
    */
   export interface TransitGatewayTunnelCollection {
     /** Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections. */
