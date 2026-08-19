@@ -281,6 +281,7 @@ describe('TransitGatewayApisV1', () => {
         const global = true;
         const greEnhancedRoutePropagation = true;
         const redundancyGroup = 'rg-1';
+        const redundancyGroupId = 'bf3f5f91-1234-41c7-9e11-9cd99e65c1f4';
         const resourceGroup = resourceGroupIdentityModel;
         const createTransitGatewayParams = {
           location,
@@ -288,6 +289,7 @@ describe('TransitGatewayApisV1', () => {
           global,
           greEnhancedRoutePropagation,
           redundancyGroup,
+          redundancyGroupId,
           resourceGroup,
         };
 
@@ -310,6 +312,7 @@ describe('TransitGatewayApisV1', () => {
         expect(mockRequestOptions.body.global).toEqual(global);
         expect(mockRequestOptions.body.gre_enhanced_route_propagation).toEqual(greEnhancedRoutePropagation);
         expect(mockRequestOptions.body.redundancy_group).toEqual(redundancyGroup);
+        expect(mockRequestOptions.body.redundancy_group_id).toEqual(redundancyGroupId);
         expect(mockRequestOptions.body.resource_group).toEqual(resourceGroup);
         expect(mockRequestOptions.qs.version).toEqual(transitGatewayApisServiceOptions.version);
       }
@@ -951,7 +954,7 @@ describe('TransitGatewayApisV1', () => {
         const localGatewayIp = '192.168.100.1';
         const localTunnelIp = '192.168.129.2';
         const name = 'Transit_Service_BWTN_SJ_DL';
-        const networkAccountId = 'testString';
+        const networkAccountId = '28e4d90ac7504be694471ee66e70d0d5';
         const networkId = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b';
         const prefixFilters = [transitGatewayConnectionPrefixFilterModel];
         const prefixFiltersDefault = 'permit';
