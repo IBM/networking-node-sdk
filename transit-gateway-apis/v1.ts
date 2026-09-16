@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -116,11 +116,17 @@ class TransitGatewayApisV1 extends BaseService {
   /**
    * Retrieves all Transit Gateways.
    *
-   * List all Transit Gateways in account the caller is authorized to view.
+   * List all Transit Gateways in the account the caller is authorized to view. Use the `limit` (integer, 1–100, default
+   * 50) and `start` (string token) parameters to page through results. Optionally filter by `redundancy_group` name.
+   * Each `TransitGateway` in the response includes: `id`, `name`, `crn`, `location`,
+   * `status` (pending, available, deleting, deleted, failed), `global` (boolean),
+   * `created_at`, `updated_at`, `resource_group`, and optionally `redundancy_group`,
+   * `redundancy_group_id`, `gre_enhanced_route_propagation`, and `connection_needs_attention`.
    *
    * @param {Object} [params] - The parameters to send to the service.
    * @param {number} [params.limit] - The maximum number of resources to return per page.
    * @param {string} [params.start] - A server supplied token determining which resource to start the page on.
+   * @param {string} [params.redundancyGroup] - Filter the list of transit gateways by redundancy group name.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayCollection>>}
    */
@@ -129,7 +135,7 @@ class TransitGatewayApisV1 extends BaseService {
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayCollection>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['limit', 'start', 'signal', 'headers'];
+    const _validParams = ['limit', 'start', 'redundancyGroup', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -139,6 +145,7 @@ class TransitGatewayApisV1 extends BaseService {
       'version': this.version,
       'limit': _params.limit,
       'start': _params.start,
+      'redundancy_group': _params.redundancyGroup,
     };
 
     const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listTransitGateways');
@@ -171,7 +178,12 @@ class TransitGatewayApisV1 extends BaseService {
   /**
    * Creates a Transit Gateway.
    *
-   * Create a Transit Gateway based on the supplied input template.
+   * Create a Transit Gateway based on the supplied input template. Required fields: `name` (string, 1–60 chars),
+   * `location` (IBM Cloud region, e.g. us-south). Optional fields: `global` (boolean, enables cross-region routing),
+   * `resource_group` (object with `id`), `redundancy_group` (string, name of the redundancy group to join),
+   * `redundancy_group_id` (string, ID of an existing redundancy group in the account),
+   * `gre_enhanced_route_propagation` (boolean). Either `redundancy_group` or `redundancy_group_id` can be provided, but
+   * not both. Returns a `TransitGateway` object. Initial `status` will be `pending` while provisioning.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.location - Location of Transit Gateway Services.
@@ -181,6 +193,15 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {boolean} [params.greEnhancedRoutePropagation] - Allow route propagation across all GREs connected to the
    * same transit gateway. This affects connections on the gateway of type `redundant_gre`, `unbound_gre_tunnel` and
    * `gre_tunnel`.
+   * @param {string} [params.redundancyGroup] - Include the global transit gateway in this redundancy group. When set,
+   * this transit gateway will be redundant to other transit gateways in this redundancy group. If this redundancy group
+   * doesn't exist in the account, it will be created. This property can only be set for global transit gateways and the
+   * transit gateway cannot be in a location already used by a global transit gateway in this redundancy group. If
+   * specified, `redundancy_group_id` cannot also be specified.
+   * @param {string} [params.redundancyGroupId] - Include the transit gateway in an existing redundancy group in the
+   * account. This property can only be set for global transit gateways and the transit gateway cannot be in a location
+   * already used by a global transit gateway in this redundancy group. If specified, `redundancy_group` cannot also be
+   * specified.
    * @param {ResourceGroupIdentity} [params.resourceGroup] - The resource group to use. If unspecified, the account's
    * [default resource group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
@@ -191,7 +212,7 @@ class TransitGatewayApisV1 extends BaseService {
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
     const _params = { ...params };
     const _requiredParams = ['location', 'name'];
-    const _validParams = ['location', 'name', 'global', 'greEnhancedRoutePropagation', 'resourceGroup', 'signal', 'headers'];
+    const _validParams = ['location', 'name', 'global', 'greEnhancedRoutePropagation', 'redundancyGroup', 'redundancyGroupId', 'resourceGroup', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -202,6 +223,8 @@ class TransitGatewayApisV1 extends BaseService {
       'name': _params.name,
       'global': _params.global,
       'gre_enhanced_route_propagation': _params.greEnhancedRoutePropagation,
+      'redundancy_group': _params.redundancyGroup,
+      'redundancy_group_id': _params.redundancyGroupId,
       'resource_group': _params.resourceGroup,
     };
 
@@ -241,8 +264,8 @@ class TransitGatewayApisV1 extends BaseService {
   /**
    * Deletes specified Transit Gateway.
    *
-   * This request deletes a Transit Gateway. This operation cannot be reversed. For this request to succeed, the Transit
-   * Gateway must not contain connections.
+   * Delete a Transit Gateway specified by its `id` path parameter. This operation cannot be reversed. The gateway must
+   * have no attached connections before it can be deleted; remove all connections first.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - The Transit Gateway identifier.
@@ -298,7 +321,10 @@ class TransitGatewayApisV1 extends BaseService {
   /**
    * Retrieves specified Transit Gateway.
    *
-   * This request retrieves a single Transit Gateway specified by the identifier in the URL.
+   * Retrieve a single Transit Gateway specified by its `id` path parameter. Returns a `TransitGateway` object
+   * containing: `id`, `name`, `crn`, `location`,
+   * `status`, `global`, `created_at`, `updated_at`, `resource_group`, and optionally
+   * `redundancy_group`, `redundancy_group_id`, `gre_enhanced_route_propagation`, and `connection_needs_attention`.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - The Transit Gateway identifier.
@@ -355,15 +381,22 @@ class TransitGatewayApisV1 extends BaseService {
   /**
    * Updates specified Transit Gateway.
    *
-   * This request updates a Transit Gateway's name and/or global flag.
+   * Update a Transit Gateway specified by its `id` path parameter. Updatable fields: `name` (string), `global`
+   * (boolean), `redundancy_group` (string, assigns the gateway to a redundancy group), `gre_enhanced_route_propagation`
+   * (boolean). Returns the updated `TransitGateway` object.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.id - The Transit Gateway identifier.
-   * @param {boolean} [params.global] - Allow global routing for a Transit Gateway.
+   * @param {boolean} [params.global] - Allow global routing for a Transit Gateway. This property cannot be changed if
+   * the transit gateway has redundancy_group set.
    * @param {boolean} [params.greEnhancedRoutePropagation] - Allow route propagation across all GREs connected to the
    * same transit gateway. This affects connections on the gateway of type `redundant_gre`, `unbound_gre_tunnel` and
    * `gre_tunnel`. It takes a few minutes for the change to take effect.
    * @param {string} [params.name] - A human readable name for a resource.
+   * @param {string} [params.redundancyGroup] - Create a new redundancy group with this name and add the gateway to it.
+   * This property is only valid when the gateway is global (or `global` is set to `true` in the same request), the
+   * gateway is not already a member of a redundancy group, and no redundancy group with this name already exists in the
+   * account.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>>}
    */
@@ -372,7 +405,7 @@ class TransitGatewayApisV1 extends BaseService {
   ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGateway>> {
     const _params = { ...params };
     const _requiredParams = ['id'];
-    const _validParams = ['id', 'global', 'greEnhancedRoutePropagation', 'name', 'signal', 'headers'];
+    const _validParams = ['id', 'global', 'greEnhancedRoutePropagation', 'name', 'redundancyGroup', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -382,6 +415,7 @@ class TransitGatewayApisV1 extends BaseService {
       'global': _params.global,
       'gre_enhanced_route_propagation': _params.greEnhancedRoutePropagation,
       'name': _params.name,
+      'redundancy_group': _params.redundancyGroup,
     };
 
     const query = {
@@ -428,7 +462,11 @@ class TransitGatewayApisV1 extends BaseService {
   /**
    * Retrieves all connections.
    *
-   * List all transit gateway connections associated with this account.
+   * List all transit gateway connections associated with this account. Results can be filtered by `network_id` or
+   * `network_type`. Use the `limit` and `start` parameters to page through large result sets. The response includes a
+   * `TransitConnection` object for each connection, containing fields such as `id`, `name`, `network_type`,
+   * `status`, `created_at`, `updated_at`, and optionally `prefix_filters`, `request_status`, and `transit_gateway`
+   * reference.
    *
    * @param {Object} [params] - The parameters to send to the service.
    * @param {number} [params.limit] - The maximum number of resources to return per page.
@@ -570,10 +608,11 @@ class TransitGatewayApisV1 extends BaseService {
    * required for network type `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type,
    * the value is required and can be either VPC or Classic. This field is required to be unspecified for network type
    * `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
-   * @param {string} [params.cidr] - network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for
-   * the VPN GRE tunnels.
+   * @param {string} [params.cidr] - network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for
+   * the VPN gateway GRE tunnels.
    *
-   * This field is required for network type `vpn_gateway` connections.
+   * This field is optional for network type `vpn_gateway` connections. If unspecified, the default value is
+   * 198.19.174.0/23.
    *
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
    * `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
@@ -599,11 +638,11 @@ class TransitGatewayApisV1 extends BaseService {
    * `unbound_gre_tunnel` when the associated_network_type is `classic` or network_type is `redundant_gre` and the GRE
    * tunnel is in a different account than the gateway.
    * @param {string} [params.networkId] - The ID of the network being connected via this connection. For network types
-   * `vpc`,`power_virtual_server`, `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC / Direct
-   * Link / VPN gateway respectively. This field is required for network type `vpc`, `power_virtual_server`,
-   * `vpn_gateway`, and `directlink` connections.  It is also required for `redundant_gre` connections when the
-   * base_network_type is set to VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel`
-   * and `unbound_gre_tunnel` connections.
+   * `vpc`, `vpn_gateway`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct
+   * Link gateway respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
+   * `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set to
+   * VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel`
+   * connections.
    * @param {TransitGatewayConnectionPrefixFilter[]} [params.prefixFilters] - Array of prefix route filters for a
    * transit gateway connection. Prefix filters can be specified for netowrk type `vpc`, `classic`,
    * `power_virtual_server` and `directlink` connections. They are not allowed for type `gre_tunnel` connections. This
@@ -2023,6 +2062,183 @@ class TransitGatewayApisV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
+  /*************************
+   * redundancyGroups
+   ************************/
+
+  /**
+   * Lists all redundancy groups in the account.
+   *
+   * List all redundancy groups for the account.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.name] - Filter the list of redundancy groups by name.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundancyGroupCollection>>}
+   */
+  public listRedundancyGroups(
+    params?: TransitGatewayApisV1.ListRedundancyGroupsParams
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundancyGroupCollection>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['name', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+      'name': _params.name,
+    };
+
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'listRedundancyGroups');
+
+    const parameters = {
+      options: {
+        url: '/redundancy_groups',
+        method: 'GET',
+        qs: query,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Retrieves specified redundancy group.
+   *
+   * Retrieves a single redundancy group specified by the identifier in the URL.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - The redundancy group identifier.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundancyGroup>>}
+   */
+  public getRedundancyGroup(
+    params: TransitGatewayApisV1.GetRedundancyGroupParams
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundancyGroup>> {
+    const _params = { ...params };
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'getRedundancyGroup');
+
+    const parameters = {
+      options: {
+        url: '/redundancy_groups/{id}',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Updates a redundancy group.
+   *
+   * Update a redundancy group.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.id - The redundancy group identifier.
+   * @param {string} [params.name] - The new name for the redundancy group.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundancyGroup>>}
+   */
+  public updateRedundancyGroup(
+    params: TransitGatewayApisV1.UpdateRedundancyGroupParams
+  ): Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.RedundancyGroup>> {
+    const _params = { ...params };
+    const _requiredParams = ['id'];
+    const _validParams = ['id', 'name', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'name': _params.name,
+    };
+
+    const query = {
+      'version': this.version,
+    };
+
+    const path = {
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(TransitGatewayApisV1.DEFAULT_SERVICE_NAME, 'v1', 'updateRedundancyGroup');
+
+    const parameters = {
+      options: {
+        url: '/redundancy_groups/{id}',
+        method: 'PATCH',
+        body,
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/merge-patch+json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
 }
 
 /*************************
@@ -2072,6 +2288,8 @@ namespace TransitGatewayApisV1 {
     limit?: number;
     /** A server supplied token determining which resource to start the page on. */
     start?: string;
+    /** Filter the list of transit gateways by redundancy group name. */
+    redundancyGroup?: string;
   }
 
   /** Parameters for the `createTransitGateway` operation. */
@@ -2086,6 +2304,18 @@ namespace TransitGatewayApisV1 {
      *  the gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`.
      */
     greEnhancedRoutePropagation?: boolean;
+    /** Include the global transit gateway in this redundancy group. When set, this transit gateway will be
+     *  redundant to other transit gateways in this redundancy group. If this redundancy group doesn't exist in the
+     *  account, it will be created. This property can only be set for global transit gateways and the transit gateway
+     *  cannot be in a location already used by a global transit gateway in this redundancy group. If specified,
+     *  `redundancy_group_id` cannot also be specified.
+     */
+    redundancyGroup?: string;
+    /** Include the transit gateway in an existing redundancy group in the account. This property can only be set
+     *  for global transit gateways and the transit gateway cannot be in a location already used by a global transit
+     *  gateway in this redundancy group. If specified, `redundancy_group` cannot also be specified.
+     */
+    redundancyGroupId?: string;
     /** The resource group to use. If unspecified, the account's [default resource
      *  group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
      */
@@ -2108,7 +2338,9 @@ namespace TransitGatewayApisV1 {
   export interface UpdateTransitGatewayParams extends DefaultParams {
     /** The Transit Gateway identifier. */
     id: string;
-    /** Allow global routing for a Transit Gateway. */
+    /** Allow global routing for a Transit Gateway. This property cannot be changed if the transit gateway has
+     *  redundancy_group set.
+     */
     global?: boolean;
     /** Allow route propagation across all GREs connected to the same transit gateway. This affects connections on
      *  the gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`. It takes a few minutes for the
@@ -2117,6 +2349,11 @@ namespace TransitGatewayApisV1 {
     greEnhancedRoutePropagation?: boolean;
     /** A human readable name for a resource. */
     name?: string;
+    /** Create a new redundancy group with this name and add the gateway to it. This property is only valid when the
+     *  gateway is global (or `global` is set to `true` in the same request), the gateway is not already a member of a
+     *  redundancy group, and no redundancy group with this name already exists in the account.
+     */
+    redundancyGroup?: string;
   }
 
   /** Parameters for the `listConnections` operation. */
@@ -2165,9 +2402,11 @@ namespace TransitGatewayApisV1 {
      *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
      */
     baseNetworkType?: CreateTransitGatewayConnectionConstants.BaseNetworkType | string;
-    /** network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels.
+    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the VPN gateway GRE
+     *  tunnels.
      *
-     *  This field is required for network type `vpn_gateway` connections.
+     *  This field is optional for network type `vpn_gateway` connections. If unspecified, the default value is
+     *  198.19.174.0/23.
      *
      *  This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
      *  `power_virtual_server`, `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
@@ -2202,9 +2441,9 @@ namespace TransitGatewayApisV1 {
      *  account than the gateway.
      */
     networkAccountId?: string;
-    /** The ID of the network being connected via this connection. For network types `vpc`,`power_virtual_server`,
-     *  `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC / Direct Link / VPN gateway
-     *  respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway`, and
+    /** The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
+     *  `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
+     *  respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
      *  `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set
      *  to VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and
      *  `unbound_gre_tunnel` connections.
@@ -2588,6 +2827,26 @@ namespace TransitGatewayApisV1 {
     id: string;
   }
 
+  /** Parameters for the `listRedundancyGroups` operation. */
+  export interface ListRedundancyGroupsParams extends DefaultParams {
+    /** Filter the list of redundancy groups by name. */
+    name?: string;
+  }
+
+  /** Parameters for the `getRedundancyGroup` operation. */
+  export interface GetRedundancyGroupParams extends DefaultParams {
+    /** The redundancy group identifier. */
+    id: string;
+  }
+
+  /** Parameters for the `updateRedundancyGroup` operation. */
+  export interface UpdateRedundancyGroupParams extends DefaultParams {
+    /** The redundancy group identifier. */
+    id: string;
+    /** The new name for the redundancy group. */
+    name?: string;
+  }
+
   /*************************
    * model interfaces
    ************************/
@@ -2711,6 +2970,28 @@ namespace TransitGatewayApisV1 {
   }
 
   /**
+   * A redundancy group.
+   */
+  export interface RedundancyGroup {
+    /** The date and time that this redundancy group was created. */
+    created_at: string;
+    /** The unique identifier for this redundancy group. */
+    id: string;
+    /** The redundancy group name. */
+    name: string;
+    /** The date and time that this redundancy group was last updated. */
+    updated_at?: string;
+  }
+
+  /**
+   * A list of redundancy groups.
+   */
+  export interface RedundancyGroupCollection {
+    /** Collection of redundancy groups. */
+    redundancy_groups: RedundancyGroup[];
+  }
+
+  /**
    * The resource group to use. If unspecified, the account's [default resource
    * group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
    */
@@ -2773,13 +3054,13 @@ namespace TransitGatewayApisV1 {
    */
   export interface RouteReportConnection {
     /** Array of connection's bgps. */
-    bgps?: RouteReportConnectionBgp[];
+    bgps: RouteReportConnectionBgp[];
     /** connection ID. */
     id?: string;
     /** connection name. */
     name?: string;
     /** Array of connection's routes. */
-    routes?: RouteReportConnectionRoute[];
+    routes: RouteReportConnectionRoute[];
     /** connection type. */
     type?: string;
   }
@@ -2821,7 +3102,7 @@ namespace TransitGatewayApisV1 {
    */
   export interface RouteReportOverlappingRouteGroup {
     /** Array of overlapping connection/prefix pairs. */
-    routes?: RouteReportOverlappingRoute[];
+    routes: RouteReportOverlappingRoute[];
   }
 
   /**
@@ -2841,7 +3122,7 @@ namespace TransitGatewayApisV1 {
     /** The name of the location. */
     name: string;
     /** Array of supported connection types. */
-    supported_connection_types?: string[];
+    supported_connection_types: string[];
     /** The type of the location, determining is this a multi-zone region, a single data center, or a point of
      *  presence. The list of enumerated values for this property may expand in the future. Code and processes using
      *  this field must tolerate unexpected values.
@@ -2900,8 +3181,8 @@ namespace TransitGatewayApisV1 {
     name: string;
     /** The ID of the network being connected via this connection. This field is required for some types, such as
      *  `vpc`, `power_virtual_server`, `directlink`, `vpn_gateway` and `redundant_gre`. For network types `vpc`,
-     *  `redundant_gre`, `power_virtual_server` and `directlink` this is the CRN of the VPC  / PowerVS / VDC / Direct
-     *  Link gateway respectively.
+     *  `vpn_gateway`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link
+     *  gateway respectively.
      */
     network_id?: string;
     /** Defines what type of network is connected via this connection. The list of enumerated values for this
@@ -2917,6 +3198,10 @@ namespace TransitGatewayApisV1 {
      *  `gre_tunnel` connections.
      */
     base_connection_id?: string;
+    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway` GRE
+     *  tunnels.
+     */
+    cidr?: string;
     /** The date and time that this connection was created. */
     created_at: string;
     /** Local network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
@@ -2984,7 +3269,6 @@ namespace TransitGatewayApisV1 {
       export enum BaseNetworkType {
         CLASSIC = 'classic',
         VPC = 'vpc',
-        VPN = 'vpn',
       }
       /** Defines what type of network is connected via this connection. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
       export enum NetworkType {
@@ -3063,6 +3347,12 @@ namespace TransitGatewayApisV1 {
     location: string;
     /** A human readable name for the transit gateway. */
     name: string;
+    /** The redundancy group for this global transit gateway. The global transit gateways in this redundancy group
+     *  will be redundant to each other.
+     */
+    redundancy_group?: string;
+    /** The unique identifier of the redundancy group for this global transit gateway. */
+    redundancy_group_id?: string;
     /** The resource group to use. If unspecified, the account's [default resource
      *  group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
      */
@@ -3139,7 +3429,9 @@ namespace TransitGatewayApisV1 {
      *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
      */
     base_network_type?: TransitGatewayConnectionCust.Constants.BaseNetworkType | string;
-    /** network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels. */
+    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway` GRE
+     *  tunnels.
+     */
     cidr?: string;
     /** The date and time that this connection was created. */
     created_at: string;
@@ -3172,9 +3464,9 @@ namespace TransitGatewayApisV1 {
      *  IBM Cloud account than the gateway.
      */
     network_account_id?: string;
-    /** The ID of the network being connected via this connection. For network types `vpc`,`power_virtual_server`,
-     *  `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC / Direct Link / VPN gateway
-     *  respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway`, and
+    /** The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
+     *  `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
+     *  respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
      *  `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set
      *  to VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and
      *  `unbound_gre_tunnel` connections.
@@ -3228,7 +3520,6 @@ namespace TransitGatewayApisV1 {
       export enum BaseNetworkType {
         CLASSIC = 'classic',
         VPC = 'vpc',
-        VPN = 'vpn',
       }
       /** Defines what type of network is connected via this connection. */
       export enum NetworkType {
@@ -3406,7 +3697,6 @@ namespace TransitGatewayApisV1 {
       export enum BaseNetworkType {
         CLASSIC = 'classic',
         VPC = 'vpc',
-        VPN = 'vpn',
       }
       /** Tunnel's current configuration state. The list of enumerated values for this property may expand in the future. Code and processes using this field must tolerate unexpected values. */
       export enum Status {
