@@ -996,7 +996,7 @@ namespace AiSecurityForAppsV1 {
    */
   export interface ApiGatewayOperationsLabelsRespResultItem {
     operation_id?: string;
-    labels?: string[];
+    labels?: JsonObject[];
   }
 
   /**
