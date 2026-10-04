@@ -44,11 +44,11 @@
   "devDependencies": {
     "@ibm-cloud/sdk-test-utilities": "^1.0.0",
     "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/git": "^11.0.1",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "ansi-regex": "^6.0.1",
-    "axios": "^1.7.4",
+    "axios": "^1.20.0",
     "dotenv": "^17.0.0",
     "eslint": "^9.0.0",
     "eslint-config-google": "^0.14.0",
@@ -58,7 +58,6 @@
     "highlight.js": "^11.9.0",
     "installed-check": "^9.0.0",
     "jest": "^30.0.0",
-    "marked": "^16.0.0",
     "nock": "^14.0.0",
     "prettier": "^3.2.5",
     "semantic-release": "^25.0.6",
@@ -68,6 +67,10 @@
     "typedoc": "^0.28.0",
     "typescript": "^5.4.2",
     "yargs-parser": "^22.0.0"
+  },
+  "overrides": {
+    "braces": "^3.0.3",
+    "expect": "^30.5.0"
   },
   "jest": {
     "collectCoverage": true,
