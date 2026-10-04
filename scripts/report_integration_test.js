@@ -12,22 +12,22 @@ const ansi_regex = new RegExp(
   'g'
 );
 
-const failed_suits = test_ouput_json.testResults.filter(suite => suite.status === 'failed');
+const failed_suits = test_ouput_json.testResults.filter((suite) => suite.status === 'failed');
 
 const errors = {
   service: [],
   test: [],
 };
 
-failed_suits.map(suite => {
-  const failed_tests = suite.assertionResults.filter(test => test.status === 'failed');
+failed_suits.map((suite) => {
+  const failed_tests = suite.assertionResults.filter((test) => test.status === 'failed');
   const error_suite = {
     name: suite.name.split('node-sdk/test')[1],
     service: [],
     test: [],
   };
 
-  failed_tests.map(result => {
+  failed_tests.map((result) => {
     const message_clean = result.failureMessages.join('\n').replace(ansi_regex, '');
     error_suite[message_clean.indexOf(/^Received: 5/m) > 0 ? 'service' : 'test'].push(
       `${result.fullName}\n${message_clean}`
@@ -58,12 +58,12 @@ if (process.env.TRAVIS_PULL_REQUEST && process.env.TRAVIS_PULL_REQUEST !== 'fals
       {
         headers: {
           'User-Agent': 'service_name-github-bot',
-          Authorization: `token ${process.env.GH_TOKEN}`,
+          'Authorization': `token ${process.env.GH_TOKEN}`,
         },
       }
     )
-    .catch(error => {
-      console.error(error); // eslint-disable-line
+    .catch((error) => {
+      console.error(error);
     })
     .then(() => {
       if (errors.test.length > 0) {
@@ -72,7 +72,7 @@ if (process.env.TRAVIS_PULL_REQUEST && process.env.TRAVIS_PULL_REQUEST !== 'fals
     });
 } else {
   // Write to stdout
-  console.log(body); // eslint-disable-line
+  console.log(body);
 
   if (errors.test.length > 0) {
     process.exit(1); // eslint-disable-line
