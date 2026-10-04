@@ -1,14 +1,9 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es5",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
-    "module": "commonjs",                     /* Specify module code generation: 'none', commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
-    "lib": [
-      "es5",
-      "es2015",
-      "dom",
-      "scripthost"
-    ],
+    "target": "es2020",                       /* Node >=20 has full ES2020 support; no need to down-compile to ES5. */
+    "module": "commonjs",                     /* CommonJS output for Node.js. */
+    "lib": ["es2020"],                        /* ES2020 stdlib only — no browser (dom/scripthost) libs needed for a Node SDK. */
 
     /* Build source files into a folder called `dist` to maintain clean directories, free of ts-generated files */
     "outDir": "./dist",
@@ -21,7 +16,6 @@
     "alwaysStrict": true,                   /* Parse in strict mode and emit "use strict" for each source file. */
 
     /* Module Resolution Options */
-    "moduleResolution": "node",               /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
-    "types": ["node", "extend"], /* Type declaration files to be included in compilation. */
+    "types": ["node", "extend"]              /* Type declaration files to be included in compilation. */
   }
 }
