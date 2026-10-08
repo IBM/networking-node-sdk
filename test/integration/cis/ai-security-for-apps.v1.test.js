@@ -104,6 +104,131 @@ describe('AiSecurityForAppsV1', () => {
     });
   });
 
+  describe('API Gateway Discovery Operations - Update', () => {
+    test('should update API Gateway discovery operations', async () => {
+      const response = await aiSecurityService.updateZoneApiGatewayDiscoveryOperation({});
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      expect(response.result.success).toBe(true);
+    });
+  });
+
+  describe('API Gateway Operations - List and bulk delete', () => {
+    test('should list zone API Gateway operations', async () => {
+      const response = await aiSecurityService.listZoneApiGatewayOperations({});
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      expect(response.result.success).toBe(true);
+    });
+
+    test('should bulk delete zone API Gateway operations', async () => {
+      const response = await aiSecurityService.deleteZoneApiGatewayOperations({});
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      expect(response.result.success).toBe(true);
+    });
+  });
+
+  describe('API Gateway Operation Labels — per-operation lifecycle', () => {
+    let labelOperationId;
+
+    test('should create a single operation for label tests', async () => {
+      const createResponse = await aiSecurityService.createApiGatewayOperationItem({
+        method: 'POST',
+        host: 'api.example.com',
+        endpoint: '/v1/label-test',
+      });
+      expect(createResponse).toBeDefined();
+      expect(createResponse.status).toEqual(200);
+      expect(createResponse.result.success).toBe(true);
+      labelOperationId = createResponse.result.result.operation_id;
+      expect(labelOperationId).toBeTruthy();
+    });
+
+    test('should add labels to a single operation (createApiGatewayOperationLabels)', async () => {
+      if (!labelOperationId) {
+        console.warn('Skipping: labelOperationId not set');
+        return;
+      }
+      const response = await aiSecurityService.createApiGatewayOperationLabels({
+        operationId: labelOperationId,
+        managed: ['cf-llm'],
+      });
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      expect(response.result.success).toBe(true);
+    });
+
+    test('should replace labels on a single operation (setZoneApiGatewayOperationLabels)', async () => {
+      if (!labelOperationId) {
+        console.warn('Skipping: labelOperationId not set');
+        return;
+      }
+      const response = await aiSecurityService.setZoneApiGatewayOperationLabels({
+        operationId: labelOperationId,
+        managed: ['cf-llm'],
+      });
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      expect(response.result.success).toBe(true);
+    });
+
+    test('should bulk-replace labels via selector (replaceZoneApiGatewayOperationLabels)', async () => {
+      if (!labelOperationId) {
+        console.warn('Skipping: labelOperationId not set');
+        return;
+      }
+      const response = await aiSecurityService.replaceZoneApiGatewayOperationLabels({
+        selector: { include: { operation_ids: [labelOperationId] } },
+        managed: { labels: ['cf-llm'] },
+      });
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      expect(response.result.success).toBe(true);
+    });
+
+    test('should remove labels from a single operation (unsetZoneApiGatewayOperationLabels)', async () => {
+      if (!labelOperationId) {
+        console.warn('Skipping: labelOperationId not set');
+        return;
+      }
+      const response = await aiSecurityService.unsetZoneApiGatewayOperationLabels({
+        operationId: labelOperationId,
+        managed: ['cf-llm'],
+      });
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      expect(response.result.success).toBe(true);
+    });
+
+    test('should bulk-delete labels via selector (deleteZoneApiGatewayOperationLabels)', async () => {
+      if (!labelOperationId) {
+        console.warn('Skipping: labelOperationId not set');
+        return;
+      }
+      const response = await aiSecurityService.deleteZoneApiGatewayOperationLabels({
+        selector: { include: { operation_ids: [labelOperationId] } },
+        managed: { labels: ['cf-llm'] },
+      });
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      expect(response.result.success).toBe(true);
+    });
+
+    test('should delete the label-test operation', async () => {
+      if (!labelOperationId) {
+        console.warn('Skipping: labelOperationId not set');
+        return;
+      }
+      const response = await aiSecurityService.deleteZoneApiGatewayOperation({
+        operationId: labelOperationId,
+      });
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      expect(response.result.success).toBe(true);
+    });
+  });
+
   describe('API Gateway Operations - Single operation lifecycle', () => {
     test('Create a single API Gateway operation, retrieve it by operation ID, delete it, and verify deletion', async () => {
       // 1. Create a single operation

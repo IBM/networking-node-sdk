@@ -486,6 +486,159 @@ describe('AiSecurityForAppsV1', () => {
     });
   });
 
+  describe('deleteZoneApiGatewayOperations', () => {
+    describe('positive tests', () => {
+      function __deleteZoneApiGatewayOperationsTest() {
+        // Construct the params object for operation deleteZoneApiGatewayOperations
+        const operationIds = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415'];
+        const deleteZoneApiGatewayOperationsParams = {
+          operationIds,
+        };
+
+        const deleteZoneApiGatewayOperationsResult = aiSecurityForAppsService.deleteZoneApiGatewayOperations(deleteZoneApiGatewayOperationsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(deleteZoneApiGatewayOperationsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations', 'DELETE');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.operation_ids).toEqual(operationIds);
+        expect(mockRequestOptions.path.crn).toEqual(aiSecurityForAppsServiceOptions.crn);
+        expect(mockRequestOptions.path.zone_identifier).toEqual(aiSecurityForAppsServiceOptions.zoneIdentifier);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteZoneApiGatewayOperationsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.enableRetries();
+        __deleteZoneApiGatewayOperationsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.disableRetries();
+        __deleteZoneApiGatewayOperationsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteZoneApiGatewayOperationsParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        aiSecurityForAppsService.deleteZoneApiGatewayOperations(deleteZoneApiGatewayOperationsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        aiSecurityForAppsService.deleteZoneApiGatewayOperations({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
+  describe('listZoneApiGatewayOperations', () => {
+    describe('positive tests', () => {
+      function __listZoneApiGatewayOperationsTest() {
+        // Construct the params object for operation listZoneApiGatewayOperations
+        const host = ['testString'];
+        const method = ['GET'];
+        const endpoint = 'testString';
+        const labels = ['testString'];
+        const direction = 'asc';
+        const order = 'host';
+        const page = 1;
+        const perPage = 1;
+        const listZoneApiGatewayOperationsParams = {
+          host,
+          method,
+          endpoint,
+          labels,
+          direction,
+          order,
+          page,
+          perPage,
+        };
+
+        const listZoneApiGatewayOperationsResult = aiSecurityForAppsService.listZoneApiGatewayOperations(listZoneApiGatewayOperationsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(listZoneApiGatewayOperationsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.host).toEqual(host);
+        expect(mockRequestOptions.qs.method).toEqual(method);
+        expect(mockRequestOptions.qs.endpoint).toEqual(endpoint);
+        expect(mockRequestOptions.qs.labels).toEqual(labels);
+        expect(mockRequestOptions.qs.direction).toEqual(direction);
+        expect(mockRequestOptions.qs.order).toEqual(order);
+        expect(mockRequestOptions.qs.page).toEqual(page);
+        expect(mockRequestOptions.qs.per_page).toEqual(perPage);
+        expect(mockRequestOptions.path.crn).toEqual(aiSecurityForAppsServiceOptions.crn);
+        expect(mockRequestOptions.path.zone_identifier).toEqual(aiSecurityForAppsServiceOptions.zoneIdentifier);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listZoneApiGatewayOperationsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.enableRetries();
+        __listZoneApiGatewayOperationsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.disableRetries();
+        __listZoneApiGatewayOperationsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listZoneApiGatewayOperationsParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        aiSecurityForAppsService.listZoneApiGatewayOperations(listZoneApiGatewayOperationsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        aiSecurityForAppsService.listZoneApiGatewayOperations({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
   describe('createZoneApiGatewayOperation', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
@@ -633,35 +786,223 @@ describe('AiSecurityForAppsV1', () => {
     });
   });
 
+  describe('replaceZoneApiGatewayOperationLabels', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // ApiGatewayOperationsLabelsBulkInputSelectorInclude
+      const apiGatewayOperationsLabelsBulkInputSelectorIncludeModel = {
+        operation_ids: ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415'],
+      };
+
+      // ApiGatewayOperationsLabelsBulkInputSelector
+      const apiGatewayOperationsLabelsBulkInputSelectorModel = {
+        include: apiGatewayOperationsLabelsBulkInputSelectorIncludeModel,
+      };
+
+      // ApiGatewayOperationsLabelsBulkInputUser
+      const apiGatewayOperationsLabelsBulkInputUserModel = {
+        labels: ['testString'],
+      };
+
+      // ApiGatewayOperationsLabelsBulkInputManaged
+      const apiGatewayOperationsLabelsBulkInputManagedModel = {
+        labels: ['testString'],
+      };
+
+      function __replaceZoneApiGatewayOperationLabelsTest() {
+        // Construct the params object for operation replaceZoneApiGatewayOperationLabels
+        const selector = apiGatewayOperationsLabelsBulkInputSelectorModel;
+        const user = apiGatewayOperationsLabelsBulkInputUserModel;
+        const managed = apiGatewayOperationsLabelsBulkInputManagedModel;
+        const replaceZoneApiGatewayOperationLabelsParams = {
+          selector,
+          user,
+          managed,
+        };
+
+        const replaceZoneApiGatewayOperationLabelsResult = aiSecurityForAppsService.replaceZoneApiGatewayOperationLabels(replaceZoneApiGatewayOperationLabelsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(replaceZoneApiGatewayOperationLabelsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/labels', 'PUT');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.selector).toEqual(selector);
+        expect(mockRequestOptions.body.user).toEqual(user);
+        expect(mockRequestOptions.body.managed).toEqual(managed);
+        expect(mockRequestOptions.path.crn).toEqual(aiSecurityForAppsServiceOptions.crn);
+        expect(mockRequestOptions.path.zone_identifier).toEqual(aiSecurityForAppsServiceOptions.zoneIdentifier);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __replaceZoneApiGatewayOperationLabelsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.enableRetries();
+        __replaceZoneApiGatewayOperationLabelsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.disableRetries();
+        __replaceZoneApiGatewayOperationLabelsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const replaceZoneApiGatewayOperationLabelsParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        aiSecurityForAppsService.replaceZoneApiGatewayOperationLabels(replaceZoneApiGatewayOperationLabelsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        aiSecurityForAppsService.replaceZoneApiGatewayOperationLabels({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
+  describe('deleteZoneApiGatewayOperationLabels', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude
+      const apiGatewayOperationsLabelsBulkDeleteInputSelectorIncludeModel = {
+        operation_ids: ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415'],
+      };
+
+      // ApiGatewayOperationsLabelsBulkDeleteInputSelector
+      const apiGatewayOperationsLabelsBulkDeleteInputSelectorModel = {
+        include: apiGatewayOperationsLabelsBulkDeleteInputSelectorIncludeModel,
+      };
+
+      // ApiGatewayOperationsLabelsBulkDeleteInputUser
+      const apiGatewayOperationsLabelsBulkDeleteInputUserModel = {
+        labels: ['testString'],
+      };
+
+      // ApiGatewayOperationsLabelsBulkDeleteInputManaged
+      const apiGatewayOperationsLabelsBulkDeleteInputManagedModel = {
+        labels: ['testString'],
+      };
+
+      function __deleteZoneApiGatewayOperationLabelsTest() {
+        // Construct the params object for operation deleteZoneApiGatewayOperationLabels
+        const selector = apiGatewayOperationsLabelsBulkDeleteInputSelectorModel;
+        const user = apiGatewayOperationsLabelsBulkDeleteInputUserModel;
+        const managed = apiGatewayOperationsLabelsBulkDeleteInputManagedModel;
+        const deleteZoneApiGatewayOperationLabelsParams = {
+          selector,
+          user,
+          managed,
+        };
+
+        const deleteZoneApiGatewayOperationLabelsResult = aiSecurityForAppsService.deleteZoneApiGatewayOperationLabels(deleteZoneApiGatewayOperationLabelsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(deleteZoneApiGatewayOperationLabelsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/labels', 'DELETE');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.selector).toEqual(selector);
+        expect(mockRequestOptions.body.user).toEqual(user);
+        expect(mockRequestOptions.body.managed).toEqual(managed);
+        expect(mockRequestOptions.path.crn).toEqual(aiSecurityForAppsServiceOptions.crn);
+        expect(mockRequestOptions.path.zone_identifier).toEqual(aiSecurityForAppsServiceOptions.zoneIdentifier);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteZoneApiGatewayOperationLabelsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.enableRetries();
+        __deleteZoneApiGatewayOperationLabelsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.disableRetries();
+        __deleteZoneApiGatewayOperationLabelsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteZoneApiGatewayOperationLabelsParams = {
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        aiSecurityForAppsService.deleteZoneApiGatewayOperationLabels(deleteZoneApiGatewayOperationLabelsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+
+      test('should not have any problems when no parameters are passed in', () => {
+        // invoke the method with no parameters
+        aiSecurityForAppsService.deleteZoneApiGatewayOperationLabels({});
+        checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
   describe('updateApiGatewayOperationLabels', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // ApiGatewayOperationsLabelsInputSelectorInclude
-      const apiGatewayOperationsLabelsInputSelectorIncludeModel = {
+      // ApiGatewayOperationsLabelsBulkInputSelectorInclude
+      const apiGatewayOperationsLabelsBulkInputSelectorIncludeModel = {
         operation_ids: ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415'],
       };
 
-      // ApiGatewayOperationsLabelsInputSelector
-      const apiGatewayOperationsLabelsInputSelectorModel = {
-        include: apiGatewayOperationsLabelsInputSelectorIncludeModel,
+      // ApiGatewayOperationsLabelsBulkInputSelector
+      const apiGatewayOperationsLabelsBulkInputSelectorModel = {
+        include: apiGatewayOperationsLabelsBulkInputSelectorIncludeModel,
       };
 
-      // ApiGatewayOperationsLabelsInputUser
-      const apiGatewayOperationsLabelsInputUserModel = {
+      // ApiGatewayOperationsLabelsBulkInputUser
+      const apiGatewayOperationsLabelsBulkInputUserModel = {
         labels: ['testString'],
       };
 
-      // ApiGatewayOperationsLabelsInputManaged
-      const apiGatewayOperationsLabelsInputManagedModel = {
-        labels: ['cf-llm'],
+      // ApiGatewayOperationsLabelsBulkInputManaged
+      const apiGatewayOperationsLabelsBulkInputManagedModel = {
+        labels: ['testString'],
       };
 
       function __updateApiGatewayOperationLabelsTest() {
         // Construct the params object for operation updateApiGatewayOperationLabels
-        const selector = apiGatewayOperationsLabelsInputSelectorModel;
-        const user = apiGatewayOperationsLabelsInputUserModel;
-        const managed = apiGatewayOperationsLabelsInputManagedModel;
+        const selector = apiGatewayOperationsLabelsBulkInputSelectorModel;
+        const user = apiGatewayOperationsLabelsBulkInputUserModel;
+        const managed = apiGatewayOperationsLabelsBulkInputManagedModel;
         const updateApiGatewayOperationLabelsParams = {
           selector,
           user,
@@ -723,6 +1064,282 @@ describe('AiSecurityForAppsV1', () => {
         // invoke the method with no parameters
         aiSecurityForAppsService.updateApiGatewayOperationLabels({});
         checkForSuccessfulExecution(createRequestMock);
+      });
+    });
+  });
+
+  describe('createApiGatewayOperationLabels', () => {
+    describe('positive tests', () => {
+      function __createApiGatewayOperationLabelsTest() {
+        // Construct the params object for operation createApiGatewayOperationLabels
+        const operationId = 'testString';
+        const user = ['string'];
+        const managed = ['cf-llm'];
+        const createApiGatewayOperationLabelsParams = {
+          operationId,
+          user,
+          managed,
+        };
+
+        const createApiGatewayOperationLabelsResult = aiSecurityForAppsService.createApiGatewayOperationLabels(createApiGatewayOperationLabelsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(createApiGatewayOperationLabelsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.user).toEqual(user);
+        expect(mockRequestOptions.body.managed).toEqual(managed);
+        expect(mockRequestOptions.path.crn).toEqual(aiSecurityForAppsServiceOptions.crn);
+        expect(mockRequestOptions.path.zone_identifier).toEqual(aiSecurityForAppsServiceOptions.zoneIdentifier);
+        expect(mockRequestOptions.path.operation_id).toEqual(operationId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createApiGatewayOperationLabelsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.enableRetries();
+        __createApiGatewayOperationLabelsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.disableRetries();
+        __createApiGatewayOperationLabelsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const operationId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createApiGatewayOperationLabelsParams = {
+          operationId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        aiSecurityForAppsService.createApiGatewayOperationLabels(createApiGatewayOperationLabelsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await aiSecurityForAppsService.createApiGatewayOperationLabels({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await aiSecurityForAppsService.createApiGatewayOperationLabels();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('setZoneApiGatewayOperationLabels', () => {
+    describe('positive tests', () => {
+      function __setZoneApiGatewayOperationLabelsTest() {
+        // Construct the params object for operation setZoneApiGatewayOperationLabels
+        const operationId = 'testString';
+        const user = ['string'];
+        const managed = ['cf-llm'];
+        const setZoneApiGatewayOperationLabelsParams = {
+          operationId,
+          user,
+          managed,
+        };
+
+        const setZoneApiGatewayOperationLabelsResult = aiSecurityForAppsService.setZoneApiGatewayOperationLabels(setZoneApiGatewayOperationLabelsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(setZoneApiGatewayOperationLabelsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels', 'PUT');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.user).toEqual(user);
+        expect(mockRequestOptions.body.managed).toEqual(managed);
+        expect(mockRequestOptions.path.crn).toEqual(aiSecurityForAppsServiceOptions.crn);
+        expect(mockRequestOptions.path.zone_identifier).toEqual(aiSecurityForAppsServiceOptions.zoneIdentifier);
+        expect(mockRequestOptions.path.operation_id).toEqual(operationId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __setZoneApiGatewayOperationLabelsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.enableRetries();
+        __setZoneApiGatewayOperationLabelsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.disableRetries();
+        __setZoneApiGatewayOperationLabelsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const operationId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const setZoneApiGatewayOperationLabelsParams = {
+          operationId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        aiSecurityForAppsService.setZoneApiGatewayOperationLabels(setZoneApiGatewayOperationLabelsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await aiSecurityForAppsService.setZoneApiGatewayOperationLabels({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await aiSecurityForAppsService.setZoneApiGatewayOperationLabels();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('unsetZoneApiGatewayOperationLabels', () => {
+    describe('positive tests', () => {
+      function __unsetZoneApiGatewayOperationLabelsTest() {
+        // Construct the params object for operation unsetZoneApiGatewayOperationLabels
+        const operationId = 'testString';
+        const user = ['testString'];
+        const managed = ['testString'];
+        const unsetZoneApiGatewayOperationLabelsParams = {
+          operationId,
+          user,
+          managed,
+        };
+
+        const unsetZoneApiGatewayOperationLabelsResult = aiSecurityForAppsService.unsetZoneApiGatewayOperationLabels(unsetZoneApiGatewayOperationLabelsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(unsetZoneApiGatewayOperationLabelsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels', 'DELETE');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.user).toEqual(user);
+        expect(mockRequestOptions.body.managed).toEqual(managed);
+        expect(mockRequestOptions.path.crn).toEqual(aiSecurityForAppsServiceOptions.crn);
+        expect(mockRequestOptions.path.zone_identifier).toEqual(aiSecurityForAppsServiceOptions.zoneIdentifier);
+        expect(mockRequestOptions.path.operation_id).toEqual(operationId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __unsetZoneApiGatewayOperationLabelsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.enableRetries();
+        __unsetZoneApiGatewayOperationLabelsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        aiSecurityForAppsService.disableRetries();
+        __unsetZoneApiGatewayOperationLabelsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const operationId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const unsetZoneApiGatewayOperationLabelsParams = {
+          operationId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        aiSecurityForAppsService.unsetZoneApiGatewayOperationLabels(unsetZoneApiGatewayOperationLabelsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await aiSecurityForAppsService.unsetZoneApiGatewayOperationLabels({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await aiSecurityForAppsService.unsetZoneApiGatewayOperationLabels();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });

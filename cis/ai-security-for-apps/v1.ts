@@ -420,6 +420,139 @@ class AiSecurityForAppsV1 extends BaseService {
    ************************/
 
   /**
+   * Bulk-delete all API Gateway operations for a zone.
+   *
+   * Bulk-delete all API Gateway operations saved to Endpoint Management for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string[]} [params.operationIds] - Array of operation UUIDs to delete. When absent, all operations are
+   * deleted.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayNullResultResp>>}
+   */
+  public deleteZoneApiGatewayOperations(
+    params?: AiSecurityForAppsV1.DeleteZoneApiGatewayOperationsParams
+  ): Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayNullResultResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['operationIds', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'operation_ids': _params.operationIds,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(AiSecurityForAppsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteZoneApiGatewayOperations');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations',
+        method: 'DELETE',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * List API Gateway operations.
+   *
+   * List all API Gateway operations saved to Endpoint Management for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string[]} [params.host] - Filter results to only include the specified hosts.
+   * @param {string[]} [params.method] - Filter results to only include the specified HTTP methods.
+   * @param {string} [params.endpoint] - Filter results to only include endpoints containing this pattern.
+   * @param {string[]} [params.labels] - Filter results to only include operations with these labels applied. Use cf-llm
+   * to find endpoints tagged for AI Security for Apps scanning.
+   * @param {string} [params.direction] - Direction to order results.
+   * @param {string} [params.order] - Field to order results by.
+   * @param {number} [params.page] - Page number of paginated results.
+   * @param {number} [params.perPage] - Maximum number of results per page.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayOperationsListResp>>}
+   */
+  public listZoneApiGatewayOperations(
+    params?: AiSecurityForAppsV1.ListZoneApiGatewayOperationsParams
+  ): Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayOperationsListResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['host', 'method', 'endpoint', 'labels', 'direction', 'order', 'page', 'perPage', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'host': _params.host,
+      'method': _params.method,
+      'endpoint': _params.endpoint,
+      'labels': _params.labels,
+      'direction': _params.direction,
+      'order': _params.order,
+      'page': _params.page,
+      'per_page': _params.perPage,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(AiSecurityForAppsV1.DEFAULT_SERVICE_NAME, 'v1', 'listZoneApiGatewayOperations');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
    * Create API Gateway operations in bulk.
    *
    * Create API Gateway operations in bulk for a zone, saving them to Endpoint Management.
@@ -539,6 +672,134 @@ class AiSecurityForAppsV1 extends BaseService {
   }
 
   /**
+   * Replace labels on API Gateway operations in bulk.
+   *
+   * Replace labels on a set of API Gateway operations in bulk.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {ApiGatewayOperationsLabelsBulkInputSelector} [params.selector] - Selector specifying which operations to
+   * label.
+   * @param {ApiGatewayOperationsLabelsBulkInputUser} [params.user] - User-defined labels to apply.
+   * @param {ApiGatewayOperationsLabelsBulkInputManaged} [params.managed] - Managed labels to apply (e.g. cf-llm).
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayOperationsLabelsResp>>}
+   */
+  public replaceZoneApiGatewayOperationLabels(
+    params?: AiSecurityForAppsV1.ReplaceZoneApiGatewayOperationLabelsParams
+  ): Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayOperationsLabelsResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['selector', 'user', 'managed', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'selector': _params.selector,
+      'user': _params.user,
+      'managed': _params.managed,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(AiSecurityForAppsV1.DEFAULT_SERVICE_NAME, 'v1', 'replaceZoneApiGatewayOperationLabels');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/labels',
+        method: 'PUT',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Remove labels from API Gateway operations in bulk.
+   *
+   * Remove labels from a set of API Gateway operations in bulk.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {ApiGatewayOperationsLabelsBulkDeleteInputSelector} [params.selector] - Selector specifying which operations
+   * to affect.
+   * @param {ApiGatewayOperationsLabelsBulkDeleteInputUser} [params.user] - User-defined labels to remove.
+   * @param {ApiGatewayOperationsLabelsBulkDeleteInputManaged} [params.managed] - Managed labels to remove.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayNullResultResp>>}
+   */
+  public deleteZoneApiGatewayOperationLabels(
+    params?: AiSecurityForAppsV1.DeleteZoneApiGatewayOperationLabelsParams
+  ): Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayNullResultResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['selector', 'user', 'managed', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'selector': _params.selector,
+      'user': _params.user,
+      'managed': _params.managed,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(AiSecurityForAppsV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteZoneApiGatewayOperationLabels');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/labels',
+        method: 'DELETE',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
    * Add or remove labels from API Gateway operations.
    *
    * Add or remove labels from one or more API Gateway operations. Apply the built-in LLM label to endpoints that
@@ -546,9 +807,10 @@ class AiSecurityForAppsV1 extends BaseService {
    * unsafe topics.
    *
    * @param {Object} [params] - The parameters to send to the service.
-   * @param {ApiGatewayOperationsLabelsInputSelector} [params.selector] - Selector specifying which operations to label.
-   * @param {ApiGatewayOperationsLabelsInputUser} [params.user] - User-defined labels to apply.
-   * @param {ApiGatewayOperationsLabelsInputManaged} [params.managed] - Managed labels to apply (e.g. cf-llm).
+   * @param {ApiGatewayOperationsLabelsBulkInputSelector} [params.selector] - Selector specifying which operations to
+   * label.
+   * @param {ApiGatewayOperationsLabelsBulkInputUser} [params.user] - User-defined labels to apply.
+   * @param {ApiGatewayOperationsLabelsBulkInputManaged} [params.managed] - Managed labels to apply (e.g. cf-llm).
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayOperationsLabelsResp>>}
    */
@@ -580,6 +842,195 @@ class AiSecurityForAppsV1 extends BaseService {
       options: {
         url: '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/labels',
         method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Attach labels to a single operation.
+   *
+   * Attach labels to a single API Gateway operation.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.operationId - UUID of the API Gateway operation.
+   * @param {string[]} [params.user] - Flat list of user-defined label names to attach.
+   * @param {string[]} [params.managed] - Flat list of managed label names to attach (e.g. cf-llm).
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayOperationLabelResp>>}
+   */
+  public createApiGatewayOperationLabels(
+    params: AiSecurityForAppsV1.CreateApiGatewayOperationLabelsParams
+  ): Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayOperationLabelResp>> {
+    const _params = { ...params };
+    const _requiredParams = ['operationId'];
+    const _validParams = ['operationId', 'user', 'managed', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'user': _params.user,
+      'managed': _params.managed,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+      'operation_id': _params.operationId,
+    };
+
+    const sdkHeaders = getSdkHeaders(AiSecurityForAppsV1.DEFAULT_SERVICE_NAME, 'v1', 'createApiGatewayOperationLabels');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Replace labels on a single operation.
+   *
+   * Replace labels on a single API Gateway operation.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.operationId - UUID of the API Gateway operation.
+   * @param {string[]} [params.user] - Flat list of user-defined label names to attach.
+   * @param {string[]} [params.managed] - Flat list of managed label names to attach (e.g. cf-llm).
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayOperationLabelResp>>}
+   */
+  public setZoneApiGatewayOperationLabels(
+    params: AiSecurityForAppsV1.SetZoneApiGatewayOperationLabelsParams
+  ): Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayOperationLabelResp>> {
+    const _params = { ...params };
+    const _requiredParams = ['operationId'];
+    const _validParams = ['operationId', 'user', 'managed', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'user': _params.user,
+      'managed': _params.managed,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+      'operation_id': _params.operationId,
+    };
+
+    const sdkHeaders = getSdkHeaders(AiSecurityForAppsV1.DEFAULT_SERVICE_NAME, 'v1', 'setZoneApiGatewayOperationLabels');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels',
+        method: 'PUT',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Remove labels from a single operation.
+   *
+   * Remove labels from a single API Gateway operation.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.operationId - UUID of the API Gateway operation.
+   * @param {string[]} [params.user] - Flat list of user-defined label names to remove.
+   * @param {string[]} [params.managed] - Flat list of managed label names to remove.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayNullResultResp>>}
+   */
+  public unsetZoneApiGatewayOperationLabels(
+    params: AiSecurityForAppsV1.UnsetZoneApiGatewayOperationLabelsParams
+  ): Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayNullResultResp>> {
+    const _params = { ...params };
+    const _requiredParams = ['operationId'];
+    const _validParams = ['operationId', 'user', 'managed', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'user': _params.user,
+      'managed': _params.managed,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+      'operation_id': _params.operationId,
+    };
+
+    const sdkHeaders = getSdkHeaders(AiSecurityForAppsV1.DEFAULT_SERVICE_NAME, 'v1', 'unsetZoneApiGatewayOperationLabels');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels',
+        method: 'DELETE',
         body,
         path,
       },
@@ -880,6 +1331,60 @@ namespace AiSecurityForAppsV1 {
     requestBody?: JsonObject;
   }
 
+  /** Parameters for the `deleteZoneApiGatewayOperations` operation. */
+  export interface DeleteZoneApiGatewayOperationsParams extends DefaultParams {
+    /** Array of operation UUIDs to delete. When absent, all operations are deleted. */
+    operationIds?: string[];
+  }
+
+  /** Parameters for the `listZoneApiGatewayOperations` operation. */
+  export interface ListZoneApiGatewayOperationsParams extends DefaultParams {
+    /** Filter results to only include the specified hosts. */
+    host?: string[];
+    /** Filter results to only include the specified HTTP methods. */
+    method?: ListZoneApiGatewayOperationsConstants.Method[] | string[];
+    /** Filter results to only include endpoints containing this pattern. */
+    endpoint?: string;
+    /** Filter results to only include operations with these labels applied. Use cf-llm to find endpoints tagged for
+     *  AI Security for Apps scanning.
+     */
+    labels?: string[];
+    /** Direction to order results. */
+    direction?: ListZoneApiGatewayOperationsConstants.Direction | string;
+    /** Field to order results by. */
+    order?: ListZoneApiGatewayOperationsConstants.Order | string;
+    /** Page number of paginated results. */
+    page?: number;
+    /** Maximum number of results per page. */
+    perPage?: number;
+  }
+
+  /** Constants for the `listZoneApiGatewayOperations` operation. */
+  export namespace ListZoneApiGatewayOperationsConstants {
+    /** Filter results to only include the specified HTTP methods. */
+    export enum Method {
+      GET = 'GET',
+      POST = 'POST',
+      PUT = 'PUT',
+      PATCH = 'PATCH',
+      DELETE = 'DELETE',
+      HEAD = 'HEAD',
+      OPTIONS = 'OPTIONS',
+    }
+    /** Direction to order results. */
+    export enum Direction {
+      ASC = 'asc',
+      DESC = 'desc',
+    }
+    /** Field to order results by. */
+    export enum Order {
+      HOST = 'host',
+      METHOD = 'method',
+      ENDPOINT = 'endpoint',
+      LAST_UPDATED = 'last_updated',
+    }
+  }
+
   /** Parameters for the `createZoneApiGatewayOperation` operation. */
   export interface CreateZoneApiGatewayOperationParams extends DefaultParams {
     /** List of operations to create. */
@@ -910,14 +1415,64 @@ namespace AiSecurityForAppsV1 {
     }
   }
 
+  /** Parameters for the `replaceZoneApiGatewayOperationLabels` operation. */
+  export interface ReplaceZoneApiGatewayOperationLabelsParams extends DefaultParams {
+    /** Selector specifying which operations to label. */
+    selector?: ApiGatewayOperationsLabelsBulkInputSelector;
+    /** User-defined labels to apply. */
+    user?: ApiGatewayOperationsLabelsBulkInputUser;
+    /** Managed labels to apply (e.g. cf-llm). */
+    managed?: ApiGatewayOperationsLabelsBulkInputManaged;
+  }
+
+  /** Parameters for the `deleteZoneApiGatewayOperationLabels` operation. */
+  export interface DeleteZoneApiGatewayOperationLabelsParams extends DefaultParams {
+    /** Selector specifying which operations to affect. */
+    selector?: ApiGatewayOperationsLabelsBulkDeleteInputSelector;
+    /** User-defined labels to remove. */
+    user?: ApiGatewayOperationsLabelsBulkDeleteInputUser;
+    /** Managed labels to remove. */
+    managed?: ApiGatewayOperationsLabelsBulkDeleteInputManaged;
+  }
+
   /** Parameters for the `updateApiGatewayOperationLabels` operation. */
   export interface UpdateApiGatewayOperationLabelsParams extends DefaultParams {
     /** Selector specifying which operations to label. */
-    selector?: ApiGatewayOperationsLabelsInputSelector;
+    selector?: ApiGatewayOperationsLabelsBulkInputSelector;
     /** User-defined labels to apply. */
-    user?: ApiGatewayOperationsLabelsInputUser;
+    user?: ApiGatewayOperationsLabelsBulkInputUser;
     /** Managed labels to apply (e.g. cf-llm). */
-    managed?: ApiGatewayOperationsLabelsInputManaged;
+    managed?: ApiGatewayOperationsLabelsBulkInputManaged;
+  }
+
+  /** Parameters for the `createApiGatewayOperationLabels` operation. */
+  export interface CreateApiGatewayOperationLabelsParams extends DefaultParams {
+    /** UUID of the API Gateway operation. */
+    operationId: string;
+    /** Flat list of user-defined label names to attach. */
+    user?: string[];
+    /** Flat list of managed label names to attach (e.g. cf-llm). */
+    managed?: string[];
+  }
+
+  /** Parameters for the `setZoneApiGatewayOperationLabels` operation. */
+  export interface SetZoneApiGatewayOperationLabelsParams extends DefaultParams {
+    /** UUID of the API Gateway operation. */
+    operationId: string;
+    /** Flat list of user-defined label names to attach. */
+    user?: string[];
+    /** Flat list of managed label names to attach (e.g. cf-llm). */
+    managed?: string[];
+  }
+
+  /** Parameters for the `unsetZoneApiGatewayOperationLabels` operation. */
+  export interface UnsetZoneApiGatewayOperationLabelsParams extends DefaultParams {
+    /** UUID of the API Gateway operation. */
+    operationId: string;
+    /** Flat list of user-defined label names to remove. */
+    user?: string[];
+    /** Flat list of managed label names to remove. */
+    managed?: string[];
   }
 
   /** Parameters for the `getZoneApiGatewayOperation` operation. */
@@ -960,25 +1515,77 @@ namespace AiSecurityForAppsV1 {
   }
 
   /**
+   * The updated operation with its label set.
+   */
+  export interface ApiGatewayOperationLabelRespResult {
+    /** UUID of the operation. */
+    operation_id?: string;
+    /** Labels applied to the operation. */
+    labels?: ApiGatewayOperationLabelRespResultLabelsItem[];
+  }
+
+  /**
+   * ApiGatewayOperationLabelRespResultLabelsItem.
+   */
+  export interface ApiGatewayOperationLabelRespResultLabelsItem {
+    /** Label name. */
+    name?: string;
+    /** Label source (e.g. managed or user). */
+    source?: string;
+  }
+
+  /**
+   * Managed labels to remove.
+   */
+  export interface ApiGatewayOperationsLabelsBulkDeleteInputManaged {
+    /** List of managed label names to remove. */
+    labels?: string[];
+  }
+
+  /**
+   * Selector specifying which operations to affect.
+   */
+  export interface ApiGatewayOperationsLabelsBulkDeleteInputSelector {
+    /** Operations to include. */
+    include: ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude;
+  }
+
+  /**
+   * Operations to include.
+   */
+  export interface ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude {
+    /** Array of operation UUIDs to remove labels from. */
+    operation_ids?: string[];
+  }
+
+  /**
+   * User-defined labels to remove.
+   */
+  export interface ApiGatewayOperationsLabelsBulkDeleteInputUser {
+    /** List of user-defined label names to remove. */
+    labels?: string[];
+  }
+
+  /**
    * Managed labels to apply (e.g. cf-llm).
    */
-  export interface ApiGatewayOperationsLabelsInputManaged {
-    /** Array of managed label strings. */
+  export interface ApiGatewayOperationsLabelsBulkInputManaged {
+    /** List of managed label names to apply. */
     labels?: string[];
   }
 
   /**
    * Selector specifying which operations to label.
    */
-  export interface ApiGatewayOperationsLabelsInputSelector {
+  export interface ApiGatewayOperationsLabelsBulkInputSelector {
     /** Operations to include in the label operation. */
-    include: ApiGatewayOperationsLabelsInputSelectorInclude;
+    include: ApiGatewayOperationsLabelsBulkInputSelectorInclude;
   }
 
   /**
    * Operations to include in the label operation.
    */
-  export interface ApiGatewayOperationsLabelsInputSelectorInclude {
+  export interface ApiGatewayOperationsLabelsBulkInputSelectorInclude {
     /** Array of operation UUIDs to label. */
     operation_ids?: string[];
   }
@@ -986,8 +1593,8 @@ namespace AiSecurityForAppsV1 {
   /**
    * User-defined labels to apply.
    */
-  export interface ApiGatewayOperationsLabelsInputUser {
-    /** Array of user-defined label strings. */
+  export interface ApiGatewayOperationsLabelsBulkInputUser {
+    /** List of user-defined label names to apply. */
     labels?: string[];
   }
 
@@ -996,7 +1603,29 @@ namespace AiSecurityForAppsV1 {
    */
   export interface ApiGatewayOperationsLabelsRespResultItem {
     operation_id?: string;
-    labels?: JsonObject[];
+    labels?: ApiGatewayOperationsLabelsRespResultItemLabelsItem[];
+  }
+
+  /**
+   * ApiGatewayOperationsLabelsRespResultItemLabelsItem.
+   */
+  export interface ApiGatewayOperationsLabelsRespResultItemLabelsItem {
+    /** Label name. */
+    name?: string;
+    /** Label source (e.g. managed or user). */
+    source?: string;
+  }
+
+  /**
+   * ApiGatewayOperationsListRespResultItem.
+   */
+  export interface ApiGatewayOperationsListRespResultItem {
+    /** UUID of the operation. */
+    operation_id?: string;
+    method?: string;
+    host?: string;
+    endpoint?: string;
+    last_updated?: string;
   }
 
   /**
@@ -1057,6 +1686,20 @@ namespace AiSecurityForAppsV1 {
   }
 
   /**
+   * API Gateway response with null result on success.
+   */
+  export interface ApiGatewayNullResultResp {
+    /** Was operation successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+    /** Result is empty on success. */
+    result: JsonObject;
+  }
+
+  /**
    * An API Gateway operation definition.
    */
   export interface ApiGatewayOperation {
@@ -1096,6 +1739,20 @@ namespace AiSecurityForAppsV1 {
   }
 
   /**
+   * API Gateway single operation label response.
+   */
+  export interface ApiGatewayOperationLabelResp {
+    /** Was operation successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+    /** The updated operation with its label set. */
+    result: ApiGatewayOperationLabelRespResult;
+  }
+
+  /**
    * API Gateway operations labels update response.
    */
   export interface ApiGatewayOperationsLabelsResp {
@@ -1107,6 +1764,21 @@ namespace AiSecurityForAppsV1 {
     messages: string[][];
     /** List of operations with their updated label sets. */
     result: ApiGatewayOperationsLabelsRespResultItem[];
+  }
+
+  /**
+   * API Gateway operations list response.
+   */
+  export interface ApiGatewayOperationsListResp {
+    /** Was operation successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+    /** List of operations in Endpoint Management. */
+    result: ApiGatewayOperationsListRespResultItem[];
+    result_info?: ResultInfo;
   }
 
   /**
