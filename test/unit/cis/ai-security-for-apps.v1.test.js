@@ -340,7 +340,7 @@ describe('AiSecurityForAppsV1', () => {
         const origin = 'ML';
         const state = 'review';
         const page = 1;
-        const perPage = 1;
+        const perPage = 5;
         const listApiGatewayDiscoveryOperationsParams = {
           diff,
           direction,
@@ -953,9 +953,11 @@ describe('AiSecurityForAppsV1', () => {
 
       test('should prioritize user-given headers', () => {
         // parameters
+        const selector = apiGatewayOperationsLabelsBulkDeleteInputSelectorModel;
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const deleteZoneApiGatewayOperationLabelsParams = {
+          selector,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
@@ -965,11 +967,29 @@ describe('AiSecurityForAppsV1', () => {
         aiSecurityForAppsService.deleteZoneApiGatewayOperationLabels(deleteZoneApiGatewayOperationLabelsParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
+    });
 
-      test('should not have any problems when no parameters are passed in', () => {
-        // invoke the method with no parameters
-        aiSecurityForAppsService.deleteZoneApiGatewayOperationLabels({});
-        checkForSuccessfulExecution(createRequestMock);
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await aiSecurityForAppsService.deleteZoneApiGatewayOperationLabels({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await aiSecurityForAppsService.deleteZoneApiGatewayOperationLabels();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });
@@ -1073,7 +1093,7 @@ describe('AiSecurityForAppsV1', () => {
       function __createApiGatewayOperationLabelsTest() {
         // Construct the params object for operation createApiGatewayOperationLabels
         const operationId = 'testString';
-        const user = ['string'];
+        const user = [];
         const managed = ['cf-llm'];
         const createApiGatewayOperationLabelsParams = {
           operationId,
@@ -1165,7 +1185,7 @@ describe('AiSecurityForAppsV1', () => {
       function __setZoneApiGatewayOperationLabelsTest() {
         // Construct the params object for operation setZoneApiGatewayOperationLabels
         const operationId = 'testString';
-        const user = ['string'];
+        const user = [];
         const managed = ['cf-llm'];
         const setZoneApiGatewayOperationLabelsParams = {
           operationId,

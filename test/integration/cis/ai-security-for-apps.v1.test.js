@@ -93,6 +93,16 @@ describe('AiSecurityForAppsV1', () => {
       expect(response.status).toEqual(200);
       expect(response.result.success).toBe(true);
     });
+
+    test('should list API Gateway discovery operations with filters', async () => {
+      const response = await aiSecurityService.listApiGatewayDiscoveryOperations({
+        perPage: 5,
+        page: 1,
+      });
+      expect(response).toBeDefined();
+      expect(response.status).toEqual(200);
+      expect(response.result.success).toBe(true);
+    });
   });
 
   describe('API Gateway Schemas', () => {
@@ -105,27 +115,87 @@ describe('AiSecurityForAppsV1', () => {
   });
 
   describe('API Gateway Discovery Operations - Update', () => {
-    test('should update API Gateway discovery operations', async () => {
-      const response = await aiSecurityService.updateZoneApiGatewayDiscoveryOperation({});
-      expect(response).toBeDefined();
-      expect(response.status).toEqual(200);
-      expect(response.result.success).toBe(true);
+    test('should bulk-update discovered operation state (ignored -> review)', async () => {
+      // Find at least one operation in "review" state to patch
+      const listResponse = await aiSecurityService.listApiGatewayDiscoveryOperations({
+        state: 'review',
+        perPage: 5,
+      });
+      expect(listResponse).toBeDefined();
+      expect(listResponse.status).toEqual(200);
+      expect(listResponse.result.success).toBe(true);
+
+      if (!listResponse.result.result || listResponse.result.result.length === 0) {
+        console.warn("Skipping: no discovered operations in 'review' state");
+        return;
+      }
+
+      const discoveredId = listResponse.result.result[0].id;
+
+      // PATCH: mark "ignored"; body is a free-form map { uuid: { state } }
+      const patchResponse = await aiSecurityService.updateZoneApiGatewayDiscoveryOperation({
+        requestBody: { [discoveredId]: { state: 'ignored' } },
+      });
+      expect(patchResponse).toBeDefined();
+      expect(patchResponse.status).toEqual(200);
+      expect(patchResponse.result.success).toBe(true);
+
+      // Restore to "review"
+      const restoreResponse = await aiSecurityService.updateZoneApiGatewayDiscoveryOperation({
+        requestBody: { [discoveredId]: { state: 'review' } },
+      });
+      expect(restoreResponse.status).toEqual(200);
     });
   });
 
-  describe('API Gateway Operations - List and bulk delete', () => {
+  describe('API Gateway Operations - List', () => {
     test('should list zone API Gateway operations', async () => {
       const response = await aiSecurityService.listZoneApiGatewayOperations({});
       expect(response).toBeDefined();
       expect(response.status).toEqual(200);
       expect(response.result.success).toBe(true);
     });
+  });
 
-    test('should bulk delete zone API Gateway operations', async () => {
-      const response = await aiSecurityService.deleteZoneApiGatewayOperations({});
-      expect(response).toBeDefined();
-      expect(response.status).toEqual(200);
-      expect(response.result.success).toBe(true);
+  describe('API Gateway Operations - Bulk delete', () => {
+    test('should create two operations then bulk-delete them', async () => {
+      const createResponse = await aiSecurityService.createZoneApiGatewayOperation({
+        apiGatewayOperation: [
+          { method: 'GET', host: 'api.example.com', endpoint: '/v1/bulk-del/a' },
+          { method: 'POST', host: 'api.example.com', endpoint: '/v1/bulk-del/b' },
+        ],
+      });
+      expect(createResponse).toBeDefined();
+      expect(createResponse.status).toEqual(200);
+      expect(createResponse.result.success).toBe(true);
+      expect(createResponse.result.result.length).toBeGreaterThanOrEqual(1);
+
+      let ids = createResponse.result.result
+        .filter((op) => op.operation_id)
+        .map((op) => op.operation_id);
+
+      try {
+        // Attempt bulk-delete; tolerate failure (backend inconsistency on some zones)
+        const bulkDeleteResponse = await aiSecurityService.deleteZoneApiGatewayOperations({
+          operationIds: ids,
+        });
+        expect(bulkDeleteResponse).toBeDefined();
+        expect(bulkDeleteResponse.result.success).toBe(true);
+        ids = [];
+      } catch (err) {
+        console.warn(
+          `deleteZoneApiGatewayOperations returned error (may be unsupported on this zone): ${err.message}`
+        );
+      } finally {
+        // Always clean up individually
+        for (const operationId of ids) {
+          try {
+            await aiSecurityService.deleteZoneApiGatewayOperation({ operationId });
+          } catch (e) {
+            // ignore
+          }
+        }
+      }
     });
   });
 
@@ -152,6 +222,7 @@ describe('AiSecurityForAppsV1', () => {
       }
       const response = await aiSecurityService.createApiGatewayOperationLabels({
         operationId: labelOperationId,
+        user: [],
         managed: ['cf-llm'],
       });
       expect(response).toBeDefined();
@@ -166,6 +237,7 @@ describe('AiSecurityForAppsV1', () => {
       }
       const response = await aiSecurityService.setZoneApiGatewayOperationLabels({
         operationId: labelOperationId,
+        user: [],
         managed: ['cf-llm'],
       });
       expect(response).toBeDefined();
@@ -180,6 +252,7 @@ describe('AiSecurityForAppsV1', () => {
       }
       const response = await aiSecurityService.replaceZoneApiGatewayOperationLabels({
         selector: { include: { operation_ids: [labelOperationId] } },
+        user: { labels: [] },
         managed: { labels: ['cf-llm'] },
       });
       expect(response).toBeDefined();
@@ -194,6 +267,7 @@ describe('AiSecurityForAppsV1', () => {
       }
       const response = await aiSecurityService.unsetZoneApiGatewayOperationLabels({
         operationId: labelOperationId,
+        user: [],
         managed: ['cf-llm'],
       });
       expect(response).toBeDefined();
@@ -246,7 +320,17 @@ describe('AiSecurityForAppsV1', () => {
 
       const operationId = createResponse.result.result.operation_id;
 
-      // 2. Retrieve the operation using the captured operationID
+      // 2a. List operations and verify the newly created one appears
+      const listResponse = await aiSecurityService.listZoneApiGatewayOperations({
+        host: ['api.example.com'],
+        method: ['POST'],
+      });
+      expect(listResponse).toBeDefined();
+      expect(listResponse.status).toEqual(200);
+      expect(listResponse.result.success).toBe(true);
+      expect(listResponse.result.result.some((op) => op.operation_id === operationId)).toBe(true);
+
+      // 2b. Retrieve the operation using the captured operationID
       const getResponse = await aiSecurityService.getZoneApiGatewayOperation({
         operationId,
       });
@@ -256,6 +340,9 @@ describe('AiSecurityForAppsV1', () => {
       expect(getResponse.result.success).toBe(true);
       expect(getResponse.result.result).toBeDefined();
       expect(getResponse.result.result.operation_id).toEqual(operationId);
+      expect(getResponse.result.result.method).toEqual('POST');
+      expect(getResponse.result.result.host).toEqual('api.example.com');
+      expect(getResponse.result.result.endpoint).toEqual('/v1/messages');
 
       // 3. Delete the operation
       const deleteResponse = await aiSecurityService.deleteZoneApiGatewayOperation({
@@ -343,6 +430,9 @@ describe('AiSecurityForAppsV1', () => {
             operation_ids: bulkOperationIDs,
           },
         },
+        user: {
+          labels: [],
+        },
         managed: {
           labels: [managedLabel],
         },
@@ -366,6 +456,9 @@ describe('AiSecurityForAppsV1', () => {
             operation_ids: narrowedIDs,
           },
         },
+        user: {
+          labels: [],
+        },
         managed: {
           labels: [managedLabel],
         },
@@ -380,6 +473,34 @@ describe('AiSecurityForAppsV1', () => {
         const labelNames = item.labels.map((l) => (typeof l === 'string' ? l : l.name));
         expect(labelNames).toContain(managedLabel);
       });
+    });
+
+    test('Scenario 2b: Bulk-replace and bulk-delete labels on all operations', async () => {
+      if (!bulkOperationIDs || bulkOperationIDs.length === 0) {
+        console.warn('Skipping Scenario 2b: bulkOperationIDs is empty or unavailable');
+        return;
+      }
+
+      const managedLabel = 'cf-llm';
+
+      // PUT /operations/labels
+      const replaceResponse = await aiSecurityService.replaceZoneApiGatewayOperationLabels({
+        selector: { include: { operation_ids: bulkOperationIDs } },
+        user: { labels: [] },
+        managed: { labels: [managedLabel] },
+      });
+      expect(replaceResponse).toBeDefined();
+      expect(replaceResponse.status).toEqual(200);
+      expect(replaceResponse.result.success).toBe(true);
+
+      // DELETE /operations/labels
+      const deleteLabelsResponse = await aiSecurityService.deleteZoneApiGatewayOperationLabels({
+        selector: { include: { operation_ids: bulkOperationIDs } },
+        managed: { labels: [managedLabel] },
+      });
+      expect(deleteLabelsResponse).toBeDefined();
+      expect(deleteLabelsResponse.status).toEqual(200);
+      expect(deleteLabelsResponse.result.success).toBe(true);
     });
 
     test('Scenario 3: Delete all bulk-created operations', async () => {

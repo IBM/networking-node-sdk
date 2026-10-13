@@ -425,8 +425,7 @@ class AiSecurityForAppsV1 extends BaseService {
    * Bulk-delete all API Gateway operations saved to Endpoint Management for a zone.
    *
    * @param {Object} [params] - The parameters to send to the service.
-   * @param {string[]} [params.operationIds] - Array of operation UUIDs to delete. When absent, all operations are
-   * deleted.
+   * @param {string[]} [params.operationIds] - Array of operation UUIDs to delete.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayNullResultResp>>}
    */
@@ -740,8 +739,8 @@ class AiSecurityForAppsV1 extends BaseService {
    *
    * Remove labels from a set of API Gateway operations in bulk.
    *
-   * @param {Object} [params] - The parameters to send to the service.
-   * @param {ApiGatewayOperationsLabelsBulkDeleteInputSelector} [params.selector] - Selector specifying which operations
+   * @param {Object} params - The parameters to send to the service.
+   * @param {ApiGatewayOperationsLabelsBulkDeleteInputSelector} params.selector - Selector specifying which operations
    * to affect.
    * @param {ApiGatewayOperationsLabelsBulkDeleteInputUser} [params.user] - User-defined labels to remove.
    * @param {ApiGatewayOperationsLabelsBulkDeleteInputManaged} [params.managed] - Managed labels to remove.
@@ -749,10 +748,10 @@ class AiSecurityForAppsV1 extends BaseService {
    * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayNullResultResp>>}
    */
   public deleteZoneApiGatewayOperationLabels(
-    params?: AiSecurityForAppsV1.DeleteZoneApiGatewayOperationLabelsParams
+    params: AiSecurityForAppsV1.DeleteZoneApiGatewayOperationLabelsParams
   ): Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayNullResultResp>> {
     const _params = { ...params };
-    const _requiredParams = [];
+    const _requiredParams = ['selector'];
     const _validParams = ['selector', 'user', 'managed', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
@@ -872,7 +871,8 @@ class AiSecurityForAppsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.operationId - UUID of the API Gateway operation.
-   * @param {string[]} [params.user] - Flat list of user-defined label names to attach.
+   * @param {string[]} [params.user] - Flat list of user-defined label names to attach. Must be present; send an empty
+   * array if no user labels are needed.
    * @param {string[]} [params.managed] - Flat list of managed label names to attach (e.g. cf-llm).
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayOperationLabelResp>>}
@@ -935,7 +935,8 @@ class AiSecurityForAppsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.operationId - UUID of the API Gateway operation.
-   * @param {string[]} [params.user] - Flat list of user-defined label names to attach.
+   * @param {string[]} [params.user] - Flat list of user-defined label names to attach. Must be present; send an empty
+   * array if no user labels are needed.
    * @param {string[]} [params.managed] - Flat list of managed label names to attach (e.g. cf-llm).
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayOperationLabelResp>>}
@@ -1333,7 +1334,7 @@ namespace AiSecurityForAppsV1 {
 
   /** Parameters for the `deleteZoneApiGatewayOperations` operation. */
   export interface DeleteZoneApiGatewayOperationsParams extends DefaultParams {
-    /** Array of operation UUIDs to delete. When absent, all operations are deleted. */
+    /** Array of operation UUIDs to delete. */
     operationIds?: string[];
   }
 
@@ -1428,7 +1429,7 @@ namespace AiSecurityForAppsV1 {
   /** Parameters for the `deleteZoneApiGatewayOperationLabels` operation. */
   export interface DeleteZoneApiGatewayOperationLabelsParams extends DefaultParams {
     /** Selector specifying which operations to affect. */
-    selector?: ApiGatewayOperationsLabelsBulkDeleteInputSelector;
+    selector: ApiGatewayOperationsLabelsBulkDeleteInputSelector;
     /** User-defined labels to remove. */
     user?: ApiGatewayOperationsLabelsBulkDeleteInputUser;
     /** Managed labels to remove. */
@@ -1449,7 +1450,9 @@ namespace AiSecurityForAppsV1 {
   export interface CreateApiGatewayOperationLabelsParams extends DefaultParams {
     /** UUID of the API Gateway operation. */
     operationId: string;
-    /** Flat list of user-defined label names to attach. */
+    /** Flat list of user-defined label names to attach. Must be present; send an empty array if no user labels are
+     *  needed.
+     */
     user?: string[];
     /** Flat list of managed label names to attach (e.g. cf-llm). */
     managed?: string[];
@@ -1459,7 +1462,9 @@ namespace AiSecurityForAppsV1 {
   export interface SetZoneApiGatewayOperationLabelsParams extends DefaultParams {
     /** UUID of the API Gateway operation. */
     operationId: string;
-    /** Flat list of user-defined label names to attach. */
+    /** Flat list of user-defined label names to attach. Must be present; send an empty array if no user labels are
+     *  needed.
+     */
     user?: string[];
     /** Flat list of managed label names to attach (e.g. cf-llm). */
     managed?: string[];
@@ -1571,7 +1576,7 @@ namespace AiSecurityForAppsV1 {
    */
   export interface ApiGatewayOperationsLabelsBulkInputManaged {
     /** List of managed label names to apply. */
-    labels?: string[];
+    labels: string[];
   }
 
   /**
@@ -1594,8 +1599,8 @@ namespace AiSecurityForAppsV1 {
    * User-defined labels to apply.
    */
   export interface ApiGatewayOperationsLabelsBulkInputUser {
-    /** List of user-defined label names to apply. */
-    labels?: string[];
+    /** List of user-defined label names to apply. Send an empty array if no user labels are needed. */
+    labels: string[];
   }
 
   /**
@@ -1695,8 +1700,10 @@ namespace AiSecurityForAppsV1 {
     errors: string[][];
     /** Array of messages returned. */
     messages: string[][];
-    /** Result is empty on success. */
-    result: JsonObject;
+    /** Result on success. May be an empty object ({}) or an empty array ([]) depending on the operation. No type
+     *  constraint is applied so that SDK generators produce an interface{} / any field that can hold either.
+     */
+    result: any;
   }
 
   /**
