@@ -488,11 +488,18 @@ describe('AiSecurityForAppsV1', () => {
 
   describe('deleteZoneApiGatewayOperations', () => {
     describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // ApiGatewayOperationsDeleteInputItem
+      const apiGatewayOperationsDeleteInputItemModel = {
+        operation_id: 'f174e90a-fafe-4643-bbbc-4a0ed4fc8415',
+      };
+
       function __deleteZoneApiGatewayOperationsTest() {
         // Construct the params object for operation deleteZoneApiGatewayOperations
-        const operationIds = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415'];
+        const apiGatewayOperationsDeleteInputItem = [apiGatewayOperationsDeleteInputItemModel];
         const deleteZoneApiGatewayOperationsParams = {
-          operationIds,
+          apiGatewayOperationsDeleteInputItem,
         };
 
         const deleteZoneApiGatewayOperationsResult = aiSecurityForAppsService.deleteZoneApiGatewayOperations(deleteZoneApiGatewayOperationsParams);
@@ -509,7 +516,7 @@ describe('AiSecurityForAppsV1', () => {
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.body.operation_ids).toEqual(operationIds);
+        expect(mockRequestOptions.body).toEqual(apiGatewayOperationsDeleteInputItem);
         expect(mockRequestOptions.path.crn).toEqual(aiSecurityForAppsServiceOptions.crn);
         expect(mockRequestOptions.path.zone_identifier).toEqual(aiSecurityForAppsServiceOptions.zoneIdentifier);
       }
@@ -531,9 +538,11 @@ describe('AiSecurityForAppsV1', () => {
 
       test('should prioritize user-given headers', () => {
         // parameters
+        const apiGatewayOperationsDeleteInputItem = [apiGatewayOperationsDeleteInputItemModel];
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const deleteZoneApiGatewayOperationsParams = {
+          apiGatewayOperationsDeleteInputItem,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
@@ -543,11 +552,29 @@ describe('AiSecurityForAppsV1', () => {
         aiSecurityForAppsService.deleteZoneApiGatewayOperations(deleteZoneApiGatewayOperationsParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
+    });
 
-      test('should not have any problems when no parameters are passed in', () => {
-        // invoke the method with no parameters
-        aiSecurityForAppsService.deleteZoneApiGatewayOperations({});
-        checkForSuccessfulExecution(createRequestMock);
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await aiSecurityForAppsService.deleteZoneApiGatewayOperations({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await aiSecurityForAppsService.deleteZoneApiGatewayOperations();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
       });
     });
   });

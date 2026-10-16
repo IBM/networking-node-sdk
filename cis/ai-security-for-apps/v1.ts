@@ -424,26 +424,24 @@ class AiSecurityForAppsV1 extends BaseService {
    *
    * Bulk-delete all API Gateway operations saved to Endpoint Management for a zone.
    *
-   * @param {Object} [params] - The parameters to send to the service.
-   * @param {string[]} [params.operationIds] - Array of operation UUIDs to delete.
+   * @param {Object} params - The parameters to send to the service.
+   * @param {ApiGatewayOperationsDeleteInputItem[]} params.apiGatewayOperationsDeleteInputItem - List of specific
+   * operation IDs to delete.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayNullResultResp>>}
    */
   public deleteZoneApiGatewayOperations(
-    params?: AiSecurityForAppsV1.DeleteZoneApiGatewayOperationsParams
+    params: AiSecurityForAppsV1.DeleteZoneApiGatewayOperationsParams
   ): Promise<AiSecurityForAppsV1.Response<AiSecurityForAppsV1.ApiGatewayNullResultResp>> {
     const _params = { ...params };
-    const _requiredParams = [];
-    const _validParams = ['operationIds', 'signal', 'headers'];
+    const _requiredParams = ['apiGatewayOperationsDeleteInputItem'];
+    const _validParams = ['apiGatewayOperationsDeleteInputItem', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
 
-    const body = {
-      'operation_ids': _params.operationIds,
-    };
-
+    const body = _params.apiGatewayOperationsDeleteInputItem;
     const path = {
       'crn': this.crn,
       'zone_identifier': this.zoneIdentifier,
@@ -1334,8 +1332,8 @@ namespace AiSecurityForAppsV1 {
 
   /** Parameters for the `deleteZoneApiGatewayOperations` operation. */
   export interface DeleteZoneApiGatewayOperationsParams extends DefaultParams {
-    /** Array of operation UUIDs to delete. */
-    operationIds?: string[];
+    /** List of specific operation IDs to delete. */
+    apiGatewayOperationsDeleteInputItem: ApiGatewayOperationsDeleteInputItem[];
   }
 
   /** Parameters for the `listZoneApiGatewayOperations` operation. */
@@ -1537,6 +1535,14 @@ namespace AiSecurityForAppsV1 {
     name?: string;
     /** Label source (e.g. managed or user). */
     source?: string;
+  }
+
+  /**
+   * ApiGatewayOperationsDeleteInputItem.
+   */
+  export interface ApiGatewayOperationsDeleteInputItem {
+    /** UUID of the operation to delete. */
+    operation_id: string;
   }
 
   /**

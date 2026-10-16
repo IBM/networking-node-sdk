@@ -170,25 +170,23 @@ describe('AiSecurityForAppsV1', () => {
       expect(createResponse.result.success).toBe(true);
       expect(createResponse.result.result.length).toBeGreaterThanOrEqual(1);
 
-      let ids = createResponse.result.result
+      const apiGatewayOperationsDeleteInputItem = createResponse.result.result
         .filter((op) => op.operation_id)
-        .map((op) => op.operation_id);
+        .map((op) => ({ operation_id: op.operation_id }));
 
       try {
         // Attempt bulk-delete; tolerate failure (backend inconsistency on some zones)
         const bulkDeleteResponse = await aiSecurityService.deleteZoneApiGatewayOperations({
-          operationIds: ids,
+          apiGatewayOperationsDeleteInputItem,
         });
         expect(bulkDeleteResponse).toBeDefined();
         expect(bulkDeleteResponse.result.success).toBe(true);
-        ids = [];
       } catch (err) {
         console.warn(
           `deleteZoneApiGatewayOperations returned error (may be unsupported on this zone): ${err.message}`
         );
-      } finally {
-        // Always clean up individually
-        for (const operationId of ids) {
+        // Bulk delete failed; clean up individually
+        for (const { operation_id: operationId } of apiGatewayOperationsDeleteInputItem) {
           try {
             await aiSecurityService.deleteZoneApiGatewayOperation({ operationId });
           } catch (e) {
