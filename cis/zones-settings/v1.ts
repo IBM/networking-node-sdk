@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.112.0-f88e9264-20260220-115155
+ * IBM OpenAPI SDK Code Generator Version: 3.114.0-a902401e-20260427-192904
  */
 
 import * as extend from 'extend';
@@ -4463,6 +4463,117 @@ class ZonesSettingsV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
+
+  /**
+   * Get security level setting.
+   *
+   * Get security level for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.SecurityLevelResp>>}
+   */
+  public getSecurityLevel(
+    params?: ZonesSettingsV1.GetSecurityLevelParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.SecurityLevelResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'getSecurityLevel');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/security_level',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update security level setting.
+   *
+   * Update security level setting for a zone.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {string} [params.value] - Value.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<ZonesSettingsV1.Response<ZonesSettingsV1.SecurityLevelResp>>}
+   */
+  public updateSecurityLevel(
+    params?: ZonesSettingsV1.UpdateSecurityLevelParams
+  ): Promise<ZonesSettingsV1.Response<ZonesSettingsV1.SecurityLevelResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['value', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'value': _params.value,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_identifier': this.zoneIdentifier,
+    };
+
+    const sdkHeaders = getSdkHeaders(ZonesSettingsV1.DEFAULT_SERVICE_NAME, 'v1', 'updateSecurityLevel');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_identifier}/settings/security_level',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
 }
 
 /*************************
@@ -5214,6 +5325,28 @@ namespace ZonesSettingsV1 {
     }
   }
 
+  /** Parameters for the `getSecurityLevel` operation. */
+  export interface GetSecurityLevelParams extends DefaultParams {
+  }
+
+  /** Parameters for the `updateSecurityLevel` operation. */
+  export interface UpdateSecurityLevelParams extends DefaultParams {
+    /** Value. */
+    value?: UpdateSecurityLevelConstants.Value | string;
+  }
+
+  /** Constants for the `updateSecurityLevel` operation. */
+  export namespace UpdateSecurityLevelConstants {
+    /** Value. */
+    export enum Value {
+      ESSENTIALLY_OFF = 'essentially_off',
+      LOW = 'low',
+      MEDIUM = 'medium',
+      HIGH = 'high',
+      UNDER_ATTACK = 'under_attack',
+    }
+  }
+
   /*************************
    * model interfaces
    ************************/
@@ -5313,7 +5446,7 @@ namespace ZonesSettingsV1 {
     /** Editable. */
     editable: boolean;
     /** Modified date. */
-    modified_on: string;
+    modified_on?: string;
   }
 
   /**
@@ -5691,7 +5824,7 @@ namespace ZonesSettingsV1 {
     /** Editable. */
     editable: boolean;
     /** Modified date. */
-    modified_on: string;
+    modified_on?: string;
   }
 
   /**
@@ -5782,6 +5915,20 @@ namespace ZonesSettingsV1 {
     preload: boolean;
     /** Whether or not to include 'X-Content-Type-Options:nosniff' header. */
     nosniff: boolean;
+  }
+
+  /**
+   * Container for response information.
+   */
+  export interface SecurityLevelRespResult {
+    /** ID. */
+    id: string;
+    /** Value. */
+    value: string;
+    /** Editable. */
+    editable: boolean;
+    /** Modified date. */
+    modified_on?: string;
   }
 
   /**
@@ -6042,6 +6189,8 @@ namespace ZonesSettingsV1 {
   export interface EmailObfuscationResp {
     /** Container for response information. */
     result: EmailObfuscationRespResult;
+    /** Result information. */
+    result_info?: JsonObject;
     /** Was the get successful. */
     success: boolean;
     /** Array of errors encountered. */
@@ -6335,6 +6484,8 @@ namespace ZonesSettingsV1 {
   export interface ReplaceInsecureJsResp {
     /** Container for response information. */
     result: ReplaceInsecureJsRespResult;
+    /** Result information. */
+    result_info?: JsonObject;
     /** Was the get successful. */
     success: boolean;
     /** Array of errors encountered. */
@@ -6377,6 +6528,20 @@ namespace ZonesSettingsV1 {
   export interface SecurityHeaderResp {
     /** Container for response information. */
     result: SecurityHeaderRespResult;
+    /** Was the get successful. */
+    success: boolean;
+    /** Array of errors encountered. */
+    errors: string[][];
+    /** Array of messages returned. */
+    messages: string[][];
+  }
+
+  /**
+   * Security level response.
+   */
+  export interface SecurityLevelResp {
+    /** Container for response information. */
+    result: SecurityLevelRespResult;
     /** Was the get successful. */
     success: boolean;
     /** Array of errors encountered. */

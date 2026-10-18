@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,23 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.48.0-e80b60a1-20220414-145125
+ * IBM OpenAPI SDK Code Generator Version: 3.114.0-a902401e-20260427-192904
  */
 
 import * as extend from 'extend';
 import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import {
+  AbortSignal,
   Authenticator,
   BaseService,
-  getAuthenticatorFromEnvironment,
   UserOptions,
+  getAuthenticatorFromEnvironment,
   validateParams,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../../lib/common';
 
 /**
- * CIS Loupush Jobs
+ * CIS Logpush Jobs
  *
  * API Version: 1.0.0
  */
@@ -50,7 +51,7 @@ class LogpushJobsApiV1 extends BaseService {
    * @param {UserOptions} [options] - The parameters to send to the service.
    * @param {string} [options.serviceName] - The name of the service to configure
    * @param {Authenticator} [options.authenticator] - The Authenticator object used to authenticate requests to the service
-   * @param {string} [options.serviceUrl] - The URL for the service
+   * @param {string} [options.serviceUrl] - The base URL for the service
    * @returns {LogpushJobsApiV1}
    */
 
@@ -71,23 +72,23 @@ class LogpushJobsApiV1 extends BaseService {
     return service;
   }
 
-  /** Full url-encoded CRN of the service instance. */
+  /** Full URL-encoded CRN of the service instance. */
   crn: string;
-
-  /** The domain id. */
-  zoneId: string;
 
   /** The dataset. */
   dataset: string;
+
+  /** Zone identifier. */
+  zoneId: string;
 
   /**
    * Construct a LogpushJobsApiV1 object.
    *
    * @param {Object} options - Options for the service.
-   * @param {string} options.crn - Full url-encoded CRN of the service instance.
-   * @param {string} options.zoneId - The domain id.
+   * @param {string} options.crn - Full URL-encoded CRN of the service instance.
    * @param {string} options.dataset - The dataset.
-   * @param {string} [options.serviceUrl] - The base url to use when contacting the service. The base url may differ between IBM Cloud regions.
+   * @param {string} options.zoneId - Zone identifier.
+   * @param {string} [options.serviceUrl] - The base URL for the service
    * @param {OutgoingHttpHeaders} [options.headers] - Default headers that shall be included with every request to the service.
    * @param {Authenticator} options.authenticator - The Authenticator object used to authenticate requests to the service
    * @constructor
@@ -96,7 +97,7 @@ class LogpushJobsApiV1 extends BaseService {
   constructor(options: UserOptions) {
     options = options || {};
 
-    const _requiredParams = ['crn','zoneId','dataset'];
+    const _requiredParams = ['crn','dataset','zoneId'];
     const _validationErrors = validateParams(options, _requiredParams, null);
     if (_validationErrors) {
       throw _validationErrors;
@@ -108,8 +109,8 @@ class LogpushJobsApiV1 extends BaseService {
       this.setServiceUrl(LogpushJobsApiV1.DEFAULT_SERVICE_URL);
     }
     this.crn = options.crn;
-    this.zoneId = options.zoneId;
     this.dataset = options.dataset;
+    this.zoneId = options.zoneId;
   }
 
   /*************************
@@ -125,542 +126,12 @@ class LogpushJobsApiV1 extends BaseService {
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.ListLogpushJobsResp>>}
    */
-  public getLogpushJobs(
-    params?: LogpushJobsApiV1.GetLogpushJobsParams
-  ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.ListLogpushJobsResp>> {
-    const _params = { ...params };
-    const _requiredParams = [];
-    const _validParams = ['headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const path = {
-      'crn': this.crn,
-      'zone_id': this.zoneId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getLogpushJobs'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/{crn}/zones/{zone_id}/logpush/jobs',
-        method: 'GET',
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Create a logpush jobs.
-   *
-   * Create a new logpush job for the domain.
-   *
-   * @param {Object} [params] - The parameters to send to the service.
-   * @param {string} [params.destinationConf] - Uniquely identifies a resource (such as an s3 bucket) where data will be
-   * pushed.
-   * @param {string} [params.ownershipChallenge] - Ownership challenge token to prove destination ownership.
-   * @param {string} [params.name] - Logpush Job Name.
-   * @param {boolean} [params.enabled] - Whether the logpush job enabled or not.
-   * @param {string} [params.logpullOptions] - Configuration string.
-   * @param {string} [params.dataset] - Dataset to be pulled.
-   * @param {string} [params.frequency] - The frequency at which CIS sends batches of logs to your destination.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>>}
-   */
-  public createLogpushJob(
-    params?: LogpushJobsApiV1.CreateLogpushJobParams
-  ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>> {
-    const _params = { ...params };
-    const _requiredParams = [];
-    const _validParams = ['destinationConf', 'ownershipChallenge', 'name', 'enabled', 'logpullOptions', 'dataset', 'frequency', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'destination_conf': _params.destinationConf,
-      'ownership_challenge': _params.ownershipChallenge,
-      'name': _params.name,
-      'enabled': _params.enabled,
-      'logpull_options': _params.logpullOptions,
-      'dataset': _params.dataset,
-      'frequency': _params.frequency,
-    };
-
-    const path = {
-      'crn': this.crn,
-      'zone_id': this.zoneId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createLogpushJob'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/{crn}/zones/{zone_id}/logpush/jobs',
-        method: 'POST',
-        body,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Get a logpush job.
-   *
-   * Get a logpush job  for a given zone.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {number} params.jobId - logpush job identifier.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>>}
-   */
-  public getLogpushJob(
-    params: LogpushJobsApiV1.GetLogpushJobParams
-  ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>> {
-    const _params = { ...params };
-    const _requiredParams = ['jobId'];
-    const _validParams = ['jobId', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const path = {
-      'crn': this.crn,
-      'zone_id': this.zoneId,
-      'job_id': _params.jobId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getLogpushJob'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/{crn}/zones/{zone_id}/logpush/jobs/{job_id}',
-        method: 'GET',
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Update a logpush job.
-   *
-   * Update an existing logpush job for a given zone.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {number} params.jobId - logpush job identifier.
-   * @param {boolean} [params.enabled] - Whether the logpush job enabled or not.
-   * @param {string} [params.logpullOptions] - Configuration string.
-   * @param {string} [params.destinationConf] - Uniquely identifies a resource (such as an s3 bucket) where data will be
-   * pushed.
-   * @param {string} [params.ownershipChallenge] - Ownership challenge token to prove destination ownership.
-   * @param {string} [params.frequency] - The frequency at which CIS sends batches of logs to your destination.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>>}
-   */
-  public updateLogpushJob(
-    params: LogpushJobsApiV1.UpdateLogpushJobParams
-  ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>> {
-    const _params = { ...params };
-    const _requiredParams = ['jobId'];
-    const _validParams = ['jobId', 'enabled', 'logpullOptions', 'destinationConf', 'ownershipChallenge', 'frequency', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'enabled': _params.enabled,
-      'logpull_options': _params.logpullOptions,
-      'destination_conf': _params.destinationConf,
-      'ownership_challenge': _params.ownershipChallenge,
-      'frequency': _params.frequency,
-    };
-
-    const path = {
-      'crn': this.crn,
-      'zone_id': this.zoneId,
-      'job_id': _params.jobId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateLogpushJob'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/{crn}/zones/{zone_id}/logpush/jobs/{job_id}',
-        method: 'PUT',
-        body,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Delete a logpush job.
-   *
-   * Delete a logpush job for a zone.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {number} params.jobId - logpush job identifier.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.DeleteLogpushJobResp>>}
-   */
-  public deleteLogpushJob(
-    params: LogpushJobsApiV1.DeleteLogpushJobParams
-  ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.DeleteLogpushJobResp>> {
-    const _params = { ...params };
-    const _requiredParams = ['jobId'];
-    const _validParams = ['jobId', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const path = {
-      'crn': this.crn,
-      'zone_id': this.zoneId,
-      'job_id': _params.jobId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteLogpushJob'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/{crn}/zones/{zone_id}/logpush/jobs/{job_id}',
-        method: 'DELETE',
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * List all fields available for a dataset.
-   *
-   * The list of all fields available for a given dataset.
-   *
-   * @param {Object} [params] - The parameters to send to the service.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.ListFieldsResp>>}
-   */
-  public listFieldsForDataset(
-    params?: LogpushJobsApiV1.ListFieldsForDatasetParams
-  ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.ListFieldsResp>> {
-    const _params = { ...params };
-    const _requiredParams = [];
-    const _validParams = ['headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const path = {
-      'crn': this.crn,
-      'zone_id': this.zoneId,
-      'dataset': this.dataset,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listFieldsForDataset'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/{crn}/zones/{zone_id}/logpush/datasets/{dataset}/fields',
-        method: 'GET',
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * List logpush jobs for a dataset.
-   *
-   * List configured logpush jobs for a dataset.
-   *
-   * @param {Object} [params] - The parameters to send to the service.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>>}
-   */
-  public listLogpushJobsForDataset(
-    params?: LogpushJobsApiV1.ListLogpushJobsForDatasetParams
-  ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>> {
-    const _params = { ...params };
-    const _requiredParams = [];
-    const _validParams = ['headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const path = {
-      'crn': this.crn,
-      'zone_id': this.zoneId,
-      'dataset': this.dataset,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listLogpushJobsForDataset'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/{crn}/zones/{zone_id}/logpush/datasets/{dataset}/jobs',
-        method: 'GET',
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Get a new ownership challenge sent to your destination.
-   *
-   * Get a new ownership challenge.
-   *
-   * @param {Object} [params] - The parameters to send to the service.
-   * @param {string} [params.destinationConf] - Uniquely identifies a resource (such as an s3 bucket) where data will be
-   * pushed.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.OwnershipChallengeResp>>}
-   */
-  public getLogpushOwnership(
-    params?: LogpushJobsApiV1.GetLogpushOwnershipParams
-  ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.OwnershipChallengeResp>> {
-    const _params = { ...params };
-    const _requiredParams = [];
-    const _validParams = ['destinationConf', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'destination_conf': _params.destinationConf,
-    };
-
-    const path = {
-      'crn': this.crn,
-      'zone_id': this.zoneId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getLogpushOwnership'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/{crn}/zones/{zone_id}/logpush/ownership',
-        method: 'POST',
-        body,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Validate ownership challenge of the destination.
-   *
-   * Validate ownership challenge of the destination.
-   *
-   * @param {Object} [params] - The parameters to send to the service.
-   * @param {string} [params.destinationConf] - Uniquely identifies a resource (such as an s3 bucket) where data will be
-   * pushed.
-   * @param {string} [params.ownershipChallenge] - Ownership challenge token to prove destination ownership.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.OwnershipChallengeValidateResult>>}
-   */
-  public validateLogpushOwnershipChallenge(
-    params?: LogpushJobsApiV1.ValidateLogpushOwnershipChallengeParams
-  ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.OwnershipChallengeValidateResult>> {
-    const _params = { ...params };
-    const _requiredParams = [];
-    const _validParams = ['destinationConf', 'ownershipChallenge', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'destination_conf': _params.destinationConf,
-      'ownership_challenge': _params.ownershipChallenge,
-    };
-
-    const path = {
-      'crn': this.crn,
-      'zone_id': this.zoneId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'validateLogpushOwnershipChallenge'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/{crn}/zones/{zone_id}/logpush/ownership/validate',
-        method: 'POST',
-        body,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * List logpush jobs.
-   *
-   * List configured logpush jobs for your domain.
-   *
-   * @param {Object} [params] - The parameters to send to the service.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.ListLogpushJobsResp>>}
-   */
   public getLogpushJobsV2(
     params?: LogpushJobsApiV1.GetLogpushJobsV2Params
   ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.ListLogpushJobsResp>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['headers'];
+    const _validParams = ['signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -671,11 +142,7 @@ class LogpushJobsApiV1 extends BaseService {
       'zone_id': this.zoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getLogpushJobsV2'
-    );
+    const sdkHeaders = getSdkHeaders(LogpushJobsApiV1.DEFAULT_SERVICE_NAME, 'v1', 'getLogpushJobsV2');
 
     const parameters = {
       options: {
@@ -687,11 +154,15 @@ class LogpushJobsApiV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -713,7 +184,7 @@ class LogpushJobsApiV1 extends BaseService {
   ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['createLogpushJobV2Request', 'headers'];
+    const _validParams = ['createLogpushJobV2Request', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -725,11 +196,7 @@ class LogpushJobsApiV1 extends BaseService {
       'zone_id': this.zoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createLogpushJobV2'
-    );
+    const sdkHeaders = getSdkHeaders(LogpushJobsApiV1.DEFAULT_SERVICE_NAME, 'v1', 'createLogpushJobV2');
 
     const parameters = {
       options: {
@@ -742,12 +209,16 @@ class LogpushJobsApiV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -760,7 +231,7 @@ class LogpushJobsApiV1 extends BaseService {
    * Get a logpush job  for a given zone.
    *
    * @param {Object} params - The parameters to send to the service.
-   * @param {number} params.jobId - logpush job identifier.
+   * @param {string} params.jobId - logpush job identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>>}
    */
@@ -769,7 +240,7 @@ class LogpushJobsApiV1 extends BaseService {
   ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>> {
     const _params = { ...params };
     const _requiredParams = ['jobId'];
-    const _validParams = ['jobId', 'headers'];
+    const _validParams = ['jobId', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -781,11 +252,7 @@ class LogpushJobsApiV1 extends BaseService {
       'job_id': _params.jobId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getLogpushJobV2'
-    );
+    const sdkHeaders = getSdkHeaders(LogpushJobsApiV1.DEFAULT_SERVICE_NAME, 'v1', 'getLogpushJobV2');
 
     const parameters = {
       options: {
@@ -797,11 +264,15 @@ class LogpushJobsApiV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -814,7 +285,7 @@ class LogpushJobsApiV1 extends BaseService {
    * Update an existing logpush job for a given zone.
    *
    * @param {Object} params - The parameters to send to the service.
-   * @param {number} params.jobId - logpush job identifier.
+   * @param {string} params.jobId - logpush job identifier.
    * @param {UpdateLogpushJobV2Request} [params.updateLogpushJobV2Request] - Update logpush job.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>>}
@@ -824,7 +295,7 @@ class LogpushJobsApiV1 extends BaseService {
   ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>> {
     const _params = { ...params };
     const _requiredParams = ['jobId'];
-    const _validParams = ['jobId', 'updateLogpushJobV2Request', 'headers'];
+    const _validParams = ['jobId', 'updateLogpushJobV2Request', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -837,11 +308,7 @@ class LogpushJobsApiV1 extends BaseService {
       'job_id': _params.jobId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateLogpushJobV2'
-    );
+    const sdkHeaders = getSdkHeaders(LogpushJobsApiV1.DEFAULT_SERVICE_NAME, 'v1', 'updateLogpushJobV2');
 
     const parameters = {
       options: {
@@ -854,12 +321,16 @@ class LogpushJobsApiV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -872,7 +343,7 @@ class LogpushJobsApiV1 extends BaseService {
    * Delete a logpush job for a zone.
    *
    * @param {Object} params - The parameters to send to the service.
-   * @param {number} params.jobId - logpush job identifier.
+   * @param {string} params.jobId - logpush job identifier.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.DeleteLogpushJobResp>>}
    */
@@ -881,7 +352,7 @@ class LogpushJobsApiV1 extends BaseService {
   ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.DeleteLogpushJobResp>> {
     const _params = { ...params };
     const _requiredParams = ['jobId'];
-    const _validParams = ['jobId', 'headers'];
+    const _validParams = ['jobId', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -893,11 +364,7 @@ class LogpushJobsApiV1 extends BaseService {
       'job_id': _params.jobId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteLogpushJobV2'
-    );
+    const sdkHeaders = getSdkHeaders(LogpushJobsApiV1.DEFAULT_SERVICE_NAME, 'v1', 'deleteLogpushJobV2');
 
     const parameters = {
       options: {
@@ -909,11 +376,15 @@ class LogpushJobsApiV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -935,7 +406,7 @@ class LogpushJobsApiV1 extends BaseService {
   ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.OwnershipChallengeResp>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['cos', 'headers'];
+    const _validParams = ['cos', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -950,11 +421,7 @@ class LogpushJobsApiV1 extends BaseService {
       'zone_id': this.zoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getLogpushOwnershipV2'
-    );
+    const sdkHeaders = getSdkHeaders(LogpushJobsApiV1.DEFAULT_SERVICE_NAME, 'v1', 'getLogpushOwnershipV2');
 
     const parameters = {
       options: {
@@ -967,12 +434,16 @@ class LogpushJobsApiV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -995,7 +466,7 @@ class LogpushJobsApiV1 extends BaseService {
   ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.OwnershipChallengeValidateResult>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['cos', 'ownershipChallenge', 'headers'];
+    const _validParams = ['cos', 'ownershipChallenge', 'signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1011,11 +482,7 @@ class LogpushJobsApiV1 extends BaseService {
       'zone_id': this.zoneId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'validateLogpushOwnershipChallengeV2'
-    );
+    const sdkHeaders = getSdkHeaders(LogpushJobsApiV1.DEFAULT_SERVICE_NAME, 'v1', 'validateLogpushOwnershipChallengeV2');
 
     const parameters = {
       options: {
@@ -1028,12 +495,16 @@ class LogpushJobsApiV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1054,7 +525,7 @@ class LogpushJobsApiV1 extends BaseService {
   ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.ListFieldsResp>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['headers'];
+    const _validParams = ['signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1066,11 +537,7 @@ class LogpushJobsApiV1 extends BaseService {
       'dataset': this.dataset,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listFieldsForDatasetV2'
-    );
+    const sdkHeaders = getSdkHeaders(LogpushJobsApiV1.DEFAULT_SERVICE_NAME, 'v1', 'listFieldsForDatasetV2');
 
     const parameters = {
       options: {
@@ -1082,11 +549,15 @@ class LogpushJobsApiV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1107,7 +578,7 @@ class LogpushJobsApiV1 extends BaseService {
   ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogpushJobsResp>> {
     const _params = { ...params };
     const _requiredParams = [];
-    const _validParams = ['headers'];
+    const _validParams = ['signal', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1119,11 +590,7 @@ class LogpushJobsApiV1 extends BaseService {
       'dataset': this.dataset,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      LogpushJobsApiV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listLogpushJobsForDatasetV2'
-    );
+    const sdkHeaders = getSdkHeaders(LogpushJobsApiV1.DEFAULT_SERVICE_NAME, 'v1', 'listLogpushJobsForDatasetV2');
 
     const parameters = {
       options: {
@@ -1135,11 +602,126 @@ class LogpushJobsApiV1 extends BaseService {
         headers: extend(
           true,
           sdkHeaders,
+          this.baseOptions.headers,
           {
             'Accept': 'application/json',
           },
           _params.headers
         ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get log retention.
+   *
+   * Get log retention setting for Logpull/Logpush on your domain.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogRetentionResp>>}
+   */
+  public getLogsRetention(
+    params?: LogpushJobsApiV1.GetLogsRetentionParams
+  ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogRetentionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'crn': this.crn,
+      'zone_id': this.zoneId,
+    };
+
+    const sdkHeaders = getSdkHeaders(LogpushJobsApiV1.DEFAULT_SERVICE_NAME, 'v1', 'getLogsRetention');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_id}/logs/retention',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update log retention.
+   *
+   * Update log retention flag for Logpull/Logpush.
+   *
+   * @param {Object} [params] - The parameters to send to the service.
+   * @param {boolean} [params.flag] -
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogRetentionResp>>}
+   */
+  public createLogRetention(
+    params?: LogpushJobsApiV1.CreateLogRetentionParams
+  ): Promise<LogpushJobsApiV1.Response<LogpushJobsApiV1.LogRetentionResp>> {
+    const _params = { ...params };
+    const _requiredParams = [];
+    const _validParams = ['flag', 'signal', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'flag': _params.flag,
+    };
+
+    const path = {
+      'crn': this.crn,
+      'zone_id': this.zoneId,
+    };
+
+    const sdkHeaders = getSdkHeaders(LogpushJobsApiV1.DEFAULT_SERVICE_NAME, 'v1', 'createLogRetention');
+
+    const parameters = {
+      options: {
+        url: '/v1/{crn}/zones/{zone_id}/logs/retention',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          this.baseOptions.headers,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+        axiosOptions: {
+          signal: _params.signal,
+        },
       }),
     };
 
@@ -1154,12 +736,12 @@ class LogpushJobsApiV1 extends BaseService {
 namespace LogpushJobsApiV1 {
   /** Options for the `LogpushJobsApiV1` constructor. */
   export interface Options extends UserOptions {
-    /** Full url-encoded CRN of the service instance. */
+    /** Full URL-encoded CRN of the service instance. */
     crn: string;
-    /** The domain id. */
-    zoneId: string;
     /** The dataset. */
     dataset: string;
+    /** Zone identifier. */
+    zoneId: string;
   }
 
   /** An operation response. */
@@ -1174,7 +756,7 @@ namespace LogpushJobsApiV1 {
   export type Callback<T> = (error: any, response?: Response<T>) => void;
 
   /** The body of a service request that returns no response data. */
-  export interface Empty {}
+  export interface EmptyObject {}
 
   /** A standard JS object, defined to avoid the limitations of `Object` and `object` */
   export interface JsonObject {
@@ -1185,195 +767,124 @@ namespace LogpushJobsApiV1 {
    * request interfaces
    ************************/
 
-  /** Parameters for the `getLogpushJobs` operation. */
-  export interface GetLogpushJobsParams {
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `createLogpushJob` operation. */
-  export interface CreateLogpushJobParams {
-    /** Uniquely identifies a resource (such as an s3 bucket) where data will be pushed. */
-    destinationConf?: string;
-    /** Ownership challenge token to prove destination ownership. */
-    ownershipChallenge?: string;
-    /** Logpush Job Name. */
-    name?: string;
-    /** Whether the logpush job enabled or not. */
-    enabled?: boolean;
-    /** Configuration string. */
-    logpullOptions?: string;
-    /** Dataset to be pulled. */
-    dataset?: CreateLogpushJobConstants.Dataset | string;
-    /** The frequency at which CIS sends batches of logs to your destination. */
-    frequency?: CreateLogpushJobConstants.Frequency | string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Constants for the `createLogpushJob` operation. */
-  export namespace CreateLogpushJobConstants {
-    /** Dataset to be pulled. */
-    export enum Dataset {
-      HTTP_REQUESTS = 'http_requests',
-      RANGE_EVENTS = 'range_events',
-      FIREWALL_EVENTS = 'firewall_events',
-    }
-    /** The frequency at which CIS sends batches of logs to your destination. */
-    export enum Frequency {
-      HIGH = 'high',
-      LOW = 'low',
-    }
-  }
-
-  /** Parameters for the `getLogpushJob` operation. */
-  export interface GetLogpushJobParams {
-    /** logpush job identifier. */
-    jobId: number;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `updateLogpushJob` operation. */
-  export interface UpdateLogpushJobParams {
-    /** logpush job identifier. */
-    jobId: number;
-    /** Whether the logpush job enabled or not. */
-    enabled?: boolean;
-    /** Configuration string. */
-    logpullOptions?: string;
-    /** Uniquely identifies a resource (such as an s3 bucket) where data will be pushed. */
-    destinationConf?: string;
-    /** Ownership challenge token to prove destination ownership. */
-    ownershipChallenge?: string;
-    /** The frequency at which CIS sends batches of logs to your destination. */
-    frequency?: UpdateLogpushJobConstants.Frequency | string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Constants for the `updateLogpushJob` operation. */
-  export namespace UpdateLogpushJobConstants {
-    /** The frequency at which CIS sends batches of logs to your destination. */
-    export enum Frequency {
-      HIGH = 'high',
-      LOW = 'low',
-    }
-  }
-
-  /** Parameters for the `deleteLogpushJob` operation. */
-  export interface DeleteLogpushJobParams {
-    /** logpush job identifier. */
-    jobId: number;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `listFieldsForDataset` operation. */
-  export interface ListFieldsForDatasetParams {
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Constants for the `listFieldsForDataset` operation. */
-  export namespace ListFieldsForDatasetConstants {
-  }
-
-  /** Parameters for the `listLogpushJobsForDataset` operation. */
-  export interface ListLogpushJobsForDatasetParams {
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Constants for the `listLogpushJobsForDataset` operation. */
-  export namespace ListLogpushJobsForDatasetConstants {
-  }
-
-  /** Parameters for the `getLogpushOwnership` operation. */
-  export interface GetLogpushOwnershipParams {
-    /** Uniquely identifies a resource (such as an s3 bucket) where data will be pushed. */
-    destinationConf?: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `validateLogpushOwnershipChallenge` operation. */
-  export interface ValidateLogpushOwnershipChallengeParams {
-    /** Uniquely identifies a resource (such as an s3 bucket) where data will be pushed. */
-    destinationConf?: string;
-    /** Ownership challenge token to prove destination ownership. */
-    ownershipChallenge?: string;
-    headers?: OutgoingHttpHeaders;
-  }
+   interface DefaultParams {
+     headers?: OutgoingHttpHeaders;
+     signal?: AbortSignal;
+   }
 
   /** Parameters for the `getLogpushJobsV2` operation. */
-  export interface GetLogpushJobsV2Params {
-    headers?: OutgoingHttpHeaders;
+  export interface GetLogpushJobsV2Params extends DefaultParams {
   }
 
   /** Parameters for the `createLogpushJobV2` operation. */
-  export interface CreateLogpushJobV2Params {
+  export interface CreateLogpushJobV2Params extends DefaultParams {
     /** Create logpush job body. */
     createLogpushJobV2Request?: CreateLogpushJobV2Request;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `getLogpushJobV2` operation. */
-  export interface GetLogpushJobV2Params {
+  export interface GetLogpushJobV2Params extends DefaultParams {
     /** logpush job identifier. */
-    jobId: number;
-    headers?: OutgoingHttpHeaders;
+    jobId: string;
   }
 
   /** Parameters for the `updateLogpushJobV2` operation. */
-  export interface UpdateLogpushJobV2Params {
+  export interface UpdateLogpushJobV2Params extends DefaultParams {
     /** logpush job identifier. */
-    jobId: number;
+    jobId: string;
     /** Update logpush job. */
     updateLogpushJobV2Request?: UpdateLogpushJobV2Request;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `deleteLogpushJobV2` operation. */
-  export interface DeleteLogpushJobV2Params {
+  export interface DeleteLogpushJobV2Params extends DefaultParams {
     /** logpush job identifier. */
-    jobId: number;
-    headers?: OutgoingHttpHeaders;
+    jobId: string;
   }
 
   /** Parameters for the `getLogpushOwnershipV2` operation. */
-  export interface GetLogpushOwnershipV2Params {
+  export interface GetLogpushOwnershipV2Params extends DefaultParams {
     /** Information to identify the COS bucket where the data will be pushed. */
     cos?: JsonObject;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `validateLogpushOwnershipChallengeV2` operation. */
-  export interface ValidateLogpushOwnershipChallengeV2Params {
+  export interface ValidateLogpushOwnershipChallengeV2Params extends DefaultParams {
     /** Information to identify the COS bucket where the data will be pushed. */
     cos?: JsonObject;
     /** Ownership challenge token to prove destination ownership. */
     ownershipChallenge?: string;
-    headers?: OutgoingHttpHeaders;
   }
 
   /** Parameters for the `listFieldsForDatasetV2` operation. */
-  export interface ListFieldsForDatasetV2Params {
-    headers?: OutgoingHttpHeaders;
+  export interface ListFieldsForDatasetV2Params extends DefaultParams {
   }
 
   /** Parameters for the `listLogpushJobsForDatasetV2` operation. */
-  export interface ListLogpushJobsForDatasetV2Params {
-    headers?: OutgoingHttpHeaders;
+  export interface ListLogpushJobsForDatasetV2Params extends DefaultParams {
+  }
+
+  /** Parameters for the `getLogsRetention` operation. */
+  export interface GetLogsRetentionParams extends DefaultParams {
+  }
+
+  /** Parameters for the `createLogRetention` operation. */
+  export interface CreateLogRetentionParams extends DefaultParams {
+    flag?: boolean;
   }
 
   /*************************
    * model interfaces
    ************************/
 
-  /** CreateLogpushJobV2Request. */
+  /**
+   * CreateLogpushJobV2Request.
+   */
   export interface CreateLogpushJobV2Request {
   }
 
-  /** UpdateLogpushJobV2Request. */
+  /**
+   * LogRetentionRespResult.
+   */
+  export interface LogRetentionRespResult {
+    flag?: boolean;
+  }
+
+  /**
+   * Required information to push logs to your Cloud Logs instance.
+   */
+  export interface LogpushJobIbmclReqIbmcl {
+    /** GUID of the IBM Cloud Logs instance where you want to send logs. */
+    instance_id: string;
+    /** Region where the IBM Cloud Logs instance is located. */
+    region: string;
+    /** IBM Cloud API key used to generate a token for pushing to your Cloud Logs instance. */
+    api_key: string;
+  }
+
+  /**
+   * Required information to push logs to your Cloud Logs instance.
+   */
+  export interface LogpushJobsUpdateIbmclReqIbmcl {
+    /** GUID of the IBM Cloud Logs instance where you want to send logs. */
+    instance_id?: string;
+    /** Region where the IBM Cloud Logs instance is located. */
+    region?: string;
+    /** IBM Cloud API key used to generate a token for pushing to your Cloud Logs instance. */
+    api_key?: string;
+  }
+
+  /**
+   * UpdateLogpushJobV2Request.
+   */
   export interface UpdateLogpushJobV2Request {
   }
 
-  /** delete logpush job response. */
+  /**
+   * delete logpush job response.
+   */
   export interface DeleteLogpushJobResp {
-    /** success respose. */
+    /** success response. */
     success: boolean;
     /** errors. */
     errors: string[][];
@@ -1383,7 +894,9 @@ namespace LogpushJobsApiV1 {
     result: JsonObject;
   }
 
-  /** list fields response. */
+  /**
+   * list fields response.
+   */
   export interface ListFieldsResp {
     /** success response. */
     success: boolean;
@@ -1395,7 +908,9 @@ namespace LogpushJobsApiV1 {
     result?: JsonObject;
   }
 
-  /** List Logpush Jobs Response. */
+  /**
+   * List Logpush Jobs Response.
+   */
   export interface ListLogpushJobsResp {
     /** success response. */
     success: boolean;
@@ -1407,7 +922,22 @@ namespace LogpushJobsApiV1 {
     result: LogpushJobPack[];
   }
 
-  /** logpush job pack. */
+  /**
+   * log retention result.
+   */
+  export interface LogRetentionResp {
+    result?: LogRetentionRespResult;
+    /** success response. */
+    success?: boolean;
+    /** errors. */
+    errors?: string[][];
+    /** messages. */
+    messages?: string[][];
+  }
+
+  /**
+   * logpush job pack.
+   */
   export interface LogpushJobPack {
     /** Logpush Job ID. */
     id: number;
@@ -1424,14 +954,16 @@ namespace LogpushJobsApiV1 {
     /** Uniquely identifies a resource (such as an s3 bucket) where data will be pushed. */
     destination_conf: string;
     /** Records the last time for which logs have been successfully pushed. */
-    last_complete: string;
+    last_complete?: string;
     /** Records the last time the job failed. */
-    last_error: string;
+    last_error?: string;
     /** The last failure. */
-    error_message: string;
+    error_message?: string;
   }
 
-  /** logpush job response. */
+  /**
+   * logpush job response.
+   */
   export interface LogpushJobsResp {
     /** success response. */
     success: boolean;
@@ -1443,7 +975,9 @@ namespace LogpushJobsApiV1 {
     result: LogpushJobPack;
   }
 
-  /** Get Logpush Ownership Challenge Response. */
+  /**
+   * Get Logpush Ownership Challenge Response.
+   */
   export interface OwnershipChallengeResp {
     /** success response. */
     success: boolean;
@@ -1455,7 +989,9 @@ namespace LogpushJobsApiV1 {
     result: OwnershipChallengeResult;
   }
 
-  /** ownership challenge result. */
+  /**
+   * ownership challenge result.
+   */
   export interface OwnershipChallengeResult {
     /** file name. */
     filename: string;
@@ -1465,13 +1001,17 @@ namespace LogpushJobsApiV1 {
     messages?: string;
   }
 
-  /** ownership challenge validate result. */
+  /**
+   * ownership challenge validate result.
+   */
   export interface OwnershipChallengeValidateResult {
     /** valid. */
     valid: boolean;
   }
 
-  /** Create COS logpush job input. */
+  /**
+   * Create COS logpush job input.
+   */
   export interface CreateLogpushJobV2RequestLogpushJobCosReq extends CreateLogpushJobV2Request {
     /** Logpush Job Name. */
     name?: string;
@@ -1484,12 +1024,97 @@ namespace LogpushJobsApiV1 {
     /** Ownership challenge token to prove destination ownership. */
     ownership_challenge: string;
     /** Dataset to be pulled. */
-    dataset?: string;
+    dataset?: CreateLogpushJobV2RequestLogpushJobCosReq.Constants.Dataset | string;
     /** The frequency at which CIS sends batches of logs to your destination. */
-    frequency?: string;
+    frequency?: CreateLogpushJobV2RequestLogpushJobCosReq.Constants.Frequency | string;
+  }
+  export namespace CreateLogpushJobV2RequestLogpushJobCosReq {
+    export namespace Constants {
+      /** Dataset to be pulled. */
+      export enum Dataset {
+        HTTP_REQUESTS = 'http_requests',
+        RANGE_EVENTS = 'range_events',
+        FIREWALL_EVENTS = 'firewall_events',
+      }
+      /** The frequency at which CIS sends batches of logs to your destination. */
+      export enum Frequency {
+        HIGH = 'high',
+        LOW = 'low',
+      }
+    }
   }
 
-  /** Create LogDNA logpush job input. */
+  /**
+   * Create logpush job for a generic destination.
+   */
+  export interface CreateLogpushJobV2RequestLogpushJobGenericReq extends CreateLogpushJobV2Request {
+    /** Logpush Job Name. */
+    name?: string;
+    /** Whether the logpush job is enabled or not. */
+    enabled?: boolean;
+    /** Configuration string. */
+    logpull_options?: string;
+    /** Uniquely identifies a resource where data will be pushed. Additional configuration parameters supported by
+     *  the destination may be included.
+     */
+    destination_conf: string;
+    /** Dataset to be pulled. */
+    dataset?: CreateLogpushJobV2RequestLogpushJobGenericReq.Constants.Dataset | string;
+    /** The frequency at which CIS sends batches of logs to your destination. */
+    frequency?: CreateLogpushJobV2RequestLogpushJobGenericReq.Constants.Frequency | string;
+  }
+  export namespace CreateLogpushJobV2RequestLogpushJobGenericReq {
+    export namespace Constants {
+      /** Dataset to be pulled. */
+      export enum Dataset {
+        HTTP_REQUESTS = 'http_requests',
+        RANGE_EVENTS = 'range_events',
+        FIREWALL_EVENTS = 'firewall_events',
+      }
+      /** The frequency at which CIS sends batches of logs to your destination. */
+      export enum Frequency {
+        HIGH = 'high',
+        LOW = 'low',
+      }
+    }
+  }
+
+  /**
+   * Create IBM Cloud Logs logpush job input.
+   */
+  export interface CreateLogpushJobV2RequestLogpushJobIbmclReq extends CreateLogpushJobV2Request {
+    /** Logpush Job Name. */
+    name?: string;
+    /** Whether the logpush job is enabled or not. */
+    enabled?: boolean;
+    /** Configuration string. */
+    logpull_options?: string;
+    /** Required information to push logs to your Cloud Logs instance. */
+    ibmcl: LogpushJobIbmclReqIbmcl;
+    /** Dataset to be pulled. */
+    dataset?: CreateLogpushJobV2RequestLogpushJobIbmclReq.Constants.Dataset | string;
+    /** The frequency at which CIS sends batches of logs to your destination. */
+    frequency?: CreateLogpushJobV2RequestLogpushJobIbmclReq.Constants.Frequency | string;
+  }
+  export namespace CreateLogpushJobV2RequestLogpushJobIbmclReq {
+    export namespace Constants {
+      /** Dataset to be pulled. */
+      export enum Dataset {
+        HTTP_REQUESTS = 'http_requests',
+        RANGE_EVENTS = 'range_events',
+        FIREWALL_EVENTS = 'firewall_events',
+      }
+      /** The frequency at which CIS sends batches of logs to your destination. */
+      export enum Frequency {
+        HIGH = 'high',
+        LOW = 'low',
+      }
+    }
+  }
+
+  /**
+   * Create LogDNA logpush job input.
+   */
   export interface CreateLogpushJobV2RequestLogpushJobLogdnaReq extends CreateLogpushJobV2Request {
     /** Logpush Job Name. */
     name?: string;
@@ -1500,12 +1125,29 @@ namespace LogpushJobsApiV1 {
     /** Information to identify the LogDNA instance the data will be pushed. */
     logdna: JsonObject;
     /** Dataset to be pulled. */
-    dataset?: string;
+    dataset?: CreateLogpushJobV2RequestLogpushJobLogdnaReq.Constants.Dataset | string;
     /** The frequency at which CIS sends batches of logs to your destination. */
-    frequency?: string;
+    frequency?: CreateLogpushJobV2RequestLogpushJobLogdnaReq.Constants.Frequency | string;
+  }
+  export namespace CreateLogpushJobV2RequestLogpushJobLogdnaReq {
+    export namespace Constants {
+      /** Dataset to be pulled. */
+      export enum Dataset {
+        HTTP_REQUESTS = 'http_requests',
+        RANGE_EVENTS = 'range_events',
+        FIREWALL_EVENTS = 'firewall_events',
+      }
+      /** The frequency at which CIS sends batches of logs to your destination. */
+      export enum Frequency {
+        HIGH = 'high',
+        LOW = 'low',
+      }
+    }
   }
 
-  /** Update COS logpush job input. */
+  /**
+   * Update COS logpush job input.
+   */
   export interface UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq extends UpdateLogpushJobV2Request {
     /** Whether the logpush job enabled or not. */
     enabled?: boolean;
@@ -1516,10 +1158,79 @@ namespace LogpushJobsApiV1 {
     /** Ownership challenge token to prove destination ownership. */
     ownership_challenge?: string;
     /** The frequency at which CIS sends batches of logs to your destination. */
-    frequency?: string;
+    frequency?: UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq.Constants.Frequency | string;
+  }
+  export namespace UpdateLogpushJobV2RequestLogpushJobsUpdateCosReq {
+    export namespace Constants {
+      /** The frequency at which CIS sends batches of logs to your destination. */
+      export enum Frequency {
+        HIGH = 'high',
+        LOW = 'low',
+      }
+    }
   }
 
-  /** Update LogDNA logpush job input. */
+  /**
+   * Create logpush job for a generic destination.
+   */
+  export interface UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq extends UpdateLogpushJobV2Request {
+    /** Logpush Job Name. */
+    name?: string;
+    /** Whether the logpush job is enabled or not. */
+    enabled?: boolean;
+    /** Configuration string. */
+    logpull_options?: string;
+    /** Uniquely identifies a resource where data will be pushed. Additional configuration parameters supported by
+     *  the destination may be included.
+     */
+    destination_conf?: string;
+    /** Dataset to be pulled. */
+    dataset?: UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq.Constants.Dataset | string;
+    /** The frequency at which CIS sends batches of logs to your destination. */
+    frequency?: UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq.Constants.Frequency | string;
+  }
+  export namespace UpdateLogpushJobV2RequestLogpushJobsUpdateGenericReq {
+    export namespace Constants {
+      /** Dataset to be pulled. */
+      export enum Dataset {
+        HTTP_REQUESTS = 'http_requests',
+        RANGE_EVENTS = 'range_events',
+        FIREWALL_EVENTS = 'firewall_events',
+      }
+      /** The frequency at which CIS sends batches of logs to your destination. */
+      export enum Frequency {
+        HIGH = 'high',
+        LOW = 'low',
+      }
+    }
+  }
+
+  /**
+   * Update IBM Cloud Logs logpush job input.
+   */
+  export interface UpdateLogpushJobV2RequestLogpushJobsUpdateIbmclReq extends UpdateLogpushJobV2Request {
+    /** Whether the logpush job enabled or not. */
+    enabled?: boolean;
+    /** Configuration string. */
+    logpull_options?: string;
+    /** Required information to push logs to your Cloud Logs instance. */
+    ibmcl?: LogpushJobsUpdateIbmclReqIbmcl;
+    /** The frequency at which CIS sends batches of logs to your destination. */
+    frequency?: UpdateLogpushJobV2RequestLogpushJobsUpdateIbmclReq.Constants.Frequency | string;
+  }
+  export namespace UpdateLogpushJobV2RequestLogpushJobsUpdateIbmclReq {
+    export namespace Constants {
+      /** The frequency at which CIS sends batches of logs to your destination. */
+      export enum Frequency {
+        HIGH = 'high',
+        LOW = 'low',
+      }
+    }
+  }
+
+  /**
+   * Update LogDNA logpush job input.
+   */
   export interface UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq extends UpdateLogpushJobV2Request {
     /** Whether the logpush job enabled or not. */
     enabled?: boolean;
@@ -1528,7 +1239,16 @@ namespace LogpushJobsApiV1 {
     /** Information to identify the LogDNA instance the data will be pushed. */
     logdna?: JsonObject;
     /** The frequency at which CIS sends batches of logs to your destination. */
-    frequency?: string;
+    frequency?: UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq.Constants.Frequency | string;
+  }
+  export namespace UpdateLogpushJobV2RequestLogpushJobsUpdateLogdnaReq {
+    export namespace Constants {
+      /** The frequency at which CIS sends batches of logs to your destination. */
+      export enum Frequency {
+        HIGH = 'high',
+        LOW = 'low',
+      }
+    }
   }
 }
 
