@@ -84,6 +84,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # The package is built in the previous step and published from dist/.
+          # dist/package.json is a copy of package.json, so skip its lifecycle
+          # scripts (postversion -> tsc-publish, prepublishOnly -> build), which
+          # cannot run from inside dist/.
+          NPM_CONFIG_IGNORE_SCRIPTS: 'true'
         run: npx semantic-release
 
       - name: Notify Slack - Release Completed
