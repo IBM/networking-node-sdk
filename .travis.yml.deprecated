@@ -1,3 +1,9 @@
+# DEPRECATED: Travis CI is no longer used by this repository.
+# CI/CD now runs on GitHub Actions: see .github/workflows/build-release.yml
+# (build, lint, unit tests, package checks and semantic-release).
+# This file is kept for historical reference only and is not executed.
+# Note: the *-travis npm scripts referenced below were renamed to *-ci.
+
 dist: jammy
 
 language: node_js

@@ -1,14 +1,33 @@
 {
   "debug": true,
-  "branch": "master",
-  "verifyConditions": ["@semantic-release/changelog", "@semantic-release/npm", "@semantic-release/git"],
-  "prepare": ["@semantic-release/changelog", "@semantic-release/npm", "@semantic-release/git"],
-  "publish": [
-    ["@semantic-release/npm", {
-      "pkgRoot": "dist"
-    }],
-    {
-      "path": "@semantic-release/github"
-    }
+  "branches": ["master"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "dist"
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "successCmd": "[ -z \"$GITHUB_OUTPUT\" ] || echo \"version=${nextRelease.version}\" >> \"$GITHUB_OUTPUT\""
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["package.json", "CHANGELOG.md"],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+        "author": {
+          "name": "IBM",
+          "email": "devx.network.services@ibm.com"
+        }
+      }
+    ],
+    "@semantic-release/github"
   ]
 }
