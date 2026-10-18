@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/IBM/networking-node-sdk.svg?branch=master)](https://travis-ci.com/IBM/networking-node-sdk)
+[![Build & Release](https://github.com/IBM/networking-node-sdk/actions/workflows/build-release.yml/badge.svg)](https://github.com/IBM/networking-node-sdk/actions/workflows/build-release.yml)
 [![Release](https://img.shields.io/github/v/release/IBM/networking-node-sdk)](https://github.com/IBM/networking-node-sdk/releases/latest)
 [![npm](https://img.shields.io/npm/v/ibm-networking-services)](https://www.npmjs.com/package/ibm-networking-services)
 ![npm](https://img.shields.io/npm/dm/ibm-networking-services)
