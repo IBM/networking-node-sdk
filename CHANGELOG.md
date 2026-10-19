@@ -1,3 +1,39 @@
+# [0.41.0](https://github.com/IBM/networking-node-sdk/compare/v0.40.0...v0.41.0) (2026-10-18)
+
+
+### Bug Fixes
+
+* axios vuln via ibm-cloud-sdk-core ([6427c9f](https://github.com/IBM/networking-node-sdk/commit/6427c9faf11d81c93d8c6bc6c42e1ce0a9eaaa76))
+* **CI:** added github actions ([448cfcd](https://github.com/IBM/networking-node-sdk/commit/448cfcd38f9090e9ff14975993a795b5894e55a3))
+* **CI:** changed registry ref in package lock ([d7be844](https://github.com/IBM/networking-node-sdk/commit/d7be844ebbbd12825e2347ed17ef715d4323ad53))
+* **CI:** ignore scripts during semantic release ([9cd7b49](https://github.com/IBM/networking-node-sdk/commit/9cd7b4901be979a809df72b1d577174786e482cd))
+* **ci:** migrate from Travis CI to GitHub Actions and align release flow with other sdks ([e3fdf92](https://github.com/IBM/networking-node-sdk/commit/e3fdf926a1c018a676cc7db0c04967fb3b01b419))
+* **cis:** lint changes post upgrade ([f6a48de](https://github.com/IBM/networking-node-sdk/commit/f6a48defb9fb74469f57976c777060c48f4a2ecf))
+* **deps:** semantic-release upgrade and other overrides ([bf6d35d](https://github.com/IBM/networking-node-sdk/commit/bf6d35d3db67fc7b9e47e115ad42c77f8cf57e6c))
+* **deps:** ts lint configuration ([2bf9e02](https://github.com/IBM/networking-node-sdk/commit/2bf9e02f80e3d75d11eb7810aabd95f2c48c95ad))
+* **deps:** update dependency @types/node to v24 ([ddf9c77](https://github.com/IBM/networking-node-sdk/commit/ddf9c775f055525f15020dd248735f7f520ce6ba))
+* **lint:** upgrade changes in eslint and tslint ([4217140](https://github.com/IBM/networking-node-sdk/commit/421714098e524a6cbb5c6d4c2eabe1c4df9ae431))
+* naming inconsistencies in integration test files ([#315](https://github.com/IBM/networking-node-sdk/issues/315)) ([82b29e3](https://github.com/IBM/networking-node-sdk/commit/82b29e3faa24f20afcd6e1117b5bae2a03121a6c))
+* **npm-deps:** na artifactory to npm registry fixes ([cb5a389](https://github.com/IBM/networking-node-sdk/commit/cb5a389c8b322966ad2f73ec61d34a65b9fddc01))
+* **npm-deps:** npm audit fixes ([8672339](https://github.com/IBM/networking-node-sdk/commit/86723391ecea7d713e48b94fc5db3d3cf2029a46))
+* resolve npm vulnerability ([f39bca6](https://github.com/IBM/networking-node-sdk/commit/f39bca65852f610b1d9a1603841f919f93e56155))
+
+
+### Features
+
+* Add batch DNS records ([#313](https://github.com/IBM/networking-node-sdk/issues/313)) ([f053ee5](https://github.com/IBM/networking-node-sdk/commit/f053ee569ce8c2f240b07bf729052842645a62ef))
+* Add security level settings operations ([#316](https://github.com/IBM/networking-node-sdk/issues/316)) ([e7158cc](https://github.com/IBM/networking-node-sdk/commit/e7158ccd987c86a5a44473493c4c48baaaf87eb0))
+* Added Redundant Global TGW related changes ([7e04468](https://github.com/IBM/networking-node-sdk/commit/7e0446843cb216511893aae202eb12c594c7be4f))
+* Added Redundant Global TGW related changes ([17ae79b](https://github.com/IBM/networking-node-sdk/commit/17ae79b3d1788eaf43c4c9d76a64e5cf73c01d85))
+* Added Redundant Global TGW related changes ([2493bd5](https://github.com/IBM/networking-node-sdk/commit/2493bd5331f0f2d37847ecea26295457ff8a75ff))
+* Added Redundant Global TGW related changes ([fc0bfff](https://github.com/IBM/networking-node-sdk/commit/fc0bffff3432a63b37ced90ab1e3cc4e55a24035))
+* Added RG ID changes ([f826fb8](https://github.com/IBM/networking-node-sdk/commit/f826fb8ac4f940c49d5ca2819f67c40d7f30a0a2))
+* Added RG ID changes ([ed4fc34](https://github.com/IBM/networking-node-sdk/commit/ed4fc3401d476bc4c5fc96d4155e41f755514e67))
+* **cis/zone-settings:** updated with latest specs for zone settings ([#311](https://github.com/IBM/networking-node-sdk/issues/311)) ([9a3e185](https://github.com/IBM/networking-node-sdk/commit/9a3e18514fe1b4f0b179d5238e02e42ca464030b))
+* **directlink:** add Secrets Manager support for authentication_key ([#310](https://github.com/IBM/networking-node-sdk/issues/310)) ([1fdbfe5](https://github.com/IBM/networking-node-sdk/commit/1fdbfe5be4ba27d9fe856c671d153d43a10e3c13))
+* **logpush:** regenerate SDK and add comprehensive integration tests ([4d7f36a](https://github.com/IBM/networking-node-sdk/commit/4d7f36a5b01fd6a7fd41d6b069e0488a2c80b4aa))
+* Update CIS SDK — CIS_Frontend_API_Spec-Lists ([#317](https://github.com/IBM/networking-node-sdk/issues/317)) ([15b6d58](https://github.com/IBM/networking-node-sdk/commit/15b6d582bb02ec682460acc47f6b143bff33ce93))
+
 # [0.40.0](https://github.com/IBM/networking-node-sdk/compare/v0.39.1...v0.40.0) (2025-11-07)
 
 

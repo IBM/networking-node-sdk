@@ -47,11 +47,16 @@ if (errors.test.length > 0) {
   body = `${body}## Possible Test Failures\n${errors.test.join('\n')}\n`;
 }
 
-if (process.env.TRAVIS_PULL_REQUEST && process.env.TRAVIS_PULL_REQUEST !== 'false') {
+// GitHub Actions sets GITHUB_REF to refs/pull/<number>/merge for pull_request events.
+const pullRequestMatch = /^refs\/pull\/(\d+)\//.exec(process.env.GITHUB_REF || '');
+const pullRequest =
+  process.env.GITHUB_EVENT_NAME === 'pull_request' && pullRequestMatch ? pullRequestMatch[1] : null;
+
+if (pullRequest) {
   // Send the result to the pull request if it is a pull request.
   axios
     .post(
-      `https://api.github.com/repos/${process.env.TRAVIS_REPO_SLUG}/issues/${process.env.TRAVIS_PULL_REQUEST}/comments`,
+      `https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/issues/${pullRequest}/comments`,
       {
         body: body,
       },

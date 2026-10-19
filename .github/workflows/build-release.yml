@@ -1,0 +1,111 @@
+name: Build & Release
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build-test (node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['22', '24']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run unit tests
+        run: npm run test-unit-ci
+
+      - name: Check packages
+        run: npm run check-packages
+
+  create-release:
+    name: semantic-release
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push' && !contains(github.event.head_commit.message, 'chore')
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Notify Slack - Release Started
+        run: |
+          jq -n --arg results "Run : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            '{sdk: "networking-node-sdk", language: "node", status: "started", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run semantic-release
+        id: release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # The package is built in the previous step and published from dist/.
+          # dist/package.json is a copy of package.json, so skip its lifecycle
+          # scripts (postversion -> tsc-publish, prepublishOnly -> build), which
+          # cannot run from inside dist/.
+          NPM_CONFIG_IGNORE_SCRIPTS: 'true'
+        run: npx semantic-release
+
+      - name: Notify Slack - Release Completed
+        if: success()
+        run: |
+          RESULTS=$(printf 'Release : %s\nRun     : %s' \
+            "${{ steps.release.outputs.version || 'No new release published' }}" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-node-sdk", language: "node", status: "completed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
+
+      - name: Notify Slack - Release Failed
+        if: failure()
+        run: |
+          RESULTS=$(printf 'Error : %s\nRun   : %s' \
+            "${{ steps.release.outcome == 'failure' && 'semantic-release failed' || 'Failed before semantic-release' }}" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-node-sdk", language: "node", status: "failed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
