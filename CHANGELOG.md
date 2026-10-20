@@ -1,3 +1,20 @@
+# [0.42.0](https://github.com/IBM/networking-node-sdk/compare/v0.41.0...v0.42.0) (2026-10-20)
+
+
+### Bug Fixes
+
+* **CIS:** added additional scenarios for gateway operations and fixed label response handling ([fe1f005](https://github.com/IBM/networking-node-sdk/commit/fe1f005bf6b2fd4b88182094f72ccd5e5c04671d))
+* **cis:** update ai security for apps to latest specs ([277a48a](https://github.com/IBM/networking-node-sdk/commit/277a48a6bff1d5d9d75792a70433615f8256c198))
+* **cis:** update ai security to latest spec ([e0c2436](https://github.com/IBM/networking-node-sdk/commit/e0c24360fd7d9d7112ec0e99a82cd7b46dd0f084))
+* **CIS:** update AI Security with latest specs ([ef7545c](https://github.com/IBM/networking-node-sdk/commit/ef7545c122b40b3f9a9e96aab61317d52254afb6))
+* npm pkg fix and few adjustments ([9542b3f](https://github.com/IBM/networking-node-sdk/commit/9542b3fc4cce5708cdde374d3aef89f08b9359e9))
+* semantic release failure on fetch github node repo ([f9a2527](https://github.com/IBM/networking-node-sdk/commit/f9a252771fdd0daa1c72e5f02b1fabaa37f86504))
+
+
+### Features
+
+* **CIS:** Add Support for AI Security for Apps ([9e9ae49](https://github.com/IBM/networking-node-sdk/commit/9e9ae49d6f010dcb3f1b8f0fc7ee61f684a3709a))
+
 # [0.41.0](https://github.com/IBM/networking-node-sdk/compare/v0.40.0...v0.41.0) (2026-10-18)
 
 
