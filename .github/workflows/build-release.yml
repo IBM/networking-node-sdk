@@ -95,8 +95,15 @@ jobs:
       - name: Notify Slack - Release Completed
         if: success()
         run: |
-          RESULTS=$(printf 'Release : %s\nRun     : %s' \
-            "${{ steps.release.outputs.version || 'No new release published' }}" \
+          PKG_NAME=$(node -p "require('./package.json').name")
+          VERSION="${{ steps.release.outputs.version }}"
+          if [ -n "$VERSION" ]; then
+            RELEASE_LINE="Release : https://www.npmjs.com/package/${PKG_NAME}/v/${VERSION}"
+          else
+            RELEASE_LINE="Release : No new release published"
+          fi
+          RESULTS=$(printf '%s\nRun     : %s' \
+            "$RELEASE_LINE" \
             "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
           jq -n --arg results "$RESULTS" \
             '{sdk: "networking-node-sdk", language: "node", status: "completed", actor: "${{ github.actor }}", results: $results}' \
