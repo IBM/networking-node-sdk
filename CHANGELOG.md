@@ -1,3 +1,12 @@
+## [0.42.1](https://github.com/IBM/networking-node-sdk/compare/v0.42.0...v0.42.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* pass the package details on the slack notification ([3d223e9](https://github.com/IBM/networking-node-sdk/commit/3d223e98eb903a6e3f8ec8bbf9fcde255b97bcac))
+* resolve readme render on package page ([20d9810](https://github.com/IBM/networking-node-sdk/commit/20d9810533313a40bbc4f0e01db6065d801f10ea))
+* updated prequests node version text ([1220b22](https://github.com/IBM/networking-node-sdk/commit/1220b225a57c2e1226cc69fa244d833e7af42027))
+
 # [0.42.0](https://github.com/IBM/networking-node-sdk/compare/v0.41.0...v0.42.0) (2026-10-20)
 
 
