@@ -1,11 +1,71 @@
+# Test, coverage and CI
 test
 coverage
 .travis.yml.deprecated
 scripts/
+
+# Linter / formatter config (dev-only)
 tslint.json
 .eslintrc.js
 .eslintcache
 .eslintignore
-.github
+eslint.config.js
+.prettierrc.js
+
+# TypeScript source (consumers use compiled dist/)
 *.ts
 !*.d.ts
+
+# Project / CI config (dev-only)
+.github
+.gitattributes
+.nvmrc
+.releaserc
+.whitesource
+renovate.json
+tsconfig.json
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+
+# credential/env files must never ship in the npm package
+*.env
+*.env.enc
+*.env.properties
+*.properties
+secrets.tar
+.secrets.baseline
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime / test artefacts
+.nyc_output
+*.tgz
+.yarn-integrity
+pids
+*.pid
+*.pid.lock
+*.seed
+.node_repl_history
+build/Release
+lib-cov
+typings/
+.npm
+
+# Dependency directories
+node_modules/
+
+# MacOS
+.DS_Store
+
+# IDE files
+.idea
+.vscode/
+.project
+.classpath
+
+# SDK generator
+.openapi-generator*
