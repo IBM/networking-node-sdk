@@ -10,12 +10,6 @@
     "ibm"
   ],
   "author": "IBM Corp.",
-  "files": [
-    "dist/",
-    "LICENSE",
-    "README.md",
-    "CHANGELOG.md"
-  ],
   "scripts": {
     "eslint:fix": "eslint . --fix",
     "eslint:check": "eslint . --cache",
