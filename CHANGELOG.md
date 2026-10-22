@@ -1,3 +1,11 @@
+## [0.42.2](https://github.com/IBM/networking-node-sdk/compare/v0.42.1...v0.42.2) (2026-10-22)
+
+
+### Bug Fixes
+
+* **package:** remove files which is unnecessary for npx semantic release ([1f8b946](https://github.com/IBM/networking-node-sdk/commit/1f8b946e2f48b8bc160631182730b47e930c476b))
+* **security:** exclude credential and dev-only files from npm package via .npmignore ([0c8315e](https://github.com/IBM/networking-node-sdk/commit/0c8315e34107c130eb571cdcfe606b8cec8235f5))
+
 ## [0.42.1](https://github.com/IBM/networking-node-sdk/compare/v0.42.0...v0.42.1) (2026-10-20)
 
 
