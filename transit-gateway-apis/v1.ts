@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.107.1-41b0fbd0-20250825-080732
+ * IBM OpenAPI SDK Code Generator Version: 3.117.1-c28a0a4f-20260924-094841
  */
 
 /* eslint-disable max-classes-per-file */
@@ -607,30 +607,32 @@ class TransitGatewayApisV1 extends BaseService {
    * @param {string} [params.baseNetworkType] - The type of network the Unbound GRE tunnel is targeting. This field is
    * required for network type `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type,
    * the value is required and can be either VPC or Classic. This field is required to be unspecified for network type
-   * `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
-   * @param {string} [params.cidr] - network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for
-   * the VPN gateway GRE tunnels.
+   * `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel`
+   * connections.
+   * @param {string} [params.cidr] - network_type `vpn_gateway` and `dynamic_route_server`connections use `cidr` to
+   * specify the CIDR to use for the VPN gateway / Dynamic route server GRE tunnels.
    *
-   * This field is optional for network type `vpn_gateway` connections. If unspecified, the default value is
-   * 198.19.174.0/23.
+   * This field is optional for network type `vpn_gateway` and `dynamic_route_server` connections. If unspecified, the
+   * default value is 198.19.174.0/23.
    *
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
    * `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
    * @param {string} [params.localGatewayIp] - Local gateway IP address. This field is required for network type
    * `gre_tunnel` and `unbound_gre_tunnel` connections. This field is required to be unspecified for network type
-   * `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
+   * `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre`
+   * connections.
    * @param {string} [params.localTunnelIp] - Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip
    * addresses must be in the same /30 network. Neither can be the network nor broadcast addresses.
    *
    * This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
-   * `vpn_gateway` and `redundant_gre` connections.
+   * `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
    * @param {string} [params.name] - The user-defined name for this transit gateway connection. Network type `vpc`
    * connections are defaulted to the name of the VPC.  Network type `classic` connections are named `classic`.
    *
    * This field is required for network type `power_virtual_server`, `directlink`, `gre_tunnel`, `unbound_gre_tunnel`,
-   * `vpn_gateway` and `redundant_gre` connections.
+   * `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
    *
    * This field is optional for network type `classic`, `vpc` connections.
    * @param {string} [params.networkAccountId] - The ID of the account which owns the network that is being connected.
@@ -638,22 +640,22 @@ class TransitGatewayApisV1 extends BaseService {
    * `unbound_gre_tunnel` when the associated_network_type is `classic` or network_type is `redundant_gre` and the GRE
    * tunnel is in a different account than the gateway.
    * @param {string} [params.networkId] - The ID of the network being connected via this connection. For network types
-   * `vpc`, `vpn_gateway`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct
-   * Link gateway respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
-   * `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set to
-   * VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel`
-   * connections.
+   * `vpc`, `vpn_gateway`, `dynamic_route_server`, `power_virtual_server` and `directlink` this is the CRN of the VPC /
+   * VPN / Dynamic Route Server / PowerVS / Direct Link gateway respectively. This field is required for network type
+   * `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `directlink` connections.  It is also
+   * required for `redundant_gre` connections when the base_network_type is set to VPC. This field is required to be
+   * unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
    * @param {TransitGatewayConnectionPrefixFilter[]} [params.prefixFilters] - Array of prefix route filters for a
    * transit gateway connection. Prefix filters can be specified for netowrk type `vpc`, `classic`,
    * `power_virtual_server` and `directlink` connections. They are not allowed for type `gre_tunnel` connections. This
    * is order dependent with those first in the array being applied first, and those at the end of the array being
    * applied last, or just before applying the default. This field is optional for network type `classic`, `vpc`,
    * `directlink`, and `power_virtual_server` connections. This field is required to be unspecified for network type
-   * `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
+   * `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
    * @param {string} [params.prefixFiltersDefault] - Default setting of permit or deny which applies to any routes that
    * don't match a specified filter. This field is optional for network type `classic`, `vpc`, `directlink`, and
    * `power_virtual_server` connections. This field is required to be unspecified for network type `gre_tunnel`,
-   * `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
+   * `unbound_gre_tunnel`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
    * @param {number} [params.remoteBgpAsn] - Remote network BGP ASN. The following ASN values are reserved and
    * unavailable 0, 13884, 36351, 64512, 64513, 65100, 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and
    * 4201065000-4201065999. If `remote_bgp_asn` is omitted on gre_tunnel or unbound_gre_tunnel connection create
@@ -662,17 +664,18 @@ class TransitGatewayApisV1 extends BaseService {
    * This field is optional for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
-   * `vpn_gateway` and `gre_tunnel` connections.
+   * `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
    * @param {string} [params.remoteGatewayIp] - Remote gateway IP address. This field is required for network type
    * `gre_tunnel` and `unbound_gre_tunnel` connections. This field is required to be unspecified for network type
-   * `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
+   * `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre`
+   * connections.
    * @param {string} [params.remoteTunnelIp] - Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip
    * addresses must be in the same /30 network. Neither can be the network nor broadcast addresses.
    *
    * This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,  `power_virtual_server`,
-   * `vpn_gateway` and `redundant_gre` connections.
+   * `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
    * @param {TransitGatewayTunnelTemplate[]} [params.tunnels] - Array of GRE tunnels for a transit gateway
    * `redundant_gre` connections.  This field is required for `redundant_gre` connections.
    * @param {ZoneIdentity} [params.zone] - Specify the connection's location.  The specified availability zone must
@@ -683,8 +686,8 @@ class TransitGatewayApisV1 extends BaseService {
    *
    * This field is optional for network type `vpn_gateway` connections.
    *
-   * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`
-   * and `redundant_gre` connections.
+   * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
+   * `redundant_gre` and `dynamic_route_server` connections.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<TransitGatewayApisV1.Response<TransitGatewayApisV1.TransitGatewayConnectionCust>>}
    */
@@ -2399,14 +2402,14 @@ namespace TransitGatewayApisV1 {
     /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type
      *  `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required
      *  and can be either VPC or Classic. This field is required to be unspecified for network type `classic`,
-     *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
+     *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
      */
     baseNetworkType?: CreateTransitGatewayConnectionConstants.BaseNetworkType | string;
-    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the VPN gateway GRE
-     *  tunnels.
+    /** network_type `vpn_gateway` and `dynamic_route_server`connections use `cidr` to specify the CIDR to use for
+     *  the VPN gateway / Dynamic route server GRE tunnels.
      *
-     *  This field is optional for network type `vpn_gateway` connections. If unspecified, the default value is
-     *  198.19.174.0/23.
+     *  This field is optional for network type `vpn_gateway` and `dynamic_route_server` connections. If unspecified,
+     *  the default value is 198.19.174.0/23.
      *
      *  This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
      *  `power_virtual_server`, `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
@@ -2414,7 +2417,7 @@ namespace TransitGatewayApisV1 {
     cidr?: string;
     /** Local gateway IP address. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
-     *  `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
+     *  `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
      */
     localGatewayIp?: string;
     /** Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
@@ -2423,14 +2426,14 @@ namespace TransitGatewayApisV1 {
      *  This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
      *
      *  This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
-     *  `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
+     *  `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
      */
     localTunnelIp?: string;
     /** The user-defined name for this transit gateway connection. Network type `vpc`  connections are defaulted to
      *  the name of the VPC.  Network type `classic` connections are named `classic`.
      *
      *  This field is required for network type `power_virtual_server`, `directlink`, `gre_tunnel`,
-     *  `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
+     *  `unbound_gre_tunnel`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
      *
      *  This field is optional for network type `classic`, `vpc` connections.
      */
@@ -2442,11 +2445,11 @@ namespace TransitGatewayApisV1 {
      */
     networkAccountId?: string;
     /** The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
-     *  `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
-     *  respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
-     *  `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set
-     *  to VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and
-     *  `unbound_gre_tunnel` connections.
+     *  `dynamic_route_server`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route
+     *  Server / PowerVS / Direct Link gateway respectively. This field is required for network type `vpc`,
+     *  `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `directlink` connections.  It is also required
+     *  for `redundant_gre` connections when the base_network_type is set to VPC. This field is required to be
+     *  unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
      */
     networkId?: string;
     /** Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk
@@ -2454,14 +2457,14 @@ namespace TransitGatewayApisV1 {
      *  `gre_tunnel` connections. This is order dependent with those first in the array being applied first, and those
      *  at the end of the array being applied last, or just before applying the default. This field is optional for
      *  network type `classic`, `vpc`, `directlink`, and `power_virtual_server` connections. This field is required to
-     *  be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre`
-     *  connections.
+     *  be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway`, `dynamic_route_server` and
+     *  `redundant_gre` connections.
      */
     prefixFilters?: TransitGatewayConnectionPrefixFilter[];
     /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This
      *  field is optional for network type `classic`, `vpc`, `directlink`, and `power_virtual_server` connections. This
-     *  field is required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and
-     *  `redundant_gre` connections.
+     *  field is required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway`,
+     *  `dynamic_route_server` and `redundant_gre` connections.
      */
     prefixFiltersDefault?: CreateTransitGatewayConnectionConstants.PrefixFiltersDefault | string;
     /** Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513,
@@ -2472,12 +2475,12 @@ namespace TransitGatewayApisV1 {
      *  This field is optional for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
      *
      *  This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
-     *  `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
+     *  `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
      */
     remoteBgpAsn?: number;
     /** Remote gateway IP address. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel`
      *  connections. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
-     *  `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
+     *  `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
      */
     remoteGatewayIp?: string;
     /** Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
@@ -2486,7 +2489,7 @@ namespace TransitGatewayApisV1 {
      *  This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
      *
      *  This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
-     *  `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
+     *  `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
      */
     remoteTunnelIp?: string;
     /** Array of GRE tunnels for a transit gateway `redundant_gre` connections.  This field is required for
@@ -2500,8 +2503,8 @@ namespace TransitGatewayApisV1 {
      *
      *  This field is optional for network type `vpn_gateway` connections.
      *
-     *  This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`
-     *  and `redundant_gre` connections.
+     *  This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
+     *  `power_virtual_server`, `redundant_gre` and `dynamic_route_server` connections.
      */
     zone?: ZoneIdentity;
   }
@@ -2518,13 +2521,14 @@ namespace TransitGatewayApisV1 {
       POWER_VIRTUAL_SERVER = 'power_virtual_server',
       REDUNDANT_GRE = 'redundant_gre',
       VPN_GATEWAY = 'vpn_gateway',
+      DYNAMIC_ROUTE_SERVER = 'dynamic_route_server',
     }
-    /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections. */
+    /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections. */
     export enum BaseNetworkType {
       CLASSIC = 'classic',
       VPC = 'vpc',
     }
-    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is optional for network type `classic`, `vpc`, `directlink`, and `power_virtual_server` connections. This field is required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections. */
+    /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is optional for network type `classic`, `vpc`, `directlink`, and `power_virtual_server` connections. This field is required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections. */
     export enum PrefixFiltersDefault {
       PERMIT = 'permit',
       DENY = 'deny',
@@ -3180,9 +3184,9 @@ namespace TransitGatewayApisV1 {
     /** The user-defined name for this transit gateway connection. */
     name: string;
     /** The ID of the network being connected via this connection. This field is required for some types, such as
-     *  `vpc`, `power_virtual_server`, `directlink`, `vpn_gateway` and `redundant_gre`. For network types `vpc`,
-     *  `vpn_gateway`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link
-     *  gateway respectively.
+     *  `vpc`, `power_virtual_server`, `directlink`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre`. For
+     *  network types `vpc`, `vpn_gateway`, `dynamic_route_server`, `power_virtual_server` and `directlink` this is the
+     *  CRN of the VPC / VPN / Dynamic Route Server / PowerVS / Direct Link gateway respectively.
      */
     network_id?: string;
     /** Defines what type of network is connected via this connection. The list of enumerated values for this
@@ -3198,8 +3202,8 @@ namespace TransitGatewayApisV1 {
      *  `gre_tunnel` connections.
      */
     base_connection_id?: string;
-    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway` GRE
-     *  tunnels.
+    /** network_type `vpn_gateway` and `dynamic_route_server` connections use `cidr` to specify the CIDR to use for
+     *  the `VPN gateway / Dynamic route server` GRE tunnels.
      */
     cidr?: string;
     /** The date and time that this connection was created. */
@@ -3256,7 +3260,7 @@ namespace TransitGatewayApisV1 {
     status: TransitConnection.Constants.Status | string;
     /** Transit gateway reference. */
     transit_gateway: TransitGatewayReference;
-    /** Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections. */
+    /** Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections. */
     tunnels?: TransitGatewayTunnel[];
     /** The date and time that this connection was last updated. */
     updated_at: string;
@@ -3280,6 +3284,7 @@ namespace TransitGatewayApisV1 {
         POWER_VIRTUAL_SERVER = 'power_virtual_server',
         REDUNDANT_GRE = 'redundant_gre',
         VPN_GATEWAY = 'vpn_gateway',
+        DYNAMIC_ROUTE_SERVER = 'dynamic_route_server',
       }
       /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does not apply to the `redundant_gre` network types. */
       export enum PrefixFiltersDefault {
@@ -3426,11 +3431,11 @@ namespace TransitGatewayApisV1 {
     /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type
      *  `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required
      *  and can be either VPC or Classic. This field is required to be unspecified for network type `classic`,
-     *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
+     *  `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
      */
     base_network_type?: TransitGatewayConnectionCust.Constants.BaseNetworkType | string;
-    /** network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway` GRE
-     *  tunnels.
+    /** network_type `vpn_gateway` and `dynamic_route_server` connections use `cidr` to specify the CIDR to use for
+     *  the `VPN gateway / Dynamic route server` GRE tunnels.
      */
     cidr?: string;
     /** The date and time that this connection was created. */
@@ -3455,7 +3460,7 @@ namespace TransitGatewayApisV1 {
      *  the name of the VPC.  Network type `classic` connections are named `classic`.
      *
      *  This field is required for network type `power_virtual_server`, `directlink`, `gre_tunnel`,
-     *  `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
+     *  `unbound_gre_tunnel`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
      *
      *  This field is optional for network type `classic`, `vpc` connections.
      */
@@ -3465,11 +3470,11 @@ namespace TransitGatewayApisV1 {
      */
     network_account_id?: string;
     /** The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
-     *  `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
-     *  respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
-     *  `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set
-     *  to VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and
-     *  `unbound_gre_tunnel` connections.
+     *  `dynamic_route_server`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route
+     *  Server / PowerVS / Direct Link gateway respectively. This field is required for network type `vpc`,
+     *  `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `directlink` connections.  It is also required
+     *  for `redundant_gre` connections when the base_network_type is set to VPC. This field is required to be
+     *  unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
      */
     network_id?: string;
     /** Defines what type of network is connected via this connection. */
@@ -3504,7 +3509,7 @@ namespace TransitGatewayApisV1 {
      *  future. Code and processes using this field must tolerate unexpected values.
      */
     status: TransitGatewayConnectionCust.Constants.Status | string;
-    /** Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections. */
+    /** Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections. */
     tunnels?: TransitGatewayTunnel[];
     /** The date and time that this connection was last updated. */
     updated_at: string;
@@ -3516,7 +3521,7 @@ namespace TransitGatewayApisV1 {
   }
   export namespace TransitGatewayConnectionCust {
     export namespace Constants {
-      /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections. */
+      /** The type of network the Unbound GRE tunnel is targeting. This field is required for network type `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections. */
       export enum BaseNetworkType {
         CLASSIC = 'classic',
         VPC = 'vpc',
@@ -3531,6 +3536,7 @@ namespace TransitGatewayApisV1 {
         POWER_VIRTUAL_SERVER = 'power_virtual_server',
         REDUNDANT_GRE = 'redundant_gre',
         VPN_GATEWAY = 'vpn_gateway',
+        DYNAMIC_ROUTE_SERVER = 'dynamic_route_server',
       }
       /** Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does not apply to the `redundant_gre` network type. */
       export enum PrefixFiltersDefault {
@@ -3713,10 +3719,10 @@ namespace TransitGatewayApisV1 {
   }
 
   /**
-   * Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+   * Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections.
    */
   export interface TransitGatewayTunnelCollection {
-    /** Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections. */
+    /** Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections. */
     tunnels: TransitGatewayTunnel[];
   }
 
