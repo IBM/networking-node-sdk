@@ -1,3 +1,10 @@
+# [0.43.0](https://github.com/IBM/networking-node-sdk/compare/v0.42.3...v0.43.0) (2026-10-27)
+
+
+### Features
+
+* **transitgateway:** add drsaas to tgw ([#367](https://github.com/IBM/networking-node-sdk/issues/367)) ([67cb306](https://github.com/IBM/networking-node-sdk/commit/67cb3068eac1f7a399b2dd0f1db81c4e7f11b0bc))
+
 ## [0.42.3](https://github.com/IBM/networking-node-sdk/compare/v0.42.2...v0.42.3) (2026-10-27)
 
 
