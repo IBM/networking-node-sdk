@@ -51,6 +51,8 @@ let GRE_CONN_INSTANCE_ID;
 let UNBOUND_GRE_CONN_INSTANCE_ID;
 let CLASSIC_CONN_INSTANCE_ID;
 let VPN_CONN_INSTANCE_ID;
+let DRS_CONN_INSTANCE_ID;
+let DRS_TUNNEL_ID;
 
 let DL_CONN_INSTANCE_NAME;
 let VPC_CONN_INSTANCE_NAME;
@@ -58,6 +60,7 @@ let GRE_CONN_INSTANCE_NAME;
 let UNBOUND_GRE_CONN_INSTANCE_NAME;
 let CLASSIC_CONN_INSTANCE_NAME;
 let VPN_CONN_INSTANCE_NAME;
+let DRS_CONN_INSTANCE_NAME;
 
 const poll = async (fn, fnCondition, sec) => {
   let result;
@@ -603,6 +606,142 @@ describe.skip('TransitGatewayApisV1', () => {
       }
     });
 
+    test('successfully creates DRS connection', async done => {
+      const type = 'dynamic_route_server';
+      const crn = config.DRS_CRN;
+      const stamp = Math.floor(Math.random() * 1000);
+      const connectionName = 'DRS-' + config.GATEWAY_CONNECTION_NAME + '_' + stamp;
+
+      try {
+        const response = await transitGateway.createTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          networkType: type,
+          name: connectionName,
+          networkId: crn,
+        });
+        expect(response).toBeDefined();
+        expect(response.status).toEqual(201);
+
+        const { result } = response || {};
+
+        expect(result).toBeDefined();
+        expect(result.id).not.toBe('');
+        expect(result.networkId).toEqual(crn);
+        expect(result.networkType).toEqual('dynamic_route_server');
+        expect(result.name).toEqual(connectionName);
+        expect(result.status).toEqual('pending');
+
+        DRS_CONN_INSTANCE_ID = result.id;
+        DRS_CONN_INSTANCE_NAME = result.name;
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('successfully wait for the DRS connection to report as attached', async done => {
+      try {
+        const result = await poll(
+          () =>
+            transitGateway.getTransitGatewayConnection({
+              transitGatewayId: GATEWAY_INSTANCE_ID,
+              id: DRS_CONN_INSTANCE_ID,
+            }),
+          result => result.status === 'attached',
+          100
+        );
+
+        expect(result).toBeDefined();
+        expect(result.status).toEqual('attached');
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('fail to create DRS connection with invalid network type', async done => {
+      try {
+        await transitGateway.createTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          networkType: 'dynamic_route_service',
+          name: 'DRS-invalid-type',
+          networkId: config.DRS_CRN,
+        });
+        done();
+      } catch (err) {
+        expect(err.status).toEqual(400);
+        done();
+      }
+      done();
+    });
+
+    test('fail to create DRS connection without a name', async done => {
+      try {
+        await transitGateway.createTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          networkType: 'dynamic_route_server',
+          networkId: config.DRS_CRN,
+        });
+        done();
+      } catch (err) {
+        expect(err.status).toBeGreaterThanOrEqual(400);
+        done();
+      }
+      done();
+    });
+
+    test('fail to create DRS connection with invalid CIDR', async done => {
+      try {
+        await transitGateway.createTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          networkType: 'dynamic_route_server',
+          name: 'DRS-bad-cidr',
+          networkId: config.DRS_CRN,
+          cidr: 'not-a-cidr',
+        });
+        done();
+      } catch (err) {
+        expect(err.status).toBeGreaterThanOrEqual(400);
+        done();
+      }
+      done();
+    });
+
+    test('fail to create DRS connection with an invalid name', async done => {
+      try {
+        await transitGateway.createTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          networkType: 'dynamic_route_server',
+          name: 'invalid DRS name',
+          networkId: config.DRS_CRN,
+        });
+        done();
+      } catch (err) {
+        expect(err.status).toBeGreaterThanOrEqual(400);
+        done();
+      }
+      done();
+    });
+
+    test('fail to create DRS connection with a base network type', async done => {
+      try {
+        await transitGateway.createTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          networkType: 'dynamic_route_server',
+          name: 'DRS-base-nw-type',
+          networkId: config.DRS_CRN,
+          baseNetworkType: 'vpc',
+        });
+        done();
+      } catch (err) {
+        expect(err.status).toBeGreaterThanOrEqual(400);
+        done();
+      }
+      done();
+    });
+
     test('successfully creates GRE connection', async done => {
       const type = 'gre_tunnel';
       const testZone = { name: 'us-south-1' };
@@ -805,6 +944,34 @@ describe.skip('TransitGatewayApisV1', () => {
         const { result } = response || {};
         expect(result.id).toEqual(VPN_CONN_INSTANCE_ID);
         expect(result.name).toEqual(VPN_CONN_INSTANCE_NAME);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('successfully get DRS connection by id', async done => {
+      try {
+        const response = await transitGateway.getTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: DRS_CONN_INSTANCE_ID,
+        });
+
+        expect(response.status).toBe(200);
+
+        const { result } = response || {};
+        expect(result.id).toEqual(DRS_CONN_INSTANCE_ID);
+        expect(result.name).toEqual(DRS_CONN_INSTANCE_NAME);
+        expect(result.networkType).toEqual('dynamic_route_server');
+        expect(result.networkId).toEqual(config.DRS_CRN);
+        expect(result.status).toEqual('attached');
+        expect(result.createdAt).not.toBe('');
+        expect(result.updatedAt).not.toBe('');
+        expect(result.tunnels).not.toBeNull();
+        expect(result.tunnels.length).toBeGreaterThan(0);
+
+        DRS_TUNNEL_ID = result.tunnels[0].id;
 
         done();
       } catch (err) {
@@ -1022,6 +1189,7 @@ describe.skip('TransitGatewayApisV1', () => {
         let foundGRE = false;
         let foundUnboundGRE = false;
         let foundClassic = false;
+        let foundDRS = false;
         for (let i = 0; i < connections.length; i++) {
           if (connections[i].id === CLASSIC_CONN_INSTANCE_ID) {
             expect(connections[i].name).toEqual(CLASSIC_CONN_INSTANCE_NAME);
@@ -1035,6 +1203,14 @@ describe.skip('TransitGatewayApisV1', () => {
           } else if (connections[i].id === VPN_CONN_INSTANCE_ID) {
             expect(connections[i].name).toEqual(VPN_CONN_INSTANCE_NAME);
             foundVPN = true;
+          } else if (connections[i].id === DRS_CONN_INSTANCE_ID) {
+            expect(connections[i].createdAt).not.toBe('');
+            expect(connections[i].updatedAt).not.toBe('');
+            expect(connections[i].status).toEqual('attached');
+            expect(connections[i].networkType).toEqual('dynamic_route_server');
+            expect(connections[i].networkId).toEqual(config.DRS_CRN);
+            expect(connections[i].name).toEqual(DRS_CONN_INSTANCE_NAME);
+            foundDRS = true;
           } else if (connections[i].id === GRE_CONN_INSTANCE_ID) {
             expect(connections[i].name).toEqual(GRE_CONN_INSTANCE_NAME);
             foundGRE = true;
@@ -1049,11 +1225,168 @@ describe.skip('TransitGatewayApisV1', () => {
         expect(foundGRE).toEqual(true);
         expect(foundClassic).toEqual(true);
         expect(foundUnboundGRE).toEqual(true);
+        expect(foundDRS).toEqual(true);
 
         done();
       } catch (err) {
         done(err);
       }
+    });
+  });
+
+  // /////////////////////////////////////////////////////////////////////////////
+  //                  LIST Connections (Cross-Account) Filter Tests            //
+  // /////////////////////////////////////////////////////////////////////////////
+
+  describe('LIST Connections filtered by DRS network type', () => {
+    test('should successfully filter connections by dynamic_route_server network type', async done => {
+      try {
+        const response = await transitGateway.listConnections({
+          networkType: 'dynamic_route_server',
+        });
+        expect(response.status).toBe(200);
+
+        const { result } = response || {};
+        const connections = result.connections;
+        expect(connections.length).toBeGreaterThan(0);
+
+        let found = false;
+        for (let i = 0; i < connections.length; i++) {
+          expect(connections[i].networkType).toEqual('dynamic_route_server');
+          if (connections[i].id === DRS_CONN_INSTANCE_ID) {
+            found = true;
+          }
+        }
+        expect(found).toEqual(true);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('should successfully filter connections by DRS network ID', async done => {
+      try {
+        const response = await transitGateway.listConnections({
+          networkId: config.DRS_CRN,
+        });
+        expect(response.status).toBe(200);
+
+        const { result } = response || {};
+        const connections = result.connections;
+        expect(connections.length).toBeGreaterThan(0);
+
+        let found = false;
+        for (let i = 0; i < connections.length; i++) {
+          expect(connections[i].networkId).toEqual(config.DRS_CRN);
+          if (connections[i].id === DRS_CONN_INSTANCE_ID) {
+            found = true;
+          }
+        }
+        expect(found).toEqual(true);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  // /////////////////////////////////////////////////////////////////////////////
+  //                  DRS Connection Validation Tests                          //
+  // /////////////////////////////////////////////////////////////////////////////
+
+  describe('DRS connection validation', () => {
+    test('should reject PATCH on a DRS-managed tunnel', async done => {
+      try {
+        await transitGateway.updateTransitGatewayConnectionTunnels({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: DRS_CONN_INSTANCE_ID,
+          greTunnelId: DRS_TUNNEL_ID,
+          name: 'DRS-tunnel-update',
+        });
+        done();
+      } catch (err) {
+        expect([400, 403, 406, 409]).toContain(err.status);
+        done();
+      }
+      done();
+    });
+
+    test('should reject DELETE on a DRS-managed tunnel', async done => {
+      try {
+        await transitGateway.deleteTransitGatewayConnectionTunnels({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: DRS_CONN_INSTANCE_ID,
+          greTunnelId: DRS_TUNNEL_ID,
+        });
+        done();
+      } catch (err) {
+        expect([400, 403, 409]).toContain(err.status);
+        done();
+      }
+      done();
+    });
+
+    test('should reject listing prefix filters for a DRS connection', async done => {
+      try {
+        await transitGateway.listTransitGatewayConnectionPrefixFilters({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: DRS_CONN_INSTANCE_ID,
+        });
+        done();
+      } catch (err) {
+        expect(err.status).toEqual(400);
+        done();
+      }
+      done();
+    });
+
+    test('should reject creating a prefix filter on a DRS connection', async done => {
+      try {
+        await transitGateway.createTransitGatewayConnectionPrefixFilter({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: DRS_CONN_INSTANCE_ID,
+          action: 'permit',
+          prefix: '192.168.100.0/24',
+        });
+        done();
+      } catch (err) {
+        expect([400, 403, 409]).toContain(err.status);
+        done();
+      }
+      done();
+    });
+
+    test('should reject patching a prefix filter on a DRS connection', async done => {
+      try {
+        await transitGateway.updateTransitGatewayConnectionPrefixFilter({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: DRS_CONN_INSTANCE_ID,
+          filterId: '00000000-0000-0000-0000-000000000000',
+          action: 'deny',
+        });
+        done();
+      } catch (err) {
+        expect([400, 403, 404, 409]).toContain(err.status);
+        done();
+      }
+      done();
+    });
+
+    test('should reject getting a prefix filter from a DRS connection', async done => {
+      try {
+        await transitGateway.getTransitGatewayConnectionPrefixFilter({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: DRS_CONN_INSTANCE_ID,
+          filterId: '00000000-0000-0000-0000-000000000000',
+        });
+        done();
+      } catch (err) {
+        expect([400, 403, 404]).toContain(err.status);
+        done();
+      }
+      done();
     });
   });
 
@@ -1149,6 +1482,7 @@ describe.skip('TransitGatewayApisV1', () => {
         let foundGRE = false;
         let foundClassic = false;
         let foundUnboundGRE = false;
+        let foundDRS = false;
         for (let i = 0; i < rrConnections.length; i++) {
           if (rrConnections[i].id === VPC_CONN_INSTANCE_ID) {
             expect(rrConnections[i].name).toEqual(VPC_CONN_INSTANCE_NAME);
@@ -1156,6 +1490,10 @@ describe.skip('TransitGatewayApisV1', () => {
           } else if (rrConnections[i].id === DL_CONN_INSTANCE_ID) {
             expect(rrConnections[i].name).toEqual(DL_CONN_INSTANCE_NAME);
             foundDL = true;
+          } else if (rrConnections[i].id === DRS_CONN_INSTANCE_ID) {
+            expect(rrConnections[i].name).toEqual(DRS_CONN_INSTANCE_NAME);
+            expect(rrConnections[i].type).toEqual('dynamic_route_server');
+            foundDRS = true;
           } else if (rrConnections[i].id === GRE_CONN_INSTANCE_ID) {
             expect(rrConnections[i].name).toEqual(GRE_CONN_INSTANCE_NAME);
             foundGRE = true;
@@ -1172,6 +1510,7 @@ describe.skip('TransitGatewayApisV1', () => {
         expect(foundGRE).toEqual(true);
         expect(foundUnboundGRE).toEqual(true);
         expect(foundClassic).toEqual(true);
+        expect(foundDRS).toEqual(true);
 
         done();
       } catch (err) {
@@ -1444,6 +1783,40 @@ describe.skip('TransitGatewayApisV1', () => {
               id: VPN_CONN_INSTANCE_ID,
             }),
           (result) => result.status === 404,
+          200
+        );
+
+        expect(result).toBeDefined();
+        expect(result.status).toBe(404);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('successfully delete DRS connection by instanceID', async done => {
+      try {
+        const response = await transitGateway.deleteTransitGatewayConnection({
+          transitGatewayId: GATEWAY_INSTANCE_ID,
+          id: DRS_CONN_INSTANCE_ID,
+        });
+
+        expect(response.status).toBe(204);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    test('successfully waits for the DRS connection to report as deleted', async done => {
+      try {
+        const result = await poll(
+          () =>
+            transitGateway.getTransitGatewayConnection({
+              transitGatewayId: GATEWAY_INSTANCE_ID,
+              id: DRS_CONN_INSTANCE_ID,
+            }),
+          result => result.status === 404,
           200
         );
 
