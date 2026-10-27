@@ -1,3 +1,12 @@
+## [0.42.3](https://github.com/IBM/networking-node-sdk/compare/v0.42.2...v0.42.3) (2026-10-27)
+
+
+### Bug Fixes
+
+* **ci:** add detect secrets to the workflow ([c47ee37](https://github.com/IBM/networking-node-sdk/commit/c47ee37d98698bdf1a33cf7dd5e75e18c7862d99))
+* detect secrets audit fixes ([4f35604](https://github.com/IBM/networking-node-sdk/commit/4f35604db2147095f2591ac87c98358f9e69a7a9))
+* **package:** audit fix upgrade ([f98c37d](https://github.com/IBM/networking-node-sdk/commit/f98c37d884cee457e82cbfb4031976222062945e))
+
 ## [0.42.2](https://github.com/IBM/networking-node-sdk/compare/v0.42.1...v0.42.2) (2026-10-22)
 
 
