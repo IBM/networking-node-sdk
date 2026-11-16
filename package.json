@@ -66,7 +66,7 @@
     "jest": "^30.5.2",
     "nock": "^14.0.17",
     "prettier": "^3.9.10",
-    "semantic-release": "^25.0.9",
+    "semantic-release": "^26.0.0",
     "set-value": "^4.1.0",
     "tsc-publish": "^0.5.2",
     "tslint": "^6.0.0",
