@@ -5364,6 +5364,302 @@ describe('DnsSvcsV1', () => {
       });
     });
   });
+  describe('listClearCacheActions', () => {
+    describe('positive tests', () => {
+      function __listClearCacheActionsTest() {
+        // Construct the params object for operation listClearCacheActions
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const xCorrelationId = 'testString';
+        const listClearCacheActionsParams = {
+          instanceId: instanceId,
+          resolverId: resolverId,
+          xCorrelationId: xCorrelationId,
+        };
+
+        const listClearCacheActionsResult = dnsSvcsService.listClearCacheActions(
+          listClearCacheActionsParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(listClearCacheActionsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listClearCacheActionsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.enableRetries();
+        __listClearCacheActionsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.disableRetries();
+        __listClearCacheActionsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listClearCacheActionsParams = {
+          instanceId,
+          resolverId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dnsSvcsService.listClearCacheActions(listClearCacheActionsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dnsSvcsService.listClearCacheActions({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dnsSvcsService.listClearCacheActions();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('clearCustomResolverCache', () => {
+    describe('positive tests', () => {
+      function __clearCustomResolverCacheTest() {
+        // Construct the params object for operation clearCustomResolverCache
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const xCorrelationId = 'testString';
+        const clearCustomResolverCacheParams = {
+          instanceId: instanceId,
+          resolverId: resolverId,
+          xCorrelationId: xCorrelationId,
+        };
+
+        const clearCustomResolverCacheResult = dnsSvcsService.clearCustomResolverCache(
+          clearCustomResolverCacheParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(clearCustomResolverCacheResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache',
+          'POST'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __clearCustomResolverCacheTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.enableRetries();
+        __clearCustomResolverCacheTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.disableRetries();
+        __clearCustomResolverCacheTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const clearCustomResolverCacheParams = {
+          instanceId,
+          resolverId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dnsSvcsService.clearCustomResolverCache(clearCustomResolverCacheParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dnsSvcsService.clearCustomResolverCache({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dnsSvcsService.clearCustomResolverCache();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('getClearCacheAction', () => {
+    describe('positive tests', () => {
+      function __getClearCacheActionTest() {
+        // Construct the params object for operation getClearCacheAction
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const actionId = 'testString';
+        const xCorrelationId = 'testString';
+        const getClearCacheActionParams = {
+          instanceId: instanceId,
+          resolverId: resolverId,
+          actionId: actionId,
+          xCorrelationId: xCorrelationId,
+        };
+
+        const getClearCacheActionResult = dnsSvcsService.getClearCacheAction(
+          getClearCacheActionParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(getClearCacheActionResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache/{action_id}',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'X-Correlation-ID', xCorrelationId);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.resolver_id).toEqual(resolverId);
+        expect(mockRequestOptions.path.action_id).toEqual(actionId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getClearCacheActionTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.enableRetries();
+        __getClearCacheActionTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        dnsSvcsService.disableRetries();
+        __getClearCacheActionTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const resolverId = 'testString';
+        const actionId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getClearCacheActionParams = {
+          instanceId,
+          resolverId,
+          actionId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        dnsSvcsService.getClearCacheAction(getClearCacheActionParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await dnsSvcsService.getClearCacheAction({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await dnsSvcsService.getClearCacheAction();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
   describe('listLinkedZones', () => {
     describe('positive tests', () => {
       function __listLinkedZonesTest() {

@@ -3354,6 +3354,183 @@ class DnsSvcsV1 extends BaseService {
     return this.createRequest(parameters);
   }
   /*************************
+   * clearCacheAction
+   ************************/
+
+  /**
+   * List cache clear actions.
+   *
+   * List the cache clear actions for the given custom resolver.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ClearCacheActionList>>}
+   */
+  public listClearCacheActions(
+    params: DnsSvcsV1.ListClearCacheActionsParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ClearCacheActionList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listClearCacheActions'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Clear the DNS cache of a custom resolver.
+   *
+   * Initiate an asynchronous DNS cache flush on all locations of the custom resolver. The returned action resource can
+   * be polled to track completion. The action record is retained for up to 5 hours after the request is accepted. Only
+   * one cache clear can be pending for a custom resolver at a time; the request fails with 409 Conflict if a cache
+   * clear is already pending.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ClearCacheAction>>}
+   */
+  public clearCustomResolverCache(
+    params: DnsSvcsV1.ClearCustomResolverCacheParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ClearCacheAction>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId'];
+    const _validParams = ['instanceId', 'resolverId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'clearCustomResolverCache'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache',
+        method: 'POST',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get a cache clear action.
+   *
+   * Get the status of a cache clear action for the given custom resolver. The action record is available for up to 5
+   * hours after the action was accepted.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - The unique identifier of a service instance.
+   * @param {string} params.resolverId - The unique identifier of a custom resolver.
+   * @param {string} params.actionId - The unique identifier of a cache clear action.
+   * @param {string} [params.xCorrelationId] - Uniquely identifying a request.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<DnsSvcsV1.Response<DnsSvcsV1.ClearCacheAction>>}
+   */
+  public getClearCacheAction(
+    params: DnsSvcsV1.GetClearCacheActionParams
+  ): Promise<DnsSvcsV1.Response<DnsSvcsV1.ClearCacheAction>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'resolverId', 'actionId'];
+    const _validParams = ['instanceId', 'resolverId', 'actionId', 'xCorrelationId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'resolver_id': _params.resolverId,
+      'action_id': _params.actionId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      DnsSvcsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getClearCacheAction'
+    );
+
+    const parameters = {
+      options: {
+        url: '/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache/{action_id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'X-Correlation-ID': _params.xCorrelationId,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
    * linkedZones
    ************************/
 
@@ -5063,6 +5240,41 @@ namespace DnsSvcsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `listClearCacheActions` operation. */
+  export interface ListClearCacheActionsParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `clearCustomResolverCache` operation. */
+  export interface ClearCustomResolverCacheParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getClearCacheAction` operation. */
+  export interface GetClearCacheActionParams {
+    /** The unique identifier of a service instance. */
+    instanceId: string;
+    /** The unique identifier of a custom resolver. */
+    resolverId: string;
+    /** The unique identifier of a cache clear action. */
+    actionId: string;
+    /** Uniquely identifying a request. */
+    xCorrelationId?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `listLinkedZones` operation. */
   export interface ListLinkedZonesParams {
     /** The unique identifier of a service instance. */
@@ -6006,6 +6218,58 @@ namespace DnsSvcsV1 {
   export interface ResourceRecordUpdateInputRdataRdataTxtRecord extends ResourceRecordUpdateInputRdata {
     /** Human readable text. */
     text: string;
+  }
+
+  /**
+   * Cache clear action details.
+   */
+  export interface ClearCacheAction {
+    /** Identifier of the cache clear action. */
+    id?: string;
+    /** The status of the cache clear action. */
+    status?: ClearCacheAction.Constants.Status | string;
+    /** Errors encountered during the cache clear action. Present only when status is failed. */
+    errors?: ClearCacheError[];
+    /** The time when the cache clear action was created, RFC3339 format. */
+    created_on?: string;
+    /** The time when the cache clear action was last modified, RFC3339 format. */
+    modified_on?: string;
+    /** The time when the cache clear action record will be deleted, RFC3339 format. The record is retained for up
+     *  to 5 hours.
+     */
+    expires_on?: string;
+  }
+  export namespace ClearCacheAction {
+    export namespace Constants {
+      /** The status of the cache clear action. */
+      export enum Status {
+        PENDING = 'pending',
+        SUCCESS = 'success',
+        FAILED = 'failed',
+      }
+    }
+  }
+
+  /**
+   * List of cache clear actions response.
+   */
+  export interface ClearCacheActionList {
+    /** An array of cache clear actions. */
+    clear_cache_actions: ClearCacheAction[];
+    /** The number of resources are returned. */
+    count: number;
+  }
+
+  /**
+   * An error associated with a failed cache clear action.
+   */
+  export interface ClearCacheError {
+    /** A snake case string succinctly identifying the error. */
+    code: string;
+    /** An explanation of the error. */
+    message: string;
+    /** The identifier of the location on which the error occurred, if applicable. */
+    location_id?: string;
   }
 }
 
