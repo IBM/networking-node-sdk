@@ -87,6 +87,7 @@ let request_id;
 let permitted_network_id;
 let customResolverLocation;
 let forwardingRule;
+let clearCacheAction;
 
 describe('DNSSVCSApisV1', () => {
 jest.setTimeout(timeout);
@@ -111,13 +112,12 @@ const optionsCrossAccount = {
   version: config.DNS_SERVICES_API_VERSION,
 };
 
+dnsSvcsApisV1 = DNSSVCSApisV1.newInstance(options);
+dnsSvcsApisV1CrossAccountClient = DNSSVCSApisV1.newInstance(optionsCrossAccount);
+
 test('should successfully complete initialization', done => {
   // Initialize the service client.
-  dnsSvcsApisV1 = DNSSVCSApisV1.newInstance(options);
   expect(dnsSvcsApisV1).not.toBeNull();
-  done();
-
-  dnsSvcsApisV1CrossAccountClient = DNSSVCSApisV1.newInstance(optionsCrossAccount);
   expect(dnsSvcsApisV1CrossAccountClient).not.toBeNull();
   done();
 });
@@ -2449,6 +2449,136 @@ describe('Delete a forwarding rule on the given custom resolver', () => {
     }
   });
 });
+// Test - Clear Custom Resolver Cache
+describe('Clear custom resolver cache', () => {
+  let targetResolverId;
+  let localCustomResolver;
+
+  test('should successfully list cache clear actions initially', async () => {
+    if (!customResolver || !customResolver.id) {
+      const pathByDate = new Date().getTime();
+      const locationInputModel = {
+        subnet_crn: config.DNS_SVCS_CUSTOMER_LOCATION_SUBNET_CRN,
+        enabled: true,
+      };
+      const crParams = {
+        instanceId: config.DNS_SVCS_INSTANCE_ID,
+        name: 'test-resolver-cc-' + pathByDate,
+        description: 'SDK test custom resolver for clear cache',
+        locations: [locationInputModel],
+        xCorrelationId: 'abc123',
+      };
+      const crResp = await dnsSvcsApisV1.createCustomResolver(crParams);
+      localCustomResolver = crResp.result;
+      targetResolverId = localCustomResolver.id;
+    } else {
+      targetResolverId = customResolver.id;
+    }
+
+    const params = {
+      instanceId: config.DNS_SVCS_INSTANCE_ID,
+      resolverId: targetResolverId,
+      xCorrelationId: 'abc123',
+    };
+    const response = await dnsSvcsApisV1.listClearCacheActions(params);
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(200);
+    const { result } = response || {};
+    expect(result).toBeDefined();
+    if (result) {
+      expect(result.clear_cache_actions).toBeDefined();
+    }
+  });
+
+  test('should successfully initiate cache clear on custom resolver', async () => {
+    const params = {
+      instanceId: config.DNS_SVCS_INSTANCE_ID,
+      resolverId: targetResolverId,
+      xCorrelationId: 'abc123',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const response = await dnsSvcsApisV1.clearCustomResolverCache(params);
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(202);
+    const { result } = response || {};
+    expect(result).toBeDefined();
+    if (result) {
+      expect(result.id).toBeDefined();
+      expect(result.status).toBeDefined();
+      expect(result.created_on).toBeDefined();
+      expect(result.expires_on).toBeDefined();
+      clearCacheAction = result;
+    }
+  });
+
+  test('should successfully get status of cache clear action', async () => {
+    const params = {
+      instanceId: config.DNS_SVCS_INSTANCE_ID,
+      resolverId: targetResolverId,
+      actionId: clearCacheAction.id,
+      xCorrelationId: 'abc123',
+    };
+    const fnCondition = res => res && (res.status === 'success' || res.status === 'failed');
+    const result = await poll(
+      () => dnsSvcsApisV1.getClearCacheAction(params),
+      fnCondition,
+      60
+    );
+    expect(result).toBeDefined();
+    expect(result.id).toEqual(clearCacheAction.id);
+    expect(result.status).toBeDefined();
+    expect(['pending', 'success', 'failed']).toContain(result.status);
+  });
+
+  test('should successfully list cache clear actions after trigger and find the action', async () => {
+    const params = {
+      instanceId: config.DNS_SVCS_INSTANCE_ID,
+      resolverId: targetResolverId,
+      xCorrelationId: 'abc123',
+    };
+    const response = await dnsSvcsApisV1.listClearCacheActions(params);
+    expect(response).toBeDefined();
+    expect(response.status).toEqual(200);
+    const { result } = response || {};
+    expect(result).toBeDefined();
+    if (result) {
+      expect(result.clear_cache_actions).toBeDefined();
+      expect(result.clear_cache_actions.length).toBeGreaterThanOrEqual(1);
+      expect(result.count).toBeGreaterThanOrEqual(1);
+    }
+  });
+
+  test('should fail to get non-existent cache clear action', async () => {
+    const params = {
+      instanceId: config.DNS_SVCS_INSTANCE_ID,
+      resolverId: targetResolverId,
+      actionId: 'non-existent-action-id',
+      xCorrelationId: 'abc123',
+    };
+    try {
+      await dnsSvcsApisV1.getClearCacheAction(params);
+      throw new Error('Expected 404 error for non-existent action ID');
+    } catch (err) {
+      expect(err).toBeDefined();
+      expect(err.status).toEqual(404);
+    }
+  });
+
+  test('should clean up local custom resolver if created', async () => {
+    if (localCustomResolver && localCustomResolver.id) {
+      const params = {
+        instanceId: config.DNS_SVCS_INSTANCE_ID,
+        resolverId: localCustomResolver.id,
+        xCorrelationId: 'abc123',
+      };
+      const response = await dnsSvcsApisV1.deleteCustomResolver(params);
+      expect(response.status).toEqual(204);
+    }
+  });
+});
+
 // Delete a Custom Resolver Location
 describe('Delete custom resolver location', () => {
   test('should successfully delete a custom resolver location', async done => {
@@ -2478,6 +2608,7 @@ describe('Delete custom resolver location', () => {
     }
   });
 });
+
 // Test - Delete a Custom Resolver
 describe('Delete a custom resolver', () => {
   test('should successfully delete a custom resolver', async done => {
